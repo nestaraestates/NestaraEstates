@@ -1,6 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
+import { useRouter } from 'next/navigation'
+import { submitProperty } from './actions'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -16,6 +18,9 @@ const STEPS = [
 
 export default function ListPropertyPage() {
   const [currentStep, setCurrentStep] = useState(0)
+  const [isPending, startTransition] = useTransition()
+  const [errorMsg, setErrorMsg] = useState('')
+  const router = useRouter()
 
   const handleNext = () => {
     if (currentStep < STEPS.length - 1) {
@@ -27,6 +32,18 @@ export default function ListPropertyPage() {
     if (currentStep > 0) {
       setCurrentStep(prev => prev - 1)
     }
+  }
+
+  const handleSubmit = (formData: FormData) => {
+    startTransition(async () => {
+      setErrorMsg('')
+      const result = await submitProperty(formData)
+      if (result?.error) {
+        setErrorMsg(result.error)
+      } else if (result?.success) {
+        router.push('/dashboard/seller?success=Property listed successfully!')
+      }
+    })
   }
 
   return (
@@ -58,73 +75,84 @@ export default function ListPropertyPage() {
           <CardTitle>{STEPS[currentStep]}</CardTitle>
           <CardDescription>Please provide accurate details to ensure a smooth verification process.</CardDescription>
         </CardHeader>
-        <CardContent>
-          {/* Step 1: Property Info */}
-          {currentStep === 0 && (
-            <div className="space-y-4">
+        
+        <form action={handleSubmit}>
+          <CardContent>
+            {errorMsg && (
+              <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/50 dark:text-red-400">
+                {errorMsg}
+              </div>
+            )}
+
+            {/* Step 1: Property Info */}
+            <div className={currentStep === 0 ? "block space-y-4" : "hidden"}>
+              <div className="space-y-2">
+                <Label>Property Title</Label>
+                <Input name="title" placeholder="e.g. Modern 3BHK in Downtown" required={currentStep === 0} />
+              </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Property Type</Label>
-                  <Input placeholder="e.g. Apartment, Villa" />
+                  <select name="type" className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300">
+                    <option value="APARTMENT">Apartment</option>
+                    <option value="VILLA">Villa</option>
+                    <option value="INDEPENDENT_HOUSE">Independent House</option>
+                    <option value="PLOT">Plot / Land</option>
+                    <option value="COMMERCIAL">Commercial</option>
+                  </select>
                 </div>
                 <div className="space-y-2">
                   <Label>Purpose</Label>
-                  <select className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300">
-                    <option>For Sale</option>
-                    <option>For Rent</option>
+                  <select name="purpose" className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300">
+                    <option value="FOR SALE">For Sale</option>
+                    <option value="FOR RENT">For Rent</option>
                   </select>
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Location / City</Label>
-                <Input placeholder="City, Area, Landmark" />
+                <Label>Location</Label>
+                <Input name="location" placeholder="City, Area, Landmark" required={currentStep === 0} />
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label>BHK</Label>
-                  <Input type="number" placeholder="2" />
+                  <Input name="bhk" type="number" placeholder="2" />
                 </div>
                 <div className="space-y-2">
                   <Label>Area (Sq.ft)</Label>
-                  <Input type="number" placeholder="1200" />
+                  <Input name="area" type="number" placeholder="1200" required={currentStep === 0} />
                 </div>
                 <div className="space-y-2">
                   <Label>Bathrooms</Label>
-                  <Input type="number" placeholder="2" />
+                  <Input name="bathrooms" type="number" placeholder="2" />
                 </div>
               </div>
             </div>
-          )}
 
-          {/* Step 2: Pricing */}
-          {currentStep === 1 && (
-            <div className="space-y-4">
+            {/* Step 2: Pricing */}
+            <div className={currentStep === 1 ? "block space-y-4" : "hidden"}>
               <div className="space-y-2">
                 <Label>Expected Price (₹)</Label>
-                <Input type="number" placeholder="50,00,000" />
+                <Input name="price" type="number" placeholder="5000000" required={currentStep === 1} />
               </div>
               <div className="flex items-center space-x-2 mt-4">
-                <input type="checkbox" id="negotiable" className="rounded border-zinc-300 text-amber-600 focus:ring-amber-500" />
-                <label htmlFor="negotiable" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                <input type="checkbox" id="negotiable" name="negotiable" className="rounded border-zinc-300 text-amber-600 focus:ring-amber-500" />
+                <label htmlFor="negotiable" className="text-sm font-medium leading-none">
                   Price is negotiable
                 </label>
               </div>
             </div>
-          )}
 
-          {/* Step 3: Media */}
-          {currentStep === 2 && (
-            <div className="space-y-4">
+            {/* Step 3: Media */}
+            <div className={currentStep === 2 ? "block space-y-4" : "hidden"}>
               <div className="border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-lg p-12 text-center hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors cursor-pointer">
                 <p className="text-sm text-zinc-500">Click to upload photos (Max 10)</p>
                 <p className="text-xs text-zinc-400 mt-2">High quality architectural photos recommended</p>
               </div>
             </div>
-          )}
 
-          {/* Step 4: Documents */}
-          {currentStep === 3 && (
-            <div className="space-y-4">
+            {/* Step 4: Documents */}
+            <div className={currentStep === 3 ? "block space-y-4" : "hidden"}>
               <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 rounded-lg p-4 mb-4">
                 <h4 className="text-sm font-bold text-amber-800 dark:text-amber-500 mb-1">Nestara Verification</h4>
                 <p className="text-xs text-amber-700 dark:text-amber-600">Uploading documents allows us to verify your property and award the "NESTARA VERIFIED" badge, increasing buyer trust by 80%.</p>
@@ -138,45 +166,40 @@ export default function ListPropertyPage() {
                 <Input type="file" />
               </div>
             </div>
-          )}
 
-          {/* Step 5: Owner */}
-          {currentStep === 4 && (
-            <div className="space-y-4">
+            {/* Step 5: Owner */}
+            <div className={currentStep === 4 ? "block space-y-4" : "hidden"}>
               <div className="space-y-2">
                 <Label>Full Name</Label>
-                <Input placeholder="John Doe" />
+                <Input name="owner_name" placeholder="John Doe" required={currentStep === 4} />
               </div>
               <div className="space-y-2">
                 <Label>Contact Number</Label>
-                <Input placeholder="+91 9876543210" />
-              </div>
-              <div className="space-y-2">
-                <Label>Email</Label>
-                <Input type="email" placeholder="john@example.com" />
+                <Input name="owner_phone" placeholder="+91 9876543210" required={currentStep === 4} />
               </div>
             </div>
-          )}
-        </CardContent>
-        <CardFooter className="flex justify-between border-t border-zinc-100 dark:border-zinc-800 pt-6">
-          <Button 
-            variant="outline" 
-            onClick={handleBack} 
-            disabled={currentStep === 0}
-          >
-            Back
-          </Button>
-          
-          {currentStep < STEPS.length - 1 ? (
-            <Button onClick={handleNext} className="bg-amber-500 hover:bg-amber-600 text-white">
-              Next Step
+          </CardContent>
+          <CardFooter className="flex justify-between border-t border-zinc-100 dark:border-zinc-800 pt-6">
+            <Button 
+              type="button"
+              variant="outline" 
+              onClick={handleBack} 
+              disabled={currentStep === 0 || isPending}
+            >
+              Back
             </Button>
-          ) : (
-            <Button className="bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900">
-              Submit & Request Verification
-            </Button>
-          )}
-        </CardFooter>
+            
+            {currentStep < STEPS.length - 1 ? (
+              <Button type="button" onClick={handleNext} className="bg-amber-500 hover:bg-amber-600 text-white">
+                Next Step
+              </Button>
+            ) : (
+              <Button type="submit" disabled={isPending} className="bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900">
+                {isPending ? 'Submitting...' : 'Submit & Request Verification'}
+              </Button>
+            )}
+          </CardFooter>
+        </form>
       </Card>
     </div>
   )
