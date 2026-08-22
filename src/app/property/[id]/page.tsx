@@ -1,8 +1,12 @@
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
+import { submitEnquiry } from './actions'
 import { EmiCalculator } from '@/components/calculators/EmiCalculator'
+import { RentVsBuyCalculator } from '@/components/calculators/RentVsBuyCalculator'
+import { RoiCalculator } from '@/components/calculators/RoiCalculator'
 import { PropertyMap } from '@/components/properties/PropertyMap'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { ShieldCheck, MapPin, BedDouble, Bath, Square, Calendar, Share2, Heart, CheckCircle2 } from 'lucide-react'
 
 export default async function PropertyDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -10,7 +14,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
   const { id } = resolvedParams;
   const supabase = await createClient()
 
-  // Fetch property details
   const { data: property, error } = await supabase
     .from('properties')
     .select(`
@@ -35,7 +38,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      {/* Header & Badges */}
       <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -69,7 +71,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
         </div>
       </div>
 
-      {/* Image Gallery */}
       <div className="mb-8 grid grid-cols-1 md:grid-cols-4 gap-4 h-[400px] md:h-[500px]">
         <div className="md:col-span-3 rounded-2xl overflow-hidden relative group cursor-pointer">
           <img src={defaultImage} alt="Main property view" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -88,10 +89,8 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        {/* Main Content */}
         <div className="lg:col-span-2 space-y-12">
           
-          {/* Key Specs */}
           <div className="flex flex-wrap gap-6 py-6 border-y border-zinc-200 dark:border-zinc-800">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-zinc-100 dark:bg-zinc-900 rounded-lg text-amber-600"><BedDouble className="h-6 w-6" /></div>
@@ -116,7 +115,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             </div>
           </div>
 
-          {/* Description */}
           <section>
             <h2 className="text-2xl font-bold mb-4">Description</h2>
             <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed whitespace-pre-wrap">
@@ -124,7 +122,6 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             </p>
           </section>
 
-          {/* Verification Status */}
           {property.is_verified && (
             <section className="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/50 rounded-2xl p-6">
               <h3 className="text-xl font-bold text-emerald-800 dark:text-emerald-400 mb-4 flex items-center">
@@ -139,22 +136,25 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             </section>
           )}
 
-          {/* Calculator */}
-          {property.purpose === 'BUY' && (
-            <section>
-              <h2 className="text-2xl font-bold mb-6">Financial Tools</h2>
-              <EmiCalculator defaultPrice={property.price} />
-            </section>
-          )}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Financial Tools</h2>
+            {property.purpose === 'BUY' && (
+              <div className="space-y-6">
+                <EmiCalculator defaultPrice={property.price} />
+                <RentVsBuyCalculator defaultPrice={property.price} />
+              </div>
+            )}
+            {property.purpose === 'RENT' && (
+              <RoiCalculator defaultPrice={property.price * 250} /> /* Estimation for demo */
+            )}
+          </section>
 
-          {/* Location Map */}
           <section>
             <h2 className="text-2xl font-bold mb-6">Location Map</h2>
             <PropertyMap location={`${property.location}, ${property.city}`} />
           </section>
         </div>
 
-        {/* Sidebar */}
         <div className="lg:col-span-1">
           <div className="sticky top-24 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-xl">
             <h3 className="text-xl font-bold mb-4">Contact Owner/Dealer</h3>
@@ -169,14 +169,16 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
               </div>
             </div>
 
-            <div className="space-y-3 mb-6">
-              <Button className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold h-12">
-                Enquire Now
+            <form action={submitEnquiry} className="space-y-4 mb-6">
+              <input type="hidden" name="property_id" value={property.id} />
+              <Input name="name" placeholder="Your Name" required />
+              <Input name="email" type="email" placeholder="Your Email" required />
+              <Input name="phone" placeholder="Your Phone Number" required />
+              <textarea name="message" className="w-full flex min-h-[80px] rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-800 dark:bg-zinc-950" placeholder="I am interested in this property..." required></textarea>
+              <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold h-12">
+                Send Enquiry
               </Button>
-              <Button variant="outline" className="w-full h-12 border-zinc-300 dark:border-zinc-700">
-                Schedule a Visit
-              </Button>
-            </div>
+            </form>
 
             <p className="text-xs text-center text-zinc-500">
               By enquiring, you agree to Nestara Estates Terms of Use and Privacy Policy.
