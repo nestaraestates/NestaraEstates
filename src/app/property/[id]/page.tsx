@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
 import { EmiCalculator } from '@/components/calculators/EmiCalculator'
+import { PropertyMap } from '@/components/properties/PropertyMap'
 import { Button } from '@/components/ui/button'
 import { ShieldCheck, MapPin, BedDouble, Bath, Square, Calendar, Share2, Heart, CheckCircle2 } from 'lucide-react'
 
@@ -145,6 +146,12 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
               <EmiCalculator defaultPrice={property.price} />
             </section>
           )}
+
+          {/* Location Map */}
+          <section>
+            <h2 className="text-2xl font-bold mb-6">Location Map</h2>
+            <PropertyMap location={`${property.location}, ${property.city}`} />
+          </section>
         </div>
 
         {/* Sidebar */}

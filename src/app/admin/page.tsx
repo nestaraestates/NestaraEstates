@@ -1,7 +1,25 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Building, Users, FileCheck, MessageSquare } from 'lucide-react'
+import { createClient } from '@/utils/supabase/server'
+import { approveProperty, rejectProperty } from './actions'
 
-export default function AdminDashboardPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function AdminDashboardPage() {
+  const supabase = await createClient()
+
+  // Fetch pending properties
+  const { data: pendingProperties } = await supabase
+    .from('properties')
+    .select('id, title, location, city, verification_status')
+    .eq('verification_status', 'UNVERIFIED')
+    .order('created_at', { ascending: false })
+    .limit(5)
+
+  // Fetch some stats
+  const { count: totalProperties } = await supabase.from('properties').select('*', { count: 'exact', head: true })
+  const { count: totalUsers } = await supabase.from('profiles').select('*', { count: 'exact', head: true })
+
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -12,8 +30,7 @@ export default function AdminDashboardPage() {
             <Building className="h-4 w-4 text-zinc-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">1,248</div>
-            <p className="text-xs text-green-500 mt-1">+12 this week</p>
+            <div className="text-2xl font-bold">{totalProperties || 0}</div>
           </CardContent>
         </Card>
 
@@ -23,7 +40,7 @@ export default function AdminDashboardPage() {
             <FileCheck className="h-4 w-4 text-amber-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">34</div>
+            <div className="text-2xl font-bold">{pendingProperties?.length || 0}</div>
             <p className="text-xs text-amber-500 mt-1">Requires attention</p>
           </CardContent>
         </Card>
@@ -34,8 +51,7 @@ export default function AdminDashboardPage() {
             <Users className="h-4 w-4 text-zinc-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">8,520</div>
-            <p className="text-xs text-zinc-500 mt-1">Buyers, Sellers, Dealers</p>
+            <div className="text-2xl font-bold">{totalUsers || 0}</div>
           </CardContent>
         </Card>
 
@@ -67,13 +83,27 @@ export default function AdminDashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 last:border-0">
+              {!pendingProperties?.length && <p className="text-sm text-zinc-500">No properties pending verification.</p>}
+              {pendingProperties?.map((prop) => (
+                <div key={prop.id} className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 last:border-0">
                   <div>
-                    <p className="text-sm font-medium">Luxury Villa in Cyber City</p>
-                    <p className="text-xs text-zinc-500">Verification pending</p>
+                    <p className="text-sm font-medium">{prop.title}</p>
+                    <p className="text-xs text-zinc-500">{prop.location}, {prop.city}</p>
                   </div>
-                  <button className="text-xs text-amber-600 hover:underline">Review</button>
+                  <div className="flex gap-2">
+                    <form action={async () => {
+                      'use server'
+                      await approveProperty(prop.id)
+                    }}>
+                      <button className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded hover:bg-emerald-100">Approve</button>
+                    </form>
+                    <form action={async () => {
+                      'use server'
+                      await rejectProperty(prop.id)
+                    }}>
+                      <button className="text-xs font-semibold text-red-600 bg-red-50 px-2 py-1 rounded hover:bg-red-100">Reject</button>
+                    </form>
+                  </div>
                 </div>
               ))}
             </div>

@@ -145,9 +145,10 @@ export default function ListPropertyPage() {
 
             {/* Step 3: Media */}
             <div className={currentStep === 2 ? "block space-y-4" : "hidden"}>
-              <div className="border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-lg p-12 text-center hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors cursor-pointer">
-                <p className="text-sm text-zinc-500">Click to upload photos (Max 10)</p>
-                <p className="text-xs text-zinc-400 mt-2">High quality architectural photos recommended</p>
+              <div className="space-y-2">
+                <Label>Main Property Image</Label>
+                <Input type="file" name="image" accept="image/*" className="cursor-pointer" />
+                <p className="text-xs text-zinc-500">High quality architectural photos recommended</p>
               </div>
             </div>
 

@@ -49,10 +49,31 @@ export async function submitProperty(formData: FormData) {
     return { error: 'Failed to list property. Please try again.' }
   }
 
-  // If there are files (documents), we would upload them to Supabase Storage here
-  // and insert into the `verifications` table. For now, we return success.
+  // Handle Image Upload (simplified example for first file)
+  const imageFile = formData.get('image') as File | null
+  if (imageFile && imageFile.size > 0) {
+    const fileExt = imageFile.name.split('.').pop()
+    const fileName = `${data.id}-${Math.random()}.${fileExt}`
+    
+    const { error: uploadError } = await supabase.storage
+      .from('media')
+      .upload(fileName, imageFile)
 
-  revalidatePath('/admin/properties')
+    if (!uploadError) {
+      const { data: publicUrlData } = supabase.storage.from('media').getPublicUrl(fileName)
+      
+      await supabase.from('property_media').insert({
+        property_id: data.id,
+        url: publicUrlData.publicUrl,
+        media_type: 'IMAGE',
+        is_featured: true
+      })
+    }
+  }
+
+  revalidatePath('/admin')
+  revalidatePath('/buy')
+  revalidatePath('/rent')
   revalidatePath('/')
   
   return { success: true, propertyId: data.id }
