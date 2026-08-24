@@ -21,9 +21,9 @@ export async function login(formData: FormData) {
   revalidatePath('/', 'layout')
   const role = authData.user.user_metadata?.role
   if (role === 'DEALER') {
-    redirect('/dashboard/seller')
+    redirect('/')
   } else {
-    redirect('/dashboard/buyer') 
+    redirect('/') 
   }
 }
 
@@ -58,9 +58,9 @@ export async function signup(formData: FormData) {
 
   revalidatePath('/', 'layout')
   if (role === 'DEALER') {
-    redirect('/dashboard/seller')
+    redirect('/')
   } else {
-    redirect('/dashboard/buyer')
+    redirect('/')
   }
 }
 
