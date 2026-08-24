@@ -32,12 +32,8 @@ export async function signup(formData: FormData) {
 
   const email = formData.get('email') as string
   const password = formData.get('password') as string
-  const confirmPassword = formData.get('confirm_password') as string
   const fullName = formData.get('full_name') as string
 
-  if (password !== confirmPassword) {
-    redirect('/signup?error=Passwords do not match')
-  }
 
   const role = formData.get('role') as string || 'BUYER'
 
