@@ -108,7 +108,7 @@ export default async function AdminPropertiesPage() {
                       </Link>
                       <form action={async () => {
                         'use server'
-                        const { hardDeleteProperty } = await import('@/app/admin/actions')
+                        const { hardDeleteProperty } = await import('@/app/actions')
                         await hardDeleteProperty(prop.id)
                       }}>
                         <button type="submit" className="h-8 w-8 rounded bg-zinc-50 text-zinc-500 hover:text-red-600 hover:bg-red-50 border border-zinc-200 flex items-center justify-center transition-colors" title="Delete">

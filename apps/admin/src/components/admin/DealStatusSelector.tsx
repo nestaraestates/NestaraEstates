@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { updatePropertyDealStatus } from '@/app/admin/actions'
+import { updatePropertyDealStatus } from '@/app/actions'
 import { CheckCircle2 } from 'lucide-react'
 
 export function DealStatusSelector({ propertyId, currentStatus }: { propertyId: string, currentStatus: string }) {

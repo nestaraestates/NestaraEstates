@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { CheckCircle, X } from 'lucide-react'
-import { approvePropertyWithChecks } from '@/app/admin/actions'
+import { approvePropertyWithChecks } from '@/app/actions'
 
 export function VerificationModal({ propertyId }: { propertyId: string }) {
   const [isOpen, setIsOpen] = useState(false)
