@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ShieldCheck, Search, Building2, TrendingUp, Sparkles } from 'lucide-react'
 import { HomeSearch } from '@/components/properties/HomeSearch'
-import { createStaticClient } from .@/utils/supabase/static.
+import { createStaticClient } from '@/utils/supabase/static'
 import { PropertyCard } from '@/components/properties/PropertyCard'
 
 export const revalidate = 60

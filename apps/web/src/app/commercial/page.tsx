@@ -1,6 +1,6 @@
 ;
 import { Suspense } from "react";
-import { createStaticClient } from .@/utils/supabase/static.
+import { createStaticClient } from '@/utils/supabase/static'
 import { PropertyCard } from '@/components/properties/PropertyCard'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
