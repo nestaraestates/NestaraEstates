@@ -1,4 +1,4 @@
-export const runtime = "edge";
+;
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
 import { deleteProperty } from './actions'

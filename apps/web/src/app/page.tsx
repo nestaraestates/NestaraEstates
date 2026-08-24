@@ -1,4 +1,4 @@
-export const runtime = "edge";
+;
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ShieldCheck, Search, Building2, TrendingUp, Sparkles } from 'lucide-react'

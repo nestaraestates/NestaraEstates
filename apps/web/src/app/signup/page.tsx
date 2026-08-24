@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
 import { SignupForm } from './SignupForm'
 
-export const runtime = 'edge';
+;
 
 export default async function SignupPage() {
   const origin = process.env.NEXT_PUBLIC_SITE_URL || 'https://nestara-web.pages.dev';
