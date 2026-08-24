@@ -1,32 +1,47 @@
+'use client'
+
 import Link from 'next/link'
 import { Building, User, LogOut, MessageSquare } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
+import { createClient } from '@/utils/supabase/client'
+import { useRouter } from 'next/navigation'
 import { NavLinks } from './nav-links'
 import { NotificationBell } from './NotificationBell'
 import { MobileMenu } from './mobile-menu'
+import { useEffect, useState } from 'react'
+import type { User as SupabaseUser } from '@supabase/supabase-js'
 
-export async function Navbar() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+export function Navbar() {
+  const [user, setUser] = useState<SupabaseUser | null>(null)
+  const [unreadCount, setUnreadCount] = useState(0)
+  const router = useRouter()
+  const supabase = createClient()
 
-  let unreadCount = 0
-  if (user) {
-    // Try to get unread count (fails silently if table not created yet)
-    const { count } = await supabase
-      .from('notifications')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id)
-      .eq('is_read', false)
-    unreadCount = count || 0
-  }
+  useEffect(() => {
+    async function loadUser() {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+      if (user) {
+        const { count } = await supabase
+          .from('notifications')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', user.id)
+          .eq('is_read', false)
+        setUnreadCount(count || 0)
+      }
+    }
+    loadUser()
 
-  const signOut = async () => {
-    'use server'
-    const supabaseAction = await createClient()
-    await supabaseAction.auth.signOut()
-    redirect('/login')
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.push('/login')
   }
 
   return (
@@ -64,12 +79,10 @@ export async function Navbar() {
                   <span className="sr-only">Dashboard</span>
                 </Button>
               </Link>
-              <form action={signOut}>
-                <Button type="submit" variant="ghost" size="icon" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400">
-                  <LogOut className="h-5 w-5" />
-                  <span className="sr-only">Log out</span>
-                </Button>
-              </form>
+              <Button onClick={handleSignOut} variant="ghost" size="icon" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400">
+                <LogOut className="h-5 w-5" />
+                <span className="sr-only">Log out</span>
+              </Button>
             </div>
           ) : (
             <Link href="/login">
@@ -86,4 +99,3 @@ export async function Navbar() {
     </header>
   )
 }
-
