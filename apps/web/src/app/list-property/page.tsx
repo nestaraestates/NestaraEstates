@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { submitProperty } from './actions'
-import imageCompression from 'browser-image-compression'
+// import dynamically instead
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -54,7 +54,8 @@ export default function ListPropertyPage() {
             maxWidthOrHeight: 1920,
             useWebWorker: true,
           }
-          const compressedFile = await imageCompression(file, options)
+          const imageCompression = (await import('browser-image-compression')).default;
+        const compressedFile = await imageCompression(file, options)
           formData.append('images', compressedFile, compressedFile.name)
         }
       }
