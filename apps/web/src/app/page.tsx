@@ -3,14 +3,14 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ShieldCheck, Search, Building2, TrendingUp, Sparkles } from 'lucide-react'
 import { HomeSearch } from '@/components/properties/HomeSearch'
-import { createClient } from '@/utils/supabase/server'
+import { createStaticClient } from .@/utils/supabase/static.
 import { PropertyCard } from '@/components/properties/PropertyCard'
 
 export const revalidate = 60
 
 export default async function Home() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const supabase = createStaticClient()
+  
 
   // Fetch all available, verified properties
   const { data: properties } = await supabase
@@ -101,7 +101,7 @@ export default async function Home() {
       </section>
 
       {/* Why Nestara Section (Only shown to logged OUT users) */}
-      {!user && (
+      
         <section className="bg-white py-24 border-t border-zinc-100">
           <div className="container mx-auto px-4">
             <div className="mb-16 text-center">
@@ -127,7 +127,6 @@ export default async function Home() {
             </div>
           </div>
         </section>
-      )}
     </div>
   )
 }

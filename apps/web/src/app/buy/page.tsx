@@ -1,6 +1,6 @@
 ;
 import { Suspense } from "react";
-import { createClient } from '@/utils/supabase/server'
+import { createStaticClient } from .@/utils/supabase/static.
 import { PropertyCard } from '@/components/properties/PropertyCard'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -9,7 +9,6 @@ import { Search, Filter } from 'lucide-react'
 import { PropertyFilters } from '@/components/properties/PropertyFilters'
 import { RealtimePropertiesListener } from '@/components/properties/RealtimePropertiesListener'
 
-export const dynamic = 'force-dynamic'
 
 export default async function BuyPropertiesPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const resolvedParams = await searchParams;
@@ -18,7 +17,7 @@ export default async function BuyPropertiesPage({ searchParams }: { searchParams
   const maxPrice = typeof resolvedParams.maxPrice === 'string' ? resolvedParams.maxPrice : ''
   const bhk = typeof resolvedParams.bhk === 'string' ? resolvedParams.bhk : ''
 
-  const supabase = await createClient()
+  const supabase = createStaticClient()
 
   let query = supabase
     .from('properties')
