@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ShieldCheck, Search, Building2, TrendingUp, Sparkles } from 'lucide-react'
@@ -5,7 +6,7 @@ import { HomeSearch } from '@/components/properties/HomeSearch'
 import { createClient } from '@/utils/supabase/server'
 import { PropertyCard } from '@/components/properties/PropertyCard'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 export default async function Home() {
   const supabase = await createClient()

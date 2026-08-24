@@ -1,3 +1,4 @@
+export const runtime = "edge";
 import { Suspense } from "react";
 import { createClient } from '@/utils/supabase/server'
 import { PropertyCard } from '@/components/properties/PropertyCard'

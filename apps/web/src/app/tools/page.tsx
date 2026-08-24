@@ -2,7 +2,6 @@ import { EmiCalculator } from '@/components/calculators/EmiCalculator'
 import { RentVsBuyCalculator } from '@/components/calculators/RentVsBuyCalculator'
 import { RoiCalculator } from '@/components/calculators/RoiCalculator'
 
-export const dynamic = 'force-dynamic'
 
 export default function ToolsPage() {
   return (
