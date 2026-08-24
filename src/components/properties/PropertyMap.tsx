@@ -10,5 +10,17 @@ const DynamicMap = dynamic(() => import('./MapClient'), {
 })
 
 export function PropertyMap({ location }: { location: string }) {
-  return <DynamicMap location={location} />
+  let lat = 28.6139
+  let lng = 77.2090
+  let displayLocation = location
+
+  if (location && location.includes('|')) {
+    const parts = location.split('|')
+    const coords = parts[0].split(',')
+    lat = parseFloat(coords[0])
+    lng = parseFloat(coords[1])
+    displayLocation = parts[1]
+  }
+
+  return <DynamicMap location={displayLocation} lat={lat} lng={lng} />
 }

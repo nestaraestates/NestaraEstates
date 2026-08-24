@@ -45,14 +45,9 @@ export default async function LoginPage({
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-4">
-              <Button formAction={login} variant="default" className="w-full bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200">
-                Log in
-              </Button>
-              <Button formAction={signup} variant="outline" className="w-full border-zinc-200 hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-900">
-                Sign up
-              </Button>
-            </div>
+            <Button type="submit" formAction={login} className="w-full bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200">
+              Log in
+            </Button>
           </form>
 
           <div className="relative my-6">
@@ -72,6 +67,13 @@ export default async function LoginPage({
               Google
             </Button>
           </form>
+          
+          <div className="mt-6 text-center text-sm">
+            <span className="text-zinc-500">Don't have an account? </span>
+            <Link href="/signup" className="font-semibold text-amber-600 hover:text-amber-500">
+              Sign up
+            </Link>
+          </div>
         </CardContent>
         <CardFooter className="flex justify-center text-sm text-zinc-500">
           <Link href="/" className="hover:text-zinc-900 hover:underline dark:hover:text-zinc-100">

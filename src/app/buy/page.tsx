@@ -4,47 +4,68 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Search, Filter } from 'lucide-react'
 
+import { PropertyFilters } from '@/components/properties/PropertyFilters'
+import { RealtimePropertiesListener } from '@/components/properties/RealtimePropertiesListener'
+
 export const dynamic = 'force-dynamic'
 
-export default async function BuyPropertiesPage() {
+export default async function BuyPropertiesPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+  const resolvedParams = await searchParams;
+  const search = typeof resolvedParams.search === 'string' ? resolvedParams.search : ''
+  const minPrice = typeof resolvedParams.minPrice === 'string' ? resolvedParams.minPrice : ''
+  const maxPrice = typeof resolvedParams.maxPrice === 'string' ? resolvedParams.maxPrice : ''
+  const bhk = typeof resolvedParams.bhk === 'string' ? resolvedParams.bhk : ''
+
   const supabase = await createClient()
 
-  // Fetch properties for sale
-  const { data: properties, error } = await supabase
+  let query = supabase
     .from('properties')
     .select(`
       id, title, price, location, city, bhk, bathrooms, area_sqft, is_verified, purpose,
-      property_media ( url )
+      property_media ( url, media_type )
     `)
     .eq('purpose', 'BUY')
     .eq('status', 'AVAILABLE')
+    .neq('verification_status', 'REJECTED')
     .order('created_at', { ascending: false })
+
+  if (search) {
+    let orQuery = `title.ilike.%${search}%,city.ilike.%${search}%,location.ilike.%${search}%`
+    
+    // If the search term is 4 or more characters, also match by the first 3 characters 
+    // to catch variations like "Hosa" matching "Hoskote"
+    if (search.length >= 3) {
+      const partial = search.substring(0, 3)
+      orQuery += `,title.ilike.%${partial}%,city.ilike.%${partial}%,location.ilike.%${partial}%`
+    }
+    
+    query = query.or(orQuery)
+  }
+  if (minPrice) {
+    query = query.gte('price', parseInt(minPrice))
+  }
+  if (maxPrice) {
+    query = query.lte('price', parseInt(maxPrice))
+  }
+  if (bhk) {
+    if (bhk === '4') {
+      query = query.gte('bhk', 4)
+    } else {
+      query = query.eq('bhk', parseInt(bhk))
+    }
+  }
+
+  const { data: properties } = await query
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <RealtimePropertiesListener />
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-zinc-900 dark:text-white sm:text-4xl">Properties for Sale</h1>
         <p className="mt-2 text-zinc-500 dark:text-zinc-400">Find your dream home from our verified listings.</p>
       </div>
 
-      {/* Mobile-first Search and Filter Bar */}
-      <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
-          <Input placeholder="Search by location or project..." className="pl-9 h-11" />
-        </div>
-        <div className="flex gap-2">
-          <select className="h-11 flex-1 rounded-md border border-zinc-200 bg-white px-3 text-sm dark:border-zinc-800 dark:bg-zinc-950 sm:flex-none sm:w-32">
-            <option>All Types</option>
-            <option>Villa</option>
-            <option>Apartment</option>
-          </select>
-          <Button variant="outline" className="h-11 w-11 p-0 sm:w-auto sm:px-4">
-            <Filter className="h-4 w-4 sm:mr-2" />
-            <span className="hidden sm:inline">Filters</span>
-          </Button>
-        </div>
-      </div>
+      <PropertyFilters />
 
       {/* Grid - Mobile: 1 col, Tablet: 2 cols, Desktop: 3/4 cols */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -59,7 +80,7 @@ export default async function BuyPropertiesPage() {
             bhk={property.bhk || 0}
             bathrooms={property.bathrooms || 0}
             area={property.area_sqft || 0}
-            imageUrl={property.property_media?.[0]?.url || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800'}
+            imageUrl={property.property_media?.find((m: any) => m.media_type === 'IMAGE')?.url || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800'}
             isVerified={property.is_verified}
             purpose={property.purpose}
           />

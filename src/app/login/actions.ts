@@ -12,32 +12,56 @@ export async function login(formData: FormData) {
     password: formData.get('password') as string,
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+  const { data: authData, error } = await supabase.auth.signInWithPassword(data)
 
-  if (error) {
+  if (error || !authData.user) {
     redirect('/login?error=Could not authenticate user')
   }
 
   revalidatePath('/', 'layout')
-  redirect('/dashboard/buyer') // Default to buyer dashboard on login
+  const role = authData.user.user_metadata?.role
+  if (role === 'DEALER') {
+    redirect('/dashboard/seller')
+  } else {
+    redirect('/dashboard/buyer') 
+  }
 }
 
 export async function signup(formData: FormData) {
   const supabase = await createClient()
 
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+  const email = formData.get('email') as string
+  const password = formData.get('password') as string
+  const confirmPassword = formData.get('confirm_password') as string
+  const fullName = formData.get('full_name') as string
+
+  if (password !== confirmPassword) {
+    redirect('/signup?error=Passwords do not match')
   }
 
-  const { error } = await supabase.auth.signUp(data)
+  const role = formData.get('role') as string || 'BUYER'
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: fullName || email.split('@')[0], // Fallback if missing
+        role: role
+      }
+    }
+  })
 
   if (error) {
-    redirect('/login?error=Could not sign up user')
+    redirect('/signup?error=Could not sign up user')
   }
 
   revalidatePath('/', 'layout')
-  redirect('/dashboard/buyer')
+  if (role === 'DEALER') {
+    redirect('/dashboard/seller')
+  } else {
+    redirect('/dashboard/buyer')
+  }
 }
 
 export async function loginWithGoogle() {

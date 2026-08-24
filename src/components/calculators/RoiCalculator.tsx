@@ -6,14 +6,18 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 export function RoiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: number }) {
-  const [propertyPrice, setPropertyPrice] = useState(defaultPrice)
-  const [monthlyRent, setMonthlyRent] = useState(25000)
-  const [maintenance, setMaintenance] = useState(2000)
+  const [propertyPrice, setPropertyPrice] = useState<number | ''>(defaultPrice)
+  const [monthlyRent, setMonthlyRent] = useState<number | ''>('')
+  const [maintenance, setMaintenance] = useState<number | ''>('')
 
-  const annualRent = monthlyRent * 12
-  const annualMaintenance = maintenance * 12
+  const pPrice = Number(propertyPrice) || 0
+  const mRent = Number(monthlyRent) || 0
+  const maint = Number(maintenance) || 0
+
+  const annualRent = mRent * 12
+  const annualMaintenance = maint * 12
   const netAnnualIncome = annualRent - annualMaintenance
-  const roi = propertyPrice > 0 ? (netAnnualIncome / propertyPrice) * 100 : 0
+  const roi = pPrice > 0 ? (netAnnualIncome / pPrice) * 100 : 0
 
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val)
@@ -28,15 +32,15 @@ export function RoiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: numbe
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>Property Price (₹)</Label>
-              <Input type="number" value={propertyPrice} onChange={(e) => setPropertyPrice(Number(e.target.value))} />
+              <Input type="number" value={propertyPrice} onChange={(e) => setPropertyPrice(e.target.value === '' ? '' : Number(e.target.value))} />
             </div>
             <div className="space-y-2">
               <Label>Expected Monthly Rent (₹)</Label>
-              <Input type="number" value={monthlyRent} onChange={(e) => setMonthlyRent(Number(e.target.value))} />
+              <Input type="number" value={monthlyRent} onChange={(e) => setMonthlyRent(e.target.value === '' ? '' : Number(e.target.value))} placeholder="0" />
             </div>
             <div className="space-y-2">
               <Label>Monthly Maintenance (₹)</Label>
-              <Input type="number" value={maintenance} onChange={(e) => setMaintenance(Number(e.target.value))} />
+              <Input type="number" value={maintenance} onChange={(e) => setMaintenance(e.target.value === '' ? '' : Number(e.target.value))} placeholder="0" />
             </div>
           </div>
 

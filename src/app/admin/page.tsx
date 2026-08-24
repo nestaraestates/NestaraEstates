@@ -1,114 +1,78 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Building, Users, FileCheck, MessageSquare } from 'lucide-react'
 import { createClient } from '@/utils/supabase/server'
-import { approveProperty, rejectProperty } from './actions'
+import { Users, Building, ShieldCheck, ShieldAlert } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
-export default async function AdminDashboardPage() {
+export default async function AdminDashboard() {
   const supabase = await createClient()
 
-  // Fetch pending properties
-  const { data: pendingProperties } = await supabase
-    .from('properties')
-    .select('id, title, location, city, verification_status')
-    .eq('verification_status', 'UNVERIFIED')
-    .order('created_at', { ascending: false })
-    .limit(5)
-
-  // Fetch some stats
-  const { count: totalProperties } = await supabase.from('properties').select('*', { count: 'exact', head: true })
-  const { count: totalUsers } = await supabase.from('profiles').select('*', { count: 'exact', head: true })
+  const { count: usersCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true })
+  const { count: propsCount } = await supabase.from('properties').select('*', { count: 'exact', head: true })
+  const { count: verifiedCount } = await supabase.from('properties').select('*', { count: 'exact', head: true }).eq('is_verified', true)
+  const { count: unverifiedCount } = await supabase.from('properties').select('*', { count: 'exact', head: true }).eq('is_verified', false)
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {/* Stats Cards */}
-        <Card className="dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-zinc-500">Total Properties</CardTitle>
-            <Building className="h-4 w-4 text-zinc-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalProperties || 0}</div>
-          </CardContent>
-        </Card>
-
-        <Card className="dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-zinc-500">Pending Verifications</CardTitle>
-            <FileCheck className="h-4 w-4 text-amber-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{pendingProperties?.length || 0}</div>
-            <p className="text-xs text-amber-500 mt-1">Requires attention</p>
-          </CardContent>
-        </Card>
-
-        <Card className="dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-zinc-500">Total Users</CardTitle>
-            <Users className="h-4 w-4 text-zinc-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalUsers || 0}</div>
-          </CardContent>
-        </Card>
-
-        <Card className="dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-zinc-500">New Enquiries</CardTitle>
-            <MessageSquare className="h-4 w-4 text-zinc-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">142</div>
-            <p className="text-xs text-green-500 mt-1">+8% from yesterday</p>
-          </CardContent>
-        </Card>
+    <div className="space-y-6 md:space-y-8 animate-in fade-in duration-500">
+      <div>
+        <h1 className="text-2xl md:text-3xl font-black text-zinc-900 tracking-tight">System Status</h1>
+        <p className="text-zinc-500 text-sm mt-1 font-medium">Overview of the Nestara OS metrics.</p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
-          <CardHeader>
-            <CardTitle>Recent Property Activity</CardTitle>
-          </CardHeader>
-          <CardContent className="h-[300px] flex items-center justify-center border-dashed border-2 border-zinc-200 dark:border-zinc-800 m-4 rounded-md">
-            <p className="text-zinc-500">Activity Chart Placeholder</p>
-          </CardContent>
-        </Card>
-
-        <Card className="col-span-3 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
-          <CardHeader>
-            <CardTitle>Action Required</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {!pendingProperties?.length && <p className="text-sm text-zinc-500">No properties pending verification.</p>}
-              {pendingProperties?.map((prop) => (
-                <div key={prop.id} className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 last:border-0">
-                  <div>
-                    <p className="text-sm font-medium">{prop.title}</p>
-                    <p className="text-xs text-zinc-500">{prop.location}, {prop.city}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <form action={async () => {
-                      'use server'
-                      await approveProperty(prop.id)
-                    }}>
-                      <button className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded hover:bg-emerald-100">Approve</button>
-                    </form>
-                    <form action={async () => {
-                      'use server'
-                      await rejectProperty(prop.id)
-                    }}>
-                      <button className="text-xs font-semibold text-red-600 bg-red-50 px-2 py-1 rounded hover:bg-red-100">Reject</button>
-                    </form>
-                  </div>
-                </div>
-              ))}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="bg-white border border-zinc-200 shadow-sm rounded-2xl p-5 flex flex-col justify-between">
+          <div className="flex justify-between items-start mb-4">
+            <div className="h-10 w-10 rounded-xl bg-blue-50 flex items-center justify-center">
+              <Users className="h-5 w-5 text-blue-600" />
             </div>
-          </CardContent>
-        </Card>
+          </div>
+          <div>
+            <div className="text-3xl font-black text-zinc-900 mb-1">{usersCount || 0}</div>
+            <div className="text-[10px] uppercase tracking-wider font-bold text-zinc-500">Total Users</div>
+          </div>
+        </div>
+
+        <div className="bg-white border border-zinc-200 shadow-sm rounded-2xl p-5 flex flex-col justify-between">
+          <div className="flex justify-between items-start mb-4">
+            <div className="h-10 w-10 rounded-xl bg-zinc-50 flex items-center justify-center">
+              <Building className="h-5 w-5 text-zinc-600" />
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl font-black text-zinc-900 mb-1">{propsCount || 0}</div>
+            <div className="text-[10px] uppercase tracking-wider font-bold text-zinc-500">Total Properties</div>
+          </div>
+        </div>
+        
+        <div className="bg-white border border-zinc-200 shadow-sm rounded-2xl p-5 flex flex-col justify-between">
+          <div className="flex justify-between items-start mb-4">
+            <div className="h-10 w-10 rounded-xl bg-emerald-50 flex items-center justify-center">
+              <ShieldCheck className="h-5 w-5 text-emerald-600" />
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl font-black text-zinc-900 mb-1">{verifiedCount || 0}</div>
+            <div className="text-[10px] uppercase tracking-wider font-bold text-zinc-500">Verified Properties</div>
+          </div>
+        </div>
+
+        <div className="bg-white border border-zinc-200 shadow-sm rounded-2xl p-5 flex flex-col justify-between">
+          <div className="flex justify-between items-start mb-4">
+            <div className="h-10 w-10 rounded-xl bg-amber-50 flex items-center justify-center">
+              <ShieldAlert className="h-5 w-5 text-amber-600" />
+            </div>
+          </div>
+          <div>
+            <div className="text-3xl font-black text-zinc-900 mb-1">{unverifiedCount || 0}</div>
+            <div className="text-[10px] uppercase tracking-wider font-bold text-zinc-500">Unverified Properties</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white border border-zinc-200 shadow-sm rounded-2xl p-8 text-center mt-8">
+        <h2 className="text-lg font-bold text-zinc-900 mb-2">Welcome to Nestara OS</h2>
+        <p className="text-zinc-500 font-medium text-sm max-w-md mx-auto">
+          Navigate using the sidebar to manage sellers, buyers, properties, and messages.
+        </p>
       </div>
     </div>
   )

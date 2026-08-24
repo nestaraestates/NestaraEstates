@@ -28,7 +28,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     .from('properties')
     .select(`
       id, title, price, location, city, bhk, bathrooms, area_sqft, is_verified, purpose, type, description,
-      property_media ( url )
+      property_media ( url, media_type )
     `)
     .in('id', ids)
 
@@ -52,7 +52,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
                 bhk={property.bhk || 0}
                 bathrooms={property.bathrooms || 0}
                 area={property.area_sqft || 0}
-                imageUrl={property.property_media?.[0]?.url || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800'}
+                imageUrl={property.property_media?.find((m: any) => m.media_type === 'IMAGE')?.url || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=800'}
                 isVerified={property.is_verified}
                 purpose={property.purpose}
               />

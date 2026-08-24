@@ -6,14 +6,18 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 export function RentVsBuyCalculator({ defaultPrice = 5000000 }: { defaultPrice?: number }) {
-  const [propertyPrice, setPropertyPrice] = useState(defaultPrice)
-  const [monthlyRent, setMonthlyRent] = useState(25000)
-  const [years, setYears] = useState(10)
+  const [propertyPrice, setPropertyPrice] = useState<number | ''>(defaultPrice)
+  const [monthlyRent, setMonthlyRent] = useState<number | ''>('')
+  const [years, setYears] = useState<number | ''>('')
 
   // Simplified calculation for demonstration
-  const totalRentPaid = monthlyRent * 12 * years
-  const estimatedAppreciation = propertyPrice * Math.pow(1.05, years) // 5% annual appreciation
-  const buyingCost = propertyPrice * 1.08 // Include 8% for registration/taxes
+  const pPrice = Number(propertyPrice) || 0
+  const mRent = Number(monthlyRent) || 0
+  const y = Number(years) || 0
+
+  const totalRentPaid = mRent * 12 * y
+  const estimatedAppreciation = pPrice * Math.pow(1.05, y) // 5% annual appreciation
+  const buyingCost = pPrice * 1.08 // Include 8% for registration/taxes
 
   const isBuyingBetter = estimatedAppreciation - buyingCost > -totalRentPaid
 
@@ -30,15 +34,15 @@ export function RentVsBuyCalculator({ defaultPrice = 5000000 }: { defaultPrice?:
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>Property Price (₹)</Label>
-              <Input type="number" value={propertyPrice} onChange={(e) => setPropertyPrice(Number(e.target.value))} />
+              <Input type="number" value={propertyPrice} onChange={(e) => setPropertyPrice(e.target.value === '' ? '' : Number(e.target.value))} />
             </div>
             <div className="space-y-2">
               <Label>Comparable Monthly Rent (₹)</Label>
-              <Input type="number" value={monthlyRent} onChange={(e) => setMonthlyRent(Number(e.target.value))} />
+              <Input type="number" value={monthlyRent} onChange={(e) => setMonthlyRent(e.target.value === '' ? '' : Number(e.target.value))} placeholder="0" />
             </div>
             <div className="space-y-2">
               <Label>Time Horizon (Years)</Label>
-              <Input type="number" value={years} onChange={(e) => setYears(Number(e.target.value))} />
+              <Input type="number" value={years} onChange={(e) => setYears(e.target.value === '' ? '' : Number(e.target.value))} placeholder="0" />
             </div>
           </div>
 

@@ -1,38 +1,35 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 export function EmiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: number }) {
-  const [price, setPrice] = useState(defaultPrice)
-  const [downPayment, setDownPayment] = useState(defaultPrice * 0.2) // 20% down
-  const [interestRate, setInterestRate] = useState(8.5)
-  const [tenureYears, setTenureYears] = useState(20)
+  const [price, setPrice] = useState<number | ''>(defaultPrice)
+  const [downPayment, setDownPayment] = useState<number | ''>('')
+  const [interestRate, setInterestRate] = useState<number | ''>('')
+  const [tenureYears, setTenureYears] = useState<number | ''>('')
 
-  const [emi, setEmi] = useState(0)
-  const [totalInterest, setTotalInterest] = useState(0)
-  const [totalAmount, setTotalAmount] = useState(0)
+  const p = Number(price) || 0
+  const dp = Number(downPayment) || 0
+  const ir = Number(interestRate) || 0
+  const ty = Number(tenureYears) || 0
 
-  useEffect(() => {
-    const principal = price - downPayment
-    const r = interestRate / 12 / 100
-    const n = tenureYears * 12
-    
-    if (principal > 0 && r > 0 && n > 0) {
-      const calculatedEmi = (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)
-      setEmi(calculatedEmi)
-      
-      const totalPayment = calculatedEmi * n
-      setTotalAmount(totalPayment + downPayment)
-      setTotalInterest(totalPayment - principal)
-    } else {
-      setEmi(0)
-      setTotalInterest(0)
-      setTotalAmount(price)
-    }
-  }, [price, downPayment, interestRate, tenureYears])
+  const principal = p - dp
+  const r = ir / 12 / 100
+  const n = ty * 12
+  
+  let emi = 0
+  let totalInterest = 0
+  let totalAmount = p
+  
+  if (principal > 0 && r > 0 && n > 0) {
+    emi = (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1)
+    const totalPayment = emi * n
+    totalAmount = totalPayment + dp
+    totalInterest = totalPayment - principal
+  }
 
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val)
@@ -48,20 +45,20 @@ export function EmiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: numbe
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>Property Price (₹)</Label>
-              <Input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
+              <Input type="number" value={price} onChange={(e) => setPrice(e.target.value === '' ? '' : Number(e.target.value))} />
             </div>
             <div className="space-y-2">
               <Label>Down Payment (₹)</Label>
-              <Input type="number" value={downPayment} onChange={(e) => setDownPayment(Number(e.target.value))} />
+              <Input type="number" value={downPayment} onChange={(e) => setDownPayment(e.target.value === '' ? '' : Number(e.target.value))} placeholder="0" />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Interest Rate (%)</Label>
-                <Input type="number" step="0.1" value={interestRate} onChange={(e) => setInterestRate(Number(e.target.value))} />
+                <Input type="number" step="0.1" value={interestRate} onChange={(e) => setInterestRate(e.target.value === '' ? '' : Number(e.target.value))} placeholder="0" />
               </div>
               <div className="space-y-2">
                 <Label>Loan Tenure (Years)</Label>
-                <Input type="number" value={tenureYears} onChange={(e) => setTenureYears(Number(e.target.value))} />
+                <Input type="number" value={tenureYears} onChange={(e) => setTenureYears(e.target.value === '' ? '' : Number(e.target.value))} placeholder="0" />
               </div>
             </div>
           </div>
@@ -76,7 +73,7 @@ export function EmiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: numbe
             <div className="space-y-3 text-sm">
               <div className="flex justify-between border-b border-amber-200/50 pb-2 dark:border-amber-900/50">
                 <span className="text-zinc-600 dark:text-zinc-400">Principal Amount</span>
-                <span className="font-semibold">{formatCurrency(price - downPayment)}</span>
+                <span className="font-semibold">{formatCurrency((Number(price) || 0) - (Number(downPayment) || 0))}</span>
               </div>
               <div className="flex justify-between border-b border-amber-200/50 pb-2 dark:border-amber-900/50">
                 <span className="text-zinc-600 dark:text-zinc-400">Total Interest</span>

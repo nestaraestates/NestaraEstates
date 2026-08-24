@@ -3,10 +3,12 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { submitProperty } from './actions'
+import imageCompression from 'browser-image-compression'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { LocationPicker } from '@/components/properties/LocationPicker'
 
 const STEPS = [
   'Property Information',
@@ -18,8 +20,10 @@ const STEPS = [
 
 export default function ListPropertyPage() {
   const [currentStep, setCurrentStep] = useState(0)
-  const [isPending, startTransition] = useTransition()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
+  const [isCompressing, setIsCompressing] = useState(false)
+  const [coords, setCoords] = useState<{lat: number, lng: number} | null>(null)
   const router = useRouter()
 
   const handleNext = () => {
@@ -34,16 +38,51 @@ export default function ListPropertyPage() {
     }
   }
 
-  const handleSubmit = (formData: FormData) => {
-    startTransition(async () => {
-      setErrorMsg('')
+  const handleSubmit = async (formData: FormData) => {
+    setErrorMsg('')
+    setIsCompressing(true)
+    setIsSubmitting(true)
+    
+    try {
+      const imageFiles = formData.getAll('images') as File[]
+      formData.delete('images') // We will append compressed versions
+      
+      for (const file of imageFiles) {
+        if (file && file.size > 0) {
+          const options = {
+            maxSizeMB: 0.3, // Target ~300kb
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+          }
+          const compressedFile = await imageCompression(file, options)
+          formData.append('images', compressedFile, compressedFile.name)
+        }
+      }
+    } catch (error) {
+      console.error('Image compression failed:', error)
+      setErrorMsg('Failed to compress images. Please try different photos.')
+      setIsCompressing(false)
+      setIsSubmitting(false)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+    
+    setIsCompressing(false)
+
+    try {
       const result = await submitProperty(formData)
       if (result?.error) {
         setErrorMsg(result.error)
-      } else if (result?.success) {
-        router.push('/dashboard/seller?success=Property listed successfully!')
+        setIsSubmitting(false)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       }
-    })
+      // If it succeeds, the server action will call redirect(), which throws an error that Next.js catches
+      // So we don't need to do anything here on success.
+    } catch (err) {
+      // NEXT_REDIRECT error is thrown on successful redirect.
+      // We must re-throw it so Next.js handles the navigation.
+      throw err;
+    }
   }
 
   return (
@@ -88,7 +127,7 @@ export default function ListPropertyPage() {
             <div className={currentStep === 0 ? "block space-y-4" : "hidden"}>
               <div className="space-y-2">
                 <Label>Property Title</Label>
-                <Input name="title" placeholder="e.g. Modern 3BHK in Downtown" required={currentStep === 0} />
+                <Input name="title" placeholder="e.g. Modern 3BHK in Downtown" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -109,23 +148,52 @@ export default function ListPropertyPage() {
                   </select>
                 </div>
               </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Location</Label>
-                <Input name="location" placeholder="City, Area, Landmark" required={currentStep === 0} />
+                <Label>Village / Area / Landmark <span className="text-red-500">*</span></Label>
+                <Input name="village" placeholder="e.g. Tavarekere" required />
               </div>
+              <div className="space-y-2">
+                <Label>Taluk <span className="text-red-500">*</span></Label>
+                <Input name="taluk" placeholder="e.g. Hosakote" required />
+              </div>
+              <div className="space-y-2">
+                <Label>City / District <span className="text-red-500">*</span></Label>
+                <Input name="city" placeholder="e.g. Bengaluru" required />
+              </div>
+              <div className="space-y-2">
+                <Label>Pincode <span className="text-red-500">*</span></Label>
+                <Input name="pincode" placeholder="e.g. 562114" required />
+              </div>
+              <div className="space-y-2">
+                <Label>State <span className="text-red-500">*</span></Label>
+                <Input name="state" placeholder="e.g. Karnataka" required />
+              </div>
+            </div>
+
+            <div className="space-y-2 pt-4 border-t border-zinc-100">
+              <Label>Exact Map Coordinates (Hidden from Public)</Label>
+              <p className="text-xs text-zinc-500 mb-2">Drag the map and click to pinpoint your exact location.</p>
+              <LocationPicker onLocationSelect={(lat, lng) => setCoords({lat, lng})} />
+              <input type="hidden" name="coordinates" value={coords ? `${coords.lat},${coords.lng}` : ''} />
+            </div>
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label>BHK</Label>
-                  <Input name="bhk" type="number" placeholder="2" />
+                  <Input name="bhk" type="text" inputMode="numeric" pattern="[0-9]*" placeholder="e.g. 2" />
                 </div>
                 <div className="space-y-2">
                   <Label>Area (Sq.ft)</Label>
-                  <Input name="area" type="number" placeholder="1200" required={currentStep === 0} />
+                  <Input name="area" type="text" inputMode="numeric" pattern="[0-9]*" placeholder="e.g. 1200" />
                 </div>
                 <div className="space-y-2">
                   <Label>Bathrooms</Label>
-                  <Input name="bathrooms" type="number" placeholder="2" />
+                  <Input name="bathrooms" type="text" inputMode="numeric" pattern="[0-9]*" placeholder="e.g. 2" />
                 </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Property Description</Label>
+                <textarea name="description" className="w-full flex min-h-[100px] rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-800 dark:bg-zinc-950" placeholder="Describe the key features, nearby amenities, and highlights of your property..."></textarea>
               </div>
             </div>
 
@@ -133,7 +201,7 @@ export default function ListPropertyPage() {
             <div className={currentStep === 1 ? "block space-y-4" : "hidden"}>
               <div className="space-y-2">
                 <Label>Expected Price (₹)</Label>
-                <Input name="price" type="number" placeholder="5000000" required={currentStep === 1} />
+                <Input name="price" type="text" inputMode="numeric" pattern="[0-9]*" placeholder="e.g. 5000000" />
               </div>
               <div className="flex items-center space-x-2 mt-4">
                 <input type="checkbox" id="negotiable" name="negotiable" className="rounded border-zinc-300 text-amber-600 focus:ring-amber-500" />
@@ -146,9 +214,9 @@ export default function ListPropertyPage() {
             {/* Step 3: Media */}
             <div className={currentStep === 2 ? "block space-y-4" : "hidden"}>
               <div className="space-y-2">
-                <Label>Main Property Image</Label>
-                <Input type="file" name="image" accept="image/*" className="cursor-pointer" />
-                <p className="text-xs text-zinc-500">High quality architectural photos recommended</p>
+                <Label>Property Images</Label>
+                <Input type="file" name="images" accept="image/*" multiple className="cursor-pointer" />
+                <p className="text-xs text-zinc-500">You can select multiple photos. High quality architectural photos recommended.</p>
               </div>
             </div>
 
@@ -160,11 +228,11 @@ export default function ListPropertyPage() {
               </div>
               <div className="space-y-2">
                 <Label>Sale Deed / Title Document</Label>
-                <Input type="file" />
+                <Input type="file" name="document_deed" accept=".pdf,.doc,.docx,image/*" />
               </div>
               <div className="space-y-2">
                 <Label>Latest Tax Receipt</Label>
-                <Input type="file" />
+                <Input type="file" name="document_tax" accept=".pdf,.doc,.docx,image/*" />
               </div>
             </div>
 
@@ -172,11 +240,11 @@ export default function ListPropertyPage() {
             <div className={currentStep === 4 ? "block space-y-4" : "hidden"}>
               <div className="space-y-2">
                 <Label>Full Name</Label>
-                <Input name="owner_name" placeholder="John Doe" required={currentStep === 4} />
+                <Input name="owner_name" placeholder="John Doe" />
               </div>
               <div className="space-y-2">
                 <Label>Contact Number</Label>
-                <Input name="owner_phone" placeholder="+91 9876543210" required={currentStep === 4} />
+                <Input name="owner_phone" placeholder="+91 9876543210" />
               </div>
             </div>
           </CardContent>
@@ -185,7 +253,7 @@ export default function ListPropertyPage() {
               type="button"
               variant="outline" 
               onClick={handleBack} 
-              disabled={currentStep === 0 || isPending}
+              disabled={currentStep === 0 || isSubmitting}
             >
               Back
             </Button>
@@ -195,8 +263,8 @@ export default function ListPropertyPage() {
                 Next Step
               </Button>
             ) : (
-              <Button type="submit" disabled={isPending} className="bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900">
-                {isPending ? 'Submitting...' : 'Submit & Request Verification'}
+              <Button type="submit" disabled={isSubmitting || isCompressing} className="bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-100 dark:hover:bg-zinc-200 dark:text-zinc-900">
+                {isCompressing ? 'Compressing Image...' : isSubmitting ? 'Submitting...' : 'Submit & Request Verification'}
               </Button>
             )}
           </CardFooter>

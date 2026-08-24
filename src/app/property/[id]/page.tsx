@@ -1,18 +1,23 @@
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
-import { submitEnquiry } from './actions'
+import { deleteProperty } from './actions'
 import { EmiCalculator } from '@/components/calculators/EmiCalculator'
 import { RentVsBuyCalculator } from '@/components/calculators/RentVsBuyCalculator'
 import { RoiCalculator } from '@/components/calculators/RoiCalculator'
 import { PropertyMap } from '@/components/properties/PropertyMap'
+import { PropertyGallery } from '@/components/properties/PropertyGallery'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { ShieldCheck, MapPin, BedDouble, Bath, Square, Calendar, Share2, Heart, CheckCircle2 } from 'lucide-react'
+import { ShieldCheck, MapPin, BedDouble, Bath, Square, CalendarDays, Share2, Heart, Edit, CheckCircle2, XCircle } from 'lucide-react'
+import { FavoriteButton } from '@/components/properties/FavoriteButton'
+import { ShareButton } from '@/components/properties/ShareButton'
+import Link from 'next/link'
+import { BuyerInteractionTabs } from '@/components/buyer/BuyerInteractionTabs'
 
 export default async function PropertyDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
   const { id } = resolvedParams;
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   const { data: property, error } = await supabase
     .from('properties')
@@ -28,35 +33,73 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
     notFound()
   }
 
+  let isFavorited = false
+  let userProfile = null
+  let existingEnquiryId = null
+
+  if (user) {
+    const { data: savedProp } = await supabase
+      .from('saved_properties')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('property_id', id)
+      .single()
+    if (savedProp) {
+      isFavorited = true
+    }
+
+    const { data: profile } = await supabase.from('profiles').select('full_name, email, phone_number, address').eq('id', user.id).single()
+    userProfile = profile
+
+    const { data: enq } = await supabase.from('enquiries').select('id').eq('property_id', id).eq('user_id', user.id).single()
+    if (enq) {
+      existingEnquiryId = enq.id
+    }
+  }
+
+  const isOwner = user?.id === property.owner_id
+
   const formattedPrice = new Intl.NumberFormat('en-IN', {
     style: 'currency',
     currency: 'INR',
     maximumSignificantDigits: 3,
   }).format(property.price)
 
-  const defaultImage = property.property_media?.[0]?.url || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2075'
+  const publicImages = property.property_media?.filter((m: any) => m.media_type === 'IMAGE') || []
+  const defaultImage = publicImages[0]?.url || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2075'
+
+  const displayLocation = property.location.includes('|') 
+    ? property.location.split('|')[1].trim() 
+    : property.location.trim()
+
+  const cleanCity = property.city.trim()
+  const finalLocationText = displayLocation.toLowerCase() === cleanCity.toLowerCase() 
+    ? displayLocation 
+    : `${displayLocation}, ${cleanCity}`
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="mb-6 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div>
-          <div className="flex flex-wrap items-center gap-2 mb-2">
-            <span className="rounded bg-zinc-900 px-3 py-1 text-xs font-bold text-white tracking-wider">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="inline-flex items-center rounded-md bg-amber-50 dark:bg-amber-900/30 px-2 py-1 text-xs font-bold text-amber-700 dark:text-amber-500 ring-1 ring-inset ring-amber-600/20">
               FOR {property.purpose}
             </span>
-            {property.is_verified && (
-              <span className="flex items-center gap-1 rounded bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
-                <ShieldCheck className="h-4 w-4" /> NESTARA VERIFIED
-              </span>
-            )}
-            <span className="rounded bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+            <span className="inline-flex items-center rounded-md bg-zinc-50 dark:bg-zinc-900 px-2 py-1 text-xs font-bold text-zinc-600 dark:text-zinc-400 ring-1 ring-inset ring-zinc-500/20">
               {property.type}
             </span>
+            {property.is_verified && (
+              <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-600/20">
+                <ShieldCheck className="h-3 w-3" /> VERIFIED
+              </span>
+            )}
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-zinc-900 dark:text-white mb-2">{property.title}</h1>
-          <div className="flex items-center text-zinc-500 dark:text-zinc-400">
-            <MapPin className="mr-1.5 h-4 w-4" />
-            {property.location}, {property.city}
+          <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-2">
+            {property.title}
+          </h1>
+          <div className="flex items-center text-zinc-600 dark:text-zinc-400">
+            <MapPin className="h-4 w-4 mr-1" />
+            {finalLocationText}
           </div>
         </div>
         
@@ -65,28 +108,13 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             {formattedPrice} {property.purpose === 'RENT' && <span className="text-xl font-normal text-zinc-500">/mo</span>}
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm"><Share2 className="h-4 w-4 mr-2" /> Share</Button>
-            <Button variant="outline" size="sm"><Heart className="h-4 w-4 mr-2" /> Save</Button>
+            <ShareButton title={property.title} />
+            <FavoriteButton propertyId={property.id} initiallyFavorited={isFavorited} mode="text" />
           </div>
         </div>
       </div>
 
-      <div className="mb-8 grid grid-cols-1 md:grid-cols-4 gap-4 h-[400px] md:h-[500px]">
-        <div className="md:col-span-3 rounded-2xl overflow-hidden relative group cursor-pointer">
-          <img src={defaultImage} alt="Main property view" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-        </div>
-        <div className="hidden md:flex flex-col gap-4">
-          <div className="h-1/2 rounded-2xl overflow-hidden relative group cursor-pointer">
-             <img src="https://images.unsplash.com/photo-1600607687931-ce8e0026de78?auto=format&fit=crop&q=80&w=800" alt="Interior view" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          </div>
-          <div className="h-1/2 rounded-2xl overflow-hidden relative group cursor-pointer">
-             <div className="absolute inset-0 bg-black/50 z-10 flex items-center justify-center">
-                <span className="text-white font-semibold text-lg">+5 Photos</span>
-             </div>
-             <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=800" alt="Room view" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          </div>
-        </div>
-      </div>
+      <PropertyGallery media={publicImages} defaultImage={defaultImage} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2 space-y-12">
@@ -118,23 +146,53 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
           <section>
             <h2 className="text-2xl font-bold mb-4">Description</h2>
             <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed whitespace-pre-wrap">
-              {property.description || "A premium property located in the heart of the city offering luxury, comfort, and security. Features modern architecture, spacious rooms, and excellent connectivity. Perfect for families looking for a verified, hassle-free living experience."}
+              {property.description ? property.description : "No description provided by the seller."}
             </p>
           </section>
 
-          {property.is_verified && (
-            <section className="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/50 rounded-2xl p-6">
-              <h3 className="text-xl font-bold text-emerald-800 dark:text-emerald-400 mb-4 flex items-center">
-                <ShieldCheck className="mr-2 h-6 w-6" /> Verification Checks Passed
-              </h3>
-              <div className="grid sm:grid-cols-2 gap-3 text-sm text-emerald-700 dark:text-emerald-500/80">
-                <p className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Title Document Validated</p>
-                <p className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Identity Verification Completed</p>
-                <p className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> No Known Encumbrances</p>
-                <p className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Tax Receipts Verified</p>
-              </div>
-            </section>
-          )}
+          <section className={`${property.is_verified ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-100 dark:border-emerald-900' : 'bg-amber-50 dark:bg-amber-950/20 border-amber-100 dark:border-amber-900'} border rounded-2xl p-6`}>
+            <h3 className={`text-xl font-bold ${property.is_verified ? 'text-emerald-900 dark:text-emerald-500' : 'text-amber-900 dark:text-amber-500'} mb-4 flex items-center`}>
+              <ShieldCheck className="mr-2 h-6 w-6" /> {property.is_verified ? 'Verification Status: Verified' : 'Verification Status: Pending/Unverified'}
+            </h3>
+            
+            {(() => {
+              const checks = property.verification_checks || { 
+                title_document: property.is_verified ? 'Verified' : 'Pending', 
+                identity_verification: property.is_verified ? 'Verified' : 'Pending', 
+                encumbrances: property.is_verified ? 'Verified' : 'Pending', 
+                tax_receipts: property.is_verified ? 'Verified' : 'Pending' 
+              }
+              
+              const labels: Record<string, string> = {
+                title_document: 'Title Document',
+                identity_verification: 'Identity Verification',
+                encumbrances: 'Encumbrances Check',
+                tax_receipts: 'Tax Receipts'
+              }
+              
+              return (
+                <div className="grid sm:grid-cols-2 gap-3 text-sm">
+                  {Object.entries(checks).map(([key, value]) => {
+                    const isVerified = value === 'Verified'
+                    const isPending = value === 'Pending'
+                    
+                    return (
+                      <p key={key} className={`flex items-center gap-2 ${isVerified ? 'text-emerald-700 dark:text-emerald-500/80' : isPending ? 'text-amber-600 dark:text-amber-500/80' : 'text-red-600 dark:text-red-500/80'}`}>
+                        {isVerified ? (
+                          <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-500" /> 
+                        ) : isPending ? (
+                          <ShieldCheck className="h-4 w-4 text-amber-500 dark:text-amber-400" />
+                        ) : (
+                          <XCircle className="h-4 w-4 text-red-500 dark:text-red-400" />
+                        )}
+                        {labels[key] || key}: {String(value)}
+                      </p>
+                    )
+                  })}
+                </div>
+              )
+            })()}
+          </section>
 
           <section>
             <h2 className="text-2xl font-bold mb-6">Financial Tools</h2>
@@ -145,44 +203,84 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
               </div>
             )}
             {property.purpose === 'RENT' && (
-              <RoiCalculator defaultPrice={property.price * 250} /> /* Estimation for demo */
+              <RoiCalculator defaultPrice={0} />
             )}
           </section>
 
-          <section>
+          <div className="mb-12">
             <h2 className="text-2xl font-bold mb-6">Location Map</h2>
-            <PropertyMap location={`${property.location}, ${property.city}`} />
-          </section>
+            {isOwner ? (
+              <PropertyMap location={`${property.location}, ${property.city}`} />
+            ) : (
+              <div className="w-full h-[400px] rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800")', backgroundSize: 'cover', backgroundPosition: 'center', filter: 'blur(8px)' }}></div>
+                
+                <div className="relative z-10 bg-white/90 dark:bg-zinc-950/90 p-6 rounded-2xl shadow-sm backdrop-blur-sm max-w-sm">
+                  <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MapPin className="h-6 w-6" />
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">Location Protected</h3>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+                    To protect the seller's privacy, the exact map pin is hidden.
+                  </p>
+                  <a href="#contact-agent" className="block w-full">
+                    <Button variant="outline" className="w-full text-amber-700 border-amber-200 hover:bg-amber-50 dark:border-amber-900 dark:text-amber-500 dark:hover:bg-amber-950/30">
+                      Contact Agent for Details
+                    </Button>
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        <div className="lg:col-span-1">
-          <div className="sticky top-24 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-xl">
-            <h3 className="text-xl font-bold mb-4">Contact Owner/Dealer</h3>
-            
-            <div className="flex items-center gap-4 mb-6">
-              <div className="h-12 w-12 rounded-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center font-bold text-zinc-500 text-lg">
-                {property.profiles?.full_name?.[0] || 'O'}
+        <div className="lg:col-span-1" id="contact-agent">
+          <div className="sticky top-24">
+            {isOwner ? (
+              <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 rounded-2xl p-6 text-center shadow-xl">
+                <div className="mx-auto w-12 h-12 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mb-4">
+                  <ShieldCheck className="h-6 w-6 text-amber-600 dark:text-amber-500" />
+                </div>
+                <h3 className="text-xl font-bold mb-2 text-zinc-900 dark:text-white">Your Listing</h3>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-6">
+                  You are the owner of this property. You cannot send an enquiry to yourself.
+                </p>
+                <div className="space-y-3">
+                  <Link href="/dashboard/seller">
+                    <Button variant="outline" className="w-full border-amber-200 hover:bg-amber-100 text-amber-700 dark:border-amber-900/50 dark:text-amber-500 dark:hover:bg-amber-900/50">
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <Link href={`/edit-property/${property.id}`} className="block w-full">
+                    <Button className="w-full bg-amber-500 hover:bg-amber-600 text-white">
+                      Edit Listing
+                    </Button>
+                  </Link>
+                  <form action={deleteProperty as any}>
+                    <input type="hidden" name="property_id" value={property.id} />
+                    <Button type="submit" variant="destructive" className="w-full">
+                      Delete Listing
+                    </Button>
+                  </form>
+                </div>
               </div>
-              <div>
-                <p className="font-semibold text-lg">{property.profiles?.full_name || 'Verified Owner'}</p>
-                <p className="text-sm text-zinc-500">Responds typically within 1 hour</p>
-              </div>
-            </div>
-
-            <form action={submitEnquiry} className="space-y-4 mb-6">
-              <input type="hidden" name="property_id" value={property.id} />
-              <Input name="name" placeholder="Your Name" required />
-              <Input name="email" type="email" placeholder="Your Email" required />
-              <Input name="phone" placeholder="Your Phone Number" required />
-              <textarea name="message" className="w-full flex min-h-[80px] rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm dark:border-zinc-800 dark:bg-zinc-950" placeholder="I am interested in this property..." required></textarea>
-              <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold h-12">
-                Send Enquiry
-              </Button>
-            </form>
-
-            <p className="text-xs text-center text-zinc-500">
-              By enquiring, you agree to Nestara Estates Terms of Use and Privacy Policy.
-            </p>
+            ) : user ? (
+              <BuyerInteractionTabs 
+                propertyId={property.id} 
+                buyerId={user.id} 
+                initialEnquiryId={existingEnquiryId} 
+                profile={userProfile} 
+                hasEnquiry={!!existingEnquiryId}
+              />
+            ) : (
+              <BuyerInteractionTabs 
+                propertyId={property.id} 
+                buyerId={null} 
+                initialEnquiryId={null} 
+                profile={null} 
+                hasEnquiry={false}
+              />
+            )}
           </div>
         </div>
       </div>
