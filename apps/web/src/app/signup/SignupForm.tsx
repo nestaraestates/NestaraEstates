@@ -17,7 +17,7 @@ export function SignupForm() {
           {error}
         </div>
       )}
-      <form className="space-y-4">
+      <form action={signup} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input id="email" name="email" type="email" placeholder="you@example.com" required className="bg-white dark:bg-zinc-900" />
@@ -27,7 +27,7 @@ export function SignupForm() {
           <Input id="password" name="password" type="password" required className="bg-white dark:bg-zinc-900" />
           <p className="text-xs text-zinc-500">Must be at least 6 characters</p>
         </div>
-        <Button formAction={signup} className="w-full bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
+        <Button type="submit" className="w-full bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
           Create Account
         </Button>
       </form>
