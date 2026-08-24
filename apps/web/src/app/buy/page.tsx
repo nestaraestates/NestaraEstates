@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { createClient } from '@/utils/supabase/server'
 import { PropertyCard } from '@/components/properties/PropertyCard'
 import { Input } from '@/components/ui/input'
@@ -65,7 +66,7 @@ export default async function BuyPropertiesPage({ searchParams }: { searchParams
         <p className="mt-2 text-zinc-500 dark:text-zinc-400">Find your dream home from our verified listings.</p>
       </div>
 
-      <PropertyFilters />
+      <Suspense fallback={<div className="h-20 animate-pulse bg-zinc-100 rounded-xl"></div>}><PropertyFilters /></Suspense>
 
       {/* Grid - Mobile: 1 col, Tablet: 2 cols, Desktop: 3/4 cols */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
