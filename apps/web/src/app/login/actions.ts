@@ -21,11 +21,7 @@ export async function login(prevState: any, formData: FormData) {
   }
 
   const role = authData.user.user_metadata?.role
-  if (role === 'DEALER') {
-    redirect('/dashboard/seller')
-  } else {
-    redirect('/dashboard/buyer') 
-  }
+  return { success: true, redirectTo: role === 'DEALER' ? '/dashboard/seller' : '/dashboard/buyer' }
 }
 
 export async function signup(formData: FormData) {

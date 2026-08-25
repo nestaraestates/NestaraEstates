@@ -7,13 +7,19 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-import { useActionState } from 'react'
+import { useActionState, useEffect } from 'react'
 
 export function LoginForm() {
   const searchParams = useSearchParams()
   const urlError = searchParams.get('error')
   const [state, formAction, pending] = useActionState(login, null)
   
+  useEffect(() => {
+    if (state?.success && state?.redirectTo) {
+      window.location.href = state.redirectTo
+    }
+  }, [state])
+
   const error = state?.error || urlError
 
   return (

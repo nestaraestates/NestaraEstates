@@ -20,12 +20,7 @@ export async function login(prevState: any, formData: FormData) {
     return { error: error?.message || 'Could not authenticate user' }
   }
 
-  const role = authData.user.user_metadata?.role
-  if (role === 'DEALER') {
-    redirect('/')
-  } else {
-    redirect('/') 
-  }
+  return { success: true }
 }
 
 export async function signup(formData: FormData) {

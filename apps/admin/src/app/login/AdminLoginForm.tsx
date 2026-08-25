@@ -7,13 +7,19 @@ import { Label } from '@/components/ui/label'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
-import { useActionState } from 'react'
+import { useActionState, useEffect } from 'react'
 
 export function AdminLoginForm() {
   const searchParams = useSearchParams()
   const urlError = searchParams.get('error')
   const [state, formAction, pending] = useActionState(login, null)
   
+  useEffect(() => {
+    if (state?.success) {
+      window.location.href = '/'
+    }
+  }, [state])
+
   const error = state?.error || urlError
 
   return (
