@@ -6,7 +6,15 @@ import { SignupForm } from './SignupForm'
 
 ;
 
+import { redirect } from 'next/navigation'
+
 export default async function SignupPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (user) {
+    redirect('/dashboard')
+  }
+
   const origin = process.env.NEXT_PUBLIC_SITE_URL || 'https://nestara-web.pages.dev';
   
   const signInWithGoogle = async () => {

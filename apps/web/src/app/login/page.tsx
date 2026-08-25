@@ -6,7 +6,15 @@ import { Building } from 'lucide-react'
 import Link from 'next/link'
 import { LoginForm } from './LoginForm'
 
-export default function LoginPage() {
+import { redirect } from 'next/navigation'
+import { createClient } from '@/utils/supabase/server'
+
+export default async function LoginPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (user) {
+    redirect('/dashboard')
+  }
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 p-4 dark:bg-zinc-950">
       <Card className="w-full max-w-md border-zinc-200 shadow-xl dark:border-zinc-800">
