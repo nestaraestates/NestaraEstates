@@ -7,9 +7,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
+import { useActionState } from 'react'
+
 export function LoginForm() {
   const searchParams = useSearchParams()
-  const error = searchParams.get('error')
+  const urlError = searchParams.get('error')
+  const [state, formAction, pending] = useActionState(login, null)
+  
+  const error = state?.error || urlError
 
   return (
     <div className="space-y-4">
@@ -18,7 +23,7 @@ export function LoginForm() {
           {error}
         </div>
       )}
-      <form action={login} className="space-y-4">
+      <form action={formAction} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input id="email" name="email" type="email" placeholder="you@example.com" required className="bg-white dark:bg-zinc-900" />
@@ -32,8 +37,8 @@ export function LoginForm() {
           </div>
           <Input id="password" name="password" type="password" required className="bg-white dark:bg-zinc-900" />
         </div>
-        <Button type="submit" className="w-full bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
-          Sign In
+        <Button type="submit" disabled={pending} className="w-full bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
+          {pending ? 'Signing In...' : 'Sign In'}
         </Button>
       </form>
     </div>

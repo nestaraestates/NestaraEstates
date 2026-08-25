@@ -6,7 +6,7 @@ import { headers } from 'next/headers'
 import { getURL } from '@/utils/url'
 import { createClient } from '@/utils/supabase/server'
 
-export async function login(formData: FormData) {
+export async function login(prevState: any, formData: FormData) {
   const supabase = await createClient()
 
   const data = {
@@ -17,7 +17,7 @@ export async function login(formData: FormData) {
   const { data: authData, error } = await supabase.auth.signInWithPassword(data)
 
   if (error || !authData.user) {
-    redirect(`/login?error=${encodeURIComponent(error?.message || 'Could not authenticate user')}`)
+    return { error: error?.message || 'Could not authenticate user' }
   }
 
   const role = authData.user.user_metadata?.role

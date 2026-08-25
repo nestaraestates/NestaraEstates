@@ -7,9 +7,14 @@ import { Label } from '@/components/ui/label'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
+import { useActionState } from 'react'
+
 export function AdminLoginForm() {
   const searchParams = useSearchParams()
-  const error = searchParams.get('error')
+  const urlError = searchParams.get('error')
+  const [state, formAction, pending] = useActionState(login, null)
+  
+  const error = state?.error || urlError
 
   return (
     <div className="space-y-4">
@@ -19,7 +24,7 @@ export function AdminLoginForm() {
         </div>
       )}
 
-      <form action={login} className="space-y-4">
+      <form action={formAction} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input id="email" name="email" type="email" placeholder="m@example.com" required />
@@ -29,8 +34,8 @@ export function AdminLoginForm() {
           <Input id="password" name="password" type="password" required />
         </div>
 
-        <Button type="submit" className="w-full bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200">
-          Log in
+        <Button type="submit" disabled={pending} className="w-full bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200">
+          {pending ? 'Logging in...' : 'Log in'}
         </Button>
       </form>
 
