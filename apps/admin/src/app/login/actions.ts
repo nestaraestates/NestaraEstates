@@ -70,11 +70,9 @@ export async function loginWithGoogle() {
     },
   })
 
-  if (error) {
-    redirect('/login?error=Could not authenticate with Google')
+  if (error || !data.url) {
+    return { error: 'Could not authenticate with Google' }
   }
 
-  if (data.url) {
-    redirect(data.url) // Redirect to Google OAuth page
-  }
+  return { success: true, url: data.url }
 }
