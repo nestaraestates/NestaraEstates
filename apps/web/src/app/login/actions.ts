@@ -20,7 +20,6 @@ export async function login(formData: FormData) {
     redirect(`/login?error=${encodeURIComponent(error?.message || 'Could not authenticate user')}`)
   }
 
-  revalidatePath('/', 'layout')
   const role = authData.user.user_metadata?.role
   if (role === 'DEALER') {
     redirect('/dashboard/seller')
@@ -54,7 +53,6 @@ export async function signup(formData: FormData) {
     redirect(`/signup?error=${encodeURIComponent(error.message)}`)
   }
 
-  revalidatePath('/', 'layout')
   if (role === 'DEALER') {
     redirect('/dashboard/seller')
   } else {
