@@ -3,8 +3,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
-import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { getURL } from '@/utils/url'
 
 export default async function SignupPage({
   searchParams,
@@ -12,18 +13,20 @@ export default async function SignupPage({
   searchParams: Promise<{ error?: string }>
 }) {
   const resolvedParams = await searchParams;
-  const headersList = await headers();
-  const origin = headersList.get('origin');
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (user) {
+    redirect('/')
+  }
   
   // Google Auth Action
   const signInWithGoogle = async () => {
     'use server'
     const supabase = await createClient()
-    const originUrl = origin || 'http://localhost:3000'
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${originUrl}/auth/callback`,
+        redirectTo: `${getURL()}auth/callback`,
       },
     })
     if (data.url) {
