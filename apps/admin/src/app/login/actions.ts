@@ -2,9 +2,9 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { headers } from 'next/headers'
 import { getURL } from '@/utils/url'
 import { createClient } from '@/utils/supabase/server'
+import { isSuperAdmin } from '@/lib/admin'
 
 export async function login(prevState: any, formData: FormData) {
   try {
@@ -19,6 +19,15 @@ export async function login(prevState: any, formData: FormData) {
 
     if (error || !authData.user) {
       return { error: error?.message || 'Could not authenticate user' }
+    }
+
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', authData.user.id).single()
+    const isSuper = isSuperAdmin(authData.user.email)
+    const isAssignedAdmin = profile?.role === 'admin'
+
+    if (!isSuper && !isAssignedAdmin) {
+      await supabase.auth.signOut()
+      return { error: 'Unauthorized: You do not have admin privileges for this portal.' }
     }
 
     return { success: true }
