@@ -17,5 +17,5 @@ export async function forgotPassword(formData: FormData) {
     return redirect('/forgot-password?error=Could not send reset email')
   }
 
-  return redirect('/forgot-password?message=Check your email for the reset link')
+  return redirect(`/verify-reset-code?email=${encodeURIComponent(email)}`)
 }
