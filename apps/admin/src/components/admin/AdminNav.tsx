@@ -8,12 +8,12 @@ export function AdminDesktopNav() {
   const pathname = usePathname()
 
   const links = [
-    { name: 'Home', href: '/admin', icon: LayoutDashboard, matchExact: true },
-    { name: 'Seller Hub', href: '/admin/seller-hub', icon: Store, matchExact: false },
-    { name: 'Buyer Hub', href: '/admin/buyer-hub', icon: Users, matchExact: false },
-    { name: 'Messages', href: '/admin/messages', icon: MessageSquare, matchExact: false },
-    { name: 'All Properties', href: '/admin/properties', icon: Building, matchExact: false },
-    { name: 'Enquired Properties', href: '/admin/enquired', icon: Target, matchExact: false },
+    { name: 'Home', href: '/', icon: LayoutDashboard, matchExact: true },
+    { name: 'Seller Hub', href: '/seller-hub', icon: Store, matchExact: false },
+    { name: 'Buyer Hub', href: '/buyer-hub', icon: Users, matchExact: false },
+    { name: 'Messages', href: '/messages', icon: MessageSquare, matchExact: false },
+    { name: 'All Properties', href: '/properties', icon: Building, matchExact: false },
+    { name: 'Enquired Properties', href: '/enquired', icon: Target, matchExact: false },
   ]
 
   return (
@@ -40,12 +40,12 @@ export function AdminMobileNav() {
   const pathname = usePathname()
 
   const links = [
-    { name: 'Home', href: '/admin', icon: LayoutDashboard, matchExact: true },
-    { name: 'Sellers', href: '/admin/seller-hub', icon: Store, matchExact: false },
-    { name: 'Buyers', href: '/admin/buyer-hub', icon: Users, matchExact: false },
-    { name: 'Msgs', href: '/admin/messages', icon: MessageSquare, matchExact: false },
-    { name: 'Assets', href: '/admin/properties', icon: Building, matchExact: false },
-    { name: 'Leads', href: '/admin/enquired', icon: Target, matchExact: false },
+    { name: 'Home', href: '/', icon: LayoutDashboard, matchExact: true },
+    { name: 'Sellers', href: '/seller-hub', icon: Store, matchExact: false },
+    { name: 'Buyers', href: '/buyer-hub', icon: Users, matchExact: false },
+    { name: 'Msgs', href: '/messages', icon: MessageSquare, matchExact: false },
+    { name: 'Assets', href: '/properties', icon: Building, matchExact: false },
+    { name: 'Leads', href: '/enquired', icon: Target, matchExact: false },
   ]
 
   return (

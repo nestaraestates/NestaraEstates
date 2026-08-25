@@ -33,7 +33,7 @@ export async function approvePropertyWithChecks(propertyId: string, checks: any)
   }
 
   revalidatePath(`/admin/properties/${propertyId}`)
-  revalidatePath('/admin', 'layout')
+  revalidatePath('/', 'layout')
   revalidatePath('/buy')
   revalidatePath('/rent')
   return { success: true }
@@ -56,7 +56,7 @@ export async function approveProperty(propertyId: string) {
   }
 
   revalidatePath(`/admin/properties/${propertyId}`)
-  revalidatePath('/admin', 'layout')
+  revalidatePath('/', 'layout')
   revalidatePath('/buy')
   revalidatePath('/rent')
   return { success: true }
@@ -79,7 +79,7 @@ export async function rejectProperty(propertyId: string) {
   }
 
   revalidatePath(`/admin/properties/${propertyId}`)
-  revalidatePath('/admin', 'layout')
+  revalidatePath('/', 'layout')
   revalidatePath('/buy')
   revalidatePath('/rent')
   return { success: true }
@@ -124,7 +124,7 @@ export async function hardDeleteProperty(propertyId: string) {
     return { error: 'Failed to delete property' }
   }
 
-  revalidatePath('/admin/properties')
+  revalidatePath('/properties')
   return { success: true }
 }
 
@@ -143,7 +143,7 @@ export async function updatePropertyDealStatus(propertyId: string, status: strin
     throw new Error('Failed to update deal status')
   }
 
-  revalidatePath('/admin/seller-hub')
+  revalidatePath('/seller-hub')
   revalidatePath(`/admin/properties/${propertyId}`)
 }
 
@@ -165,6 +165,6 @@ export async function holdProperty(propertyId: string) {
     throw new Error('Failed to put property on hold')
   }
 
-  revalidatePath('/admin/seller-hub')
+  revalidatePath('/seller-hub')
   revalidatePath(`/admin/properties/${propertyId}`)
 }

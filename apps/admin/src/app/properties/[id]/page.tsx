@@ -45,7 +45,7 @@ export default async function AdminPropertyReviewPage({ params, searchParams }: 
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Link href="/admin/seller-hub" className="p-2 bg-white border border-zinc-200 rounded-lg hover:bg-zinc-50 text-zinc-500">
+          <Link href="/seller-hub" className="p-2 bg-white border border-zinc-200 rounded-lg hover:bg-zinc-50 text-zinc-500">
             <ChevronLeft className="h-5 w-5" />
           </Link>
           <div>
@@ -208,12 +208,12 @@ export default async function AdminPropertyReviewPage({ params, searchParams }: 
                       <form action={async () => {
                         'use server'
                         await hardDeleteProperty(property.id)
-                        redirect('/admin/seller-hub?filter=DELETED')
+                        redirect('/seller-hub?filter=DELETED')
                       }}>
                         <HardDeleteButton onDelete={async () => {
                           'use server'
                           await hardDeleteProperty(property.id)
-                          redirect('/admin/seller-hub?filter=DELETED')
+                          redirect('/seller-hub?filter=DELETED')
                         }} />
                         <p className="text-[10px] text-zinc-500 mt-2 leading-relaxed">
                           This will completely remove the property from the database and wipe all associated media files from storage. This action cannot be undone.
