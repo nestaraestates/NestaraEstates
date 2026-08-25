@@ -90,8 +90,8 @@ export default function LocationPickerClient({
         <LocateFixed className={`mr-2 h-4 w-4 ${isLocating ? 'animate-pulse' : ''}`} />
         {isLocating ? 'Detecting...' : 'Detect My Location'}
       </Button>
-      <div className="h-[300px] w-full rounded-md overflow-hidden z-0 border border-zinc-200 dark:border-zinc-800">
-        <MapContainer center={position} zoom={13} scrollWheelZoom={true} className="h-full w-full">
+      <div className="relative h-[300px] w-full rounded-md overflow-hidden z-0 border border-zinc-200 dark:border-zinc-800">
+        <MapContainer center={position} zoom={13} scrollWheelZoom={true} className="h-full w-full relative z-0">
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
