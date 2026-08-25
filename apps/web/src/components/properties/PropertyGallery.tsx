@@ -29,6 +29,33 @@ export function PropertyGallery({ media, defaultImage }: PropertyGalleryProps) {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
   }
 
+  // Swipe handling
+  const [startX, setStartX] = useState<number | null>(null)
+  const [endX, setEndX] = useState<number | null>(null)
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    setStartX(e.clientX)
+    setEndX(null)
+  }
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (startX !== null) {
+      setEndX(e.clientX)
+    }
+  }
+
+  const handlePointerUp = () => {
+    if (startX === null || endX === null) {
+      setStartX(null)
+      return
+    }
+    const distance = startX - endX
+    if (distance > 50) nextImage()
+    if (distance < -50) prevImage()
+    setStartX(null)
+    setEndX(null)
+  }
+
   return (
     <>
       <div className="mb-8 grid grid-cols-1 md:grid-cols-4 gap-4 h-[400px] md:h-[500px]">
@@ -118,11 +145,19 @@ export function PropertyGallery({ media, defaultImage }: PropertyGalleryProps) {
             </>
           )}
 
-          <div className="w-full max-w-5xl px-4 flex items-center justify-center">
+          <div 
+            className="w-full max-w-5xl px-4 flex items-center justify-center touch-none select-none cursor-grab active:cursor-grabbing"
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerLeave={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+          >
             <img 
               src={images[currentIndex]} 
               alt={`Property image ${currentIndex + 1}`} 
-              className="max-h-[85vh] max-w-full object-contain"
+              className="max-h-[85vh] max-w-full object-contain pointer-events-none"
+              draggable="false"
             />
           </div>
           
