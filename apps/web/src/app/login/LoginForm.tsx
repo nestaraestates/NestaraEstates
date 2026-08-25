@@ -1,6 +1,7 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { login, signup, loginWithGoogle } from './actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,6 +26,9 @@ export function LoginForm() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
+            <Link href="/forgot-password" className="text-xs text-amber-600 hover:text-amber-500 font-medium">
+              Forgot password?
+            </Link>
           </div>
           <Input id="password" name="password" type="password" required className="bg-white dark:bg-zinc-900" />
         </div>
