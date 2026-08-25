@@ -62,7 +62,7 @@ export default async function AdminPropertiesPage() {
               {properties?.map(prop => (
                 <tr key={prop.id} className="hover:bg-blue-50/50 transition-colors">
                   <td className="px-6 py-4">
-                    <Link href={`/admin/properties/${prop.id}`} className="font-bold text-zinc-900 hover:text-blue-600 truncate block max-w-[200px]">
+                    <Link href={`/properties/${prop.id}`} className="font-bold text-zinc-900 hover:text-blue-600 truncate block max-w-[200px]">
                       {prop.title}
                     </Link>
                     <div className="text-[10px] text-zinc-400 font-medium mt-1">

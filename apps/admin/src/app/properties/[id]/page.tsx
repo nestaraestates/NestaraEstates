@@ -61,13 +61,13 @@ export default async function AdminPropertyReviewPage({ params, searchParams }: 
 
       {/* Tabs */}
       <div className="flex border-b border-zinc-200 gap-6">
-        <Link href={`/admin/properties/${id}?tab=details`} className={`pb-3 text-sm font-bold border-b-2 transition-all ${currentTab === 'details' ? 'border-blue-600 text-blue-700' : 'border-transparent text-zinc-500 hover:text-zinc-900'}`}>
+        <Link href={`/properties/${id}?tab=details`} className={`pb-3 text-sm font-bold border-b-2 transition-all ${currentTab === 'details' ? 'border-blue-600 text-blue-700' : 'border-transparent text-zinc-500 hover:text-zinc-900'}`}>
           <div className="flex items-center gap-2"><FileText className="h-4 w-4"/> View Details</div>
         </Link>
-        <Link href={`/admin/properties/${id}?tab=buyers`} className={`pb-3 text-sm font-bold border-b-2 transition-all ${currentTab === 'buyers' ? 'border-blue-600 text-blue-700' : 'border-transparent text-zinc-500 hover:text-zinc-900'}`}>
+        <Link href={`/properties/${id}?tab=buyers`} className={`pb-3 text-sm font-bold border-b-2 transition-all ${currentTab === 'buyers' ? 'border-blue-600 text-blue-700' : 'border-transparent text-zinc-500 hover:text-zinc-900'}`}>
           <div className="flex items-center gap-2"><Users className="h-4 w-4"/> Interested Buyers <span className="bg-zinc-100 text-zinc-700 rounded-full px-2 text-[10px]">{property.enquiries?.length || 0}</span></div>
         </Link>
-        <Link href={`/admin/properties/${id}?tab=seller`} className={`pb-3 text-sm font-bold border-b-2 transition-all ${currentTab === 'seller' ? 'border-blue-600 text-blue-700' : 'border-transparent text-zinc-500 hover:text-zinc-900'}`}>
+        <Link href={`/properties/${id}?tab=seller`} className={`pb-3 text-sm font-bold border-b-2 transition-all ${currentTab === 'seller' ? 'border-blue-600 text-blue-700' : 'border-transparent text-zinc-500 hover:text-zinc-900'}`}>
           <div className="flex items-center gap-2"><Store className="h-4 w-4"/> Chat with Seller</div>
         </Link>
       </div>
@@ -279,10 +279,10 @@ export default async function AdminPropertyReviewPage({ params, searchParams }: 
                     {enq.message && <p className="text-sm text-zinc-700 mt-2 p-3 bg-zinc-100 rounded-lg italic">"{enq.message}"</p>}
                   </div>
                   <div className="flex flex-col gap-2 shrink-0">
-                    <Link href={`/admin/messages?view=buyer&openChat=${enq.id}`} className="w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 text-center flex items-center justify-center gap-2">
+                    <Link href={`/messages?view=buyer&openChat=${enq.id}`} className="w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 text-center flex items-center justify-center gap-2">
                       <MessageSquare className="h-4 w-4" /> Chat with Buyer
                     </Link>
-                    <Link href={`/admin/messages?view=dual&propertyId=${property.id}&enquiryId=${enq.id}`} className="w-full md:w-auto bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-700 text-center flex items-center justify-center gap-2">
+                    <Link href={`/messages?view=dual&propertyId=${property.id}&enquiryId=${enq.id}`} className="w-full md:w-auto bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-700 text-center flex items-center justify-center gap-2">
                       <Users className="h-4 w-4" /> Dual Chat Mode
                     </Link>
                   </div>
@@ -301,7 +301,7 @@ export default async function AdminPropertyReviewPage({ params, searchParams }: 
             <p className="text-zinc-500 mb-6 max-w-md mx-auto">
               Discuss verifications, required documents, or pricing adjustments directly with the seller.
             </p>
-            <Link href={`/admin/properties/${property.id}/seller-chat`} className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors">
+            <Link href={`/properties/${property.id}/seller-chat`} className="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors">
               <MessageSquare className="h-5 w-5" /> Open Full Screen Chat with Seller
             </Link>
           </div>

@@ -50,7 +50,7 @@ export default async function AdminInboxPage() {
             {leads.map((lead: any) => (
               <Link 
                 key={lead.id} 
-                href={`/admin/crm/${lead.id}`}
+                href={`/crm/${lead.id}`}
                 className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 p-5 rounded-2xl border border-zinc-200 hover:border-blue-300 hover:bg-blue-50/50 transition-colors group"
               >
                 <div>

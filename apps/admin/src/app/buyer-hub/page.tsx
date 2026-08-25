@@ -62,7 +62,7 @@ export default async function BuyerHubPage() {
                     }
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <Link href={`/admin/properties/${lead.property_id}?tab=buyers&lead=${lead.id}`} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-zinc-700 bg-white border border-zinc-200 rounded hover:bg-zinc-50">
+                    <Link href={`/properties/${lead.property_id}?tab=buyers&lead=${lead.id}`} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-zinc-700 bg-white border border-zinc-200 rounded hover:bg-zinc-50">
                       <Eye className="h-3 w-3" /> Manage Lead
                     </Link>
                   </td>

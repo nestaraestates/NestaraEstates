@@ -41,7 +41,7 @@ export default async function SellerChatPage({ params }: { params: Promise<{ id:
       {/* Header */}
       <div className="bg-white border-b border-zinc-200 px-4 py-3 flex items-center justify-between sticky top-0 z-10">
         <div className="flex items-center gap-3">
-          <Link href={`/admin/properties/${id}`} className="h-8 w-8 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-500 border border-zinc-200 hover:bg-zinc-100">
+          <Link href={`/properties/${id}`} className="h-8 w-8 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-500 border border-zinc-200 hover:bg-zinc-100">
             <ChevronLeft className="h-5 w-5" />
           </Link>
           <div>

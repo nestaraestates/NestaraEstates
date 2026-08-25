@@ -51,7 +51,7 @@ export async function sendDirectMessage(propertyId: string, receiverId: string |
       user_id: finalReceiverId,
       title: isAdmin ? 'New Message from Admin' : 'New Message from Seller',
       content: isAdmin ? 'An admin sent you a message regarding your property.' : 'A seller sent you a direct message regarding their property.',
-      link: isAdmin ? `/inbox?view=seller&openChat=${propertyId}` : `/admin/properties/${propertyId}/seller-chat`,
+      link: isAdmin ? `/inbox?view=seller&openChat=${propertyId}` : `/properties/${propertyId}/seller-chat`,
       is_read: false
     })
   }
@@ -117,7 +117,7 @@ export async function startChatEnquiry(propertyId: string, messageText: string, 
       user_id: adminId,
       title: 'New Message from Buyer',
       content: 'A buyer sent you a message about a property.',
-      link: `/admin/properties/${propertyId}`,
+      link: `/properties/${propertyId}`,
       is_read: false
     })
   }

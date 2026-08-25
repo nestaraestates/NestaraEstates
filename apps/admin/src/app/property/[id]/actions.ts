@@ -44,7 +44,7 @@ export async function submitEnquiry(formData: FormData) {
       user_id: adminProfiles[0].id,
       title: 'New Property Enquiry',
       content: `${name} has sent a new enquiry for a property!`,
-      link: `/admin/properties/${property_id}`,
+      link: `/properties/${property_id}`,
       is_read: false
     })
   }

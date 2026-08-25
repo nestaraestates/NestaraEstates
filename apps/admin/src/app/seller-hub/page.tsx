@@ -45,14 +45,14 @@ export default async function SellerHubPage(props: {
       <div className="bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-sm p-1">
         <div className="flex gap-1 p-2 bg-zinc-50 border-b border-zinc-100">
           {purposes.map(p => (
-            <Link key={p} href={`/admin/seller-hub?purpose=${p}&filter=${filter}`} className={`px-4 py-2 text-sm font-bold rounded-lg transition-all ${purpose === p ? 'bg-white shadow-sm text-blue-600 ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-900'}`}>
+            <Link key={p} href={`/seller-hub?purpose=${p}&filter=${filter}`} className={`px-4 py-2 text-sm font-bold rounded-lg transition-all ${purpose === p ? 'bg-white shadow-sm text-blue-600 ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-900'}`}>
               {p}
             </Link>
           ))}
         </div>
         <div className="flex gap-2 p-3 overflow-x-auto scrollbar-hide border-b border-zinc-100">
           {filters.map(f => (
-            <Link key={f} href={`/admin/seller-hub?purpose=${purpose}&filter=${f}`} className={`px-3 py-1.5 text-xs font-bold rounded-full border transition-all whitespace-nowrap ${filter === f ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-300'}`}>
+            <Link key={f} href={`/seller-hub?purpose=${purpose}&filter=${f}`} className={`px-3 py-1.5 text-xs font-bold rounded-full border transition-all whitespace-nowrap ${filter === f ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-zinc-600 border-zinc-200 hover:border-zinc-300'}`}>
               {f}
             </Link>
           ))}
@@ -91,7 +91,7 @@ export default async function SellerHubPage(props: {
                     }
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <Link href={`/admin/properties/${prop.id}`} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-zinc-700 bg-white border border-zinc-200 rounded hover:bg-zinc-50">
+                    <Link href={`/properties/${prop.id}`} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-zinc-700 bg-white border border-zinc-200 rounded hover:bg-zinc-50">
                       <Eye className="h-3 w-3" /> Manage
                     </Link>
                   </td>

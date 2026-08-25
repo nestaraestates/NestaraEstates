@@ -32,7 +32,7 @@ export async function approvePropertyWithChecks(propertyId: string, checks: any)
     })
   }
 
-  revalidatePath(`/admin/properties/${propertyId}`)
+  revalidatePath(`/properties/${propertyId}`)
   revalidatePath('/', 'layout')
   revalidatePath('/buy')
   revalidatePath('/rent')
@@ -55,7 +55,7 @@ export async function approveProperty(propertyId: string) {
     return { error: 'Failed to approve property' }
   }
 
-  revalidatePath(`/admin/properties/${propertyId}`)
+  revalidatePath(`/properties/${propertyId}`)
   revalidatePath('/', 'layout')
   revalidatePath('/buy')
   revalidatePath('/rent')
@@ -78,7 +78,7 @@ export async function rejectProperty(propertyId: string) {
     return { error: 'Failed to reject property' }
   }
 
-  revalidatePath(`/admin/properties/${propertyId}`)
+  revalidatePath(`/properties/${propertyId}`)
   revalidatePath('/', 'layout')
   revalidatePath('/buy')
   revalidatePath('/rent')
@@ -144,7 +144,7 @@ export async function updatePropertyDealStatus(propertyId: string, status: strin
   }
 
   revalidatePath('/seller-hub')
-  revalidatePath(`/admin/properties/${propertyId}`)
+  revalidatePath(`/properties/${propertyId}`)
 }
 
 export async function holdProperty(propertyId: string) {
@@ -166,5 +166,5 @@ export async function holdProperty(propertyId: string) {
   }
 
   revalidatePath('/seller-hub')
-  revalidatePath(`/admin/properties/${propertyId}`)
+  revalidatePath(`/properties/${propertyId}`)
 }
