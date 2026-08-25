@@ -7,21 +7,26 @@ import { getURL } from '@/utils/url'
 import { createClient } from '@/utils/supabase/server'
 
 export async function login(prevState: any, formData: FormData) {
-  const supabase = await createClient()
+  try {
+    const supabase = await createClient()
 
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    const data = {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+    }
+
+    const { data: authData, error } = await supabase.auth.signInWithPassword(data)
+
+    if (error || !authData.user) {
+      return { error: error?.message || 'Could not authenticate user' }
+    }
+
+    const role = authData.user.user_metadata?.role
+    return { success: true, redirectTo: role === 'DEALER' ? '/dashboard/seller' : '/dashboard/buyer' }
+  } catch (err: any) {
+    console.error('Login error:', err)
+    return { error: err.message || 'An unexpected error occurred during login' }
   }
-
-  const { data: authData, error } = await supabase.auth.signInWithPassword(data)
-
-  if (error || !authData.user) {
-    return { error: error?.message || 'Could not authenticate user' }
-  }
-
-  const role = authData.user.user_metadata?.role
-  return { success: true, redirectTo: role === 'DEALER' ? '/dashboard/seller' : '/dashboard/buyer' }
 }
 
 export async function signup(formData: FormData) {
