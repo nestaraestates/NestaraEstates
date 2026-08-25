@@ -45,7 +45,7 @@ export default async function LoginPage({
               </div>
             )}
 
-            <Button type="submit" type="submit" className="w-full bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200">
+            <Button type="submit" className="w-full bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200">
               Log in
             </Button>
           </form>
