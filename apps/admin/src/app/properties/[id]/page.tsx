@@ -9,6 +9,7 @@ import { ImageViewer } from '@/components/admin/ImageViewer'
 import { VerificationModal } from '@/components/admin/VerificationModal'
 import { DealStatusSelector } from '@/components/admin/DealStatusSelector'
 import { HardDeleteButton } from '@/components/admin/HardDeleteButton'
+import { VerificationActionButtons, RejectButtonOnly } from '@/components/admin/VerificationActionButtons'
 import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 
 export const dynamic = 'force-dynamic'
@@ -179,21 +180,12 @@ export default async function AdminPropertyReviewPage({ params, searchParams }: 
                         <div className="bg-emerald-50 text-emerald-700 px-3 py-2 rounded-lg text-sm font-bold flex items-center gap-2 border border-emerald-100">
                           <CheckCircle2 className="h-4 w-4" /> Verified Active
                         </div>
-                        <div className="flex gap-2">
-                          <form action={async () => { 'use server'; await holdProperty(property.id); }} className="flex-1">
-                            <button className="w-full bg-amber-50 text-amber-600 border border-amber-100 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-amber-100 transition-colors">Put on Hold</button>
-                          </form>
-                          <form action={async () => { 'use server'; await rejectProperty(property.id); }} className="flex-1">
-                            <button className="w-full bg-red-50 text-red-600 border border-red-100 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-red-100 transition-colors">Reject</button>
-                          </form>
-                        </div>
+                        <VerificationActionButtons propertyId={property.id} />
                       </div>
                     ) : (
                       <div className="flex gap-2">
                         <VerificationModal propertyId={property.id} />
-                        <form action={async () => { 'use server'; await rejectProperty(property.id); }} className="flex-1">
-                          <button className="w-full bg-red-50 text-red-600 border border-red-100 px-3 py-2 rounded-lg text-sm font-bold hover:bg-red-100 transition-colors">Reject</button>
-                        </form>
+                        <RejectButtonOnly propertyId={property.id} />
                       </div>
                     )}
                   </div>
