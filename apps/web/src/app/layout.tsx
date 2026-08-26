@@ -27,6 +27,9 @@ export const viewport: Viewport = {
 
 import { NavbarWrapper } from "@/components/layout/navbar-wrapper";
 import { CompareFloatingButton } from "@/components/properties/CompareFloatingButton";
+import { UrlToasts } from "@/components/layout/UrlToasts";
+import { Suspense } from "react";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -40,6 +43,9 @@ export default function RootLayout({
         <NavbarWrapper>
           <Navbar />
         </NavbarWrapper>
+        <Suspense fallback={null}>
+          <UrlToasts />
+        </Suspense>
         <main className="flex-1 flex flex-col pb-16 md:pb-0">
           {children}
         </main>

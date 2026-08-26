@@ -42,8 +42,8 @@ export async function completeOnboarding(formData: FormData) {
   await supabase.auth.updateUser(updateData)
 
   if (role === 'DEALER') {
-    redirect('/dashboard/seller')
+    redirect('/dashboard/seller?success=Profile+completed+successfully')
   } else {
-    redirect('/dashboard/buyer')
+    redirect('/dashboard/buyer?success=Profile+completed+successfully')
   }
 }

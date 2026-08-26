@@ -30,6 +30,12 @@ export async function GET(request: Request) {
       const forwardedHost = request.headers.get('x-forwarded-host')
       const isLocalEnv = process.env.NODE_ENV === 'development'
       
+      // Append success message if we are not going to onboarding
+      if (redirectPath === '/' || redirectPath.startsWith('/dashboard')) {
+        const separator = redirectPath.includes('?') ? '&' : '?'
+        redirectPath = `${redirectPath}${separator}success=Login+successful`
+      }
+
       if (isLocalEnv) {
         return NextResponse.redirect(`${origin}${redirectPath}`)
       } else if (forwardedHost) {

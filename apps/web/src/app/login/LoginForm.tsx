@@ -17,7 +17,8 @@ export function LoginForm() {
   
   useEffect(() => {
     if (state?.success && state?.redirectTo) {
-      window.location.href = state.redirectTo
+      const separator = state.redirectTo.includes('?') ? '&' : '?'
+      window.location.href = `${state.redirectTo}${separator}success=Login+successful`
     }
   }, [state])
 
