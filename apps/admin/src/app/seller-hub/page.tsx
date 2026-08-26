@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { Store, Eye } from 'lucide-react'
+import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 
 export const dynamic = 'force-dynamic'
 
@@ -79,7 +80,7 @@ export default async function SellerHubPage(props: {
                     <div className="text-xs text-zinc-500 truncate max-w-[200px] sm:max-w-xs">{prop.location?.includes("|") ? prop.location.split("|")[1] : prop.location}</div>
                   </td>
                   <td className="px-4 py-3 font-medium">{prop.profiles?.full_name || 'Unknown'}</td>
-                  <td className="px-4 py-3 font-medium">₹{prop.price?.toLocaleString('en-IN')}</td>
+                  <td className="px-4 py-3 font-medium">{formatIndianCurrencyShort(prop.price)}</td>
                   <td className="px-4 py-3">
                     {prop.is_deleted ? <span className="text-xs font-bold text-red-600 bg-red-50 px-2 py-1 rounded border border-red-100">Deleted</span> :
                      prop.status === 'CLOSED' ? <span className="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-1 rounded border border-purple-100">Closed</span> :

@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { FavoriteButton } from './FavoriteButton'
 import { CompareToggleButton } from './CompareToggleButton'
+import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 
 interface PropertyCardProps {
   id: string
@@ -27,11 +28,7 @@ export function PropertyCard({ id, title, price, location, city, bhk, bathrooms,
     ? displayLocation 
     : `${displayLocation}, ${cleanCity}`
 
-  const formattedPrice = new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    maximumSignificantDigits: 3,
-  }).format(price)
+  const formattedPrice = formatIndianCurrencyShort(price)
 
   return (
     <Card className="group overflow-hidden rounded-2xl border-zinc-200 transition-all hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-950 relative">

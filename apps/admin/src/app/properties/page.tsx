@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { isSuperAdmin } from '@/lib/admin'
 import { Building, MapPin, Search, Edit, Trash2, CheckCircle2, XCircle } from 'lucide-react'
 import Link from 'next/link'
+import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 
 export const dynamic = 'force-dynamic'
 
@@ -80,7 +81,7 @@ export default async function AdminPropertiesPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4 font-bold text-zinc-900">
-                    ₹{prop.price.toLocaleString('en-IN')}
+                    {formatIndianCurrencyShort(prop.price)}
                   </td>
                   <td className="px-6 py-4">
                     <div className="font-semibold text-zinc-700">{(prop.profiles as any)?.full_name || 'Unknown'}</div>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 
 export function RentVsBuyCalculator({ defaultPrice = 5000000 }: { defaultPrice?: number }) {
   const [propertyPrice, setPropertyPrice] = useState<number | ''>(defaultPrice)
@@ -22,7 +23,7 @@ export function RentVsBuyCalculator({ defaultPrice = 5000000 }: { defaultPrice?:
   const isBuyingBetter = estimatedAppreciation - buyingCost > -totalRentPaid
 
   const formatCurrency = (val: number) => 
-    new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val)
+    formatIndianCurrencyShort(val)
 
   return (
     <Card className="border-zinc-200 dark:border-zinc-800 shadow-sm mt-6">

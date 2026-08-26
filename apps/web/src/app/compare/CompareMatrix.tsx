@@ -7,6 +7,7 @@ import { PropertyCard } from '@/components/properties/PropertyCard'
 import { Card, CardContent } from '@/components/ui/card'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 
 export function CompareMatrix() {
   const searchParams = useSearchParams()
@@ -53,8 +54,7 @@ export function CompareMatrix() {
     )
   }
 
-  const formatCurrency = (val: number) => 
-    new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumSignificantDigits: 3 }).format(val)
+  const formatCurrency = (val: number) => formatIndianCurrencyShort(val)
 
   return (
     <div className="overflow-x-auto pb-8">

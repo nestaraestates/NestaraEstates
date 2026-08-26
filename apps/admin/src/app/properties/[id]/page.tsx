@@ -9,6 +9,7 @@ import { ImageViewer } from '@/components/admin/ImageViewer'
 import { VerificationModal } from '@/components/admin/VerificationModal'
 import { DealStatusSelector } from '@/components/admin/DealStatusSelector'
 import { HardDeleteButton } from '@/components/admin/HardDeleteButton'
+import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 
 export const dynamic = 'force-dynamic'
 
@@ -126,7 +127,7 @@ export default async function AdminPropertyReviewPage({ params, searchParams }: 
                     </div>
                     <div className="bg-zinc-50 p-3 rounded-lg border border-zinc-100 flex flex-col justify-center">
                       <div className="text-[10px] uppercase font-bold text-zinc-500 mb-1">Price</div>
-                      <div className="font-bold text-sm text-zinc-900">₹{property.price?.toLocaleString('en-IN') || 'N/A'}</div>
+                      <div className="font-bold text-sm text-zinc-900">{formatIndianCurrencyShort(property.price) || 'N/A'}</div>
                     </div>
                   </div>
 

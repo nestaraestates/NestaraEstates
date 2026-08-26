@@ -229,7 +229,7 @@ export default function ListPropertyPage() {
                 />
                 {priceInput && !isNaN(Number(priceInput)) && (
                   <p className="text-sm font-bold text-amber-600 dark:text-amber-500 mt-1">
-                    Formatted: ₹ {formatIndianCurrencyShort(priceInput)}
+                    Formatted: {formatIndianCurrencyShort(priceInput)}
                   </p>
                 )}
               </div>

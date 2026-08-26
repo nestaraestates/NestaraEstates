@@ -13,6 +13,7 @@ import { FavoriteButton } from '@/components/properties/FavoriteButton'
 import { ShareButton } from '@/components/properties/ShareButton'
 import Link from 'next/link'
 import { BuyerInteractionTabs } from '@/components/buyer/BuyerInteractionTabs'
+import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 
 export default async function PropertyDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -56,11 +57,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
   const isOwner = user?.id === property.owner_id
 
-  const formattedPrice = new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    maximumSignificantDigits: 3,
-  }).format(property.price)
+  const formattedPrice = formatIndianCurrencyShort(property.price)
 
   const publicImages = property.property_media?.filter((m: any) => m.media_type === 'IMAGE') || []
   const defaultImage = publicImages[0]?.url || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2075'
