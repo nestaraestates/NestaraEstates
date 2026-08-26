@@ -88,10 +88,10 @@ export function PropertyFilters() {
         </div>
 
         <div className="w-full md:w-auto flex gap-2">
-          <Button type="button" variant="outline" onClick={handleClear} className="w-full md:w-auto">
+          <Button type="button" variant="outline" onClick={handleClear} className="flex-1 md:flex-none">
             Clear
           </Button>
-          <Button type="submit" className="w-full md:w-auto bg-amber-500 hover:bg-amber-600 text-white">
+          <Button type="submit" className="flex-1 md:flex-none bg-amber-500 hover:bg-amber-600 text-white">
             <SlidersHorizontal className="mr-2 h-4 w-4" />
             Filter
           </Button>

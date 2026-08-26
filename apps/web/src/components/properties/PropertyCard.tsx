@@ -39,7 +39,7 @@ export function PropertyCard({ id, title, price, location, city, bhk, bathrooms,
         <img
           src={imageUrl}
           alt={title}
-          className="h-full w-full object-contain bg-zinc-100 transition-transform duration-500 group-hover:scale-105"
+          className="h-full w-full object-cover bg-zinc-100 transition-transform duration-500 group-hover:scale-105"
         />
         
         <FavoriteButton propertyId={id} initiallyFavorited={isFavorited} />
