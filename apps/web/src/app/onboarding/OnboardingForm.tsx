@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { completeOnboarding } from './actions'
 
 export function OnboardingForm({ initialName, needsPassword }: { initialName: string, needsPassword?: boolean }) {
@@ -46,9 +45,9 @@ export function OnboardingForm({ initialName, needsPassword }: { initialName: st
 
         <div className="space-y-3">
           <Label>I am a...</Label>
-          <RadioGroup defaultValue="USER" name="role" className="flex flex-col space-y-2">
+          <div className="flex flex-col space-y-2">
             <div className="flex items-center space-x-3 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
-              <RadioGroupItem value="USER" id="role-user" />
+              <input type="radio" value="USER" name="role" id="role-user" defaultChecked className="h-4 w-4 text-amber-600 focus:ring-amber-600 border-zinc-300" />
               <Label htmlFor="role-user" className="flex-1 cursor-pointer font-medium">
                 Buyer / Renter
                 <span className="block font-normal text-zinc-500 text-sm mt-1">
@@ -57,7 +56,7 @@ export function OnboardingForm({ initialName, needsPassword }: { initialName: st
               </Label>
             </div>
             <div className="flex items-center space-x-3 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
-              <RadioGroupItem value="DEALER" id="role-dealer" />
+              <input type="radio" value="DEALER" name="role" id="role-dealer" className="h-4 w-4 text-amber-600 focus:ring-amber-600 border-zinc-300" />
               <Label htmlFor="role-dealer" className="flex-1 cursor-pointer font-medium">
                 Property Owner / Dealer
                 <span className="block font-normal text-zinc-500 text-sm mt-1">
@@ -65,7 +64,7 @@ export function OnboardingForm({ initialName, needsPassword }: { initialName: st
                 </span>
               </Label>
             </div>
-          </RadioGroup>
+          </div>
         </div>
       </div>
 
