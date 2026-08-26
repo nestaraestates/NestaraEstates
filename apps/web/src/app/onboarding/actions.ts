@@ -14,6 +14,7 @@ export async function completeOnboarding(formData: FormData) {
   const fullName = formData.get('full_name') as string
   const phoneNumber = formData.get('phone_number') as string
   const role = formData.get('role') as string
+  const password = formData.get('password') as string
 
   // Update profile
   const { error } = await supabase
@@ -29,10 +30,16 @@ export async function completeOnboarding(formData: FormData) {
     return { error: error.message }
   }
 
-  // Also update user metadata
-  await supabase.auth.updateUser({
+  // Update user metadata and conditionally set password
+  const updateData: any = {
     data: { role: role, full_name: fullName }
-  })
+  }
+  
+  if (password) {
+    updateData.password = password
+  }
+
+  await supabase.auth.updateUser(updateData)
 
   if (role === 'DEALER') {
     redirect('/dashboard/seller')

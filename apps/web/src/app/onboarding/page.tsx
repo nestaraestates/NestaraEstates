@@ -25,6 +25,10 @@ export default async function OnboardingPage() {
     }
   }
 
+  // Determine if the user signed in with an OAuth provider and needs a password
+  const providers = user.app_metadata?.providers || []
+  const needsPassword = providers.includes('google') && !providers.includes('email')
+
   return (
     <div className="flex min-h-[80vh] items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl border border-zinc-100 dark:bg-zinc-950 dark:border-zinc-800">
@@ -35,7 +39,7 @@ export default async function OnboardingPage() {
           </p>
         </div>
         
-        <OnboardingForm initialName={profile?.full_name || ''} />
+        <OnboardingForm initialName={profile?.full_name || ''} needsPassword={needsPassword} />
       </div>
     </div>
   )

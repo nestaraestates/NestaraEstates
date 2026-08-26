@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { completeOnboarding } from './actions'
 
-export function OnboardingForm({ initialName }: { initialName: string }) {
+export function OnboardingForm({ initialName, needsPassword }: { initialName: string, needsPassword?: boolean }) {
   const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (formData: FormData) => {
@@ -35,6 +35,14 @@ export function OnboardingForm({ initialName }: { initialName: string }) {
           <Label htmlFor="phone_number">Phone Number</Label>
           <Input id="phone_number" name="phone_number" type="tel" required className="bg-white dark:bg-zinc-900" placeholder="+1234567890" />
         </div>
+
+        {needsPassword && (
+          <div className="space-y-2">
+            <Label htmlFor="password">Create Password</Label>
+            <Input id="password" name="password" type="password" required className="bg-white dark:bg-zinc-900" />
+            <p className="text-xs text-zinc-500">Since you signed up with Google, please create a password for email login.</p>
+          </div>
+        )}
 
         <div className="space-y-3">
           <Label>I am a...</Label>
