@@ -6,10 +6,17 @@ export const dynamic = 'force-dynamic'
 export default async function AdminDashboard() {
   const supabase = await createClient()
 
-  const { count: usersCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true })
-  const { count: propsCount } = await supabase.from('properties').select('*', { count: 'exact', head: true })
-  const { count: verifiedCount } = await supabase.from('properties').select('*', { count: 'exact', head: true }).eq('is_verified', true)
-  const { count: unverifiedCount } = await supabase.from('properties').select('*', { count: 'exact', head: true }).eq('is_verified', false)
+  const [
+    { count: usersCount },
+    { count: propsCount },
+    { count: verifiedCount },
+    { count: unverifiedCount }
+  ] = await Promise.all([
+    supabase.from('profiles').select('*', { count: 'exact', head: true }),
+    supabase.from('properties').select('*', { count: 'exact', head: true }),
+    supabase.from('properties').select('*', { count: 'exact', head: true }).eq('is_verified', true),
+    supabase.from('properties').select('*', { count: 'exact', head: true }).eq('is_verified', false)
+  ])
 
   return (
     <div className="space-y-6 md:space-y-8 animate-in fade-in duration-500">
