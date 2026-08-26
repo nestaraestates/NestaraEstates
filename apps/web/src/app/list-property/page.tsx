@@ -39,12 +39,26 @@ export default function ListPropertyPage() {
   }
 
   const handleSubmit = async (formData: FormData) => {
+    // If not on the last step, just go to the next step when Enter is pressed
+    if (currentStep < STEPS.length - 1) {
+      handleNext()
+      return
+    }
+
+    const imageFiles = formData.getAll('images') as File[]
+    const hasImages = imageFiles.some(file => file && file.size > 0)
+
+    if (!hasImages) {
+      setErrorMsg('Please upload at least one property image.')
+      setCurrentStep(2) // Jump back to media step
+      return
+    }
+
     setErrorMsg('')
     setIsCompressing(true)
     setIsSubmitting(true)
     
     try {
-      const imageFiles = formData.getAll('images') as File[]
       formData.delete('images') // We will append compressed versions
       
       for (const file of imageFiles) {
@@ -55,7 +69,7 @@ export default function ListPropertyPage() {
             useWebWorker: true,
           }
           const imageCompression = (await import('browser-image-compression')).default;
-        const compressedFile = await imageCompression(file, options)
+          const compressedFile = await imageCompression(file, options)
           formData.append('images', compressedFile, compressedFile.name)
         }
       }
@@ -260,7 +274,7 @@ export default function ListPropertyPage() {
             </Button>
             
             {currentStep < STEPS.length - 1 ? (
-              <Button type="button" onClick={handleNext} className="bg-amber-500 hover:bg-amber-600 text-white">
+              <Button type="submit" className="bg-amber-500 hover:bg-amber-600 text-white">
                 Next Step
               </Button>
             ) : (
