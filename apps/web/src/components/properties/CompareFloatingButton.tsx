@@ -28,7 +28,7 @@ export function CompareFloatingButton() {
   if (compareIds.length === 0) return null
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-white dark:bg-zinc-950 p-3 rounded-full shadow-2xl border border-amber-200 dark:border-amber-900 animate-in slide-in-from-bottom-5">
+    <div className="fixed bottom-24 md:bottom-6 right-6 z-40 flex items-center gap-3 bg-white dark:bg-zinc-950 p-3 rounded-full shadow-2xl border border-amber-200 dark:border-amber-900 animate-in slide-in-from-bottom-5">
       <div className="flex items-center gap-2 pl-2">
         <Scale className="h-5 w-5 text-amber-500" />
         <span className="text-sm font-bold">{compareIds.length}</span>

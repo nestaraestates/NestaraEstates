@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { NavLinks } from './nav-links'
 import { NotificationBell } from './NotificationBell'
 import { MobileMenu } from './mobile-menu'
+import { MobileBottomNav } from './MobileBottomNav'
 import { useEffect, useState } from 'react'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 
@@ -65,7 +66,7 @@ export function Navbar() {
           </Link>
           
           {user ? (
-            <div className="flex items-center gap-1 md:gap-2">
+            <div className="hidden md:flex items-center gap-2">
               <NotificationBell initialCount={unreadCount} userId={user.id} />
               <Link href="/inbox">
                 <Button variant="ghost" size="icon" className="text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 dark:text-blue-400 dark:bg-blue-900/30">
@@ -85,7 +86,7 @@ export function Navbar() {
               </Button>
             </div>
           ) : (
-            <Link href="/login">
+            <Link href="/login" className="hidden md:block">
               <Button variant="ghost" size="icon" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">
                 <User className="h-5 w-5" />
                 <span className="sr-only">Log in</span>
@@ -96,6 +97,7 @@ export function Navbar() {
           <MobileMenu />
         </div>
       </div>
+      <MobileBottomNav user={user} unreadCount={unreadCount} />
     </header>
   )
 }

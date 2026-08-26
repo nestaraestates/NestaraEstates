@@ -40,7 +40,7 @@ export default function RootLayout({
         <NavbarWrapper>
           <Navbar />
         </NavbarWrapper>
-        <main className="flex-1 flex flex-col">
+        <main className="flex-1 flex flex-col pb-16 md:pb-0">
           {children}
         </main>
         <CompareFloatingButton />
