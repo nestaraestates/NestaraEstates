@@ -60,12 +60,20 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-2 md:gap-4">
-            <Link href="/tools" className="md:hidden text-sm font-medium text-zinc-600 dark:text-zinc-300">
-              Tools
-            </Link>
-            <Link href="/list-property" className="sm:hidden text-sm font-medium text-zinc-600 dark:text-zinc-300 whitespace-nowrap">
-              List Property
-            </Link>
+            <div className="flex md:hidden items-center gap-2">
+              <Link href="/buy" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300">
+                Buy
+              </Link>
+              <Link href="/rent" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300">
+                Rent
+              </Link>
+              <Link href="/commercial" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300">
+                Commercial
+              </Link>
+              <Link href="/tools" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300">
+                Tools
+              </Link>
+            </div>
             
             <Link href="/list-property" className="hidden sm:block">
               <Button variant="outline" className="border-amber-500 text-amber-600 hover:bg-amber-50 dark:border-amber-600 dark:text-amber-500 dark:hover:bg-amber-950/30">
