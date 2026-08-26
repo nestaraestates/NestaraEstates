@@ -14,27 +14,33 @@ export default async function SellerChatPage({ params }: { params: Promise<{ id:
 
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  const [profileRes, propertyRes, messagesRes] = await Promise.all([
+    supabase.from('profiles').select('role').eq('id', user.id).single(),
+    supabase
+      .from('properties')
+      .select('*, profiles (full_name)')
+      .eq('id', id)
+      .single(),
+    supabase
+      .from('direct_messages')
+      .select('*')
+      .eq('property_id', id)
+      .order('created_at', { ascending: true })
+  ])
+
+  const profile = profileRes.data
   if (!isSuperAdmin(user.email) && profile?.role !== 'admin') {
     redirect('/')
   }
 
-  const { data: property, error } = await supabase
-    .from('properties')
-    .select('*, profiles (full_name)')
-    .eq('id', id)
-    .single()
+  const { data: property, error } = propertyRes
 
   if (error || !property) {
     return <div className="p-8">Property not found.</div>
   }
 
   // Fetch direct messages with seller
-  const { data: messages } = await supabase
-    .from('direct_messages')
-    .select('*')
-    .eq('property_id', id)
-    .order('created_at', { ascending: true })
+  const { data: messages } = messagesRes
 
   return (
     <div className="h-full flex flex-col -mx-4 -mt-4 md:mx-0 md:mt-0 bg-white">

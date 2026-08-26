@@ -12,20 +12,23 @@ export default async function AdminInboxPage() {
 
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  const [profileRes, leadsRes] = await Promise.all([
+    supabase.from('profiles').select('role').eq('id', user.id).single(),
+    supabase
+      .from('enquiries')
+      .select(`
+        id, name, email, message, status, created_at,
+        properties ( title )
+      `)
+      .order('created_at', { ascending: false })
+  ])
+
+  const profile = profileRes.data
   if (!isSuperAdmin(user.email) && profile?.role !== 'admin') {
     redirect('/')
   }
 
-  // Fetch all enquiries (leads) with their associated properties
-  // Sorted by latest created_at for now to mimic an inbox
-  const { data: leads } = await supabase
-    .from('enquiries')
-    .select(`
-      id, name, email, message, status, created_at,
-      properties ( title )
-    `)
-    .order('created_at', { ascending: false })
+  const { data: leads } = leadsRes
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">

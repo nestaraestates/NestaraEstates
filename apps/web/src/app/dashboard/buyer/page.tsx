@@ -19,29 +19,32 @@ export default async function BuyerDashboard({ searchParams }: { searchParams: P
     return <div>Please log in.</div>
   }
 
-  // Fetch enquiries made by this user
-  const { data: enquiries } = await supabase
-    .from('enquiries')
-    .select(`
-      id, message, status, created_at,
-      properties ( id, title, location, city, price )
-    `)
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-
-  // Fetch saved properties
-  const { data: savedProps } = await supabase
-    .from('saved_properties')
-    .select(`
-      id,
-      property_id,
-      properties (
-        id, title, price, location, city, bhk, bathrooms, area_sqft, is_verified, purpose, status,
-        property_media ( url, media_type )
-      )
-    `)
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
+  // Fetch enquiries and saved properties in parallel
+  const [
+    { data: enquiries },
+    { data: savedProps }
+  ] = await Promise.all([
+    supabase
+      .from('enquiries')
+      .select(`
+        id, message, status, created_at,
+        properties ( id, title, location, city, price )
+      `)
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false }),
+    supabase
+      .from('saved_properties')
+      .select(`
+        id,
+        property_id,
+        properties (
+          id, title, price, location, city, bhk, bathrooms, area_sqft, is_verified, purpose, status,
+          property_media ( url, media_type )
+        )
+      `)
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+  ])
 
   return (
     <div className="space-y-6">

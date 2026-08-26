@@ -19,22 +19,25 @@ export default async function SellerDashboard({ searchParams }: { searchParams: 
     return <div>Please log in.</div>
   }
 
-  // Fetch properties owned by this user
-  const { data: properties } = await supabase
-    .from('properties')
-    .select(`
-      id, title, price, location, city, bhk, bathrooms, area_sqft, is_verified, purpose, status,
-      property_media ( url, media_type )
-    `)
-    .eq('owner_id', user.id)
-    .order('created_at', { ascending: false })
-
-  // Fetch enquiries for properties owned by this user
-  const { data: enquiries } = await supabase
-    .from('enquiries')
-    .select('*, properties!inner(title)')
-    .eq('properties.owner_id', user.id)
-    .order('created_at', { ascending: false })
+  // Fetch properties and enquiries in parallel
+  const [
+    { data: properties },
+    { data: enquiries }
+  ] = await Promise.all([
+    supabase
+      .from('properties')
+      .select(`
+        id, title, price, location, city, bhk, bathrooms, area_sqft, is_verified, purpose, status,
+        property_media ( url, media_type )
+      `)
+      .eq('owner_id', user.id)
+      .order('created_at', { ascending: false }),
+    supabase
+      .from('enquiries')
+      .select('*, properties!inner(title)')
+      .eq('properties.owner_id', user.id)
+      .order('created_at', { ascending: false })
+  ])
 
   return (
     <div className="space-y-6">

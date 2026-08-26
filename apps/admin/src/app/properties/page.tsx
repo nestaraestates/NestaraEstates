@@ -12,19 +12,23 @@ export default async function AdminPropertiesPage() {
 
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  const [profileRes, propertiesRes] = await Promise.all([
+    supabase.from('profiles').select('role').eq('id', user.id).single(),
+    supabase
+      .from('properties')
+      .select(`
+        id, title, price, location, city, status, is_verified, created_at, is_deleted,
+        profiles ( full_name, email )
+      `)
+      .order('created_at', { ascending: false })
+  ])
+
+  const profile = profileRes.data
   if (!isSuperAdmin(user.email) && profile?.role !== 'admin') {
     redirect('/')
   }
 
-  // Fetch all properties
-  const { data: properties, error } = await supabase
-    .from('properties')
-    .select(`
-      id, title, price, location, city, status, is_verified, created_at, is_deleted,
-      profiles ( full_name, email )
-    `)
-    .order('created_at', { ascending: false })
+  const { data: properties, error } = propertiesRes
 
   return (
     <div className="h-full flex flex-col space-y-6">

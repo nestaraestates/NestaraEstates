@@ -18,17 +18,21 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
   const resolvedParams = await params;
   const { id } = resolvedParams;
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const [userRes, propertyRes] = await Promise.all([
+    supabase.auth.getUser(),
+    supabase
+      .from('properties')
+      .select(`
+        *,
+        profiles ( full_name, phone_number, email ),
+        property_media ( url, media_type, is_featured )
+      `)
+      .eq('id', id)
+      .single()
+  ])
 
-  const { data: property, error } = await supabase
-    .from('properties')
-    .select(`
-      *,
-      profiles ( full_name, phone_number, email ),
-      property_media ( url, media_type, is_featured )
-    `)
-    .eq('id', id)
-    .single()
+  const { data: { user } } = userRes
+  const { data: property, error } = propertyRes
 
   if (error || !property) {
     notFound()
@@ -39,23 +43,15 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
   let existingEnquiryId = null
 
   if (user) {
-    const { data: savedProp } = await supabase
-      .from('saved_properties')
-      .select('id')
-      .eq('user_id', user.id)
-      .eq('property_id', id)
-      .single()
-    if (savedProp) {
-      isFavorited = true
-    }
+    const [savedPropRes, profileRes, enqRes] = await Promise.all([
+      supabase.from('saved_properties').select('id').eq('user_id', user.id).eq('property_id', id).single(),
+      supabase.from('profiles').select('full_name, email, phone_number, address').eq('id', user.id).single(),
+      supabase.from('enquiries').select('id').eq('property_id', id).eq('user_id', user.id).single()
+    ])
 
-    const { data: profile } = await supabase.from('profiles').select('full_name, email, phone_number, address').eq('id', user.id).single()
-    userProfile = profile
-
-    const { data: enq } = await supabase.from('enquiries').select('id').eq('property_id', id).eq('user_id', user.id).single()
-    if (enq) {
-      existingEnquiryId = enq.id
-    }
+    if (savedPropRes.data) isFavorited = true
+    userProfile = profileRes.data
+    if (enqRes.data) existingEnquiryId = enqRes.data.id
   }
 
   const isOwner = user?.id === property.owner_id
