@@ -34,10 +34,7 @@ export async function Navbar() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">
-            <div className="rounded-md bg-zinc-900 p-1.5 text-amber-500 dark:bg-zinc-100 dark:text-amber-600">
-              <Building className="h-5 w-5" />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white">Nestara</span>
+            <img src="/logo.png" alt="Nestara Estates" className="h-10 w-auto object-contain" />
           </Link>
           <NavLinks />
         </div>

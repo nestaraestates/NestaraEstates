@@ -87,10 +87,7 @@ export default async function RootLayout({
           {/* Desktop Sidebar */}
           <aside className="hidden md:flex w-64 bg-white border-r border-zinc-200 flex-col flex-shrink-0 z-20 shadow-sm">
             <div className="flex h-16 items-center gap-3 border-b border-zinc-100 px-6 bg-white">
-              <div className="h-8 w-8 bg-blue-600 rounded-lg shadow-sm flex items-center justify-center">
-                <LayoutDashboard className="h-4 w-4 text-white" />
-              </div>
-              <span className="text-lg font-black text-zinc-900 tracking-tight">Nestara<span className="text-blue-600">OS</span></span>
+              <img src="/logo.png" alt="NestaraOS" className="h-8 w-auto object-contain" />
             </div>
             
             <AdminDesktopNav />
@@ -120,7 +117,7 @@ export default async function RootLayout({
           <main className="flex-1 flex flex-col h-screen w-full relative z-0 pb-16 md:pb-0 overflow-hidden bg-zinc-50/50">
             {/* Mobile Header */}
             <header className="md:hidden flex h-14 items-center justify-between border-b border-zinc-200 bg-white px-4 flex-shrink-0 z-10 sticky top-0 shadow-sm">
-              <span className="text-base font-black text-zinc-900 tracking-tight">Nestara<span className="text-blue-600">OS</span></span>
+              <img src="/logo.png" alt="NestaraOS" className="h-6 w-auto object-contain" />
               <div className="flex items-center gap-3">
                 <NotificationBell initialCount={unreadCount} userId={user.id} />
                 <div className="h-7 w-7 shrink-0 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-bold text-blue-700 border border-blue-200">
