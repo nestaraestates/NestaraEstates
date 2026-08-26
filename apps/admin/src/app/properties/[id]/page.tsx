@@ -195,25 +195,23 @@ export default async function AdminPropertyReviewPage({ params, searchParams }: 
                     <DealStatusSelector propertyId={property.id} currentStatus={property.status} />
                   </div>
 
-                  {property.is_deleted && (
-                    <div className="pt-4 border-t border-red-100 mt-4">
-                      <div className="text-xs font-bold text-red-600 mb-2">DANGER ZONE</div>
-                      <form action={async () => {
+                  <div className="pt-4 border-t border-red-100 mt-4">
+                    <div className="text-xs font-bold text-red-600 mb-2">DANGER ZONE</div>
+                    <form action={async () => {
+                      'use server'
+                      await hardDeleteProperty(property.id)
+                      redirect('/seller-hub?filter=DELETED')
+                    }}>
+                      <HardDeleteButton onDelete={async () => {
                         'use server'
                         await hardDeleteProperty(property.id)
                         redirect('/seller-hub?filter=DELETED')
-                      }}>
-                        <HardDeleteButton onDelete={async () => {
-                          'use server'
-                          await hardDeleteProperty(property.id)
-                          redirect('/seller-hub?filter=DELETED')
-                        }} />
-                        <p className="text-[10px] text-zinc-500 mt-2 leading-relaxed">
-                          This will completely remove the property from the database and wipe all associated media files from storage. This action cannot be undone.
-                        </p>
-                      </form>
-                    </div>
-                  )}
+                      }} />
+                      <p className="text-[10px] text-zinc-500 mt-2 leading-relaxed">
+                        This will completely remove the property from the database and wipe all associated media files from storage. This action cannot be undone.
+                      </p>
+                    </form>
+                  </div>
                 </div>
               </div>
 
