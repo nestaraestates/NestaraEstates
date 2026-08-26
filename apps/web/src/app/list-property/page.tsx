@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { LocationPicker } from '@/components/properties/LocationPicker'
+import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 
 const STEPS = [
   'Property Information',
@@ -22,6 +23,7 @@ export default function ListPropertyPage() {
   const [currentStep, setCurrentStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
+  const [priceInput, setPriceInput] = useState('')
   const [isCompressing, setIsCompressing] = useState(false)
   const [coords, setCoords] = useState<{lat: number, lng: number} | null>(null)
   const router = useRouter()
@@ -216,7 +218,20 @@ export default function ListPropertyPage() {
             <div className={currentStep === 1 ? "block space-y-4" : "hidden"}>
               <div className="space-y-2">
                 <Label>Expected Price (₹)</Label>
-                <Input name="price" type="text" inputMode="numeric" pattern="[0-9]*" placeholder="e.g. 5000000" />
+                <Input 
+                  name="price" 
+                  type="text" 
+                  inputMode="numeric" 
+                  pattern="[0-9]*" 
+                  placeholder="e.g. 5000000"
+                  value={priceInput}
+                  onChange={(e) => setPriceInput(e.target.value)}
+                />
+                {priceInput && !isNaN(Number(priceInput)) && (
+                  <p className="text-sm font-bold text-amber-600 dark:text-amber-500 mt-1">
+                    Formatted: ₹ {formatIndianCurrencyShort(priceInput)}
+                  </p>
+                )}
               </div>
               <div className="flex items-center space-x-2 mt-4">
                 <input type="checkbox" id="negotiable" name="negotiable" className="rounded border-zinc-300 text-amber-600 focus:ring-amber-500" />
