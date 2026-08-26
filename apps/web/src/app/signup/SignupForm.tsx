@@ -30,6 +30,13 @@ export function SignupForm() {
         <Button type="submit" className="w-full bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
           Create Account
         </Button>
+        <p className="text-center text-xs text-zinc-500 mt-4">
+          By signing up, you agree to our{' '}
+          <a href="/terms-and-conditions" className="underline hover:text-zinc-700 dark:hover:text-zinc-300">
+            Terms and Conditions
+          </a>
+          .
+        </p>
       </form>
     </div>
   )

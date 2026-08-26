@@ -54,11 +54,8 @@ export async function signup(formData: FormData) {
     redirect(`/signup?error=${encodeURIComponent(error.message)}`)
   }
 
-  if (role === 'DEALER') {
-    redirect('/dashboard/seller')
-  } else {
-    redirect('/dashboard/buyer')
-  }
+  // Redirect all new signups to the onboarding flow
+  redirect('/onboarding')
 }
 
 export async function loginWithGoogle() {
