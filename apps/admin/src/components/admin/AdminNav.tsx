@@ -14,6 +14,7 @@ export function AdminDesktopNav() {
     { name: 'Messages', href: '/messages', icon: MessageSquare, matchExact: false },
     { name: 'All Properties', href: '/properties', icon: Building, matchExact: false },
     { name: 'Enquired Properties', href: '/enquired', icon: Target, matchExact: false },
+    { name: 'Management', href: '/management', icon: Users, matchExact: false },
   ]
 
   return (
@@ -46,6 +47,7 @@ export function AdminMobileNav() {
     { name: 'Msgs', href: '/messages', icon: MessageSquare, matchExact: false },
     { name: 'Assets', href: '/properties', icon: Building, matchExact: false },
     { name: 'Leads', href: '/enquired', icon: Target, matchExact: false },
+    { name: 'Manage', href: '/management', icon: Users, matchExact: false },
   ]
 
   return (
