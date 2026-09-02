@@ -33,12 +33,16 @@ export default async function LoginPage({
               <Building className="h-6 w-6" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold tracking-tight">Welcome to Nestara Estates</CardTitle>
+          <CardTitle className="text-2xl font-bold tracking-tight">Admin Portal</CardTitle>
           <CardDescription className="text-zinc-500">
-            Sign in or create an account to manage properties
+            Sign in to access the Nestara Estates dashboard
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="mb-6 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600 dark:border-red-900/50 dark:bg-red-950/50 dark:text-red-400 text-left">
+            <strong>Warning: Restricted Access</strong>
+            <p className="mt-1">This portal is for authorized administrators only. Unauthorized access is prohibited.</p>
+          </div>
           <Suspense fallback={<div className="h-40 animate-pulse bg-zinc-100 rounded-lg"></div>}>
             <AdminLoginForm />
           </Suspense>
