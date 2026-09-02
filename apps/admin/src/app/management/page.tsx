@@ -2,9 +2,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
 import { promoteToAdmin, demoteFromAdmin } from './actions'
+import { isSuperAdmin } from '@/lib/admin'
 
 export default async function ManagementPage() {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  const isSuper = isSuperAdmin(user?.email)
+
   const { data: profiles, error } = await supabase.from('profiles').select('*').order('created_at', { ascending: false })
 
   return (
@@ -29,7 +33,7 @@ export default async function ManagementPage() {
                   <tr>
                     <th className="px-4 py-3 font-semibold">User Details</th>
                     <th className="px-4 py-3 font-semibold">Role</th>
-                    <th className="px-4 py-3 font-semibold">Access Grant</th>
+                    {isSuper && <th className="px-4 py-3 font-semibold">Access Grant</th>}
                     <th className="px-4 py-3 font-semibold">Actions</th>
                   </tr>
                 </thead>
@@ -45,27 +49,29 @@ export default async function ManagementPage() {
                           {profile.role || 'user'}
                         </span>
                       </td>
-                      <td className="px-4 py-3">
-                        {profile.role !== 'admin' ? (
-                          <form action={async () => {
-                            'use server'
-                            await promoteToAdmin(profile.id)
-                          }}>
-                            <Button type="submit" variant="outline" size="sm" className="bg-amber-50 text-amber-600 hover:bg-amber-100 border-amber-200">
-                              Promote to Admin
-                            </Button>
-                          </form>
-                        ) : (
-                          <form action={async () => {
-                            'use server'
-                            await demoteFromAdmin(profile.id)
-                          }}>
-                            <Button type="submit" variant="outline" size="sm" className="text-zinc-600">
-                              Remove Admin
-                            </Button>
-                          </form>
-                        )}
-                      </td>
+                      {isSuper && (
+                        <td className="px-4 py-3">
+                          {profile.role !== 'admin' ? (
+                            <form action={async () => {
+                              'use server'
+                              await promoteToAdmin(profile.id)
+                            }}>
+                              <Button type="submit" variant="outline" size="sm" className="bg-amber-50 text-amber-600 hover:bg-amber-100 border-amber-200">
+                                Promote to Admin
+                              </Button>
+                            </form>
+                          ) : (
+                            <form action={async () => {
+                              'use server'
+                              await demoteFromAdmin(profile.id)
+                            }}>
+                              <Button type="submit" variant="outline" size="sm" className="text-zinc-600">
+                                Remove Admin
+                              </Button>
+                            </form>
+                          )}
+                        </td>
+                      )}
                       <td className="px-4 py-3 space-x-2 flex">
                         <Button variant="outline" size="sm">Suspend</Button>
                         <Button variant="destructive" size="sm">Ban</Button>

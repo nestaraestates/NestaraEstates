@@ -10,12 +10,9 @@ export async function promoteToAdmin(userId: string) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('Not authenticated')
     
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
   const isSuper = isSuperAdmin(user.email)
-  const isAdmin = profile?.role === 'admin'
-  
-  if (!isSuper && !isAdmin) {
-    throw new Error('Not authorized to promote users')
+  if (!isSuper) {
+    throw new Error('Only Super Admins can promote users')
   }
   
   const { error } = await supabase
@@ -36,13 +33,9 @@ export async function demoteFromAdmin(userId: string) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('Not authenticated')
     
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
   const isSuper = isSuperAdmin(user.email)
-  
-  // Only superadmins or the admin themselves can demote? Let's just say any admin can demote
-  const isAdmin = profile?.role === 'admin'
-  if (!isSuper && !isAdmin) {
-    throw new Error('Not authorized to demote users')
+  if (!isSuper) {
+    throw new Error('Only Super Admins can demote users')
   }
 
   const { error } = await supabase
