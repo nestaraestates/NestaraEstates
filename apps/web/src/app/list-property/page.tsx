@@ -41,6 +41,20 @@ export default function ListPropertyPage() {
   }
 
   const handleSubmit = async (formData: FormData) => {
+    if (currentStep === 0) {
+      const village = formData.get('village') as string
+      const taluk = formData.get('taluk') as string
+      const city = formData.get('city') as string
+      const pincode = formData.get('pincode') as string
+      const state = formData.get('state') as string
+
+      if (!village || !taluk || !city || !pincode || !state) {
+        setErrorMsg('Please fill in all required location fields (Village, Taluk, City, Pincode, State).')
+        return
+      }
+      setErrorMsg('')
+    }
+
     // If not on the last step, just go to the next step when Enter is pressed
     if (currentStep < STEPS.length - 1) {
       handleNext()
@@ -132,7 +146,7 @@ export default function ListPropertyPage() {
           <CardDescription>Please provide accurate details to ensure a smooth verification process.</CardDescription>
         </CardHeader>
         
-        <form action={handleSubmit}>
+        <form action={handleSubmit} noValidate>
           <CardContent>
             {errorMsg && (
               <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/50 dark:text-red-400">
