@@ -30,6 +30,7 @@ export default function ListPropertyPage() {
 
   const handleNext = () => {
     if (currentStep < STEPS.length - 1) {
+      setErrorMsg('')
       setCurrentStep(prev => prev + 1)
     }
   }
@@ -146,7 +147,10 @@ export default function ListPropertyPage() {
           <CardDescription>Please provide accurate details to ensure a smooth verification process.</CardDescription>
         </CardHeader>
         
-        <form action={handleSubmit} noValidate>
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          handleSubmit(new FormData(e.currentTarget))
+        }} noValidate>
           <CardContent>
             {errorMsg && (
               <div className="mb-4 rounded bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/50 dark:text-red-400">
