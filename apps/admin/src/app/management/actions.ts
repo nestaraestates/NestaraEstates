@@ -46,3 +46,24 @@ export async function demoteFromAdmin(userId: string) {
   if (error) throw new Error(error.message)
   revalidatePath('/management')
 }
+
+export async function updateUserStatus(userId: string, status: 'ACTIVE' | 'SUSPENDED' | 'BANNED') {
+  const supabase = await createClient()
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
+    
+  const isSuper = isSuperAdmin(user.email)
+  if (!isSuper) {
+    throw new Error('Only Super Admins can change user status')
+  }
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ account_status: status })
+    .eq('id', userId)
+
+  if (error) throw new Error(error.message)
+  revalidatePath(`/management/${userId}`)
+  revalidatePath('/management')
+}

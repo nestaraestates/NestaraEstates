@@ -151,12 +151,56 @@ export default async function UserDetailsPage({
               <CardTitle className="text-red-600">Danger Zone</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button variant="outline" className="w-full border-red-200 text-red-600 hover:bg-red-50">
-                Suspend Account
-              </Button>
-              <Button variant="destructive" className="w-full">
-                Ban User Permanently
-              </Button>
+              <div className="mb-4">
+                <div className="text-sm font-medium mb-1">Account Status</div>
+                <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-bold ${
+                  profile.account_status === 'BANNED' ? 'bg-red-100 text-red-800' :
+                  profile.account_status === 'SUSPENDED' ? 'bg-orange-100 text-orange-800' :
+                  'bg-green-100 text-green-800'
+                }`}>
+                  {profile.account_status || 'ACTIVE'}
+                </span>
+              </div>
+              
+              {isSuper ? (
+                <>
+                  {profile.account_status === 'ACTIVE' || !profile.account_status ? (
+                    <>
+                      <form action={async () => {
+                        'use server'
+                        const { updateUserStatus } = await import('../actions')
+                        await updateUserStatus(profile.id, 'SUSPENDED')
+                      }}>
+                        <Button type="submit" variant="outline" className="w-full border-red-200 text-red-600 hover:bg-red-50">
+                          Suspend Account
+                        </Button>
+                      </form>
+                      
+                      <form action={async () => {
+                        'use server'
+                        const { updateUserStatus } = await import('../actions')
+                        await updateUserStatus(profile.id, 'BANNED')
+                      }}>
+                        <Button type="submit" variant="destructive" className="w-full">
+                          Ban User Permanently
+                        </Button>
+                      </form>
+                    </>
+                  ) : (
+                    <form action={async () => {
+                      'use server'
+                      const { updateUserStatus } = await import('../actions')
+                      await updateUserStatus(profile.id, 'ACTIVE')
+                    }}>
+                      <Button type="submit" variant="outline" className="w-full border-green-200 text-green-700 hover:bg-green-50">
+                        Restore / Activate Account
+                      </Button>
+                    </form>
+                  )}
+                </>
+              ) : (
+                <p className="text-xs text-zinc-500">Only Super Admins can suspend or ban users.</p>
+              )}
             </CardContent>
           </Card>
         </div>
