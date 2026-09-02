@@ -120,22 +120,16 @@ export default async function UserDetailsPage({
                 <div className="pt-4 border-t border-zinc-100">
                   <div className="text-sm font-medium mb-3">Admin Access</div>
                   {profile.role !== 'admin' ? (
-                    <form action={async () => {
-                      'use server'
-                      await promoteToAdmin(profile.id)
-                    }}>
-                      <Button type="submit" className="w-full bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200">
+                    <form action={promoteToAdmin.bind(null, profile.id)}>
+                      <button type="submit" className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-amber-200 bg-amber-50 text-sm font-medium text-amber-700 hover:bg-amber-100 transition-colors">
                         Promote to Admin
-                      </Button>
+                      </button>
                     </form>
                   ) : (
-                    <form action={async () => {
-                      'use server'
-                      await demoteFromAdmin(profile.id)
-                    }}>
-                      <Button type="submit" variant="outline" className="w-full text-zinc-700">
+                    <form action={demoteFromAdmin.bind(null, profile.id)}>
+                      <button type="submit" className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-zinc-200 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition-colors">
                         Remove Admin Access
-                      </Button>
+                      </button>
                     </form>
                   )}
                   <p className="text-xs text-zinc-500 mt-2">
@@ -167,22 +161,22 @@ export default async function UserDetailsPage({
                   {profile.account_status === 'ACTIVE' || !profile.account_status ? (
                     <>
                       <form action={updateUserStatus.bind(null, profile.id, 'SUSPENDED')}>
-                        <Button type="submit" variant="outline" className="w-full border-red-200 text-red-600 hover:bg-red-50">
+                        <button type="submit" className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-red-200 bg-white text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
                           Suspend Account
-                        </Button>
+                        </button>
                       </form>
                       
                       <form action={updateUserStatus.bind(null, profile.id, 'BANNED')}>
-                        <Button type="submit" variant="destructive" className="w-full">
+                        <button type="submit" className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-transparent bg-red-600 text-sm font-medium text-white hover:bg-red-700 transition-colors">
                           Ban User Permanently
-                        </Button>
+                        </button>
                       </form>
                     </>
                   ) : (
                     <form action={updateUserStatus.bind(null, profile.id, 'ACTIVE')}>
-                      <Button type="submit" variant="outline" className="w-full border-green-200 text-green-700 hover:bg-green-50">
+                      <button type="submit" className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-green-200 bg-white text-sm font-medium text-green-700 hover:bg-green-50 transition-colors">
                         Restore / Activate Account
-                      </Button>
+                      </button>
                     </form>
                   )}
                 </>
