@@ -20,7 +20,7 @@ export default async function ManagementPage({
 
   let query = supabase.from('profiles').select('*').order('created_at', { ascending: false })
   if (q) {
-    query = query.ilike('full_name', `%${q}%`)
+    query = query.or(`full_name.ilike.%${q}%,custom_id.ilike.%${q}%`)
   }
 
   const { data: profiles, error } = await query
@@ -70,16 +70,11 @@ export default async function ManagementPage({
                   </tr>
                 </thead>
                 <tbody>
-                  {profiles.map((profile) => {
-                    // Create an 11-character physical ID: 'N' + 10 digits extracted from UUID
-                    const numbers = profile.id.replace(/[^0-9]/g, '').padEnd(10, '0').substring(0, 10)
-                    const displayId = `N${numbers}`
-                    
-                    return (
+                  {profiles.map((profile) => (
                       <tr key={profile.id} className="border-b hover:bg-zinc-50">
                         <td className="px-4 py-3">
                           <div className="font-medium text-zinc-900">{profile.full_name || 'Unknown User'}</div>
-                          <div className="text-xs text-zinc-500 font-mono" title={profile.id}>{displayId}</div>
+                          <div className="text-xs text-zinc-500 font-mono" title={profile.id}>{profile.custom_id}</div>
                         </td>
                       <td className="px-4 py-3">
                         <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${profile.role === 'admin' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'}`}>
@@ -114,8 +109,7 @@ export default async function ManagementPage({
                         <Button variant="destructive" size="sm">Ban</Button>
                       </td>
                     </tr>
-                  )
-                  })}
+                  ))}
                 </tbody>
               </table>
             </div>
