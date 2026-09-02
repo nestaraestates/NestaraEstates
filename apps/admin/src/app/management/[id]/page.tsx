@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, User, Mail, Phone, Calendar, Shield, CheckCircle } from 'lucide-react'
-import { promoteToAdmin, demoteFromAdmin } from '../actions'
+import { promoteToAdmin, demoteFromAdmin, updateUserStatus } from '../actions'
 import { isSuperAdmin } from '@/lib/admin'
 
 export default async function UserDetailsPage({
@@ -166,32 +166,20 @@ export default async function UserDetailsPage({
                 <>
                   {profile.account_status === 'ACTIVE' || !profile.account_status ? (
                     <>
-                      <form action={async () => {
-                        'use server'
-                        const { updateUserStatus } = await import('../actions')
-                        await updateUserStatus(profile.id, 'SUSPENDED')
-                      }}>
+                      <form action={updateUserStatus.bind(null, profile.id, 'SUSPENDED')}>
                         <Button type="submit" variant="outline" className="w-full border-red-200 text-red-600 hover:bg-red-50">
                           Suspend Account
                         </Button>
                       </form>
                       
-                      <form action={async () => {
-                        'use server'
-                        const { updateUserStatus } = await import('../actions')
-                        await updateUserStatus(profile.id, 'BANNED')
-                      }}>
+                      <form action={updateUserStatus.bind(null, profile.id, 'BANNED')}>
                         <Button type="submit" variant="destructive" className="w-full">
                           Ban User Permanently
                         </Button>
                       </form>
                     </>
                   ) : (
-                    <form action={async () => {
-                      'use server'
-                      const { updateUserStatus } = await import('../actions')
-                      await updateUserStatus(profile.id, 'ACTIVE')
-                    }}>
+                    <form action={updateUserStatus.bind(null, profile.id, 'ACTIVE')}>
                       <Button type="submit" variant="outline" className="w-full border-green-200 text-green-700 hover:bg-green-50">
                         Restore / Activate Account
                       </Button>
