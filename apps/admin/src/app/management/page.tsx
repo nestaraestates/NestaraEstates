@@ -1,27 +1,59 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { createClient } from '@/utils/supabase/server'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Search } from 'lucide-react'
 import { promoteToAdmin, demoteFromAdmin } from './actions'
 import { isSuperAdmin } from '@/lib/admin'
 
-export default async function ManagementPage() {
+export default async function ManagementPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const params = await searchParams
+  const q = typeof params.q === 'string' ? params.q : ''
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   const isSuper = isSuperAdmin(user?.email)
 
-  const { data: profiles, error } = await supabase.from('profiles').select('*').order('created_at', { ascending: false })
+  let query = supabase.from('profiles').select('*').order('created_at', { ascending: false })
+  if (q) {
+    query = query.ilike('full_name', `%${q}%`)
+  }
+
+  const { data: profiles, error } = await query
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-zinc-900">User Management</h1>
-        <p className="text-zinc-500">Manage user accounts, suspend users, and assign admin roles.</p>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900">User Management</h1>
+          <p className="text-zinc-500">Manage user accounts, suspend users, and assign admin roles.</p>
+        </div>
+        
+        <form method="GET" action="/management" className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="relative w-full sm:w-64">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-zinc-500" />
+            <Input 
+              type="search" 
+              name="q"
+              placeholder="Search by name..." 
+              className="pl-9 bg-white"
+              defaultValue={q}
+            />
+          </div>
+          <Button type="submit" variant="secondary">Search</Button>
+        </form>
       </div>
       
       <Card>
         <CardHeader>
           <CardTitle>All Users</CardTitle>
-          <CardDescription>A list of all users registered in the system.</CardDescription>
+          <CardDescription>
+            {q ? `Search results for "${q}"` : 'A list of all users registered in the system.'}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {error ? (
@@ -82,7 +114,9 @@ export default async function ManagementPage() {
               </table>
             </div>
           ) : (
-            <div className="text-zinc-500 text-center py-8">No users found.</div>
+            <div className="text-zinc-500 text-center py-8">
+              {q ? 'No users found matching your search.' : 'No users found.'}
+            </div>
           )}
         </CardContent>
       </Card>
