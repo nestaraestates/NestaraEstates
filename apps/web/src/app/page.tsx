@@ -128,36 +128,21 @@ export default async function Home() {
           </div>
         </section>
 
-      {/* Promotion Section for Owners and Admins */}
+      {/* Promotion Section for Owners */}
       <section className="container mx-auto px-4 py-20 border-t border-zinc-200">
-        <div className="grid md:grid-cols-2 gap-8">
-          
+        <div className="max-w-4xl mx-auto">
           {/* Owner Promo */}
-          <div className="bg-amber-50 rounded-3xl p-10 flex flex-col items-start justify-center border border-amber-100">
-            <h3 className="text-3xl font-black text-amber-900 mb-4 tracking-tight">List Your Property</h3>
-            <p className="text-amber-800 text-lg mb-8 leading-relaxed">
+          <div className="bg-amber-50 rounded-3xl p-10 flex flex-col items-center text-center justify-center border border-amber-100 shadow-sm">
+            <h3 className="text-3xl md:text-4xl font-black text-amber-900 mb-4 tracking-tight">List Your Property</h3>
+            <p className="text-amber-800 text-lg mb-8 leading-relaxed max-w-2xl">
               Are you an owner or dealer? List your property with Nestara today. Our Nestara Agents will handle all the tedious negotiations and verifications for you, filtering out spam to bring you only serious, verified buyers.
             </p>
             <Link href="/list-property">
-              <Button className="bg-amber-600 hover:bg-amber-700 text-white font-bold px-8 py-6 text-lg rounded-xl shadow-md transition-all hover:-translate-y-1">
+              <Button className="bg-amber-600 hover:bg-amber-700 text-white font-bold px-10 py-6 text-lg rounded-xl shadow-md transition-all hover:-translate-y-1">
                 Start Listing For Free
               </Button>
             </Link>
           </div>
-
-          {/* Admin / Partner Promo */}
-          <div className="bg-zinc-900 rounded-3xl p-10 flex flex-col items-start justify-center shadow-xl">
-            <h3 className="text-3xl font-black text-white mb-4 tracking-tight">Join the Admin Network</h3>
-            <p className="text-zinc-400 text-lg mb-8 leading-relaxed">
-              Real estate professionals and administrators use NestaraOS to manage properties, verify legal documents, and facilitate secure transactions. Work with us to bring trust back to real estate.
-            </p>
-            <Link href="https://admin.nestara.com" target="_blank" rel="noopener noreferrer">
-              <Button className="bg-white text-zinc-900 hover:bg-zinc-100 font-bold px-8 py-6 text-lg rounded-xl transition-all hover:-translate-y-1">
-                Access NestaraOS
-              </Button>
-            </Link>
-          </div>
-
         </div>
       </section>
     </div>
