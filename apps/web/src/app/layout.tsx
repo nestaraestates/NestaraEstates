@@ -57,9 +57,13 @@ export default async function RootLayout({
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex items-center justify-center bg-zinc-50`}>
           <div className="max-w-md p-8 bg-white border border-zinc-200 rounded-xl shadow-sm text-center">
             <h1 className="text-2xl font-bold text-red-600 mb-2">Account {accountStatus.charAt(0) + accountStatus.slice(1).toLowerCase()}</h1>
-            <p className="text-zinc-600 mb-6">
+            <p className="text-zinc-600 mb-4">
               Your account has been {accountStatus.toLowerCase()}. Please contact support for more assistance.
             </p>
+            <div className="bg-zinc-100 rounded-lg py-3 px-4 mb-6">
+              <span className="text-sm font-medium text-zinc-500">Logged in as:</span>
+              <p className="font-medium text-zinc-900 mt-0.5 break-all">{user?.email}</p>
+            </div>
             <form action={async () => {
               'use server'
               const supabase = await createClient()
