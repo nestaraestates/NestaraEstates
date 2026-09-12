@@ -32,7 +32,7 @@ export function OnboardingForm({ initialName, needsPassword }: { initialName: st
         
         <div className="space-y-2">
           <Label htmlFor="phone_number">Phone Number</Label>
-          <Input id="phone_number" name="phone_number" type="tel" required className="bg-white dark:bg-zinc-900" placeholder="+1234567890" />
+          <Input id="phone_number" name="phone_number" type="tel" required className="bg-white dark:bg-zinc-900" placeholder="+91 9876543210" defaultValue="+91 " />
         </div>
 
         {needsPassword && (

@@ -1,7 +1,16 @@
 {
   "name": "nestara-estates-monorepo",
   "private": true,
+  "scripts": {
+    "postinstall": "sed -i 's/const isV3 =.*/const isV3 = true;/g' node_modules/nativewind/dist/metro/tailwind/index.js || true"
+  },
   "workspaces": [
     "apps/*"
-  ]
+  ],
+  "version": "1.0.0",
+  "dependencies": {
+    "expo": "~57.0.21",
+    "react": "19.2.3",
+    "react-native": "0.86.3"
+  }
 }

@@ -18,7 +18,7 @@ export function EnquiryWidget({ propertyId, profile, forceOpen = false, onCancel
   const [formVals, setFormVals] = useState({
     name: profile?.full_name || '',
     email: profile?.email || '',
-    phone: profile?.phone_number || '',
+    phone: profile?.phone_number || '+91 ',
     address: profile?.address || ''
   })
 
