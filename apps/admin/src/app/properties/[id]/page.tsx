@@ -270,7 +270,7 @@ export default async function AdminPropertyReviewPage({ params, searchParams }: 
                     {enq.message && <p className="text-sm text-zinc-700 mt-2 p-3 bg-zinc-100 rounded-lg italic">"{enq.message}"</p>}
                   </div>
                   <div className="flex flex-col gap-2 shrink-0">
-                    <Link href={`/messages?view=buyer&openChat=${enq.id}`} className="w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 text-center flex items-center justify-center gap-2">
+                    <Link href={`/crm/${enq.id}`} className="w-full md:w-auto bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 text-center flex items-center justify-center gap-2">
                       <MessageSquare className="h-4 w-4" /> Chat with Buyer
                     </Link>
                     <Link href={`/messages?view=dual&propertyId=${property.id}&enquiryId=${enq.id}`} className="w-full md:w-auto bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-700 text-center flex items-center justify-center gap-2">

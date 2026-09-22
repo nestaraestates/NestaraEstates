@@ -10,19 +10,15 @@ export default async function OnboardingPage() {
     redirect('/login')
   }
 
-  // Check if already onboarded (has phone number)
+  // Check if already onboarded (has phone number and address)
   const { data: profile } = await supabase
     .from('profiles')
-    .select('phone_number, role, full_name')
+    .select('phone_number, address, full_name')
     .eq('id', user.id)
     .single()
 
-  if (profile?.phone_number) {
-    if (profile.role === 'DEALER') {
-      redirect('/dashboard/seller')
-    } else {
-      redirect('/dashboard/buyer')
-    }
+  if (profile?.phone_number && profile?.address) {
+    redirect('/dashboard/profile')
   }
 
   // Determine if the user signed in with an OAuth provider and needs a password
@@ -30,8 +26,8 @@ export default async function OnboardingPage() {
   const needsPassword = providers.includes('google') && !providers.includes('email')
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-xl border border-zinc-100 dark:bg-zinc-950 dark:border-zinc-800">
+    <div className="flex flex-col items-center py-12 px-4 sm:px-6">
+      <div className="w-full max-w-xl space-y-8 rounded-2xl bg-white p-8 shadow-xl border border-zinc-100 dark:bg-zinc-950 dark:border-zinc-800">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Complete Your Profile</h2>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">

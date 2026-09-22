@@ -31,7 +31,7 @@ export async function sendChatMessage(enquiryId: string, receiverId: string, mes
       user_id: receiverId,
       title: 'New Message from Agent',
       content: 'An agent has replied to your chat.',
-      link: `/inbox?view=buyer&openChat=${enquiryId}`,
+      link: `/crm/${enquiryId}`,
       is_read: false
     })
   }

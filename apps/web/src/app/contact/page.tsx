@@ -27,7 +27,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-zinc-500 uppercase tracking-wider mb-1">Phone / WhatsApp</p>
-                  <p className="text-zinc-900 dark:text-white font-medium">-</p>
+                  <p className="text-zinc-900 dark:text-white font-medium">+91 99011 17057<br/>+91 79967 74541</p>
                 </div>
               </div>
 
@@ -37,7 +37,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-zinc-500 uppercase tracking-wider mb-1">Email</p>
-                  <p className="text-zinc-900 dark:text-white font-medium">-</p>
+                  <p className="text-zinc-900 dark:text-white font-medium">nestaraestates@gmail.com<br/>vineethbpawar@gmail.com</p>
                 </div>
               </div>
 
