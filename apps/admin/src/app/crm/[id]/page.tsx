@@ -6,12 +6,13 @@ import { ChevronLeft } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
-export default async function CrmChatPage({ params }: { params: { id: string } }) {
+export default async function CrmChatPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const enquiryId = params.id
+  const { id } = await params;
+  const enquiryId = id
 
   const [enquiryRes, messagesRes] = await Promise.all([
     supabase
