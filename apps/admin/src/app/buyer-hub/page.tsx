@@ -56,7 +56,7 @@ export default async function BuyerHubPage() {
                     {new Date(lead.created_at).toLocaleDateString()}
                   </td>
                   <td className="px-4 py-3">
-                    {lead.status === 'NEW' ? <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100 px-2 py-1 rounded">New</span> :
+                    {lead.status === 'NEW' || lead.status === 'PENDING' ? <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-100 px-2 py-1 rounded">New</span> :
                      lead.status === 'CONTACTED' ? <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-100 px-2 py-1 rounded">Contacted</span> :
                      <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2 py-1 rounded">Closed</span>
                     }
