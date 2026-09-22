@@ -1,5 +1,5 @@
 import "../global.css";
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { View } from 'react-native';
 import { NetworkBanner } from '@/components/NetworkBanner';
 
@@ -26,11 +26,7 @@ function RealtimeBanListener() {
         }, (payload) => {
           const status = payload.new.account_status;
           if (status === 'BANNED' || status === 'SUSPENDED') {
-            Alert.alert(
-              'Account Disabled',
-              `Your account has been ${status.toLowerCase()}. Please contact support.`,
-              [{ text: 'OK', onPress: () => supabase.auth.signOut() }]
-            );
+            router.replace('/banned' as any);
           }
         })
         .subscribe();

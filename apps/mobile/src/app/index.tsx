@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
-import { Redirect } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import { supabase } from '@/lib/supabase';
 import { Session } from '@supabase/supabase-js';
 
@@ -48,8 +48,7 @@ function ProfileCheck({ session }: { session: Session }) {
         .single();
       
       if (profile?.account_status === 'BANNED' || profile?.account_status === 'SUSPENDED') {
-        alert('Your account has been ' + profile.account_status.toLowerCase() + '. Please contact support.');
-        await supabase.auth.signOut();
+        router.replace('/banned' as any);
         return;
       }
 
