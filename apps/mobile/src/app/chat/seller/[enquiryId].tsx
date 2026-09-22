@@ -90,7 +90,7 @@ export default function SellerChatScreen() {
  .eq('role', 'ADMIN')
  .limit(1);
  
- const adminId = adminProfiles?.[0]?.id || null;
+ const adminId = adminProfiles?.[0]?.id || 'ff46b994-2502-4435-aca5-ce8e44be0ddc';
 
  const newMessage = {
  id: tempId,

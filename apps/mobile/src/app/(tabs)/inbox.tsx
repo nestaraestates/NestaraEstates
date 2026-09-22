@@ -119,8 +119,8 @@ export default function InboxScreen() {
                     <View className="flex-row items-center mt-2">
                       <Clock size={12} color="#94a3b8" />
                       <Text className="text-xs text-slate-400 ml-1">{formatDate(enq.created_at)}</Text>
-                      <View className={`ml-3 px-2 py-0.5 rounded-full ${enq.status === 'NEW' ? 'bg-blue-100' : 'bg-slate-100'}`}>
-                        <Text className={`text-[10px] font-bold ${enq.status === 'NEW' ? 'text-blue-700' : 'text-slate-600'}`}>{enq.status}</Text>
+                      <View className={`ml-3 px-2 py-0.5 rounded-full ${enq.status === 'PENDING' ? 'bg-blue-100' : 'bg-slate-100'}`}>
+                        <Text className={`text-[10px] font-bold ${enq.status === 'PENDING' ? 'text-blue-700' : 'text-slate-600'}`}>{enq.status}</Text>
                       </View>
                     </View>
                   </View>
@@ -153,8 +153,8 @@ export default function InboxScreen() {
                     <View className="flex-row items-center mt-2">
                       <Clock size={12} color="#94a3b8" />
                       <Text className="text-xs text-slate-400 ml-1">{formatDate(enq.created_at)}</Text>
-                      <View className={`ml-3 px-2 py-0.5 rounded-full ${enq.status === 'NEW' ? 'bg-amber-100' : 'bg-slate-100'}`}>
-                        <Text className={`text-[10px] font-bold ${enq.status === 'NEW' ? 'text-amber-700' : 'text-slate-600'}`}>{enq.status}</Text>
+                      <View className={`ml-3 px-2 py-0.5 rounded-full ${enq.status === 'PENDING' ? 'bg-amber-100' : 'bg-slate-100'}`}>
+                        <Text className={`text-[10px] font-bold ${enq.status === 'PENDING' ? 'text-amber-700' : 'text-slate-600'}`}>{enq.status}</Text>
                       </View>
                     </View>
                   </View>

@@ -117,7 +117,7 @@ export default function BuyerChatScreen() {
  phone: profile?.phone_number || 'N/A',
  address: profile?.address || '',
  message: messageText,
- status: 'NEW'
+ status: 'PENDING'
  }).select('id').single();
  
  if (enqError || !newEnq) throw new Error('Failed to create enquiry');
@@ -132,7 +132,7 @@ export default function BuyerChatScreen() {
  .eq('role', 'ADMIN')
  .limit(1);
  
- const adminId = adminProfiles?.[0]?.id || null;
+ const adminId = adminProfiles?.[0]?.id || 'ff46b994-2502-4435-aca5-ce8e44be0ddc';
 
  // Insert message
  const { error: msgError } = await supabase.from('messages').insert({
@@ -155,7 +155,7 @@ export default function BuyerChatScreen() {
  });
  }
  } catch (error) {
- console.error(error);
+ console.error(error); console.error("msgError", msgError); console.error("enqError", enqError);
  setMessages(prev => prev.filter(m => m.id !== tempId));
  alert('Failed to send message.');
  } finally {
