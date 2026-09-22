@@ -10,38 +10,31 @@ import { supabase } from '@/lib/supabase';
 
 function RealtimeBanListener() {
   useEffect(() => {
-    let channel;
+    let interval: any;
 
-    const setupListener = async (userId) => {
-      if (channel) supabase.removeChannel(channel);
+    const startPolling = async (userId: string) => {
+      if (interval) clearInterval(interval);
       if (!userId) return;
 
-      channel = supabase
-        .channel('user_status_changes')
-        .on('postgres_changes', { 
-          event: 'UPDATE', 
-          schema: 'public', 
-          table: 'profiles',
-          filter: `id=eq.${userId}`
-        }, (payload) => {
-          const status = payload.new.account_status;
-          if (status === 'BANNED' || status === 'SUSPENDED') {
-            router.replace('/banned' as any);
-          }
-        })
-        .subscribe();
+      // Poll every 10 seconds since Supabase Realtime might not be enabled on the profiles table
+      interval = setInterval(async () => {
+        const { data } = await supabase.from('profiles').select('account_status').eq('id', userId).single();
+        if (data && (data.account_status === 'BANNED' || data.account_status === 'SUSPENDED')) {
+          router.replace('/banned' as any);
+        }
+      }, 10000);
     };
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setupListener(session?.user?.id);
+      startPolling(session?.user?.id);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setupListener(session?.user?.id);
+      startPolling(session?.user?.id);
     });
 
     return () => {
-      if (channel) supabase.removeChannel(channel);
+      if (interval) clearInterval(interval);
       subscription.unsubscribe();
     };
   }, []);
