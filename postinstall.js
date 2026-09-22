@@ -8,15 +8,25 @@ try {
   const postcssDir = path.join(__dirname, 'node_modules', '@tailwindcss', 'postcss', 'node_modules');
   fs.mkdirSync(postcssDir, { recursive: true });
   
+  const tailwindcssPostcssDir = path.join(postcssDir, 'tailwindcss');
+  if (fs.existsSync(tailwindcssPostcssDir)) {
+    fs.rmSync(tailwindcssPostcssDir, { recursive: true, force: true });
+  }
+
   execSync('npm pack tailwindcss@^4.0.0 --quiet', { cwd: postcssDir });
   execSync('tar xf tailwindcss-*.tgz', { cwd: postcssDir });
-  fs.renameSync(path.join(postcssDir, 'package'), path.join(postcssDir, 'tailwindcss'));
+  fs.renameSync(path.join(postcssDir, 'package'), tailwindcssPostcssDir);
   execSync('rm tailwindcss-*.tgz', { cwd: postcssDir });
 
   const nodeDir = path.join(__dirname, 'node_modules', '@tailwindcss', 'node', 'node_modules');
   fs.mkdirSync(nodeDir, { recursive: true });
   
-  execSync('cp -r ' + path.join(postcssDir, 'tailwindcss') + ' ' + path.join(nodeDir, 'tailwindcss'));
+  const tailwindcssNodeDir = path.join(nodeDir, 'tailwindcss');
+  if (fs.existsSync(tailwindcssNodeDir)) {
+    fs.rmSync(tailwindcssNodeDir, { recursive: true, force: true });
+  }
+
+  execSync('cp -r ' + tailwindcssPostcssDir + ' ' + tailwindcssNodeDir);
 } catch (e) {
   console.error("Postinstall fix failed:", e);
 }
