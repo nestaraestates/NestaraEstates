@@ -43,10 +43,16 @@ function ProfileCheck({ session }: { session: Session }) {
       // First check if profile is complete
       const { data: profile } = await supabase
         .from('profiles')
-        .select('full_name, phone_number')
+        .select('full_name, phone_number, account_status')
         .eq('id', session.user.id)
         .single();
       
+      if (profile?.account_status === 'BANNED' || profile?.account_status === 'SUSPENDED') {
+        alert('Your account has been ' + profile.account_status.toLowerCase() + '. Please contact support.');
+        await supabase.auth.signOut();
+        return;
+      }
+
       if (profile?.full_name && profile?.phone_number) {
         setIsComplete(true);
         return;
