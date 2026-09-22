@@ -2,7 +2,7 @@
   "name": "nestara-estates-monorepo",
   "private": true,
   "scripts": {
-    "postinstall": "sed -i 's/const isV3 =.*/const isV3 = true;/g' node_modules/nativewind/dist/metro/tailwind/index.js || true && (cd node_modules/@tailwindcss/postcss && npm install tailwindcss@4 --no-save) || true"
+    "postinstall": "sed -i 's/const isV3 =.*/const isV3 = true;/g' node_modules/nativewind/dist/metro/tailwind/index.js || true"
   },
   "overrides": {
     "@tailwindcss/postcss": {
