@@ -19,9 +19,14 @@ export default function SignupScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const router = useRouter();
 
   async function signUpWithEmail() {
+    if (!acceptedTerms) {
+      Alert.alert('Terms Required', 'Please accept the terms and conditions to create an account.');
+      return;
+    }
     setLoading(true);
     const { error, data } = await supabase.auth.signUp({
       email: email,
@@ -53,6 +58,10 @@ export default function SignupScreen() {
 
   // Placeholder for future Google Auth implementation
   async function signUpWithGoogle() {
+    if (!acceptedTerms) {
+      Alert.alert('Terms Required', 'Please accept the terms and conditions to create an account.');
+      return;
+    }
     try {
       setLoading(true);
       await GoogleSignin.hasPlayServices();
@@ -131,6 +140,18 @@ export default function SignupScreen() {
                   secureTextEntry
                   className="w-full bg-white border border-zinc-200 rounded-md px-3 py-2 text-zinc-900"
                 />
+              </View>
+
+              <View className="flex-row mt-2 mb-1 pr-4">
+                <Pressable 
+                  onPress={() => setAcceptedTerms(!acceptedTerms)}
+                  className={`w-5 h-5 rounded border items-center justify-center mr-2 mt-0.5 ${acceptedTerms ? 'bg-amber-500 border-amber-500' : 'border-zinc-300 bg-white'}`}
+                >
+                  {acceptedTerms && <Text className="text-white text-xs font-bold">✓</Text>}
+                </Pressable>
+                <Text className="text-xs text-zinc-600 flex-1 leading-tight">
+                  I agree to the <Link href="/settings/terms" asChild><Text className="text-blue-600 font-medium">Terms and Conditions</Text></Link>
+                </Text>
               </View>
 
               <Pressable
