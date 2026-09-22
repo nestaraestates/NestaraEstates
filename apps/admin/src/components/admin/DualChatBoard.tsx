@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, User, Building, Phone, MessageSquare } from 'lucide-react'
 import { sendChatMessage } from '@/app/actions/admin-chat'
+import { createClient } from '@/utils/supabase/client'
 
 type Tab = 'BUYER' | 'SELLER'
 
@@ -12,6 +13,8 @@ export function DualChatBoard({ enquiry, initialMessages, adminId }: { enquiry: 
   const [inputText, setInputText] = useState('')
   const [isSending, setIsSending] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
+  
+  const supabase = createClient()
 
   const buyerId = enquiry.user_id
   const sellerId = enquiry.properties?.owner_id
@@ -22,6 +25,30 @@ export function DualChatBoard({ enquiry, initialMessages, adminId }: { enquiry: 
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
   }, [messages, activeTab])
+
+  // Real-time listener
+  useEffect(() => {
+    const channel = supabase
+      .channel('messages_channel')
+      .on('postgres_changes', { 
+        event: 'INSERT', 
+        schema: 'public', 
+        table: 'messages',
+        filter: `enquiry_id=eq.${enquiry.id}`
+      }, (payload) => {
+        const newMsg = payload.new
+        // Avoid duplicating optimistically added messages
+        setMessages((prev) => {
+          if (prev.find(m => m.id === newMsg.id)) return prev
+          return [...prev, newMsg]
+        })
+      })
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [enquiry.id, supabase])
 
   // Filter messages for current tab
   const targetUserId = activeTab === 'BUYER' ? buyerId : sellerId
