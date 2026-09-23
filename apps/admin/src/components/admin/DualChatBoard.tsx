@@ -39,8 +39,20 @@ export function DualChatBoard({ enquiry, initialMessages, adminId }: { enquiry: 
         const newMsg = payload.new
         // Avoid duplicating optimistically added messages
         setMessages((prev) => {
-          if (prev.find(m => m.id === newMsg.id)) return prev
-          return [...prev, newMsg]
+          if (prev.find(m => m.id === newMsg.id)) return prev;
+          
+          const hasOptimistic = prev.some(m => String(m.id).startsWith('temp-') && m.message === newMsg.message);
+          if (hasOptimistic) {
+            let replaced = false;
+            return prev.map(m => {
+              if (!replaced && String(m.id).startsWith('temp-') && m.message === newMsg.message) {
+                replaced = true;
+                return newMsg;
+              }
+              return m;
+            });
+          }
+          return [...prev, newMsg];
         })
       })
       .subscribe()
