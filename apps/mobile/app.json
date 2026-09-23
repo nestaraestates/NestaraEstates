@@ -8,7 +8,8 @@
     "scheme": "mobile",
     "userInterfaceStyle": "light",
     "ios": {
-      "icon": "./assets/images/logo.png"
+      "icon": "./assets/images/logo.png",
+      "bundleIdentifier": "com.nestara.estates"
     },
     "android": {
       "package": "com.nestara.estates",
@@ -34,7 +35,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#ffffff",
           "image": "./assets/images/logo.png",
           "imageWidth": 76
         }

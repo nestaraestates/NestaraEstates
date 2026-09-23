@@ -161,6 +161,8 @@ export default function OnboardingScreen() {
  className="flex-1"
  contentContainerStyle={{ padding: 16, paddingVertical: 24 }}
  showsVerticalScrollIndicator={false}
+ keyboardShouldPersistTaps="handled"
+ keyboardDismissMode="on-drag"
  >
  <View className="items-center mb-8 mt-4 space-y-2">
  <Text className="text-3xl font-bold tracking-tight text-slate-900">Complete Profile</Text>

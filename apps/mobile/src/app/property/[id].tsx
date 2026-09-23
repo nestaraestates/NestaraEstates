@@ -332,7 +332,16 @@ export default function PropertyDetailsScreen() {
           </View>
 
           <View className="flex-row space-x-3">
-            <Pressable className="flex-row items-center border border-zinc-200 px-4 py-2 rounded-full" onPress={() => Alert.alert('Share', 'Share menu coming soon')}>
+            <Pressable className="flex-row items-center border border-zinc-200 px-4 py-2 rounded-full" onPress={async () => {
+              try {
+                const siteUrl = process.env.EXPO_PUBLIC_SITE_URL || 'https://your-future-domain.com';
+                await require('react-native').Share.share({
+                  message: `Check out this property on Nestara Estates: ${property.title} for ₹${property.price.toLocaleString('en-IN')}\n\n${siteUrl}/property/${property.id}`,
+                });
+              } catch (error: any) {
+                Alert.alert('Error', error.message);
+              }
+            }}>
               <Text className="text-zinc-700 font-bold ml-1">Share</Text>
             </Pressable>
             <Pressable className="flex-row items-center border border-zinc-200 px-4 py-2 rounded-full" onPress={toggleFavorite}>
@@ -393,10 +402,22 @@ export default function PropertyDetailsScreen() {
               </Text>
             </View>
             <View className="space-y-2">
-              <View className="flex-row items-center"><Text className="text-amber-600 mr-2">✓</Text><Text className="text-zinc-700 font-medium">Encumbrances Check: Pending</Text></View>
-              <View className="flex-row items-center"><Text className="text-amber-600 mr-2">✓</Text><Text className="text-zinc-700 font-medium">Tax Receipts: Pending</Text></View>
-              <View className="flex-row items-center"><Text className="text-amber-600 mr-2">✓</Text><Text className="text-zinc-700 font-medium">Title Document: Pending</Text></View>
-              <View className="flex-row items-center"><Text className="text-amber-600 mr-2">✓</Text><Text className="text-zinc-700 font-medium">Identity Verification: Pending</Text></View>
+              <View className="flex-row items-center">
+                <Text className={property.is_verified ? "text-emerald-600 mr-2" : "text-amber-600 mr-2"}>✓</Text>
+                <Text className="text-zinc-700 font-medium">Encumbrances Check: {property.is_verified ? 'Verified' : 'Pending'}</Text>
+              </View>
+              <View className="flex-row items-center">
+                <Text className={property.is_verified ? "text-emerald-600 mr-2" : "text-amber-600 mr-2"}>✓</Text>
+                <Text className="text-zinc-700 font-medium">Tax Receipts: {property.is_verified ? 'Verified' : 'Pending'}</Text>
+              </View>
+              <View className="flex-row items-center">
+                <Text className={property.is_verified ? "text-emerald-600 mr-2" : "text-amber-600 mr-2"}>✓</Text>
+                <Text className="text-zinc-700 font-medium">Title Document: {property.is_verified ? 'Verified' : 'Pending'}</Text>
+              </View>
+              <View className="flex-row items-center">
+                <Text className={property.is_verified ? "text-emerald-600 mr-2" : "text-amber-600 mr-2"}>✓</Text>
+                <Text className="text-zinc-700 font-medium">Identity Verification: {property.is_verified ? 'Verified' : 'Pending'}</Text>
+              </View>
             </View>
           </View>
 

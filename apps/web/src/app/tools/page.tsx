@@ -3,6 +3,8 @@ import { RentVsBuyCalculator } from '@/components/calculators/RentVsBuyCalculato
 import { RoiCalculator } from '@/components/calculators/RoiCalculator'
 
 
+import { AreaConverter } from '@/components/calculators/AreaConverter'
+
 export default function ToolsPage() {
   return (
     <div className="container mx-auto px-4 py-16 max-w-6xl">
@@ -11,7 +13,7 @@ export default function ToolsPage() {
           Financial <span className="text-amber-500">Tools & Calculators</span>
         </h1>
         <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-          Make smart, data-driven real estate decisions. Use our free tools to estimate EMIs, compare renting vs buying, and calculate ROI.
+          Make smart, data-driven real estate decisions. Use our free tools to estimate EMIs, compare renting vs buying, convert areas, and calculate ROI.
         </p>
       </div>
 
@@ -41,6 +43,15 @@ export default function ToolsPage() {
             <p className="text-zinc-500 dark:text-zinc-400">Evaluate an investment property. Calculate rental yields, appreciation, and total return on investment.</p>
           </div>
           <RoiCalculator />
+        </section>
+
+        {/* Area Converter */}
+        <section id="area-converter" className="scroll-mt-24 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Area Converter</h2>
+            <p className="text-zinc-500 dark:text-zinc-400">Convert property measurements instantly between Sq Ft, Sq Meter, Acres, Hectares, Bigha, and Gunta.</p>
+          </div>
+          <AreaConverter />
         </section>
       </div>
     </div>

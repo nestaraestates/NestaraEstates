@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, ActivityIndicator, Alert, ScrollView, Image } from 'react-native';
+import { View, Text, TextInput, Pressable, ActivityIndicator, Alert, ScrollView, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, useRouter } from 'expo-router';
 import { supabase } from '@/lib/supabase';
@@ -102,7 +102,11 @@ export default function SignupScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-zinc-50">
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} keyboardShouldPersistTaps="handled">
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+        className="flex-1"
+      >
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
         <View className="p-4 w-full max-w-md mx-auto">
           <View className="w-full bg-white border border-zinc-200 rounded-xl shadow-sm overflow-hidden">
             
@@ -194,6 +198,7 @@ export default function SignupScreen() {
           </View>
         </View>
       </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

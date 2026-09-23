@@ -10,7 +10,7 @@ export default function TermsScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-row items-center p-4 border-b border-zinc-200">
-        <Pressable onPress={() => router.push('/settings' as any)} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}} className="mr-3 p-1">
+        <Pressable onPress={() => { if(router.canGoBack()) router.back(); else router.push('/settings' as any); }} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}} className="mr-3 p-1">
           <ChevronLeft size={24} color="#18181b" />
         </Pressable>
         <Text className="text-xl font-bold text-zinc-900">Terms of Service</Text>

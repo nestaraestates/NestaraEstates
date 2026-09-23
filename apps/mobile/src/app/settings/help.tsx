@@ -11,7 +11,7 @@ export default function HelpScreen() {
   return (
     <SafeAreaView className="flex-1 bg-zinc-50">
       <View className="flex-row items-center p-4 border-b border-zinc-200 bg-white">
-        <Pressable onPress={() => router.push('/settings' as any)} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}} className="mr-3 p-1">
+        <Pressable onPress={() => { if(router.canGoBack()) router.back(); else router.push('/settings' as any); }} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}} className="mr-3 p-1">
           <ChevronLeft size={24} color="#18181b" />
         </Pressable>
         <Text className="text-xl font-bold text-zinc-900">Help & Support</Text>
@@ -104,11 +104,11 @@ export default function HelpScreen() {
           </Pressable>
 
           <Pressable 
-            onPress={() => Alert.alert('Coming Soon', 'Our official LinkedIn page will be live soon!')}
-            className="flex-1 items-center justify-center bg-white border border-zinc-200 py-5 rounded-2xl shadow-sm opacity-80"
+            onPress={() => Linking.openURL('https://www.linkedin.com/in/nestaraestates')}
+            className="flex-1 items-center justify-center bg-white border border-zinc-200 py-5 rounded-2xl shadow-sm "
           >
-            <FontAwesome5 name="linkedin" size={28} color="#94a3b8" />
-            <Text className="text-xs font-bold text-zinc-500 mt-2">Coming Soon</Text>
+            <FontAwesome5 name="linkedin" size={28} color="#0077b5" />
+            <Text className="text-xs font-bold text-zinc-700 mt-2">LinkedIn</Text>
           </Pressable>
         </View>
       </ScrollView>

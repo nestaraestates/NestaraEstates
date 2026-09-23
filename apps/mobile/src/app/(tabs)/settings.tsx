@@ -3,7 +3,7 @@ import { View, Text, ScrollView, ActivityIndicator, Pressable, Image } from 'rea
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'expo-router';
-import { User, Heart, Home, Settings, LogOut, ChevronRight, Bell, Shield, HelpCircle, FileText } from 'lucide-react-native';
+import { User, Heart, Home, Settings, LogOut, ChevronRight, Bell, Shield, HelpCircle, FileText, Calculator } from 'lucide-react-native';
 
 export default function ProfileScreen() {
  const [profile, setProfile] = useState<any>(null);
@@ -51,8 +51,9 @@ export default function ProfileScreen() {
       ]
     },
     {
-      title: 'Preferences',
+      title: 'Tools & Preferences',
       items: [
+        { icon: <Calculator size={22} color="#8b5cf6" /> as any, title: 'Calculators & Tools', subtitle: 'EMI, ROI, Area Converter', route: '/tools' },
         { icon: <Bell size={22} color="#f59e0b" /> as any, title: 'Notifications', subtitle: 'Manage alerts and messages', route: '/notifications' },
         { icon: <Settings size={22} color="#64748b" /> as any, title: 'App Settings', subtitle: 'Language, dark mode, etc.', route: '/settings/app-settings' },
       ]

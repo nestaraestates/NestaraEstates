@@ -12,7 +12,8 @@ export async function completeOnboarding(formData: FormData) {
   }
 
   const fullName = formData.get('full_name') as string
-  const phoneNumber = formData.get('phone_number') as string
+  const phoneInput = formData.get('phone_number_input') as string
+  const phoneNumber = phoneInput ? `+91 ${phoneInput}` : formData.get('phone_number') as string
   const address = formData.get('address') as string
   const whatsappEnabled = formData.get('whatsapp_enabled') === 'true'
   const primaryIntent = formData.get('primary_intent') as string

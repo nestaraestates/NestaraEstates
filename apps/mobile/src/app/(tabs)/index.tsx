@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TextInput, Pressable, ActivityIndicator, Image, Modal, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Search, MapPin, SlidersHorizontal, Home as HomeIcon, Building2, LayoutGrid, Trees, Briefcase, Store, X, Bell } from 'lucide-react-native';
+import { Search, MapPin, SlidersHorizontal, Home as HomeIcon, Building2, LayoutGrid, Trees, Briefcase, Store, X, Bell, Calculator } from 'lucide-react-native';
 import PropertyCard from '@/components/PropertyCard';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'expo-router';
@@ -196,6 +196,9 @@ export default function HomeScreen() {
               </Pressable>
             </View>
             <View className="flex-row items-center space-x-4">
+              <Pressable onPress={() => router.push('/tools' as any)} className="relative mr-1">
+                <Calculator size={24} color="#71717a" />
+              </Pressable>
               <Pressable onPress={() => router.push('/notifications' as any)} className="relative">
                 <Bell size={24} color="#71717a" />
                 {hasUnreadNotifications && (
