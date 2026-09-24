@@ -154,8 +154,9 @@ export default function OnboardingScreen() {
  return (
  <SafeAreaView className="flex-1 bg-slate-50">
  <KeyboardAvoidingView 
- behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+ behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} 
  className="flex-1"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 20}
  >
  <ScrollView 
  className="flex-1"
