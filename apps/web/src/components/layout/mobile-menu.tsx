@@ -18,6 +18,7 @@ export function MobileMenu() {
     { name: 'Tools', href: '/tools' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
+    { name: '📱 Get the Android App', href: 'https://github.com/nestaraestates/nestara-estates-releases/releases/download/nestaraestates.apk/NestaraEstates.apk' },
     { name: 'List Your Property', href: '/list-property' },
   ]
 

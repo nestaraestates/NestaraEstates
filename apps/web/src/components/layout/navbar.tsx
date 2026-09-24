@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Building, User, LogOut, MessageSquare } from 'lucide-react'
+import { Building, Smartphone, User, LogOut, MessageSquare } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -71,6 +71,13 @@ export function Navbar() {
                 Tools
               </Link>
             </div>
+            
+            <Link href="https://github.com/nestaraestates/nestara-estates-releases/releases/download/nestaraestates.apk/NestaraEstates.apk" target="_blank" className="hidden sm:block">
+              <Button variant="ghost" className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:text-emerald-500 dark:hover:bg-emerald-950/30 font-bold flex items-center gap-2">
+                <Smartphone className="h-4 w-4" />
+                Get App
+              </Button>
+            </Link>
             
             <Link href="/list-property" className="hidden sm:block">
               <Button variant="outline" className="border-amber-500 text-amber-600 hover:bg-amber-50 dark:border-amber-600 dark:text-amber-500 dark:hover:bg-amber-950/30">
