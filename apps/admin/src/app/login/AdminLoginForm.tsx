@@ -1,6 +1,6 @@
 'use client'
 
-import { login } from './actions'
+import { login, loginWithGoogle } from './actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -58,13 +58,10 @@ export function AdminLoginForm() {
       <Button 
         type="button" 
         onClick={async () => {
-          const supabase = createClient()
-          await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-              redirectTo: `${window.location.origin}/auth/callback`,
-            },
-          })
+          const res = await loginWithGoogle();
+          if (res.success && res.url) {
+            window.location.href = res.url;
+          }
         }}
         variant="outline" 
         className="w-full border-zinc-200 hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-900"

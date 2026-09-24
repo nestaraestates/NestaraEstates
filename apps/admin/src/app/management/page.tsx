@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
 import Link from 'next/link'
-import { promoteToAdmin, demoteFromAdmin } from './actions'
+import { promoteToAdmin, demoteFromAdmin, updateUserStatus } from './actions'
 import { isSuperAdmin } from '@/lib/admin'
 
 export default async function ManagementPage({
@@ -108,9 +108,25 @@ export default async function ManagementPage({
                           )}
                         </td>
                       )}
-                      <td className="px-4 py-3 space-x-2 flex">
-                        <Button variant="outline" size="sm">Suspend</Button>
-                        <Button variant="destructive" size="sm">Ban</Button>
+                      <td className="px-4 py-3 flex gap-2">
+                        {profile.account_status === 'SUSPENDED' ? (
+                          <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'ACTIVE'); }}>
+                            <Button type="submit" variant="outline" size="sm" className="text-emerald-600 border-emerald-200 hover:bg-emerald-50">Unsuspend</Button>
+                          </form>
+                        ) : (
+                          <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'SUSPENDED'); }}>
+                            <Button type="submit" variant="outline" size="sm">Suspend</Button>
+                          </form>
+                        )}
+                        {profile.account_status === 'BANNED' ? (
+                          <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'ACTIVE'); }}>
+                            <Button type="submit" variant="outline" size="sm" className="text-emerald-600 border-emerald-200 hover:bg-emerald-50">Unban</Button>
+                          </form>
+                        ) : (
+                          <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'BANNED'); }}>
+                            <Button type="submit" variant="destructive" size="sm">Ban</Button>
+                          </form>
+                        )}
                       </td>
                     </tr>
                   ))}
