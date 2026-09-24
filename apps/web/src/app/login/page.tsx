@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Building } from 'lucide-react'
 import Link from 'next/link'
 import { LoginForm } from './LoginForm'
-import { DownloadAppButton } from '@/components/DownloadAppButton'
+
 
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
@@ -18,9 +18,6 @@ export default async function LoginPage() {
   }
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 p-4 dark:bg-zinc-950">
-      <div className="w-full max-w-md flex justify-center mb-6">
-        <DownloadAppButton />
-      </div>
       <Card className="w-full max-w-md border-zinc-200 shadow-xl dark:border-zinc-800">
         <CardHeader className="space-y-2 text-center pb-6">
           <div className="flex justify-center mb-2">
