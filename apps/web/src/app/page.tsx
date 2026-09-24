@@ -5,6 +5,7 @@ import { ShieldCheck, Search, Building2, TrendingUp, Sparkles } from 'lucide-rea
 import { HomeSearch } from '@/components/properties/HomeSearch'
 import { createStaticClient } from '@/utils/supabase/static'
 import { PropertyCard } from '@/components/properties/PropertyCard'
+import { DownloadAppButton } from '@/components/DownloadAppButton'
 
 export const revalidate = 60
 
@@ -36,6 +37,7 @@ export default async function Home() {
         </div>
 
         <div className="container relative z-10 mx-auto px-4 text-center mt-10">
+          <div className="flex justify-center mb-6"><DownloadAppButton /></div>
           <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
             Find a Property <br className="hidden sm:block" />
             <span className="text-amber-500">You Can Trust.</span>
