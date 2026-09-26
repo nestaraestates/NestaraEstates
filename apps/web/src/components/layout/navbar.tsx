@@ -72,7 +72,7 @@ export function Navbar() {
               </Link>
             </div>
             
-            <Link href="https://github.com/nestaraestates/nestara-estates-releases/releases/download/nestaraestates.apk/NestaraEstates.apk" target="_blank" className="hidden sm:block">
+            <Link href="https://github.com/nestaraestates/nestara-estates-releases/releases/download/nestaraestates.apk/NestaraEstates.apk" target="_blank">
               <Button variant="ghost" className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:text-emerald-500 dark:hover:bg-emerald-950/30 font-bold flex items-center gap-2">
                 <Smartphone className="h-4 w-4" />
                 Get App
