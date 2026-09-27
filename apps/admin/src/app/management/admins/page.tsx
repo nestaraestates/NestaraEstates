@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Search, ShieldAlert, ShieldCheck, User, ShieldX, Key, CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
 import { promoteToAdmin, demoteFromAdmin } from '../actions'
-import { isSuperAdmin } from '@/lib/admin'
+import { isSuperAdmin, SUPER_ADMIN_EMAILS } from '@/lib/admin'
 import { redirect } from 'next/navigation'
 
 export default async function ManageAdminsPage({
