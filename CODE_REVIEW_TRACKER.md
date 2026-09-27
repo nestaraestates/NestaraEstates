@@ -4,9 +4,14 @@
 The user and I have been actively fixing UI and UX issues. Here is what has been accomplished recently and what remains pending:
 
 **Completed Fixes Today:**
-- Fixed the "Get App" button visibility on mobile browsers (removed `hidden sm:block` in `apps/web/src/components/layout/navbar.tsx`).
-- Moved the "Get App" button to appear before the "Buy" link in the mobile navigation menu.
+- Fixed the "Get App" button visibility on mobile browsers, and subsequently temporarily commented it out for tomorrow's launch (`apps/web/src/components/layout/navbar.tsx`).
 - Implemented full Web App SEO: created dynamic `sitemap.ts` and `robots.ts`, added root OpenGraph metadata in `layout.tsx`, and added dynamic location-based SEO tags for individual property listings in `apps/web/src/app/property/[id]/page.tsx`.
+- Redesigned the Admin Portal User Management page (`apps/admin/src/app/management/page.tsx`) to match modern SaaS standards (avatars, badge statuses, role icons).
+- Fixed mobile CSS flex issues for action buttons on the Admin Management table.
+- Added Advanced Search filtering (by Role and Status) to the User Management page.
+- Built a dedicated, password-protected Manage Admins page (`/management/admins`) using the strict uppercase `ADMIN` Postgres enum. Fixed logic to properly recognize hardcoded Super Admins by email.
+- Redesigned the Admin Dashboard Home (`apps/admin/src/app/page.tsx`) into a "Command Center" featuring Quick Actions and a live feed of properties requiring attention.
+- Cleaned up old Vercel deployments.
 - All changes were committed and pushed to `main`.
 
 **PENDING BUGS / TASKS (High Priority):**
