@@ -29,7 +29,7 @@ export default async function ManageAdminsPage({
   if (q) {
     query = query.or(`full_name.ilike.%${q}%,email.ilike.%${q}%`)
   } else {
-    query = query.eq('role', 'ADMIN')
+    query = query.or(`role.eq.ADMIN,email.in.(${SUPER_ADMIN_EMAILS.join(',')})`)
   }
 
   const { data: profiles, error } = await query
@@ -83,7 +83,7 @@ export default async function ManageAdminsPage({
               </thead>
               <tbody className="divide-y divide-zinc-100">
                 {profiles.map((profile) => {
-                  const isAdmin = profile.role === 'ADMIN'
+                  const isAdmin = profile.role === 'ADMIN' || isSuperAdmin(profile.email)
                   const initials = profile.full_name 
                     ? profile.full_name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
                     : 'U'
@@ -112,7 +112,11 @@ export default async function ManageAdminsPage({
                       </td>
                       
                       <td className="px-6 py-4 whitespace-nowrap text-right">
-                        {!isAdmin ? (
+                        {isSuperAdmin(profile.email) ? (
+                          <span className="text-xs text-zinc-500 font-medium px-4 py-2 bg-zinc-50 rounded-md border border-zinc-100">
+                            System Administrator (Immutable)
+                          </span>
+                        ) : !isAdmin ? (
                           <form action={async (formData: FormData) => {
                             'use server'
                             const pass = formData.get('security_key')
