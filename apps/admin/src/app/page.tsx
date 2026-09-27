@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
-import { Users, Building, ShieldCheck, ShieldAlert, ArrowRight, MessageSquare, Activity, MapPin, Search } from 'lucide-react'
+import { Users, User, Building, ShieldCheck, ShieldAlert, ArrowRight, MessageSquare, Activity, MapPin, Search } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -166,7 +166,7 @@ export default async function AdminDashboard() {
                         <h4 className="font-semibold text-zinc-900 line-clamp-1">{prop.title}</h4>
                         <div className="flex items-center gap-3 mt-1.5 text-xs text-zinc-500">
                           <span className="flex items-center gap-1"><MapPin className="h-3 w-3" /> {prop.city}</span>
-                          <span className="flex items-center gap-1"><User className="h-3 w-3" /> {prop.profiles?.full_name || 'Unknown'}</span>
+                          <span className="flex items-center gap-1"><User className="h-3 w-3" /> {Array.isArray(prop.profiles) ? prop.profiles[0]?.full_name : (prop.profiles as any)?.full_name || 'Unknown'}</span>
                         </div>
                       </div>
                       <Link href={`/properties/${prop.id}`} className="shrink-0">
