@@ -108,25 +108,27 @@ export default async function ManagementPage({
                           )}
                         </td>
                       )}
-                      <td className="px-4 py-3 flex gap-2">
-                        {profile.account_status === 'SUSPENDED' ? (
-                          <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'ACTIVE'); }}>
-                            <Button type="submit" variant="outline" size="sm" className="text-emerald-600 border-emerald-200 hover:bg-emerald-50">Unsuspend</Button>
-                          </form>
-                        ) : (
-                          <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'SUSPENDED'); }}>
-                            <Button type="submit" variant="outline" size="sm">Suspend</Button>
-                          </form>
-                        )}
-                        {profile.account_status === 'BANNED' ? (
-                          <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'ACTIVE'); }}>
-                            <Button type="submit" variant="outline" size="sm" className="text-emerald-600 border-emerald-200 hover:bg-emerald-50">Unban</Button>
-                          </form>
-                        ) : (
-                          <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'BANNED'); }}>
-                            <Button type="submit" variant="destructive" size="sm">Ban</Button>
-                          </form>
-                        )}
+                      <td className="px-4 py-3">
+                        <div className="flex flex-wrap items-center gap-2 min-w-[160px]">
+                          {profile.account_status === 'SUSPENDED' ? (
+                            <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'ACTIVE'); }}>
+                              <Button type="submit" variant="outline" size="sm" className="text-emerald-600 border-emerald-200 hover:bg-emerald-50 w-full sm:w-auto">Unsuspend</Button>
+                            </form>
+                          ) : (
+                            <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'SUSPENDED'); }}>
+                              <Button type="submit" variant="outline" size="sm" className="w-full sm:w-auto">Suspend</Button>
+                            </form>
+                          )}
+                          {profile.account_status === 'BANNED' ? (
+                            <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'ACTIVE'); }}>
+                              <Button type="submit" variant="outline" size="sm" className="text-emerald-600 border-emerald-200 hover:bg-emerald-50 w-full sm:w-auto">Unban</Button>
+                            </form>
+                          ) : (
+                            <form action={async () => { 'use server'; await updateUserStatus(profile.id, 'BANNED'); }}>
+                              <Button type="submit" variant="destructive" size="sm" className="w-full sm:w-auto">Ban</Button>
+                            </form>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}
