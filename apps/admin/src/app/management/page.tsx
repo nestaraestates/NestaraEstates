@@ -14,6 +14,8 @@ export default async function ManagementPage({
 }) {
   const params = await searchParams
   const q = typeof params.q === 'string' ? params.q : ''
+  const role = typeof params.role === 'string' ? params.role : ''
+  const status = typeof params.status === 'string' ? params.status : ''
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -23,38 +25,72 @@ export default async function ManagementPage({
   if (q) {
     query = query.or(`full_name.ilike.%${q}%,custom_id.ilike.%${q}%,email.ilike.%${q}%`)
   }
+  if (role) {
+    query = query.eq('role', role)
+  }
+  if (status) {
+    if (status === 'ACTIVE') {
+      query = query.or('account_status.eq.ACTIVE,account_status.is.null')
+    } else {
+      query = query.eq('account_status', status)
+    }
+  }
 
   const { data: profiles, error } = await query
 
   return (
     <div className="space-y-8 max-w-[1400px] mx-auto pb-12">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-zinc-900">User Management</h1>
           <p className="text-zinc-500 mt-1 text-sm md:text-base">Monitor user accounts, manage roles, and enforce security policies.</p>
         </div>
         
-        <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 w-full xl:w-auto">
           {isSuper && (
             <Link href="/management/admins">
-              <Button variant="outline" className="w-full sm:w-auto shadow-sm">
+              <Button variant="outline" className="w-full lg:w-auto shadow-sm whitespace-nowrap">
                 <ShieldCheck className="h-4 w-4 mr-2" /> Manage Admins
               </Button>
             </Link>
           )}
-          <form method="GET" action="/management" className="flex items-center gap-2 w-full sm:w-auto">
-            <div className="relative w-full sm:w-80">
+          <form method="GET" action="/management" className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto bg-zinc-50/80 p-2 rounded-xl border border-zinc-100">
+            <div className="relative w-full sm:w-56">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
               <Input 
                 type="search" 
                 name="q"
-                placeholder="Search by name, email, or ID..." 
-                className="pl-9 bg-white shadow-sm border-zinc-200 focus-visible:ring-zinc-900 rounded-lg"
+                placeholder="Search users..." 
+                className="pl-9 bg-white shadow-sm border-zinc-200 focus-visible:ring-zinc-900 rounded-lg h-10"
                 defaultValue={q}
               />
             </div>
-            <Button type="submit" className="bg-zinc-900 text-white hover:bg-zinc-800 rounded-lg shadow-sm">Search</Button>
+            
+            <div className="flex w-full sm:w-auto gap-3">
+              <select 
+                name="role" 
+                defaultValue={role}
+                className="w-full sm:w-auto h-10 px-3 py-2 text-sm bg-white border border-zinc-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
+              >
+                <option value="">All Roles</option>
+                <option value="USER">Users</option>
+                <option value="ADMIN">Admins</option>
+              </select>
+              
+              <select 
+                name="status" 
+                defaultValue={status}
+                className="w-full sm:w-auto h-10 px-3 py-2 text-sm bg-white border border-zinc-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
+              >
+                <option value="">All Statuses</option>
+                <option value="ACTIVE">Active</option>
+                <option value="SUSPENDED">Suspended</option>
+                <option value="BANNED">Banned</option>
+              </select>
+            </div>
+
+            <Button type="submit" className="w-full sm:w-auto bg-zinc-900 text-white hover:bg-zinc-800 rounded-lg shadow-sm h-10 px-6">Filter</Button>
           </form>
         </div>
       </div>
@@ -192,9 +228,9 @@ export default async function ManagementPage({
               <p className="text-zinc-500 max-w-sm">
                 {q ? `We couldn't find any users matching "${q}". Try adjusting your search term.` : 'There are no users registered in the system yet.'}
               </p>
-              {q && (
+              {(q || role || status) && (
                 <Link href="/management" className="mt-4">
-                  <Button variant="outline">Clear Search</Button>
+                  <Button variant="outline">Clear Filters</Button>
                 </Link>
               )}
             </div>
