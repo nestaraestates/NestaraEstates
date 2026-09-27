@@ -92,7 +92,7 @@ export default async function ManagementPage({
                   const isActive = profile.account_status === 'ACTIVE' || !profile.account_status
                   const isSuspended = profile.account_status === 'SUSPENDED'
                   const isBanned = profile.account_status === 'BANNED'
-                  const isAdmin = profile.role === 'admin'
+                  const isAdmin = profile.role === 'ADMIN'
                   
                   // Generate Avatar Initials
                   const initials = profile.full_name 

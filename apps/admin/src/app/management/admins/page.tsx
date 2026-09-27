@@ -29,7 +29,7 @@ export default async function ManageAdminsPage({
   if (q) {
     query = query.or(`full_name.ilike.%${q}%,email.ilike.%${q}%`)
   } else {
-    query = query.eq('role', 'admin')
+    query = query.eq('role', 'ADMIN')
   }
 
   const { data: profiles, error } = await query
@@ -83,7 +83,7 @@ export default async function ManageAdminsPage({
               </thead>
               <tbody className="divide-y divide-zinc-100">
                 {profiles.map((profile) => {
-                  const isAdmin = profile.role === 'admin'
+                  const isAdmin = profile.role === 'ADMIN'
                   const initials = profile.full_name 
                     ? profile.full_name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase()
                     : 'U'

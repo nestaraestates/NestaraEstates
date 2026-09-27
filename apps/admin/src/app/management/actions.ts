@@ -17,7 +17,7 @@ export async function promoteToAdmin(userId: string) {
   
   const { error } = await supabase
     .from('profiles')
-    .update({ role: 'admin' })
+    .update({ role: 'ADMIN' })
     .eq('id', userId)
 
   if (error) {
@@ -25,6 +25,7 @@ export async function promoteToAdmin(userId: string) {
   }
 
   revalidatePath('/management')
+  revalidatePath('/management/admins')
 }
 
 export async function demoteFromAdmin(userId: string) {
@@ -40,11 +41,12 @@ export async function demoteFromAdmin(userId: string) {
 
   const { error } = await supabase
     .from('profiles')
-    .update({ role: 'user' })
+    .update({ role: 'USER' })
     .eq('id', userId)
 
   if (error) throw new Error(error.message)
   revalidatePath('/management')
+  revalidatePath('/management/admins')
 }
 
 export async function updateUserStatus(userId: string, status: 'ACTIVE' | 'SUSPENDED' | 'BANNED') {
