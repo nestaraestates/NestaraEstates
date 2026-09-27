@@ -55,7 +55,6 @@ export function Navbar() {
             </Link>
             <NavLinks />
           </div>
-
           <div className="flex items-center gap-2 md:gap-4">
             <Link href="https://github.com/nestaraestates/nestara-estates-releases/releases/download/nestaraestates.apk/NestaraEstates.apk" target="_blank">
               <Button variant="ghost" className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:text-emerald-500 dark:hover:bg-emerald-950/30 font-bold flex items-center gap-2">
