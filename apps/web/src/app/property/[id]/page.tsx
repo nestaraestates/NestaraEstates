@@ -1,6 +1,7 @@
 ;
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
+import { Metadata } from 'next'
 import { deleteProperty } from './actions'
 import { EmiCalculator } from '@/components/calculators/EmiCalculator'
 import { RentVsBuyCalculator } from '@/components/calculators/RentVsBuyCalculator'
@@ -14,6 +15,49 @@ import { ShareButton } from '@/components/properties/ShareButton'
 import Link from 'next/link'
 import { BuyerInteractionTabs } from '@/components/buyer/BuyerInteractionTabs'
 import { formatIndianCurrencyShort } from '@/lib/formatPrice'
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const resolvedParams = await params
+  const { id } = resolvedParams
+  const supabase = await createClient()
+  const { data: property } = await supabase
+    .from('properties')
+    .select('title, description, price, city, location, property_media(url, media_type)')
+    .eq('id', id)
+    .single()
+
+  if (!property) {
+    return {
+      title: 'Property Not Found | Nestara Estates'
+    }
+  }
+
+  const publicImages = property.property_media?.filter((m: any) => m.media_type === 'IMAGE') || []
+  const imageUrl = publicImages[0]?.url || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2075'
+  const displayLocation = property.location.includes('|') ? property.location.split('|')[1].trim() : property.location.trim()
+  const cleanCity = property.city.trim()
+  const finalLocation = displayLocation.toLowerCase() === cleanCity.toLowerCase() ? displayLocation : `${displayLocation}, ${cleanCity}`
+  
+  const title = `${property.title} in ${finalLocation} | Nestara Estates`
+  const description = property.description?.substring(0, 160) || `Verified property in ${finalLocation}. Check out this amazing real estate opportunity on Nestara Estates.`
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [{ url: imageUrl }],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [imageUrl],
+    }
+  }
+}
 
 export default async function PropertyDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;

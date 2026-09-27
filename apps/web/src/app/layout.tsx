@@ -16,6 +16,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Nestara Estates - Find a Property You Can Trust",
   description: "Discover, compare, verify and connect with premium properties through Nestara Estates.",
+  openGraph: {
+    title: "Nestara Estates - Find a Property You Can Trust",
+    description: "Discover, compare, verify and connect with premium properties through Nestara Estates.",
+    url: 'https://nestaraestates.com',
+    siteName: 'Nestara Estates',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Nestara Estates - Find a Property You Can Trust",
+    description: "Discover, compare, verify and connect with premium properties through Nestara Estates.",
+  }
 };
 
 export const viewport: Viewport = {
