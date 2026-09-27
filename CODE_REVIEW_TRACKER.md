@@ -6,7 +6,8 @@ The user and I have been actively fixing UI and UX issues. Here is what has been
 **Completed Fixes Today:**
 - Fixed the "Get App" button visibility on mobile browsers (removed `hidden sm:block` in `apps/web/src/components/layout/navbar.tsx`).
 - Moved the "Get App" button to appear before the "Buy" link in the mobile navigation menu.
-- Both changes were committed and pushed to `main`.
+- Implemented full Web App SEO: created dynamic `sitemap.ts` and `robots.ts`, added root OpenGraph metadata in `layout.tsx`, and added dynamic location-based SEO tags for individual property listings in `apps/web/src/app/property/[id]/page.tsx`.
+- All changes were committed and pushed to `main`.
 
 **PENDING BUGS / TASKS (High Priority):**
 These were brought up by the user from a previous session and still need to be fixed in the mobile app (`apps/mobile`):
