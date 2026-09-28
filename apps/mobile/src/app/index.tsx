@@ -19,7 +19,7 @@ export default function Index() {
 
  if (session === undefined) {
  return (
- <View className="flex-1 justify-center items-center bg-zinc-50 ">
+ <View className="flex-1 justify-center items-center bg-zinc-50 dark:bg-zinc-950 ">
  <ActivityIndicator size="large" color="#f59e0b" />
  </View>
  );
@@ -80,7 +80,7 @@ function ProfileCheck({ session }: { session: Session }) {
 
   if (isComplete === null) {
     return (
-      <View className="flex-1 justify-center items-center bg-zinc-50">
+      <View className="flex-1 justify-center items-center bg-zinc-50 dark:bg-zinc-950">
         <ActivityIndicator size="large" color="#f59e0b" />
       </View>
     );

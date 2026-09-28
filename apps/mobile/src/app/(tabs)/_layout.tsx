@@ -4,7 +4,7 @@ import { Building, User, Compass, PlusCircle, MessageSquare, Settings } from 'lu
 
 export default function TabsLayout() {
  return (
- <Tabs screenOptions={{ tabBarActiveTintColor: '#f59e0b', headerShown: false }}>
+ <Tabs screenOptions={{ tabBarActiveTintColor: '#f59e0b', headerShown: false, tabBarHideOnKeyboard: true }}>
  <Tabs.Screen
  name="index"
  options={{

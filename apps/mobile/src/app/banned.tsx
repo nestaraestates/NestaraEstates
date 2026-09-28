@@ -5,12 +5,12 @@ import { router } from 'expo-router';
 
 export default function BannedScreen() {
   return (
-    <View className="flex-1 justify-center items-center bg-zinc-50 px-6">
+    <View className="flex-1 justify-center items-center bg-zinc-50 dark:bg-zinc-950 px-6">
       <View className="bg-red-50 p-6 rounded-full mb-6">
         <ShieldAlert size={64} color="#ef4444" />
       </View>
-      <Text className="text-2xl font-bold text-zinc-900 mb-3 text-center">Account Disabled</Text>
-      <Text className="text-base text-zinc-600 text-center mb-8">
+      <Text className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mb-3 text-center">Account Disabled</Text>
+      <Text className="text-base text-zinc-600 dark:text-zinc-300 text-center mb-8">
         Your account has been banned or suspended. For more details, please contact the admin.
       </Text>
       
@@ -28,7 +28,7 @@ export default function BannedScreen() {
         }}
         className="py-4"
       >
-        <Text className="text-zinc-500 font-semibold text-base">Sign Out</Text>
+        <Text className="text-zinc-500 dark:text-zinc-400 font-semibold text-base">Sign Out</Text>
       </Pressable>
     </View>
   );

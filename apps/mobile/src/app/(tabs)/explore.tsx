@@ -123,21 +123,21 @@ export default function ExploreScreen() {
   };
 
   const renderHeader = () => (
-    <View className="px-4 pt-6 pb-4 bg-white border-b border-zinc-200">
+    <View className="px-4 pt-6 pb-4 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
       <View className="flex-row items-center mb-4">
         <Image source={require('@/assets/images/logo-sm.png')} className="w-8 h-8 mr-3 rounded-lg" resizeMode="contain" />
-        <Text className="text-2xl font-bold text-zinc-900">Explore</Text>
+        <Text className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">Explore</Text>
       </View>
       
       {/* Search & Filter */}
       <View className="flex-row items-center mb-6">
-        <View className="flex-1 flex-row items-center bg-zinc-100 px-4 py-3 rounded-xl">
+        <View className="flex-1 flex-row items-center bg-zinc-100 dark:bg-zinc-800 px-4 py-3 rounded-xl">
           <Search size={20} color="#71717a" />
           <TextInput
             value={searchQuery}
             onChangeText={setSearchQuery}
             placeholder="Search properties, locations..."
-            className="flex-1 ml-2 text-base text-zinc-900"
+            className="flex-1 ml-2 text-base text-zinc-900 dark:text-zinc-50"
             placeholderTextColor="#71717a"
           />
         </View>
@@ -150,16 +150,16 @@ export default function ExploreScreen() {
       </View>
 
       {/* Tabs */}
-      <View className="flex-row bg-zinc-100 p-1 rounded-xl mb-4">
+      <View className="flex-row bg-zinc-100 dark:bg-zinc-800 p-1 rounded-xl mb-4">
         {['BUY', 'RENT', 'COMMERCIAL'].map((tab) => {
           const isActive = activeTab === tab;
           return (
             <Pressable
               key={tab}
               onPress={() => setActiveTab(tab as any)}
-              className={`flex-1 py-2.5 items-center justify-center rounded-lg ${isActive ? 'bg-white shadow-sm' : ''}`}
+              className={`flex-1 py-2.5 items-center justify-center rounded-lg ${isActive ? 'bg-white dark:bg-zinc-900 shadow-sm' : ''}`}
             >
-              <Text className={`font-bold ${isActive ? 'text-zinc-900' : 'text-zinc-500'}`}>
+              <Text className={`font-bold ${isActive ? 'text-zinc-900 dark:text-zinc-50' : 'text-zinc-500 dark:text-zinc-400'}`}>
                 {tab === 'COMMERCIAL' ? 'Commercial' : tab.charAt(0) + tab.slice(1).toLowerCase()}
               </Text>
             </Pressable>
@@ -170,7 +170,7 @@ export default function ExploreScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-zinc-50">
+    <SafeAreaView className="flex-1 bg-zinc-50 dark:bg-zinc-950">
       {renderHeader()}
       <FlatList keyboardShouldPersistTaps="handled"
         data={properties}
@@ -185,7 +185,7 @@ export default function ExploreScreen() {
           loading ? (
             <ActivityIndicator size="large" color="#f59e0b" className="mt-10" />
           ) : (
-            <Text className="text-zinc-500 text-center mt-10">No properties found.</Text>
+            <Text className="text-zinc-500 dark:text-zinc-400 text-center mt-10">No properties found.</Text>
           )
         }
         ListFooterComponent={
@@ -210,17 +210,17 @@ export default function ExploreScreen() {
         transparent={true}
         onRequestClose={() => setShowFilters(false)}
       >
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} className="flex-1 justify-end bg-black/50">
-          <View className="bg-white rounded-t-3xl p-6">
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 justify-end bg-black/50">
+          <View className="bg-white dark:bg-zinc-900 rounded-t-3xl p-6">
             <View className="flex-row justify-between items-center mb-6">
-              <Text className="text-xl font-bold text-zinc-900">Advanced Filters</Text>
-              <Pressable onPress={() => setShowFilters(false)} className="p-2 bg-zinc-100 rounded-full">
+              <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50">Advanced Filters</Text>
+              <Pressable onPress={() => setShowFilters(false)} className="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-full">
                 <X size={20} color="#3f3f46" />
               </Pressable>
             </View>
 
             <View className="mb-4">
-              <Text className="text-sm font-semibold text-zinc-900 mb-2">Price Range (e.g. 50L)</Text>
+              <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 mb-2">Price Range (e.g. 50L)</Text>
               <View className="flex-row items-center space-x-4">
                 <View className="flex-1">
                   <TextInput
@@ -228,24 +228,24 @@ export default function ExploreScreen() {
                     onChangeText={(t) => setTempFilters({...tempFilters, minPrice: t})}
                     placeholder="Min Price"
                     keyboardType="default"
-                    className="bg-zinc-100 p-3 rounded-xl text-zinc-900"
+                    className="bg-zinc-100 dark:bg-zinc-800 p-3 rounded-xl text-zinc-900 dark:text-zinc-50"
                   />
                 </View>
-                <Text className="text-zinc-500 font-bold">-</Text>
+                <Text className="text-zinc-500 dark:text-zinc-400 font-bold">-</Text>
                 <View className="flex-1">
                   <TextInput
                     value={tempFilters.maxPrice}
                     onChangeText={(t) => setTempFilters({...tempFilters, maxPrice: t})}
                     placeholder="Max Price"
                     keyboardType="default"
-                    className="bg-zinc-100 p-3 rounded-xl text-zinc-900"
+                    className="bg-zinc-100 dark:bg-zinc-800 p-3 rounded-xl text-zinc-900 dark:text-zinc-50"
                   />
                 </View>
               </View>
             </View>
 
             <View className="mb-8">
-              <Text className="text-sm font-semibold text-zinc-900 mb-2">Bedrooms (BHK)</Text>
+              <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 mb-2">Bedrooms (BHK)</Text>
               <View className="flex-row flex-wrap">
                 {['1', '2', '3', '4', '5+'].map((num) => {
                   const val = num === '5+' ? '5' : num;
@@ -254,9 +254,9 @@ export default function ExploreScreen() {
                     <Pressable
                       key={num}
                       onPress={() => setTempFilters({...tempFilters, bhk: isSelected ? '' : val})}
-                      className={`px-4 py-2 rounded-full border mr-2 mb-2 ${isSelected ? 'bg-amber-500 border-amber-500' : 'bg-white border-zinc-200'}`}
+                      className={`px-4 py-2 rounded-full border mr-2 mb-2 ${isSelected ? 'bg-amber-500 border-amber-500' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800'}`}
                     >
-                      <Text className={`font-semibold ${isSelected ? 'text-white' : 'text-zinc-600'}`}>{num} BHK</Text>
+                      <Text className={`font-semibold ${isSelected ? 'text-white' : 'text-zinc-600 dark:text-zinc-300'}`}>{num} BHK</Text>
                     </Pressable>
                   );
                 })}
@@ -266,9 +266,9 @@ export default function ExploreScreen() {
             <View className="flex-row space-x-4">
               <Pressable 
                 onPress={clearFilters}
-                className="flex-1 py-4 items-center justify-center rounded-xl bg-zinc-100"
+                className="flex-1 py-4 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800"
               >
-                <Text className="text-zinc-700 font-bold">Clear All</Text>
+                <Text className="text-zinc-700 dark:text-zinc-200 font-bold">Clear All</Text>
               </Pressable>
               <Pressable 
                 onPress={applyFilters}

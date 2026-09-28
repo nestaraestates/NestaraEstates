@@ -6,7 +6,7 @@ export default function WelcomeScreen() {
  const router = useRouter();
 
  return (
- <SafeAreaView className="flex-1 bg-zinc-50 ">
+ <SafeAreaView className="flex-1 bg-zinc-50 dark:bg-zinc-950 ">
  <View className="flex-1 justify-center items-center px-6">
  <Image 
  source={require('@/assets/images/logo.png')} 
@@ -14,11 +14,11 @@ export default function WelcomeScreen() {
  resizeMode="contain"
  />
 
- <Text className="text-3xl font-extrabold text-zinc-900 text-center mb-3">
+ <Text className="text-3xl font-extrabold text-zinc-900 dark:text-zinc-50 text-center mb-3">
  Welcome to Nestara
  </Text>
  
- <Text className="text-base text-zinc-500 text-center mb-12 px-4 leading-6">
+ <Text className="text-base text-zinc-500 dark:text-zinc-400 text-center mb-12 px-4 leading-6">
  Discover your dream home, invest in premium properties, and explore the best real estate options.
  </Text>
 
@@ -34,7 +34,7 @@ export default function WelcomeScreen() {
  onPress={() => router.push('/(auth)/login')}
  className="w-full bg-zinc-200 rounded-xl py-4 items-center"
  >
- <Text className="text-zinc-900 font-semibold text-lg">Sign In</Text>
+ <Text className="text-zinc-900 dark:text-zinc-50 font-semibold text-lg">Sign In</Text>
  </TouchableOpacity>
  </View>
  </View>

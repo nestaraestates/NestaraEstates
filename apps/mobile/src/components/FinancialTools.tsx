@@ -30,24 +30,24 @@ export function FinancialTools({ propertyPrice, purpose }: FinancialToolsProps) 
     }
 
     return (
-      <View className="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 my-4">
+      <View className="bg-white dark:bg-zinc-900 p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-zinc-800 my-4">
         <View className="flex-row items-center mb-5">
           <View className="bg-indigo-50 p-2.5 rounded-2xl mr-3">
             {/* @ts-ignore */}
             <Calculator size={22} color="#4f46e5" />
           </View>
-          <Text className="text-lg font-bold text-slate-800">EMI Calculator</Text>
+          <Text className="text-lg font-bold text-slate-800 dark:text-zinc-100">EMI Calculator</Text>
         </View>
         
         <View className="flex-row justify-between mb-3 items-center">
-          <Text className="text-slate-500 font-medium">Property Price</Text>
-          <Text className="font-semibold text-slate-800">₹{propertyPrice.toLocaleString('en-IN')}</Text>
+          <Text className="text-slate-500 dark:text-zinc-400 font-medium">Property Price</Text>
+          <Text className="font-semibold text-slate-800 dark:text-zinc-100">₹{propertyPrice.toLocaleString('en-IN')}</Text>
         </View>
         
         <View className="flex-row justify-between mb-3 items-center">
-          <Text className="text-slate-500 font-medium">Down Payment (₹)</Text>
+          <Text className="text-slate-500 dark:text-zinc-400 font-medium">Down Payment (₹)</Text>
           <TextInput 
-            className="border border-slate-200 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 min-w-[100px] bg-slate-50"
+            className="border border-slate-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 dark:text-zinc-100 min-w-[100px] bg-slate-50 dark:bg-zinc-950"
             keyboardType="numeric"
             value={downPaymentStr}
             onChangeText={setDownPaymentStr}
@@ -56,14 +56,14 @@ export function FinancialTools({ propertyPrice, purpose }: FinancialToolsProps) 
         </View>
 
         <View className="flex-row justify-between mb-3 items-center">
-          <Text className="text-slate-500 font-medium">Loan Amount</Text>
-          <Text className="font-semibold text-slate-800">₹{principal.toLocaleString('en-IN')}</Text>
+          <Text className="text-slate-500 dark:text-zinc-400 font-medium">Loan Amount</Text>
+          <Text className="font-semibold text-slate-800 dark:text-zinc-100">₹{principal.toLocaleString('en-IN')}</Text>
         </View>
 
         <View className="flex-row justify-between mb-3 items-center">
-          <Text className="text-slate-500 font-medium">Interest Rate (% p.a.)</Text>
+          <Text className="text-slate-500 dark:text-zinc-400 font-medium">Interest Rate (% p.a.)</Text>
           <TextInput 
-            className="border border-slate-200 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 min-w-[80px] bg-slate-50"
+            className="border border-slate-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 dark:text-zinc-100 min-w-[80px] bg-slate-50 dark:bg-zinc-950"
             keyboardType="numeric"
             value={interestRateStr}
             onChangeText={setInterestRateStr}
@@ -72,9 +72,9 @@ export function FinancialTools({ propertyPrice, purpose }: FinancialToolsProps) 
         </View>
 
         <View className="flex-row justify-between mb-5 items-center">
-          <Text className="text-slate-500 font-medium">Tenure (Years)</Text>
+          <Text className="text-slate-500 dark:text-zinc-400 font-medium">Tenure (Years)</Text>
           <TextInput 
-            className="border border-slate-200 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 min-w-[80px] bg-slate-50"
+            className="border border-slate-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 dark:text-zinc-100 min-w-[80px] bg-slate-50 dark:bg-zinc-950"
             keyboardType="numeric"
             value={tenureYearsStr}
             onChangeText={setTenureYearsStr}
@@ -98,24 +98,24 @@ export function FinancialTools({ propertyPrice, purpose }: FinancialToolsProps) 
   const roi = (annualRent / valueNum) * 100;
 
   return (
-    <View className="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 my-4">
+    <View className="bg-white dark:bg-zinc-900 p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-zinc-800 my-4">
       <View className="flex-row items-center mb-5">
         <View className="bg-emerald-50 p-2.5 rounded-2xl mr-3">
           {/* @ts-ignore */}
           <TrendingUp size={22} color="#10b981" />
         </View>
-        <Text className="text-lg font-bold text-slate-800">ROI Calculator</Text>
+        <Text className="text-lg font-bold text-slate-800 dark:text-zinc-100">ROI Calculator</Text>
       </View>
 
       <View className="flex-row justify-between mb-3 items-center">
-        <Text className="text-slate-500 font-medium">Monthly Rent</Text>
-        <Text className="font-semibold text-slate-800">₹{propertyPrice.toLocaleString('en-IN')}</Text>
+        <Text className="text-slate-500 dark:text-zinc-400 font-medium">Monthly Rent</Text>
+        <Text className="font-semibold text-slate-800 dark:text-zinc-100">₹{propertyPrice.toLocaleString('en-IN')}</Text>
       </View>
       
       <View className="flex-row justify-between mb-5 items-center">
-        <Text className="text-slate-500 font-medium">Property Value (₹)</Text>
+        <Text className="text-slate-500 dark:text-zinc-400 font-medium">Property Value (₹)</Text>
         <TextInput 
-          className="border border-slate-200 rounded-xl px-4 py-2 text-right font-semibold text-slate-800 min-w-[120px] bg-slate-50"
+          className="border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-2 text-right font-semibold text-slate-800 dark:text-zinc-100 min-w-[120px] bg-slate-50 dark:bg-zinc-950"
           keyboardType="numeric"
           value={estimatedValue}
           onChangeText={setEstimatedValue}
@@ -149,25 +149,25 @@ export function AreaConverter() {
   const valueInSqFt = value * AREA_UNITS[fromUnit];
 
   return (
-    <View className="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 my-4">
+    <View className="bg-white dark:bg-zinc-900 p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-zinc-800 my-4">
       <View className="flex-row items-center mb-5">
         <View className="bg-orange-50 p-2.5 rounded-2xl mr-3">
           {/* @ts-ignore */}
           <MapIcon size={22} color="#ea580c" />
         </View>
-        <Text className="text-lg font-bold text-slate-800">Area Converter</Text>
+        <Text className="text-lg font-bold text-slate-800 dark:text-zinc-100">Area Converter</Text>
       </View>
 
       <View className="flex-row items-center mb-6">
         <TextInput 
-          className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-lg font-semibold text-slate-900 mr-3"
+          className="flex-1 bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-lg font-semibold text-slate-900 dark:text-zinc-50 mr-3"
           keyboardType="numeric"
           value={inputValue}
           onChangeText={setInputValue}
           placeholder="Enter value"
         />
-        <View className="bg-slate-100 rounded-xl px-3 py-3 border border-slate-200">
-          <Text className="font-semibold text-slate-700">{fromUnit}</Text>
+        <View className="bg-slate-100 dark:bg-zinc-800 rounded-xl px-3 py-3 border border-slate-200 dark:border-zinc-800">
+          <Text className="font-semibold text-slate-700 dark:text-zinc-200">{fromUnit}</Text>
         </View>
       </View>
 
@@ -176,9 +176,9 @@ export function AreaConverter() {
           <Pressable 
             key={unit} 
             onPress={() => setFromUnit(unit)}
-            className={`px-3 py-1.5 rounded-full border ${fromUnit === unit ? 'bg-orange-100 border-orange-200' : 'bg-slate-50 border-slate-200'}`}
+            className={`px-3 py-1.5 rounded-full border ${fromUnit === unit ? 'bg-orange-100 border-orange-200' : 'bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-800'}`}
           >
-            <Text className={`text-xs font-semibold ${fromUnit === unit ? 'text-orange-700' : 'text-slate-600'}`}>{unit}</Text>
+            <Text className={`text-xs font-semibold ${fromUnit === unit ? 'text-orange-700' : 'text-slate-600 dark:text-zinc-300'}`}>{unit}</Text>
           </Pressable>
         ))}
       </View>
@@ -189,7 +189,7 @@ export function AreaConverter() {
           const converted = valueInSqFt / AREA_UNITS[unit];
           return (
             <View key={unit} className="flex-row justify-between items-center border-b border-orange-100/50 pb-2 mb-1 last:border-0 last:pb-0 last:mb-0">
-              <Text className="text-slate-600 font-medium">{unit}</Text>
+              <Text className="text-slate-600 dark:text-zinc-300 font-medium">{unit}</Text>
               <Text className="font-bold text-orange-700">
                 {converted < 1 ? converted.toFixed(4) : converted.toFixed(2)}
               </Text>
@@ -242,46 +242,46 @@ export function RentVsBuyCalculator() {
   const buyIsBetter = netBuyCost < totalRentPaid;
 
   return (
-    <View className="bg-white p-5 rounded-3xl shadow-sm border border-slate-100 my-4">
+    <View className="bg-white dark:bg-zinc-900 p-5 rounded-3xl shadow-sm border border-slate-100 dark:border-zinc-800 my-4">
       <View className="flex-row items-center mb-5">
         <View className="bg-blue-50 p-2.5 rounded-2xl mr-3">
           {/* @ts-ignore */}
           <Scale size={22} color="#2563eb" />
         </View>
-        <Text className="text-lg font-bold text-slate-800">Rent vs Buy</Text>
+        <Text className="text-lg font-bold text-slate-800 dark:text-zinc-100">Rent vs Buy</Text>
       </View>
 
       <View className="flex-row justify-between mb-3 items-center">
-        <Text className="text-slate-500 font-medium">Current Monthly Rent (₹)</Text>
+        <Text className="text-slate-500 dark:text-zinc-400 font-medium">Current Monthly Rent (₹)</Text>
         <TextInput 
-          className="border border-slate-200 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 min-w-[100px] bg-slate-50"
+          className="border border-slate-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 dark:text-zinc-100 min-w-[100px] bg-slate-50 dark:bg-zinc-950"
           keyboardType="numeric"
           value={rentStr}
           onChangeText={setRentStr}
         />
       </View>
       <View className="flex-row justify-between mb-3 items-center">
-        <Text className="text-slate-500 font-medium">Property Price (₹)</Text>
+        <Text className="text-slate-500 dark:text-zinc-400 font-medium">Property Price (₹)</Text>
         <TextInput 
-          className="border border-slate-200 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 min-w-[120px] bg-slate-50"
+          className="border border-slate-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 dark:text-zinc-100 min-w-[120px] bg-slate-50 dark:bg-zinc-950"
           keyboardType="numeric"
           value={priceStr}
           onChangeText={setPriceStr}
         />
       </View>
       <View className="flex-row justify-between mb-3 items-center">
-        <Text className="text-slate-500 font-medium">Loan Interest (%)</Text>
+        <Text className="text-slate-500 dark:text-zinc-400 font-medium">Loan Interest (%)</Text>
         <TextInput 
-          className="border border-slate-200 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 min-w-[80px] bg-slate-50"
+          className="border border-slate-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 dark:text-zinc-100 min-w-[80px] bg-slate-50 dark:bg-zinc-950"
           keyboardType="numeric"
           value={interestStr}
           onChangeText={setInterestStr}
         />
       </View>
       <View className="flex-row justify-between mb-5 items-center">
-        <Text className="text-slate-500 font-medium">Period (Years)</Text>
+        <Text className="text-slate-500 dark:text-zinc-400 font-medium">Period (Years)</Text>
         <TextInput 
-          className="border border-slate-200 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 min-w-[80px] bg-slate-50"
+          className="border border-slate-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 dark:text-zinc-100 min-w-[80px] bg-slate-50 dark:bg-zinc-950"
           keyboardType="numeric"
           value={tenureStr}
           onChangeText={setTenureStr}
@@ -289,16 +289,16 @@ export function RentVsBuyCalculator() {
       </View>
 
       <View className="space-y-3 mb-4">
-        <View className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-          <Text className="text-xs text-slate-500 mb-1">Total Rent Paid (5% inflation)</Text>
-          <Text className="font-bold text-slate-800 text-lg">₹{Math.round(totalRentPaid).toLocaleString('en-IN')}</Text>
+        <View className="bg-slate-50 dark:bg-zinc-950 p-3 rounded-xl border border-slate-200 dark:border-zinc-800">
+          <Text className="text-xs text-slate-500 dark:text-zinc-400 mb-1">Total Rent Paid (5% inflation)</Text>
+          <Text className="font-bold text-slate-800 dark:text-zinc-100 text-lg">₹{Math.round(totalRentPaid).toLocaleString('en-IN')}</Text>
         </View>
-        <View className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-          <Text className="text-xs text-slate-500 mb-1">Total Cost to Buy (Downpayment + EMI)</Text>
-          <Text className="font-bold text-slate-800 text-lg">₹{Math.round(totalCostToBuy).toLocaleString('en-IN')}</Text>
+        <View className="bg-slate-50 dark:bg-zinc-950 p-3 rounded-xl border border-slate-200 dark:border-zinc-800">
+          <Text className="text-xs text-slate-500 dark:text-zinc-400 mb-1">Total Cost to Buy (Downpayment + EMI)</Text>
+          <Text className="font-bold text-slate-800 dark:text-zinc-100 text-lg">₹{Math.round(totalCostToBuy).toLocaleString('en-IN')}</Text>
         </View>
-        <View className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-          <Text className="text-xs text-slate-500 mb-1">Future Property Value (6% apprc.)</Text>
+        <View className="bg-slate-50 dark:bg-zinc-950 p-3 rounded-xl border border-slate-200 dark:border-zinc-800">
+          <Text className="text-xs text-slate-500 dark:text-zinc-400 mb-1">Future Property Value (6% apprc.)</Text>
           <Text className="font-bold text-emerald-600 text-lg">₹{Math.round(futurePropertyValue).toLocaleString('en-IN')}</Text>
         </View>
       </View>

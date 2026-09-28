@@ -42,17 +42,17 @@ export default function CompareScreen() {
   };
 
   const renderRow = (label: string, icon: any, key: string, format?: (val: any) => string) => (
-    <View className="flex-row border-b border-slate-100 py-3">
+    <View className="flex-row border-b border-slate-100 dark:border-zinc-800 py-3">
       <View className="w-32 justify-center pl-2">
-        <Text className="text-xs font-bold text-slate-500 uppercase">{label}</Text>
+        <Text className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase">{label}</Text>
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-1">
         <View className="flex-row">
           {properties.map((prop) => (
-            <View key={prop.id} className="w-40 px-2 justify-center border-l border-slate-100">
+            <View key={prop.id} className="w-40 px-2 justify-center border-l border-slate-100 dark:border-zinc-800">
               <View className="flex-row items-center">
                 {icon && <View className="mr-1.5 opacity-50">{icon}</View>}
-                <Text className="text-sm font-semibold text-slate-800" numberOfLines={2}>
+                <Text className="text-sm font-semibold text-slate-800 dark:text-zinc-100" numberOfLines={2}>
                   {format ? format(prop[key]) : (prop[key] || '-')}
                 </Text>
               </View>
@@ -64,13 +64,13 @@ export default function CompareScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white dark:bg-zinc-900">
       {/* Header */}
-      <View className="flex-row items-center justify-between px-4 py-4 border-b border-slate-200">
+      <View className="flex-row items-center justify-between px-4 py-4 border-b border-slate-200 dark:border-zinc-800">
         <Pressable onPress={() => router.push('/' as any)} className="p-2 -ml-2">
           <ArrowLeft size={24} color="#0f172a" />
         </Pressable>
-        <Text className="text-xl font-black text-slate-900 tracking-tight">Compare Properties</Text>
+        <Text className="text-xl font-black text-slate-900 dark:text-zinc-50 tracking-tight">Compare Properties</Text>
         <Pressable onPress={clearCompare} className="p-2 -mr-2 bg-red-50 rounded-lg">
           <Text className="text-red-600 font-bold text-xs">Clear All</Text>
         </Pressable>
@@ -82,11 +82,11 @@ export default function CompareScreen() {
         </View>
       ) : compareIds.length === 0 ? (
         <View className="flex-1 items-center justify-center p-8">
-          <View className="w-20 h-20 bg-slate-100 rounded-full items-center justify-center mb-4">
+          <View className="w-20 h-20 bg-slate-100 dark:bg-zinc-800 rounded-full items-center justify-center mb-4">
             <Building2 size={32} color="#cbd5e1" />
           </View>
-          <Text className="text-xl font-bold text-slate-800 mb-2">Nothing to compare</Text>
-          <Text className="text-center text-slate-500">Go back and add up to 3 properties to compare them side-by-side.</Text>
+          <Text className="text-xl font-bold text-slate-800 dark:text-zinc-100 mb-2">Nothing to compare</Text>
+          <Text className="text-center text-slate-500 dark:text-zinc-400">Go back and add up to 3 properties to compare them side-by-side.</Text>
           <Pressable onPress={() => router.push('/' as any)} className="mt-8 bg-amber-500 px-6 py-3 rounded-full">
             <Text className="text-white font-bold">Browse Properties</Text>
           </Pressable>
@@ -94,15 +94,15 @@ export default function CompareScreen() {
       ) : (
         <ScrollView className="flex-1">
           {/* Images Row */}
-          <View className="flex-row border-b border-slate-200 pb-4 pt-4">
+          <View className="flex-row border-b border-slate-200 dark:border-zinc-800 pb-4 pt-4">
             <View className="w-32 justify-center pl-4">
-              <Text className="text-sm font-bold text-slate-400">Add up to 3 properties</Text>
+              <Text className="text-sm font-bold text-slate-400 dark:text-zinc-500">Add up to 3 properties</Text>
             </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-1">
               <View className="flex-row">
                 {properties.map((prop) => (
                   <View key={prop.id} className="w-40 px-2 relative">
-                    <View className="w-full h-32 rounded-xl bg-slate-100 overflow-hidden mb-2">
+                    <View className="w-full h-32 rounded-xl bg-slate-100 dark:bg-zinc-800 overflow-hidden mb-2">
                       {getPrimaryImage(prop) ? (
                         <Image source={{ uri: getPrimaryImage(prop) }} className="w-full h-full" resizeMode="cover" />
                       ) : (
@@ -115,7 +115,7 @@ export default function CompareScreen() {
                     >
                       <Trash2 size={12} color="white" />
                     </Pressable>
-                    <Text className="font-bold text-slate-900 text-sm" numberOfLines={2}>{prop.title}</Text>
+                    <Text className="font-bold text-slate-900 dark:text-zinc-50 text-sm" numberOfLines={2}>{prop.title}</Text>
                   </View>
                 ))}
               </View>
@@ -123,7 +123,7 @@ export default function CompareScreen() {
           </View>
 
           {/* Details Matrix */}
-          <View className="bg-white">
+          <View className="bg-white dark:bg-zinc-900">
             {renderRow('Price', null, 'price', (v) => formatIndianCurrency(v))}
             {renderRow('Status', null, 'status')}
             {renderRow('Type', <Building2 size={14} color="#64748b"/>, 'type')}
@@ -133,14 +133,14 @@ export default function CompareScreen() {
             {renderRow('Baths', <Bath size={14} color="#64748b"/>, 'bathrooms')}
             {renderRow('Area', <Square size={14} color="#64748b"/>, 'area_sqft', (v) => v ? `${v} sq.ft` : '-')}
             
-            <View className="flex-row border-b border-slate-100 py-3">
+            <View className="flex-row border-b border-slate-100 dark:border-zinc-800 py-3">
               <View className="w-32 justify-center pl-2">
-                <Text className="text-xs font-bold text-slate-500 uppercase">Parking</Text>
+                <Text className="text-xs font-bold text-slate-500 dark:text-zinc-400 uppercase">Parking</Text>
               </View>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-1">
                 <View className="flex-row">
                   {properties.map((prop) => (
-                    <View key={prop.id} className="w-40 px-2 justify-center border-l border-slate-100 items-center">
+                    <View key={prop.id} className="w-40 px-2 justify-center border-l border-slate-100 dark:border-zinc-800 items-center">
                       {prop.parking ? <Check size={16} color="#10b981" /> : <X size={16} color="#ef4444" />}
                     </View>
                   ))}

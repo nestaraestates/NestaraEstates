@@ -206,7 +206,7 @@ export default function PropertyDetailsScreen() {
 
   return (
 
- <View className="flex-1 justify-center items-center bg-zinc-50 ">
+ <View className="flex-1 justify-center items-center bg-zinc-50 dark:bg-zinc-950 ">
  <ActivityIndicator size="large" color="#f59e0b" />
  </View>
  );
@@ -214,8 +214,8 @@ export default function PropertyDetailsScreen() {
 
  if (!property) {
  return (
- <View className="flex-1 justify-center items-center bg-zinc-50 ">
- <Text className="text-zinc-500">Property not found.</Text>
+ <View className="flex-1 justify-center items-center bg-zinc-50 dark:bg-zinc-950 ">
+ <Text className="text-zinc-500 dark:text-zinc-400">Property not found.</Text>
  </View>
  );
  }
@@ -224,13 +224,13 @@ export default function PropertyDetailsScreen() {
   if (images.length === 0) images.push('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop');
 
  return (
- <View className="flex-1 bg-white ">
+ <View className="flex-1 bg-white dark:bg-zinc-900 ">
  <Stack.Screen options={{ headerShown: false }} />
  
- <ScrollView className="flex-1 bg-white" showsVerticalScrollIndicator={false} bounces={true}>
+ <ScrollView className="flex-1 bg-white dark:bg-zinc-900" showsVerticalScrollIndicator={false} bounces={true}>
   
-        <SafeAreaView edges={['top']} className="bg-white">
-          <View className="flex-row items-center justify-between px-4 py-2 border-b border-zinc-100">
+        <SafeAreaView edges={['top']} className="bg-white dark:bg-zinc-900">
+          <View className="flex-row items-center justify-between px-4 py-2 border-b border-zinc-100 dark:border-zinc-800">
             <Pressable onPress={() => { if(router.canGoBack()) router.back(); else router.push('/'); }} className="p-2 -ml-2">
               {/* @ts-ignore */}
               <ChevronLeft size={24} color="#18181b" />
@@ -241,49 +241,49 @@ export default function PropertyDetailsScreen() {
         
       {/* Enquiry Modal */}
       <Modal visible={showEnquiryModal} animationType="slide" presentationStyle="pageSheet" onRequestClose={() => setShowEnquiryModal(false)}>
-        <SafeAreaView className="flex-1 bg-white">
-          <View className="p-4 border-b border-zinc-200 flex-row justify-between items-center bg-zinc-50">
-            <Text className="text-xl font-bold text-zinc-900">Contact Nestara Agent</Text>
+        <SafeAreaView className="flex-1 bg-white dark:bg-zinc-900">
+          <View className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex-row justify-between items-center bg-zinc-50 dark:bg-zinc-950">
+            <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50">Contact Nestara Agent</Text>
             <Pressable onPress={() => setShowEnquiryModal(false)} className="p-2">
-              <Text className="text-zinc-500 font-bold">Close</Text>
+              <Text className="text-zinc-500 dark:text-zinc-400 font-bold">Close</Text>
             </Pressable>
           </View>
           
           <ScrollView className="flex-1 p-6" keyboardShouldPersistTaps="handled">
-            <Text className="text-sm text-zinc-600 mb-6">
+            <Text className="text-sm text-zinc-600 dark:text-zinc-300 mb-6">
               Please confirm your details. This will save to your profile for future use.
             </Text>
             
             <View className="space-y-4 mb-8">
               <View>
-                <Text className="text-xs font-bold text-zinc-500 uppercase mb-1">Full Name</Text>
-                <TextInput className="bg-white border border-zinc-200 rounded-lg px-4 py-3 text-base text-zinc-900" value={enquiryForm.name} onChangeText={t => setEnquiryForm({...enquiryForm, name: t})} placeholder="Your Name" />
+                <Text className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase mb-1">Full Name</Text>
+                <TextInput className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-4 py-3 text-base text-zinc-900 dark:text-zinc-50" value={enquiryForm.name} onChangeText={t => setEnquiryForm({...enquiryForm, name: t})} placeholder="Your Name" />
               </View>
               
               <View>
-                <Text className="text-xs font-bold text-zinc-500 uppercase mb-1">Email</Text>
-                <TextInput className="bg-white border border-zinc-200 rounded-lg px-4 py-3 text-base text-zinc-900" value={enquiryForm.email} onChangeText={t => setEnquiryForm({...enquiryForm, email: t})} placeholder="Your Email" keyboardType="email-address" autoCapitalize="none" />
+                <Text className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase mb-1">Email</Text>
+                <TextInput className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-4 py-3 text-base text-zinc-900 dark:text-zinc-50" value={enquiryForm.email} onChangeText={t => setEnquiryForm({...enquiryForm, email: t})} placeholder="Your Email" keyboardType="email-address" autoCapitalize="none" />
               </View>
               
               <View>
-                <Text className="text-xs font-bold text-zinc-500 uppercase mb-1">Phone Number</Text>
-                <TextInput className="bg-white border border-zinc-200 rounded-lg px-4 py-3 text-base text-zinc-900" value={enquiryForm.phone} onChangeText={t => setEnquiryForm({...enquiryForm, phone: t})} placeholder="Your Phone Number" keyboardType="phone-pad" />
+                <Text className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase mb-1">Phone Number</Text>
+                <TextInput className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-4 py-3 text-base text-zinc-900 dark:text-zinc-50" value={enquiryForm.phone} onChangeText={t => setEnquiryForm({...enquiryForm, phone: t})} placeholder="Your Phone Number" keyboardType="phone-pad" />
               </View>
               
               <View>
-                <Text className="text-xs font-bold text-zinc-500 uppercase mb-1">Address</Text>
-                <TextInput className="bg-white border border-zinc-200 rounded-lg px-4 py-3 text-base text-zinc-900" value={enquiryForm.address} onChangeText={t => setEnquiryForm({...enquiryForm, address: t})} placeholder="Your Residential Address" />
+                <Text className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase mb-1">Address</Text>
+                <TextInput className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-4 py-3 text-base text-zinc-900 dark:text-zinc-50" value={enquiryForm.address} onChangeText={t => setEnquiryForm({...enquiryForm, address: t})} placeholder="Your Residential Address" />
               </View>
               
               <View>
-                <Text className="text-xs font-bold text-zinc-500 uppercase mb-1">Message</Text>
-                <TextInput className="bg-white border border-zinc-200 rounded-lg px-4 py-3 text-base text-zinc-900 min-h-[100px]" value={enquiryForm.message} onChangeText={t => setEnquiryForm({...enquiryForm, message: t})} placeholder="I am interested in viewing this property..." multiline textAlignVertical="top" />
+                <Text className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase mb-1">Message</Text>
+                <TextInput className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-4 py-3 text-base text-zinc-900 dark:text-zinc-50 min-h-[100px]" value={enquiryForm.message} onChangeText={t => setEnquiryForm({...enquiryForm, message: t})} placeholder="I am interested in viewing this property..." multiline textAlignVertical="top" />
               </View>
             </View>
             
             <View className="flex-row gap-4 mb-10">
-              <Pressable onPress={() => setShowEnquiryModal(false)} className="flex-1 py-4 bg-white border border-zinc-200 rounded-xl items-center">
-                <Text className="text-zinc-600 font-bold text-base">Cancel</Text>
+              <Pressable onPress={() => setShowEnquiryModal(false)} className="flex-1 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl items-center">
+                <Text className="text-zinc-600 dark:text-zinc-300 font-bold text-base">Cancel</Text>
               </Pressable>
               <Pressable onPress={submitEnquiry} disabled={isSubmittingEnquiry} className={`flex-1 py-4 rounded-xl items-center ${isSubmittingEnquiry ? 'bg-amber-300' : 'bg-amber-500'}`}>
                 {isSubmittingEnquiry ? <ActivityIndicator color="white" /> : <Text className="text-white font-bold text-base">Submit</Text>}
@@ -296,13 +296,13 @@ export default function PropertyDetailsScreen() {
  </SafeAreaView>
 
         {/* Top Info (Web Style) */}
-        <View className="px-4 pt-5 pb-4 bg-white">
+        <View className="px-4 pt-5 pb-4 bg-white dark:bg-zinc-900">
           <View className="flex-row space-x-2 mb-3">
-            <View className="bg-zinc-100 px-3 py-1 rounded-sm border border-zinc-200">
-              <Text className="text-zinc-600 font-bold text-xs uppercase tracking-wider">FOR {property.purpose}</Text>
+            <View className="bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-sm border border-zinc-200 dark:border-zinc-800">
+              <Text className="text-zinc-600 dark:text-zinc-300 font-bold text-xs uppercase tracking-wider">FOR {property.purpose}</Text>
             </View>
-            <View className="bg-zinc-100 px-3 py-1 rounded-sm border border-zinc-200">
-              <Text className="text-zinc-600 font-bold text-xs uppercase tracking-wider">{property?.type?.replace('_', ' ') || 'PROPERTY'}</Text>
+            <View className="bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-sm border border-zinc-200 dark:border-zinc-800">
+              <Text className="text-zinc-600 dark:text-zinc-300 font-bold text-xs uppercase tracking-wider">{property?.type?.replace('_', ' ') || 'PROPERTY'}</Text>
             </View>
           </View>
           
@@ -315,24 +315,24 @@ export default function PropertyDetailsScreen() {
                 <Text className="text-xs font-bold text-emerald-600 ml-1.5 uppercase">Verified</Text>
               </View>
             ) : (
-              <View className="flex-row items-center border border-zinc-300 px-3 py-1 rounded-full bg-zinc-50">
+              <View className="flex-row items-center border border-zinc-300 dark:border-zinc-700 px-3 py-1 rounded-full bg-zinc-50 dark:bg-zinc-950">
                 {/* @ts-ignore */}
                 <ShieldCheck size={14} color="#71717a" />
-                <Text className="text-xs font-bold text-zinc-500 ml-1.5 uppercase">Unverified</Text>
+                <Text className="text-xs font-bold text-zinc-500 dark:text-zinc-400 ml-1.5 uppercase">Unverified</Text>
               </View>
             )}
           </View>
 
-          <Text className="text-3xl font-bold text-zinc-900 mb-2">{property.title}</Text>
+          <Text className="text-3xl font-bold text-zinc-900 dark:text-zinc-50 mb-2">{property.title}</Text>
           
           <View className="flex-row items-center mb-6">
             {/* @ts-ignore */}
             <MapPin size={18} color="#71717A" />
-            <Text className="text-base font-medium text-zinc-500 ml-1">{property.location}, {property.city}</Text>
+            <Text className="text-base font-medium text-zinc-500 dark:text-zinc-400 ml-1">{property.location}, {property.city}</Text>
           </View>
 
           <View className="flex-row space-x-3">
-            <Pressable className="flex-row items-center border border-zinc-200 px-4 py-2 rounded-full" onPress={async () => {
+            <Pressable className="flex-row items-center border border-zinc-200 dark:border-zinc-800 px-4 py-2 rounded-full" onPress={async () => {
               try {
                 const siteUrl = process.env.EXPO_PUBLIC_SITE_URL || 'https://your-future-domain.com';
                 await require('react-native').Share.share({
@@ -342,12 +342,12 @@ export default function PropertyDetailsScreen() {
                 Alert.alert('Error', error.message);
               }
             }}>
-              <Text className="text-zinc-700 font-bold ml-1">Share</Text>
+              <Text className="text-zinc-700 dark:text-zinc-200 font-bold ml-1">Share</Text>
             </Pressable>
-            <Pressable className="flex-row items-center border border-zinc-200 px-4 py-2 rounded-full" onPress={toggleFavorite}>
+            <Pressable className="flex-row items-center border border-zinc-200 dark:border-zinc-800 px-4 py-2 rounded-full" onPress={toggleFavorite}>
               {/* @ts-ignore */}
               <Heart size={18} color={isFavorited ? "#ef4444" : "#52525b"} fill={isFavorited ? "#ef4444" : "transparent"} />
-              <Text className="text-zinc-700 font-bold ml-2">{isFavorited ? "Saved" : "Save"}</Text>
+              <Text className="text-zinc-700 dark:text-zinc-200 font-bold ml-2">{isFavorited ? "Saved" : "Save"}</Text>
             </Pressable>
           </View>
         </View>
@@ -371,25 +371,25 @@ export default function PropertyDetailsScreen() {
         <View className="px-4 space-y-6 pb-20">
           
           {/* Key Features Grid */}
-          <View className="flex-row flex-wrap justify-between bg-white border border-zinc-200 rounded-xl overflow-hidden p-2">
-            <View className="w-[48%] items-start p-3 bg-zinc-50 rounded-lg mb-2">
-              <Text className="text-xs text-zinc-500 font-semibold uppercase mb-1">Bedrooms</Text>
-              <Text className="text-base font-bold text-zinc-900">{property.bhk} BHK</Text>
+          <View className="flex-row flex-wrap justify-between bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden p-2">
+            <View className="w-[48%] items-start p-3 bg-zinc-50 dark:bg-zinc-950 rounded-lg mb-2">
+              <Text className="text-xs text-zinc-500 dark:text-zinc-400 font-semibold uppercase mb-1">Bedrooms</Text>
+              <Text className="text-base font-bold text-zinc-900 dark:text-zinc-50">{property.bhk} BHK</Text>
             </View>
-            <View className="w-[48%] items-start p-3 bg-zinc-50 rounded-lg mb-2">
-              <Text className="text-xs text-zinc-500 font-semibold uppercase mb-1">Bathrooms</Text>
-              <Text className="text-base font-bold text-zinc-900">{property.bathrooms}</Text>
+            <View className="w-[48%] items-start p-3 bg-zinc-50 dark:bg-zinc-950 rounded-lg mb-2">
+              <Text className="text-xs text-zinc-500 dark:text-zinc-400 font-semibold uppercase mb-1">Bathrooms</Text>
+              <Text className="text-base font-bold text-zinc-900 dark:text-zinc-50">{property.bathrooms}</Text>
             </View>
-            <View className="w-full items-start p-3 bg-zinc-50 rounded-lg">
-              <Text className="text-xs text-zinc-500 font-semibold uppercase mb-1">Super Area</Text>
-              <Text className="text-base font-bold text-zinc-900">{property.area_sqft} sq.ft</Text>
+            <View className="w-full items-start p-3 bg-zinc-50 dark:bg-zinc-950 rounded-lg">
+              <Text className="text-xs text-zinc-500 dark:text-zinc-400 font-semibold uppercase mb-1">Super Area</Text>
+              <Text className="text-base font-bold text-zinc-900 dark:text-zinc-50">{property.area_sqft} sq.ft</Text>
             </View>
           </View>
 
           {/* Description */}
           <View>
-            <Text className="text-xl font-bold text-zinc-900 mb-2">Description</Text>
-            <Text className="text-zinc-600 leading-6">{property.description || "No description provided."}</Text>
+            <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-2">Description</Text>
+            <Text className="text-zinc-600 dark:text-zinc-300 leading-6">{property.description || "No description provided."}</Text>
           </View>
 
           {/* Verification Status Box */}
@@ -404,40 +404,40 @@ export default function PropertyDetailsScreen() {
             <View className="space-y-2">
               <View className="flex-row items-center">
                 <Text className={property.is_verified ? "text-emerald-600 mr-2" : "text-amber-600 mr-2"}>✓</Text>
-                <Text className="text-zinc-700 font-medium">Encumbrances Check: {property.is_verified ? 'Verified' : 'Pending'}</Text>
+                <Text className="text-zinc-700 dark:text-zinc-200 font-medium">Encumbrances Check: {property.is_verified ? 'Verified' : 'Pending'}</Text>
               </View>
               <View className="flex-row items-center">
                 <Text className={property.is_verified ? "text-emerald-600 mr-2" : "text-amber-600 mr-2"}>✓</Text>
-                <Text className="text-zinc-700 font-medium">Tax Receipts: {property.is_verified ? 'Verified' : 'Pending'}</Text>
+                <Text className="text-zinc-700 dark:text-zinc-200 font-medium">Tax Receipts: {property.is_verified ? 'Verified' : 'Pending'}</Text>
               </View>
               <View className="flex-row items-center">
                 <Text className={property.is_verified ? "text-emerald-600 mr-2" : "text-amber-600 mr-2"}>✓</Text>
-                <Text className="text-zinc-700 font-medium">Title Document: {property.is_verified ? 'Verified' : 'Pending'}</Text>
+                <Text className="text-zinc-700 dark:text-zinc-200 font-medium">Title Document: {property.is_verified ? 'Verified' : 'Pending'}</Text>
               </View>
               <View className="flex-row items-center">
                 <Text className={property.is_verified ? "text-emerald-600 mr-2" : "text-amber-600 mr-2"}>✓</Text>
-                <Text className="text-zinc-700 font-medium">Identity Verification: {property.is_verified ? 'Verified' : 'Pending'}</Text>
+                <Text className="text-zinc-700 dark:text-zinc-200 font-medium">Identity Verification: {property.is_verified ? 'Verified' : 'Pending'}</Text>
               </View>
             </View>
           </View>
 
           {/* Financial Tools */}
           <View>
-            <Text className="text-xl font-bold text-zinc-900 mb-[-10px]">Financial Tools</Text>
+            <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-[-10px]">Financial Tools</Text>
             <FinancialTools propertyPrice={property.price} purpose={property.purpose} />
           </View>
 
           {/* Location Map Placeholder */}
           <View>
-            <Text className="text-xl font-bold text-zinc-900 mb-3">Location Map</Text>
-            <View className="w-full h-56 bg-zinc-100 rounded-2xl overflow-hidden items-center justify-center border border-zinc-200 shadow-sm">
-              <View className="bg-white p-5 rounded-2xl items-center shadow-md w-4/5 border border-amber-100">
+            <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-3">Location Map</Text>
+            <View className="w-full h-56 bg-zinc-100 dark:bg-zinc-800 rounded-2xl overflow-hidden items-center justify-center border border-zinc-200 dark:border-zinc-800 shadow-sm">
+              <View className="bg-white dark:bg-zinc-900 p-5 rounded-2xl items-center shadow-md w-4/5 border border-amber-100">
                 <View className="w-12 h-12 bg-amber-50 rounded-full items-center justify-center mb-3">
                   {/* @ts-ignore */}
                   <MapPin size={24} color="#d97706" />
                 </View>
-                <Text className="font-bold text-zinc-900 text-lg mb-2">Location Protected</Text>
-                <Text className="text-sm text-center text-zinc-500 mb-4">To protect the seller's privacy, the exact map pin is hidden.</Text>
+                <Text className="font-bold text-zinc-900 dark:text-zinc-50 text-lg mb-2">Location Protected</Text>
+                <Text className="text-sm text-center text-zinc-500 dark:text-zinc-400 mb-4">To protect the seller's privacy, the exact map pin is hidden.</Text>
                 <Pressable className="border border-amber-600 rounded-full px-5 py-2">
                   <Text className="text-amber-700 font-bold">Contact Agent for Details</Text>
                 </Pressable>
@@ -447,15 +447,15 @@ export default function PropertyDetailsScreen() {
 
           {/* Contact Seller or Owner Actions */}
           {currentUserId === property.owner_id ? (
-            <View className="bg-white p-5 rounded-xl border border-zinc-200 shadow-sm mt-4 items-center">
-              <Text className="text-xl font-black text-zinc-900 mb-1">Your Listing</Text>
-              <Text className="text-sm text-center text-zinc-500 mb-5">You are the owner of this property.</Text>
+            <View className="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm mt-4 items-center">
+              <Text className="text-xl font-black text-zinc-900 dark:text-zinc-50 mb-1">Your Listing</Text>
+              <Text className="text-sm text-center text-zinc-500 dark:text-zinc-400 mb-5">You are the owner of this property.</Text>
               
               <View className="w-full space-y-3">
                 <Pressable onPress={() => router.push(`/edit-property/${id}` as any)} className="w-full bg-amber-500 py-4 rounded-xl items-center shadow-sm">
                   <Text className="text-white font-bold text-base">Edit Listing</Text>
                 </Pressable>
-                <Pressable onPress={handleDelete} className="w-full bg-white border-2 border-red-100 py-4 rounded-xl items-center shadow-sm">
+                <Pressable onPress={handleDelete} className="w-full bg-white dark:bg-zinc-900 border-2 border-red-100 py-4 rounded-xl items-center shadow-sm">
                   <Text className="text-red-600 font-bold text-base">Delete Listing</Text>
                 </Pressable>
                 <Pressable onPress={() => Linking.openURL(`whatsapp://send?phone=919901117057&text=${encodeURIComponent(`Hi Admin, I need help with my listing.\n\nProperty: ${property.title}\nProperty ID: ${property.id.substring(0, 6).toUpperCase()}\nMy User ID: ${currentUserCustomId || "GUEST"}`)}`)} className="w-full bg-emerald-600 py-4 rounded-xl items-center shadow-sm flex-row justify-center">
@@ -477,9 +477,9 @@ export default function PropertyDetailsScreen() {
               ) : (
                 <Pressable 
                   onPress={() => { if (!currentUserId) { Alert.alert('Login Required', 'Please log in to enquire.'); return; } setShowEnquiryModal(true); }}
-                  className="w-full border-2 border-zinc-200 bg-white py-4 rounded-xl items-center flex-row justify-center shadow-sm"
+                  className="w-full border-2 border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-4 rounded-xl items-center flex-row justify-center shadow-sm"
                 >
-                  <Text className="text-zinc-800 font-bold text-base text-center" numberOfLines={1}>Submit Enquiry</Text>
+                  <Text className="text-zinc-800 dark:text-zinc-100 font-bold text-base text-center" numberOfLines={1}>Submit Enquiry</Text>
                 </Pressable>
               )}
               
@@ -513,7 +513,7 @@ export default function PropertyDetailsScreen() {
           <SafeAreaView pointerEvents="box-none" className="absolute top-0 w-full z-50 flex-row justify-end px-4 pt-4">
             <Pressable 
               onPress={() => setFullScreenIndex(null)}
-              className="w-10 h-10 bg-white/20 rounded-full items-center justify-center backdrop-blur-md"
+              className="w-10 h-10 bg-white dark:bg-zinc-900/20 rounded-full items-center justify-center backdrop-blur-md"
             >
               <Text className="text-white font-bold text-lg">X</Text>
             </Pressable>

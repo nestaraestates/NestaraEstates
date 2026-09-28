@@ -35,7 +35,7 @@ export default function ProfileScreen() {
 
  if (loading) {
  return (
- <View className="flex-1 justify-center items-center bg-zinc-50 ">
+ <View className="flex-1 justify-center items-center bg-zinc-50 dark:bg-zinc-950 ">
  <ActivityIndicator size="large" color="#f59e0b" />
  </View>
  );
@@ -69,11 +69,11 @@ export default function ProfileScreen() {
   ];
 
  return (
- <SafeAreaView className="flex-1 bg-zinc-50 ">
+ <SafeAreaView className="flex-1 bg-zinc-50 dark:bg-zinc-950 ">
  <ScrollView className="flex-1">
  
  {/* Header Profile Section */}
- <View className="px-6 py-8 bg-white border-b border-zinc-200 flex-row items-center gap-5">
+ <View className="px-6 py-8 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex-row items-center gap-5">
  <View className="w-20 h-20 rounded-full bg-amber-100 items-center justify-center overflow-hidden border-2 border-amber-200 shadow-sm">
  {profile?.avatar_url ? (
    <Image source={{ uri: profile.avatar_url }} className="w-full h-full" />
@@ -84,8 +84,8 @@ export default function ProfileScreen() {
  )}
  </View>
  <View className="flex-1 justify-center">
- <Text className="text-2xl font-bold text-zinc-900 mb-1" numberOfLines={1}>{profile?.full_name || 'Nestara User'}</Text>
- <Text className="text-base text-zinc-500 mb-2" numberOfLines={1}>{profile?.email || ''}</Text>
+ <Text className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mb-1" numberOfLines={1}>{profile?.full_name || 'Nestara User'}</Text>
+ <Text className="text-base text-zinc-500 dark:text-zinc-400 mb-2" numberOfLines={1}>{profile?.email || ''}</Text>
  <View className="bg-amber-100 self-start px-3 py-1 rounded-full border border-amber-200">
    <Text className="text-xs font-bold text-amber-700 uppercase tracking-wide">{profile?.role === 'DEALER' ? 'Seller Account' : profile?.role === 'ADMIN' ? 'Administrator' : 'Buyer Account'}</Text>
  </View>
@@ -95,22 +95,22 @@ export default function ProfileScreen() {
  {/* Menu Sections */}
   {menuSections.map((section, sIndex) => (
     <View key={sIndex} className="mt-6 px-4">
-      <Text className="text-sm font-bold text-zinc-500 uppercase tracking-wider mb-3 ml-2">{section.title}</Text>
-      <View className="bg-white rounded-2xl overflow-hidden border border-zinc-200">
+      <Text className="text-sm font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-3 ml-2">{section.title}</Text>
+      <View className="bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800">
         {section.items.map((item, index) => (
           <Pressable 
             key={index} 
             onPress={() => {
               if (item.route) router.push(item.route as any);
             }}
-            className={`flex-row items-center p-4 ${index !== section.items.length - 1 ? 'border-b border-zinc-100' : ''}`}
+            className={`flex-row items-center p-4 ${index !== section.items.length - 1 ? 'border-b border-zinc-100 dark:border-zinc-800' : ''}`}
           >
-            <View className="w-10 h-10 bg-zinc-50 rounded-full items-center justify-center mr-4">
+            <View className="w-10 h-10 bg-zinc-50 dark:bg-zinc-950 rounded-full items-center justify-center mr-4">
               {item.icon}
             </View>
             <View className="flex-1">
-              <Text className="text-base font-semibold text-zinc-900">{item.title}</Text>
-              <Text className="text-xs text-zinc-500 mt-0.5">{item.subtitle}</Text>
+              <Text className="text-base font-semibold text-zinc-900 dark:text-zinc-50">{item.title}</Text>
+              <Text className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{item.subtitle}</Text>
             </View>
             {/* @ts-ignore */}
             <ChevronRight size={20} color="#d4d4d8" />

@@ -152,7 +152,7 @@ export default function OnboardingScreen() {
  }
 
  return (
- <SafeAreaView className="flex-1 bg-slate-50">
+ <SafeAreaView className="flex-1 bg-slate-50 dark:bg-zinc-950">
  <KeyboardAvoidingView 
  behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} 
  className="flex-1"
@@ -166,8 +166,8 @@ export default function OnboardingScreen() {
  keyboardDismissMode="on-drag"
  >
  <View className="items-center mb-8 mt-4 space-y-2">
- <Text className="text-3xl font-bold tracking-tight text-slate-900">Complete Profile</Text>
- <Text className="text-sm text-slate-500 text-center px-4">
+ <Text className="text-3xl font-bold tracking-tight text-slate-900 dark:text-zinc-50">Complete Profile</Text>
+ <Text className="text-sm text-slate-500 dark:text-zinc-400 text-center px-4">
  Tell us a bit more about yourself to personalize your experience on Nestara.
  </Text>
  </View>
@@ -175,38 +175,38 @@ export default function OnboardingScreen() {
  <View className="space-y-6">
  
  {/* Section 1: Basic Info */}
- <View className="bg-white border border-slate-200 rounded-xl p-5 space-y-4 shadow-sm">
- <Text className="text-lg font-bold text-slate-900 mb-2">Basic Details</Text>
+ <View className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-5 space-y-4 shadow-sm">
+ <Text className="text-lg font-bold text-slate-900 dark:text-zinc-50 mb-2">Basic Details</Text>
  
  <View className="items-center mb-2">
- <Pressable onPress={pickImage} className="w-24 h-24 rounded-full bg-slate-100 border-2 border-dashed border-slate-300 items-center justify-center overflow-hidden">
+ <Pressable onPress={pickImage} className="w-24 h-24 rounded-full bg-slate-100 dark:bg-zinc-800 border-2 border-dashed border-slate-300 dark:border-zinc-700 items-center justify-center overflow-hidden">
  {avatarUri ? (
  <Image source={{ uri: avatarUri }} className="w-full h-full" />
  ) : (
  <View className="items-center justify-center">
- <Text className="text-slate-400 text-2xl">+</Text>
- <Text className="text-slate-500 text-xs mt-1">Photo</Text>
+ <Text className="text-slate-400 dark:text-zinc-500 text-2xl">+</Text>
+ <Text className="text-slate-500 dark:text-zinc-400 text-xs mt-1">Photo</Text>
  </View>
  )}
  </Pressable>
  </View>
 
  <View className="space-y-1">
- <Text className="text-sm font-medium text-slate-900">Full Name *</Text>
+ <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50">Full Name *</Text>
  <TextInput
  value={fullName}
  onChangeText={setFullName}
  placeholder="John Doe"
  placeholderTextColor="#A1A1AA"
- className="w-full bg-slate-50 border border-slate-200 rounded-md px-3 py-2.5 text-slate-900"
+ className="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-3 py-2.5 text-slate-900 dark:text-zinc-50"
  />
  </View>
 
  <View className="space-y-1">
- <Text className="text-sm font-medium text-slate-900">Phone Number *</Text>
- <View className="flex-row items-center w-full bg-slate-50 border border-slate-200 rounded-md overflow-hidden">
- <View className="px-3 py-2.5 bg-slate-100 border-r border-slate-200">
- <Text className="text-slate-600 font-medium">+91</Text>
+ <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50">Phone Number *</Text>
+ <View className="flex-row items-center w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md overflow-hidden">
+ <View className="px-3 py-2.5 bg-slate-100 dark:bg-zinc-800 border-r border-slate-200 dark:border-zinc-800">
+ <Text className="text-slate-600 dark:text-zinc-300 font-medium">+91</Text>
  </View>
  <TextInput
  value={phoneNumber}
@@ -215,44 +215,44 @@ export default function OnboardingScreen() {
  placeholderTextColor="#A1A1AA"
  keyboardType="number-pad"
  maxLength={10}
- className="flex-1 px-3 py-2.5 text-slate-900"
+ className="flex-1 px-3 py-2.5 text-slate-900 dark:text-zinc-50"
  />
  </View>
  </View>
 
  <Pressable onPress={() => setWhatsappEnabled(!whatsappEnabled)} className="flex-row items-center space-x-3 pt-1">
- <View className={`w-5 h-5 rounded border items-center justify-center ${whatsappEnabled ? 'bg-blue-600 border-blue-600' : 'border-slate-300'}`}>
+ <View className={`w-5 h-5 rounded border items-center justify-center ${whatsappEnabled ? 'bg-blue-600 border-blue-600' : 'border-slate-300 dark:border-zinc-700'}`}>
  {whatsappEnabled && <Text className="text-white text-xs font-bold">✓</Text>}
  </View>
- <Text className="text-sm text-slate-700">This number is on WhatsApp</Text>
+ <Text className="text-sm text-slate-700 dark:text-zinc-200">This number is on WhatsApp</Text>
  </Pressable>
  </View>
 
  {/* Section 2: Location & Preferences */}
- <View className="bg-white border border-slate-200 rounded-xl p-5 space-y-4 shadow-sm">
- <Text className="text-lg font-bold text-slate-900 mb-2">Location & Intent</Text>
+ <View className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-5 space-y-4 shadow-sm">
+ <Text className="text-lg font-bold text-slate-900 dark:text-zinc-50 mb-2">Location & Intent</Text>
 
  <View className="space-y-1">
- <Text className="text-sm font-medium text-slate-900">City / Address *</Text>
+ <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50">City / Address *</Text>
  <TextInput
  value={address}
  onChangeText={setAddress}
  placeholder="Bengaluru, Karnataka"
  placeholderTextColor="#A1A1AA"
- className="w-full bg-slate-50 border border-slate-200 rounded-md px-3 py-2.5 text-slate-900"
+ className="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-3 py-2.5 text-slate-900 dark:text-zinc-50"
  />
  </View>
 
  <View className="space-y-2 mt-2">
- <Text className="text-sm font-medium text-slate-900">Primary Intent</Text>
+ <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50">Primary Intent</Text>
  <View className="flex-row space-x-2">
  {['BUY', 'RENT', 'SELL'].map(intent => (
  <Pressable 
  key={intent}
  onPress={() => setPrimaryIntent(intent)}
- className={`flex-1 p-2 rounded-md border items-center justify-center ${primaryIntent === intent ? 'bg-blue-50 border-blue-600' : 'bg-slate-50 border-slate-200'}`}
+ className={`flex-1 p-2 rounded-md border items-center justify-center ${primaryIntent === intent ? 'bg-blue-50 border-blue-600' : 'bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-800'}`}
  >
- <Text className={`text-xs font-medium ${primaryIntent === intent ? 'text-blue-700' : 'text-slate-600'}`}>
+ <Text className={`text-xs font-medium ${primaryIntent === intent ? 'text-blue-700' : 'text-slate-600 dark:text-zinc-300'}`}>
  {intent === 'BUY' ? 'Buy' : intent === 'RENT' ? 'Rent' : 'Sell'}
  </Text>
  </Pressable>
@@ -261,34 +261,34 @@ export default function OnboardingScreen() {
  </View>
 
  <View className="space-y-1 mt-2">
- <Text className="text-sm font-medium text-slate-900">Preferred Cities (Karnataka)</Text>
+ <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50">Preferred Cities (Karnataka)</Text>
  <TextInput
  value={preferredCities}
  onChangeText={setPreferredCities}
  placeholder="e.g. Bengaluru, Mysuru"
  placeholderTextColor="#A1A1AA"
- className="w-full bg-slate-50 border border-slate-200 rounded-md px-3 py-2.5 text-slate-900"
+ className="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-3 py-2.5 text-slate-900 dark:text-zinc-50"
  />
  </View>
  </View>
 
  {/* Section 3: Professional Info */}
- <View className="bg-white border border-slate-200 rounded-xl p-5 space-y-4 shadow-sm">
- <Text className="text-lg font-bold text-slate-900 mb-2">Optional Info</Text>
+ <View className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-5 space-y-4 shadow-sm">
+ <Text className="text-lg font-bold text-slate-900 dark:text-zinc-50 mb-2">Optional Info</Text>
 
  <View className="space-y-1">
- <Text className="text-sm font-medium text-slate-900">Company Name (Optional)</Text>
+ <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50">Company Name (Optional)</Text>
  <TextInput
  value={companyName}
  onChangeText={setCompanyName}
  placeholder="e.g. Nestara Realty"
  placeholderTextColor="#A1A1AA"
- className="w-full bg-slate-50 border border-slate-200 rounded-md px-3 py-2.5 text-slate-900"
+ className="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-3 py-2.5 text-slate-900 dark:text-zinc-50"
  />
  </View>
 
  <View className="space-y-1">
- <Text className="text-sm font-medium text-slate-900">Bio (Optional)</Text>
+ <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50">Bio (Optional)</Text>
  <TextInput
  value={bio}
  onChangeText={setBio}
@@ -296,7 +296,7 @@ export default function OnboardingScreen() {
  placeholderTextColor="#A1A1AA"
  multiline
  numberOfLines={3}
- className="w-full bg-slate-50 border border-slate-200 rounded-md px-3 py-3 text-slate-900 min-h-[80px] text-top"
+ className="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-3 py-3 text-slate-900 dark:text-zinc-50 min-h-[80px] text-top"
  />
  </View>
  </View>
@@ -316,7 +316,7 @@ export default function OnboardingScreen() {
  placeholder="••••••••"
  placeholderTextColor="#A1A1AA"
  secureTextEntry={!showPassword}
- className="w-full bg-white border border-blue-200 rounded-md px-3 py-2.5 pr-10 text-slate-900"
+ className="w-full bg-white dark:bg-zinc-900 border border-blue-200 rounded-md px-3 py-2.5 pr-10 text-slate-900 dark:text-zinc-50"
  />
  <Pressable 
  onPress={() => setShowPassword(!showPassword)}
@@ -337,7 +337,7 @@ export default function OnboardingScreen() {
  placeholder="••••••••"
  placeholderTextColor="#A1A1AA"
  secureTextEntry={!showConfirmPassword}
- className="w-full bg-white border border-blue-200 rounded-md px-3 py-2.5 pr-10 text-slate-900"
+ className="w-full bg-white dark:bg-zinc-900 border border-blue-200 rounded-md px-3 py-2.5 pr-10 text-slate-900 dark:text-zinc-50"
  />
  <Pressable 
  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -367,9 +367,9 @@ export default function OnboardingScreen() {
 
  <Pressable
  onPress={skipOnboarding}
- className="w-full py-3.5 items-center justify-center border border-slate-200 rounded-xl bg-white"
+ className="w-full py-3.5 items-center justify-center border border-slate-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-900"
  >
- <Text className="text-slate-600 font-medium">Skip for now</Text>
+ <Text className="text-slate-600 dark:text-zinc-300 font-medium">Skip for now</Text>
  </Pressable>
  </View>
 

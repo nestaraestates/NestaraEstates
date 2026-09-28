@@ -173,7 +173,7 @@ export default function HomeScreen() {
   };
   
   return (
-    <SafeAreaView className="flex-1 bg-zinc-50">
+    <SafeAreaView className="flex-1 bg-zinc-50 dark:bg-zinc-950">
       <ScrollView keyboardShouldPersistTaps="handled" className="flex-1" showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#f59e0b" />}
         onScroll={({ nativeEvent }) => {
@@ -183,15 +183,15 @@ export default function HomeScreen() {
         }}
         scrollEventThrottle={400}>
         {/* Header */}
-        <View className="px-4 pt-6 pb-4 bg-white border-b border-zinc-200">
+        <View className="px-4 pt-6 pb-4 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
           <View className="flex-row items-center justify-between mb-6">
             <View className="flex-row items-center">
               <Image source={require('@/assets/images/logo-sm.png')} className="w-10 h-10 mr-3 rounded-xl" resizeMode="contain" />
               <Pressable onPress={() => router.push('/profile/details')}>
-                <Text className="text-xs font-medium text-zinc-500">Current Location</Text>
+                <Text className="text-xs font-medium text-zinc-500 dark:text-zinc-400">Current Location</Text>
                 <View className="flex-row items-center">
                   <MapPin size={14} color="#f59e0b" />
-                  <Text className="text-sm font-bold text-zinc-900 ml-1">{userProfile.location}</Text>
+                  <Text className="text-sm font-bold text-zinc-900 dark:text-zinc-50 ml-1">{userProfile.location}</Text>
                 </View>
               </Pressable>
             </View>
@@ -205,24 +205,24 @@ export default function HomeScreen() {
                   <View className="absolute top-0 right-0 w-2.5 h-2.5 bg-amber-500 rounded-full border-2 border-white" />
                 )}
               </Pressable>
-              <View className="w-10 h-10 bg-zinc-100 rounded-full items-center justify-center overflow-hidden ml-4">
+              <View className="w-10 h-10 bg-zinc-100 dark:bg-zinc-800 rounded-full items-center justify-center overflow-hidden ml-4">
                 {userProfile.avatar ? (
                   <Image source={{ uri: userProfile.avatar }} className="w-full h-full" resizeMode="cover" />
                 ) : (
-                  <Text className="text-zinc-700 font-bold">{userProfile.initials}</Text>
+                  <Text className="text-zinc-700 dark:text-zinc-200 font-bold">{userProfile.initials}</Text>
                 )}
               </View>
             </View>
           </View>
           
           <View className="flex-row items-center">
-            <View className="flex-1 flex-row items-center bg-zinc-100 px-4 py-3 rounded-xl">
+            <View className="flex-1 flex-row items-center bg-zinc-100 dark:bg-zinc-800 px-4 py-3 rounded-xl">
               <Search size={20} color="#71717a" />
               <TextInput
                 value={searchQuery}
                 onChangeText={setSearchQuery}
                 placeholder="Search properties, locations..."
-                className="flex-1 ml-2 text-base text-zinc-900"
+                className="flex-1 ml-2 text-base text-zinc-900 dark:text-zinc-50"
                 placeholderTextColor="#71717a"
               />
             </View>
@@ -246,10 +246,10 @@ export default function HomeScreen() {
                   className="items-center mr-6"
                   onPress={() => setActiveCategory(category.id)}
                 >
-                  <View className={`w-14 h-14 rounded-full items-center justify-center mb-2 ${isActive ? 'bg-amber-100' : 'bg-zinc-100'}`}>
+                  <View className={`w-14 h-14 rounded-full items-center justify-center mb-2 ${isActive ? 'bg-amber-100' : 'bg-zinc-100 dark:bg-zinc-800'}`}>
                     <category.Icon size={24} color={isActive ? "#f59e0b" : "#71717a"} />
                   </View>
-                  <Text className={`text-sm font-semibold ${isActive ? 'text-zinc-900' : 'text-zinc-600'}`}>
+                  <Text className={`text-sm font-semibold ${isActive ? 'text-zinc-900 dark:text-zinc-50' : 'text-zinc-600 dark:text-zinc-300'}`}>
                     {category.label}
                   </Text>
                 </Pressable>
@@ -261,7 +261,7 @@ export default function HomeScreen() {
         {/* Featured Properties */}
         <View className="px-4 mt-4 pb-20">
           <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-lg font-bold text-zinc-900">Featured Properties</Text>
+            <Text className="text-lg font-bold text-zinc-900 dark:text-zinc-50">Featured Properties</Text>
             <Pressable onPress={() => router.push('/explore' as any)}>
               <Text className="text-amber-600 font-medium text-sm">See All</Text>
             </Pressable>
@@ -278,7 +278,7 @@ export default function HomeScreen() {
               />
             ))
           ) : (
-            <Text className="text-zinc-500 text-center mt-10">No properties found.</Text>
+            <Text className="text-zinc-500 dark:text-zinc-400 text-center mt-10">No properties found.</Text>
           )}
         </View>
       </ScrollView>
@@ -297,17 +297,17 @@ export default function HomeScreen() {
         transparent={true}
         onRequestClose={() => setShowFilters(false)}
       >
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} className="flex-1 justify-end bg-black/50">
-          <View className="bg-white rounded-t-3xl p-6">
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} className="flex-1 justify-end bg-black/50">
+          <View className="bg-white dark:bg-zinc-900 rounded-t-3xl p-6">
             <View className="flex-row justify-between items-center mb-6">
-              <Text className="text-xl font-bold text-zinc-900">Advanced Filters</Text>
-              <Pressable onPress={() => setShowFilters(false)} className="p-2 bg-zinc-100 rounded-full">
+              <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50">Advanced Filters</Text>
+              <Pressable onPress={() => setShowFilters(false)} className="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-full">
                 <X size={20} color="#3f3f46" />
               </Pressable>
             </View>
 
             <View className="mb-4">
-              <Text className="text-sm font-semibold text-zinc-900 mb-2">Price Range ($)</Text>
+              <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 mb-2">Price Range ($)</Text>
               <View className="flex-row items-center space-x-4">
                 <View className="flex-1">
                   <TextInput
@@ -315,24 +315,24 @@ export default function HomeScreen() {
                     onChangeText={(t) => setTempFilters({...tempFilters, minPrice: t})}
                     placeholder="Min Price (e.g. 50L)"
                     keyboardType="default"
-                    className="bg-zinc-100 p-3 rounded-xl text-zinc-900"
+                    className="bg-zinc-100 dark:bg-zinc-800 p-3 rounded-xl text-zinc-900 dark:text-zinc-50"
                   />
                 </View>
-                <Text className="text-zinc-500 font-bold">-</Text>
+                <Text className="text-zinc-500 dark:text-zinc-400 font-bold">-</Text>
                 <View className="flex-1">
                   <TextInput
                     value={tempFilters.maxPrice}
                     onChangeText={(t) => setTempFilters({...tempFilters, maxPrice: t})}
                     placeholder="Max Price (e.g. 2Cr)"
                     keyboardType="default"
-                    className="bg-zinc-100 p-3 rounded-xl text-zinc-900"
+                    className="bg-zinc-100 dark:bg-zinc-800 p-3 rounded-xl text-zinc-900 dark:text-zinc-50"
                   />
                 </View>
               </View>
             </View>
 
             <View className="mb-8">
-              <Text className="text-sm font-semibold text-zinc-900 mb-2">Bedrooms (BHK)</Text>
+              <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 mb-2">Bedrooms (BHK)</Text>
               <View className="flex-row flex-wrap">
                 {['1', '2', '3', '4', '5+'].map((num) => {
                   const val = num === '5+' ? '5' : num;
@@ -341,9 +341,9 @@ export default function HomeScreen() {
                     <Pressable
                       key={num}
                       onPress={() => setTempFilters({...tempFilters, bhk: isSelected ? '' : val})}
-                      className={`px-4 py-2 rounded-full border mr-2 mb-2 ${isSelected ? 'bg-amber-500 border-amber-500' : 'bg-white border-zinc-200'}`}
+                      className={`px-4 py-2 rounded-full border mr-2 mb-2 ${isSelected ? 'bg-amber-500 border-amber-500' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800'}`}
                     >
-                      <Text className={`font-semibold ${isSelected ? 'text-white' : 'text-zinc-600'}`}>{num} BHK</Text>
+                      <Text className={`font-semibold ${isSelected ? 'text-white' : 'text-zinc-600 dark:text-zinc-300'}`}>{num} BHK</Text>
                     </Pressable>
                   );
                 })}
@@ -353,9 +353,9 @@ export default function HomeScreen() {
             <View className="flex-row space-x-4">
               <Pressable 
                 onPress={clearFilters}
-                className="flex-1 py-4 items-center justify-center rounded-xl bg-zinc-100"
+                className="flex-1 py-4 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-800"
               >
-                <Text className="text-zinc-700 font-bold">Clear All</Text>
+                <Text className="text-zinc-700 dark:text-zinc-200 font-bold">Clear All</Text>
               </Pressable>
               <Pressable 
                 onPress={applyFilters}

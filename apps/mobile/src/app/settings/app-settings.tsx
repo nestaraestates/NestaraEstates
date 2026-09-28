@@ -4,29 +4,33 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { ChevronLeft, Moon, Globe, Bell } from 'lucide-react-native';
 
+import { useColorScheme } from 'nativewind';
+
 export default function AppSettingsScreen() {
   const router = useRouter();
   const [pushEnabled, setPushEnabled] = useState(true);
   const [emailEnabled, setEmailEnabled] = useState(false);
+  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   return (
-    <SafeAreaView className="flex-1 bg-zinc-50">
-      <View className="flex-row items-center p-4 border-b border-zinc-200 bg-white">
+    <SafeAreaView className="flex-1 bg-zinc-50 dark:bg-zinc-950 dark:bg-zinc-950">
+      <View className="flex-row items-center p-4 border-b border-zinc-200 dark:border-zinc-800 dark:border-zinc-800 bg-white dark:bg-zinc-900 dark:bg-zinc-900">
         <Pressable onPress={() => { if(router.canGoBack()) router.back(); else router.push('/settings' as any); }} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}} className="mr-3 p-1">
-          <ChevronLeft size={24} color="#18181b" />
+          <ChevronLeft size={24} color={isDark ? "#ffffff" : "#18181b"} />
         </Pressable>
-        <Text className="text-xl font-bold text-zinc-900">App Settings</Text>
+        <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50 dark:text-zinc-50">App Settings</Text>
       </View>
       <ScrollView className="flex-1 px-4 py-6">
         
-        <Text className="text-sm font-bold text-zinc-500 uppercase tracking-wider mb-2 ml-2">Notifications</Text>
-        <View className="bg-white rounded-2xl overflow-hidden border border-zinc-200 mb-6">
-          <View className="flex-row items-center justify-between p-4 border-b border-zinc-100">
+        <Text className="text-sm font-bold text-zinc-500 dark:text-zinc-400 dark:text-zinc-400 uppercase tracking-wider mb-2 ml-2">Notifications</Text>
+        <View className="bg-white dark:bg-zinc-900 dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 dark:border-zinc-800 mb-6">
+          <View className="flex-row items-center justify-between p-4 border-b border-zinc-100 dark:border-zinc-800 dark:border-zinc-800">
             <View className="flex-row items-center">
               <View className="w-8 h-8 bg-amber-50 rounded-full items-center justify-center mr-3">
                 <Bell size={16} color="#d97706" />
               </View>
-              <Text className="text-base font-semibold text-zinc-900">Push Notifications</Text>
+              <Text className="text-base font-semibold text-zinc-900 dark:text-zinc-50 dark:text-zinc-50">Push Notifications</Text>
             </View>
             <Switch value={pushEnabled} onValueChange={setPushEnabled} trackColor={{ false: '#e4e4e7', true: '#f59e0b' }} />
           </View>
@@ -35,29 +39,29 @@ export default function AppSettingsScreen() {
               <View className="w-8 h-8 bg-blue-50 rounded-full items-center justify-center mr-3">
                 <Globe size={16} color="#2563eb" />
               </View>
-              <Text className="text-base font-semibold text-zinc-900">Email Alerts</Text>
+              <Text className="text-base font-semibold text-zinc-900 dark:text-zinc-50 dark:text-zinc-50">Email Alerts</Text>
             </View>
             <Switch value={emailEnabled} onValueChange={setEmailEnabled} trackColor={{ false: '#e4e4e7', true: '#f59e0b' }} />
           </View>
         </View>
 
-        <Text className="text-sm font-bold text-zinc-500 uppercase tracking-wider mb-2 ml-2">Appearance</Text>
-        <View className="bg-white rounded-2xl overflow-hidden border border-zinc-200 mb-6">
-          <View className="flex-row items-center justify-between p-4 opacity-50">
+        <Text className="text-sm font-bold text-zinc-500 dark:text-zinc-400 dark:text-zinc-400 uppercase tracking-wider mb-2 ml-2">Appearance</Text>
+        <View className="bg-white dark:bg-zinc-900 dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 dark:border-zinc-800 mb-6">
+          <View className="flex-row items-center justify-between p-4 ">
             <View className="flex-row items-center">
-              <View className="w-8 h-8 bg-zinc-100 rounded-full items-center justify-center mr-3">
-                <Moon size={16} color="#52525b" />
+              <View className="w-8 h-8 bg-zinc-100 dark:bg-zinc-800 dark:bg-zinc-800 rounded-full items-center justify-center mr-3">
+                <Moon size={16} color={isDark ? "#ffffff" : "#52525b"} />
               </View>
-              <Text className="text-base font-semibold text-zinc-900">Dark Mode</Text>
+              <Text className="text-base font-semibold text-zinc-900 dark:text-zinc-50 dark:text-zinc-50">Dark Mode</Text>
             </View>
-            <Text className="text-xs text-zinc-400 font-bold">COMING SOON</Text>
+            <Switch value={isDark} onValueChange={toggleColorScheme} trackColor={{ false: '#e4e4e7', true: '#f59e0b' }} />
           </View>
         </View>
 
-        <Text className="text-sm font-bold text-zinc-500 uppercase tracking-wider mb-2 ml-2">Language</Text>
-        <View className="bg-white rounded-2xl overflow-hidden border border-zinc-200 mb-6">
+        <Text className="text-sm font-bold text-zinc-500 dark:text-zinc-400 dark:text-zinc-400 uppercase tracking-wider mb-2 ml-2">Language</Text>
+        <View className="bg-white dark:bg-zinc-900 dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 dark:border-zinc-800 mb-6">
           <View className="flex-row items-center justify-between p-4">
-            <Text className="text-base font-semibold text-zinc-900">English (US)</Text>
+            <Text className="text-base font-semibold text-zinc-900 dark:text-zinc-50 dark:text-zinc-50">English (US)</Text>
             <Text className="text-amber-600 font-bold">Selected</Text>
           </View>
         </View>

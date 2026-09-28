@@ -135,14 +135,14 @@ export default function PersonalDetailsScreen() {
 
  if (loading) {
  return (
- <View className="flex-1 justify-center items-center bg-zinc-50 ">
+ <View className="flex-1 justify-center items-center bg-zinc-50 dark:bg-zinc-950 ">
  <ActivityIndicator size="large" color="#f59e0b" />
  </View>
  );
  }
 
  return (
- <SafeAreaView className="flex-1 bg-zinc-50 ">
+ <SafeAreaView className="flex-1 bg-zinc-50 dark:bg-zinc-950 ">
  <Stack.Screen options={{ headerShown: false }} />
  <KeyboardAvoidingView 
  behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
@@ -152,12 +152,12 @@ export default function PersonalDetailsScreen() {
  <View className="flex-1">
  
  {/* Header */}
- <View className="flex-row items-center justify-between px-4 py-4 bg-white border-b border-zinc-200 ">
- <Pressable onPress={() => router.push('/settings' as any)} className="p-2 -ml-2 rounded-full active:bg-zinc-100 :bg-zinc-800">
+ <View className="flex-row items-center justify-between px-4 py-4 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 ">
+ <Pressable onPress={() => router.push('/settings' as any)} className="p-2 -ml-2 rounded-full active:bg-zinc-100 dark:bg-zinc-800 :bg-zinc-800">
  {/* @ts-ignore */}
  <ChevronLeft size={24} color="#f59e0b" />
  </Pressable>
- <Text className="text-xl font-bold text-zinc-900 ">Personal Details</Text>
+ <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50 ">Personal Details</Text>
  <View className="w-10" />
  </View>
 
@@ -185,25 +185,25 @@ export default function PersonalDetailsScreen() {
      <Camera size={16} color="white" />
    </View>
  </Pressable>
- <Text className="text-sm text-zinc-500 mt-4">Tap to upload profile photo</Text>
+ <Text className="text-sm text-zinc-500 dark:text-zinc-400 mt-4">Tap to upload profile photo</Text>
  </View>
 
  <View className="space-y-5">
  <View className="space-y-1.5">
- <Text className="text-sm font-semibold text-zinc-900 ">Full Name</Text>
+ <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 ">Full Name</Text>
  <TextInput
  value={form.full_name}
  onChangeText={(text) => setForm({ ...form, full_name: text })}
  placeholder="Enter your full name"
  placeholderTextColor="#A1A1AA"
- className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3.5 text-zinc-900 shadow-sm"
+ className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-zinc-50 shadow-sm"
  />
  </View>
 
  <View className="space-y-1.5">
- <Text className="text-sm font-semibold text-zinc-900 ">Phone Number</Text>
- <View className="flex-row items-center w-full bg-white border border-zinc-200 rounded-xl px-4 shadow-sm">
-   <Text className="text-zinc-900 font-bold border-r border-zinc-200 pr-3 py-3.5 mr-3">+91</Text>
+ <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 ">Phone Number</Text>
+ <View className="flex-row items-center w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 shadow-sm">
+   <Text className="text-zinc-900 dark:text-zinc-50 font-bold border-r border-zinc-200 dark:border-zinc-800 pr-3 py-3.5 mr-3">+91</Text>
    <TextInput
      value={form.phone_number.replace('+91', '').trim()}
      onChangeText={(text) => {
@@ -214,14 +214,14 @@ export default function PersonalDetailsScreen() {
      placeholderTextColor="#A1A1AA"
      keyboardType="phone-pad"
      maxLength={10}
-     className="flex-1 py-3.5 text-zinc-900 font-semibold"
+     className="flex-1 py-3.5 text-zinc-900 dark:text-zinc-50 font-semibold"
    />
  </View>
 </View>
 
  <View className="space-y-1.5 mt-2">
   <View className="flex-row items-center justify-between">
-    <Text className="text-sm font-semibold text-zinc-900">Available on WhatsApp</Text>
+    <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">Available on WhatsApp</Text>
     <Switch 
       value={form.whatsapp_enabled}
       onValueChange={(val) => setForm({...form, whatsapp_enabled: val})}
@@ -231,7 +231,7 @@ export default function PersonalDetailsScreen() {
  </View>
 
  <View className="space-y-1.5">
- <Text className="text-sm font-semibold text-zinc-900 ">Address</Text>
+ <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 ">Address</Text>
  <TextInput
  value={form.address}
  onChangeText={(text) => setForm({ ...form, address: text })}
@@ -240,34 +240,34 @@ export default function PersonalDetailsScreen() {
  multiline
  numberOfLines={3}
  textAlignVertical="top"
- className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3.5 text-zinc-900 shadow-sm min-h-[100px]"
+ className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-zinc-50 shadow-sm min-h-[100px]"
  />
  </View>
 
  <View className="space-y-1.5">
- <Text className="text-sm font-semibold text-zinc-900 ">Company / Agency Name</Text>
+ <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 ">Company / Agency Name</Text>
  <TextInput
  value={form.company_name}
  onChangeText={(text) => setForm({ ...form, company_name: text })}
  placeholder="e.g. Nestara Realty"
  placeholderTextColor="#A1A1AA"
- className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3.5 text-zinc-900 shadow-sm"
+ className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-zinc-50 shadow-sm"
  />
  </View>
 
  <View className="space-y-1.5">
- <Text className="text-sm font-semibold text-zinc-900 ">Preferred Cities</Text>
+ <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 ">Preferred Cities</Text>
  <TextInput
  value={form.preferred_cities}
  onChangeText={(text) => setForm({ ...form, preferred_cities: text })}
  placeholder="e.g. Bengaluru, Mysuru, Mangaluru"
  placeholderTextColor="#A1A1AA"
- className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3.5 text-zinc-900 shadow-sm"
+ className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-zinc-50 shadow-sm"
  />
  </View>
 
  <View className="space-y-1.5">
- <Text className="text-sm font-semibold text-zinc-900 ">Bio / Intentions</Text>
+ <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50 ">Bio / Intentions</Text>
  <TextInput
  value={form.bio}
  onChangeText={(text) => setForm({ ...form, bio: text })}
@@ -276,71 +276,71 @@ export default function PersonalDetailsScreen() {
  multiline
  numberOfLines={3}
  textAlignVertical="top"
- className="w-full bg-white border border-zinc-200 rounded-xl px-4 py-3.5 text-zinc-900 shadow-sm min-h-[100px]"
+ className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-zinc-50 shadow-sm min-h-[100px]"
  />
  </View>
  </View>
 
             {/* Account Type Toggle */}
             <View className="space-y-2 mt-4">
-              <Text className="text-sm font-semibold text-zinc-900">Account Type</Text>
+              <Text className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">Account Type</Text>
               {form.role === 'ADMIN' ? (
                 <TextInput
                   value="Administrator"
                   editable={false}
-                  className="w-full bg-zinc-100 border border-zinc-200 rounded-xl px-4 py-3.5 text-zinc-500 shadow-sm"
+                  className="w-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3.5 text-zinc-500 dark:text-zinc-400 shadow-sm"
                 />
               ) : (
                 <View className="flex-row space-x-3">
                   <Pressable 
                     onPress={() => setForm({...form, role: 'USER'})}
-                    className={`flex-1 py-3 rounded-xl border ${form.role === 'USER' ? 'bg-amber-50 border-amber-500' : 'bg-white border-zinc-200'}`}
+                    className={`flex-1 py-3 rounded-xl border ${form.role === 'USER' ? 'bg-amber-50 border-amber-500' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800'}`}
                   >
-                    <Text className={`text-center font-bold ${form.role === 'USER' ? 'text-amber-700' : 'text-zinc-600'}`}>Buyer</Text>
+                    <Text className={`text-center font-bold ${form.role === 'USER' ? 'text-amber-700' : 'text-zinc-600 dark:text-zinc-300'}`}>Buyer</Text>
                   </Pressable>
                   <Pressable 
                     onPress={() => setForm({...form, role: 'DEALER'})}
-                    className={`flex-1 py-3 rounded-xl border ${form.role === 'DEALER' ? 'bg-amber-50 border-amber-500' : 'bg-white border-zinc-200'}`}
+                    className={`flex-1 py-3 rounded-xl border ${form.role === 'DEALER' ? 'bg-amber-50 border-amber-500' : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800'}`}
                   >
-                    <Text className={`text-center font-bold ${form.role === 'DEALER' ? 'text-amber-700' : 'text-zinc-600'}`}>Seller / Agent</Text>
+                    <Text className={`text-center font-bold ${form.role === 'DEALER' ? 'text-amber-700' : 'text-zinc-600 dark:text-zinc-300'}`}>Seller / Agent</Text>
                   </Pressable>
                 </View>
               )}
-              <Text className="text-xs text-zinc-500 mt-1">You can switch your account type at any time.</Text>
+              <Text className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">You can switch your account type at any time.</Text>
             </View>
 
             {/* Read Only Account Info */}
-            <View className="mt-6 border-t border-zinc-200 pt-6 space-y-4">
-              <Text className="text-lg font-bold text-zinc-900 mb-2">Account Information</Text>
+            <View className="mt-6 border-t border-zinc-200 dark:border-zinc-800 pt-6 space-y-4">
+              <Text className="text-lg font-bold text-zinc-900 dark:text-zinc-50 mb-2">Account Information</Text>
               
               <View className="space-y-1">
-                <Text className="text-sm font-semibold text-zinc-500">User ID</Text>
+                <Text className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">User ID</Text>
                 <TextInput
                   value={form.custom_id || ''}
                   editable={false}
-                  className="w-full bg-zinc-100 border border-zinc-200 rounded-xl px-4 py-3.5 text-zinc-800 shadow-sm font-mono text-base font-bold tracking-widest"
+                  className="w-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3.5 text-zinc-800 dark:text-zinc-100 shadow-sm font-mono text-base font-bold tracking-widest"
                 />
-                <Text className="text-xs text-zinc-400 mt-1 ml-1">Your unique system identifier.</Text>
+                <Text className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 ml-1">Your unique system identifier.</Text>
               </View>
 
               <View className="space-y-1 mt-4">
-                <Text className="text-sm font-semibold text-zinc-500">Email Address</Text>
+                <Text className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Email Address</Text>
                 <TextInput
                   value={form.email}
                   editable={false}
-                  className="w-full bg-zinc-100 border border-zinc-200 rounded-xl px-4 py-3.5 text-zinc-500 shadow-sm"
+                  className="w-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3.5 text-zinc-500 dark:text-zinc-400 shadow-sm"
                 />
-                <Text className="text-xs text-zinc-400 mt-1 ml-1">Email cannot be changed directly.</Text>
+                <Text className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 ml-1">Email cannot be changed directly.</Text>
               </View>
 
 
               {form.created_at ? (
                 <View className="space-y-1">
-                  <Text className="text-sm font-semibold text-zinc-500">Member Since</Text>
+                  <Text className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Member Since</Text>
                   <TextInput
                     value={new Date(form.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
                     editable={false}
-                    className="w-full bg-zinc-100 border border-zinc-200 rounded-xl px-4 py-3.5 text-zinc-500 shadow-sm"
+                    className="w-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3.5 text-zinc-500 dark:text-zinc-400 shadow-sm"
                   />
                 </View>
               ) : null}

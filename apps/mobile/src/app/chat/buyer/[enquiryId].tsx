@@ -167,15 +167,15 @@ export default function BuyerChatScreen() {
  const isMe = item.sender_id === userId;
  return (
  <View className={`mb-4 max-w-[80%] ${isMe ? 'self-end' : 'self-start'}`}>
- <View className={`px-4 py-3 rounded-2xl ${isMe ? 'bg-emerald-600 rounded-tr-sm' : 'bg-white border border-slate-200 rounded-tl-sm'}`}>
- <Text className={`text-base ${isMe ? 'text-white' : 'text-slate-900'}`}>{item.message}</Text>
+ <View className={`px-4 py-3 rounded-2xl ${isMe ? 'bg-emerald-600 rounded-tr-sm' : 'bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-tl-sm'}`}>
+ <Text className={`text-base ${isMe ? 'text-white' : 'text-slate-900 dark:text-zinc-50'}`}>{item.message}</Text>
  </View>
  </View>
  );
  };
 
  return (
- <SafeAreaView className="flex-1 bg-slate-50" edges={['top']}>
+ <SafeAreaView className="flex-1 bg-slate-50 dark:bg-zinc-950" edges={['top']}>
  <Stack.Screen options={{ headerShown: false }} />
  
  <View className="flex-row items-center p-4 bg-emerald-600">
@@ -195,8 +195,8 @@ export default function BuyerChatScreen() {
  ) : (
  <KeyboardAvoidingView 
  style={{ flex: 1 }} 
- behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
- keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 90}
+ behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+ keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
  >
  <FlatList
  ref={flatListRef}
@@ -208,16 +208,16 @@ export default function BuyerChatScreen() {
  onLayout={() => flatListRef.current?.scrollToEnd({ animated: true })}
  ListEmptyComponent={
  <View className="flex-1 justify-center items-center mt-10">
- <Text className="text-slate-400 text-center text-sm">
+ <Text className="text-slate-400 dark:text-zinc-500 text-center text-sm">
  Send a message to contact the agent about this property.
  </Text>
  </View>
  }
  />
 
- <View className="p-3 bg-white border-t border-slate-200 flex-row items-center pb-8">
+ <View className="p-3 bg-white dark:bg-zinc-900 border-t border-slate-200 dark:border-zinc-800 flex-row items-center pb-8">
  <TextInput
- className="flex-1 bg-slate-100 px-4 py-3 rounded-full mr-2 text-slate-900"
+ className="flex-1 bg-slate-100 dark:bg-zinc-800 px-4 py-3 rounded-full mr-2 text-slate-900 dark:text-zinc-50"
  placeholder="Type your message..."
  placeholderTextColor="#9ca3af"
  value={inputText}

@@ -93,19 +93,19 @@ export default function EditPropertyScreen() {
 
  if (isLoading) {
  return (
- <View className="flex-1 bg-slate-50 items-center justify-center">
+ <View className="flex-1 bg-slate-50 dark:bg-zinc-950 items-center justify-center">
  <ActivityIndicator size="large" color="#3b82f6" />
  </View>
  );
  }
 
  return (
- <SafeAreaView className="flex-1 bg-slate-50">
- <View className="flex-row items-center px-4 py-3 border-b border-slate-200">
+ <SafeAreaView className="flex-1 bg-slate-50 dark:bg-zinc-950">
+ <View className="flex-row items-center px-4 py-3 border-b border-slate-200 dark:border-zinc-800">
  <Pressable onPress={() => router.push('/profile/properties' as any)} className="mr-3">
- <ArrowLeft size={24} className="text-slate-900" />
+ <ArrowLeft size={24} className="text-slate-900 dark:text-zinc-50" />
  </Pressable>
- <Text className="text-xl font-bold text-slate-900">Edit Listing</Text>
+ <Text className="text-xl font-bold text-slate-900 dark:text-zinc-50">Edit Listing</Text>
  </View>
 
  <ScrollView className="flex-1 p-4">
@@ -115,20 +115,20 @@ export default function EditPropertyScreen() {
  </View>
  ) : null}
 
- <View className="bg-white p-4 rounded-xl border border-slate-200 space-y-4">
+ <View className="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-slate-200 dark:border-zinc-800 space-y-4">
  <View>
- <Text className="text-sm font-medium text-slate-900 mb-1">Property Title</Text>
+ <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50 mb-1">Property Title</Text>
  <TextInput 
- className="bg-slate-50 border border-slate-200 rounded-md px-3 py-2 text-slate-900"
+ className="bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-3 py-2 text-slate-900 dark:text-zinc-50"
  value={formData.title}
  onChangeText={(t) => updateForm('title', t)}
  />
  </View>
 
  <View>
- <Text className="text-sm font-medium text-slate-900 mb-1">Price (₹)</Text>
+ <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50 mb-1">Price (₹)</Text>
  <TextInput 
- className="bg-slate-50 border border-slate-200 rounded-md px-3 py-2 text-slate-900"
+ className="bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-3 py-2 text-slate-900 dark:text-zinc-50"
  keyboardType="numeric"
  value={formData.price}
  onChangeText={(t) => updateForm('price', t)}
@@ -136,7 +136,7 @@ export default function EditPropertyScreen() {
  </View>
 
  <View>
- <Text className="text-sm font-medium text-slate-900 mb-1">Status</Text>
+ <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50 mb-1">Status</Text>
  <View className="flex-row flex-wrap">
  {['AVAILABLE', 'SOLD', 'RENTED', 'UNAVAILABLE'].map((s) => (
  <Pressable
@@ -145,10 +145,10 @@ export default function EditPropertyScreen() {
  className={`px-3 py-2 rounded-full border mr-2 mb-2 ${
  formData.status === s 
  ? 'bg-blue-100 border-blue-500 '
- : 'bg-slate-50 border-slate-200'
+ : 'bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-800'
  }`}
  >
- <Text className={formData.status === s ? 'text-blue-700 font-medium' : 'text-slate-600'}>
+ <Text className={formData.status === s ? 'text-blue-700 font-medium' : 'text-slate-600 dark:text-zinc-300'}>
  {s}
  </Text>
  </Pressable>
@@ -157,9 +157,9 @@ export default function EditPropertyScreen() {
  </View>
 
  <View>
- <Text className="text-sm font-medium text-slate-900 mb-1">Property Description</Text>
+ <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50 mb-1">Property Description</Text>
  <TextInput 
- className="bg-slate-50 border border-slate-200 rounded-md px-3 py-2 text-slate-900 min-h-[120px]"
+ className="bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-3 py-2 text-slate-900 dark:text-zinc-50 min-h-[120px]"
  multiline
  textAlignVertical="top"
  value={formData.description}

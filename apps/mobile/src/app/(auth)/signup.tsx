@@ -101,14 +101,14 @@ export default function SignupScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-zinc-50">
+    <SafeAreaView className="flex-1 bg-zinc-50 dark:bg-zinc-950">
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
         className="flex-1"
       >
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
         <View className="p-4 w-full max-w-md mx-auto">
-          <View className="w-full bg-white border border-zinc-200 rounded-xl shadow-sm overflow-hidden">
+          <View className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm overflow-hidden">
             
             <View className="p-6 pb-2 items-center space-y-2">
               <Image 
@@ -116,44 +116,44 @@ export default function SignupScreen() {
                 className="w-16 h-16 rounded-2xl mb-2" 
                 resizeMode="contain"
               />
-              <Text className="text-2xl font-bold tracking-tight text-zinc-900">Create an account</Text>
-              <Text className="text-zinc-500">Join Nestara today</Text>
+              <Text className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">Create an account</Text>
+              <Text className="text-zinc-500 dark:text-zinc-400">Join Nestara today</Text>
             </View>
 
             <View className="p-6 space-y-4">
               
               <View className="space-y-1">
-                <Text className="text-sm font-medium text-zinc-900">Email</Text>
+                <Text className="text-sm font-medium text-zinc-900 dark:text-zinc-50">Email</Text>
                 <TextInput
                   value={email}
                   onChangeText={setEmail}
                   placeholder="you@example.com"
                   placeholderTextColor="#A1A1AA"
                   autoCapitalize="none"
-                  className="w-full bg-white border border-zinc-200 rounded-md px-3 py-2 text-zinc-900"
+                  className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md px-3 py-2 text-zinc-900 dark:text-zinc-50"
                 />
               </View>
 
               <View className="space-y-1">
-                <Text className="text-sm font-medium text-zinc-900">Password</Text>
+                <Text className="text-sm font-medium text-zinc-900 dark:text-zinc-50">Password</Text>
                 <TextInput
                   value={password}
                   onChangeText={setPassword}
                   placeholder="••••••••"
                   placeholderTextColor="#A1A1AA"
                   secureTextEntry
-                  className="w-full bg-white border border-zinc-200 rounded-md px-3 py-2 text-zinc-900"
+                  className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md px-3 py-2 text-zinc-900 dark:text-zinc-50"
                 />
               </View>
 
               <View className="flex-row mt-2 mb-1 pr-4">
                 <Pressable 
                   onPress={() => setAcceptedTerms(!acceptedTerms)}
-                  className={`w-5 h-5 rounded border items-center justify-center mr-2 mt-0.5 ${acceptedTerms ? 'bg-amber-500 border-amber-500' : 'border-zinc-300 bg-white'}`}
+                  className={`w-5 h-5 rounded border items-center justify-center mr-2 mt-0.5 ${acceptedTerms ? 'bg-amber-500 border-amber-500' : 'border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900'}`}
                 >
                   {acceptedTerms && <Text className="text-white text-xs font-bold">✓</Text>}
                 </Pressable>
-                <Text className="text-xs text-zinc-600 flex-1 leading-tight">
+                <Text className="text-xs text-zinc-600 dark:text-zinc-300 flex-1 leading-tight">
                   I agree to the <Link href="/settings/terms" asChild><Text className="text-blue-600 font-medium">Terms and Conditions</Text></Link>
                 </Text>
               </View>
@@ -172,22 +172,22 @@ export default function SignupScreen() {
 
               <View className="flex-row items-center my-2">
                 <View className="flex-1 h-px bg-zinc-200" />
-                <Text className="mx-4 text-zinc-400 text-sm font-medium">OR</Text>
+                <Text className="mx-4 text-zinc-400 dark:text-zinc-500 text-sm font-medium">OR</Text>
                 <View className="flex-1 h-px bg-zinc-200" />
               </View>
 
               <Pressable
                 onPress={signUpWithGoogle}
-                className="w-full bg-white border border-zinc-300 rounded-md py-3 items-center justify-center flex-row"
+                className="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-md py-3 items-center justify-center flex-row"
               >
                 <GoogleIcon width={20} height={20} />
-                <Text className="text-zinc-700 font-bold ml-2">Continue with Google</Text>
+                <Text className="text-zinc-700 dark:text-zinc-200 font-bold ml-2">Continue with Google</Text>
               </Pressable>
 
             </View>
 
-            <View className="border-t border-zinc-100 p-6 items-center flex-row justify-center">
-              <Text className="text-sm text-zinc-500">Already have an account? </Text>
+            <View className="border-t border-zinc-100 dark:border-zinc-800 p-6 items-center flex-row justify-center">
+              <Text className="text-sm text-zinc-500 dark:text-zinc-400">Already have an account? </Text>
               <Link href="/(auth)/login" asChild>
                 <Pressable>
                   <Text className="text-sm font-semibold text-blue-600">Sign in</Text>

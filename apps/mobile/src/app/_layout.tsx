@@ -42,11 +42,14 @@ function RealtimeBanListener() {
   return null;
 }
 
+import { PermissionsGate } from '@/components/PermissionsGate';
+
 export default function RootLayout() {
 
  return (
   <View style={{ flex: 1 }}>
     <NetworkBanner />
+    <PermissionsGate />
     <RealtimeBanListener />
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(auth)" />
