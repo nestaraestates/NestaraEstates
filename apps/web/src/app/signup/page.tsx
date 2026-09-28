@@ -9,6 +9,15 @@ import { SignupForm } from './SignupForm'
 import { redirect } from 'next/navigation'
 import { getURL } from '@/utils/url'
 
+export const metadata = {
+  title: 'Create Account | Nestara Estates',
+  description: 'Join Nestara Estates to discover, save, and contact owners of premium properties.',
+  robots: {
+    index: false,
+    follow: false,
+  }
+}
+
 export default async function SignupPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

@@ -16,9 +16,11 @@ The user and I have been actively fixing UI and UX issues. Here is what has been
 
 **PENDING BUGS / TASKS (High Priority):**
 These were brought up by the user from a previous session and still need to be fixed in the mobile app (`apps/mobile`):
-1. **Splash Screen:** At startup (1-2 seconds), the splash screen shows a blue background with the company logo that does not match the company style. (Need to check `apps/mobile/app.json` and adjust `expo-splash-screen` colors).
-2. **Login Page:** There is no "Terms and Conditions" tick box on the login page.
-3. **Keyboard Issues:** During user onboarding (specifically on the "Create Password" page), the keyboard acts abnormally: it comes up and hides the actual text box, or it doesn't dismiss properly when the user taps away.
+- [x] **Splash Screen:** At startup (1-2 seconds), the splash screen shows a blue background with the company logo that does not match the company style. (Need to check `apps/mobile/app.json` and adjust `expo-splash-screen` colors).
+- [x] **Login Page:** There is no "Terms and Conditions" tick box on the login page.
+- [x] **Keyboard Issues:** During user onboarding (specifically on the "Create Password" page), the keyboard acts abnormally: it comes up and hides the actual text box, or it doesn't dismiss properly when the user taps away.
+
+*(Note: The above bugs have been successfully resolved by the user!)*
 
 ---
 
@@ -34,10 +36,10 @@ Provide a detailed code review document explaining exactly what each line of cod
 
 - [x] **Web App Core Routing & Layout** (`apps/web/src/app/layout.tsx`, `apps/web/src/app/page.tsx`)
     *   *Status:* Completed by previous agent.
-- [ ] **Web App Authentication & Authorization** (`apps/web/src/app/(auth)/*`, `apps/web/src/app/api/auth/*`)
-    *   *Status:* **PENDING (Next Step)**
+- [x] **Web App Authentication & Authorization** (`apps/web/src/app/(auth)/*`, `apps/web/src/app/api/auth/*`)
+    *   *Status:* Completed
 - [ ] **Web App Dashboard & User Profile** (`apps/web/src/app/dashboard/*`, profile components)
-    *   *Status:* PENDING
+    *   *Status:* **PENDING (Next Step)**
 - [ ] **Web App Property Listing & Search** (`apps/web/src/app/property/*`, `apps/web/src/app/buy/*`, search components)
     *   *Status:* PENDING
 - [ ] **Mobile App Core & Navigation** (`apps/mobile/src/app/_layout.tsx`, `apps/mobile/src/app/index.tsx`)

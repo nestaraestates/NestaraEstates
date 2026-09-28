@@ -10,6 +10,15 @@ import { LoginForm } from './LoginForm'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 
+export const metadata = {
+  title: 'Sign In | Nestara Estates',
+  description: 'Log in to your Nestara Estates account to save properties and connect with owners.',
+  robots: {
+    index: false,
+    follow: false,
+  }
+}
+
 export default async function LoginPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
