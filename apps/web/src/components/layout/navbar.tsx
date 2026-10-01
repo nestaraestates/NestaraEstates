@@ -56,7 +56,7 @@ export function Navbar() {
             <NavLinks />
           </div>
           <div className="flex items-center gap-2 md:gap-4">
-            <Link href="/downloads">
+            <Link href="/downloads" target="_blank">
               <Button variant="ghost" className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:text-emerald-500 dark:hover:bg-emerald-950/30 font-bold flex items-center gap-2">
                 <Smartphone className="h-4 w-4" />
                 Get App
@@ -88,7 +88,7 @@ export function Navbar() {
               <div className="hidden md:flex items-center gap-2">
                 <NotificationBell initialCount={unreadCount} userId={user.id} />
                 <Link href="/inbox">
-                  <Button variant="ghost" size="icon" className="text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 dark:text-blue-400 dark:bg-blue-900/30">
+                  <Button variant="ghost" size="icon" className="text-amber-600 hover:text-amber-700 bg-amber-50 hover:bg-amber-100 dark:text-amber-400 dark:bg-amber-900/30">
                     <MessageSquare className="h-5 w-5" />
                     <span className="sr-only">Inbox</span>
                   </Button>

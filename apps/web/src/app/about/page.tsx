@@ -16,7 +16,7 @@ export default function AboutPage() {
       {/* Mission & Vision */}
       <div className="grid md:grid-cols-2 gap-8 mb-20">
         <div className="bg-zinc-50 dark:bg-zinc-900 rounded-3xl p-8 border border-zinc-200 dark:border-zinc-800">
-          <div className="bg-blue-100 dark:bg-blue-900/30 w-14 h-14 flex items-center justify-center rounded-2xl mb-6 text-blue-600 dark:text-blue-400">
+          <div className="bg-amber-100 dark:bg-amber-900/30 w-14 h-14 flex items-center justify-center rounded-2xl mb-6 text-amber-600 dark:text-amber-400">
             <Target className="h-7 w-7" />
           </div>
           <h2 className="text-2xl font-bold mb-4 text-zinc-900 dark:text-white">Our Mission</h2>
@@ -55,7 +55,7 @@ export default function AboutPage() {
             <p className="text-zinc-600 dark:text-zinc-400 text-sm">Advanced search, smart calculators, and digital processes make real estate faster.</p>
           </div>
           <div className="text-center">
-            <div className="mx-auto bg-blue-50 dark:bg-blue-900/20 w-16 h-16 flex items-center justify-center rounded-full mb-4 text-blue-600">
+            <div className="mx-auto bg-amber-50 dark:bg-amber-900/20 w-16 h-16 flex items-center justify-center rounded-full mb-4 text-amber-600">
               <Users className="h-8 w-8" />
             </div>
             <h3 className="text-xl font-bold mb-2">Convenience</h3>

@@ -1,7 +1,9 @@
+import "react-native-css-interop";
 import "../global.css";
 import { Stack, router } from 'expo-router';
 import { View } from 'react-native';
 import { NetworkBanner } from '@/components/NetworkBanner';
+import { PermissionsPopup } from "@/components/PermissionsPopup";
 
 
 import { useEffect } from 'react';
@@ -26,11 +28,11 @@ function RealtimeBanListener() {
     };
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      startPolling(session?.user?.id);
-    });
+      if (session?.user?.id) startPolling(session.user.id);
+    }).catch(console.error);
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      startPolling(session?.user?.id);
+      if (session?.user?.id) startPolling(session.user.id);
     });
 
     return () => {
@@ -42,16 +44,14 @@ function RealtimeBanListener() {
   return null;
 }
 
-import { PermissionsGate } from '@/components/PermissionsGate';
-
 export default function RootLayout() {
 
  return (
   <View style={{ flex: 1 }}>
     <NetworkBanner />
-    <PermissionsGate />
+      <PermissionsPopup />
     <RealtimeBanListener />
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
       <Stack.Screen name="(auth)" />
       <Stack.Screen name="(tabs)" />
     </Stack>

@@ -28,3 +28,8 @@ export function parseIndianCurrencyString(val: string): string {
 
   return Math.round(num).toString();
 }
+
+export function formatLocation(location: string): string {
+  if (!location) return '';
+  return location.includes('|') ? location.split('|')[1] : location;
+}

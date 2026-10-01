@@ -40,8 +40,8 @@ export default function VerificationPage() {
           </div>
 
           <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50 dark:bg-blue-900/10 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
-            <Home className="h-10 w-10 text-blue-500 mb-4" />
+            <div className="absolute top-0 right-0 w-24 h-24 bg-amber-50 dark:bg-amber-900/10 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+            <Home className="h-10 w-10 text-amber-500 mb-4" />
             <h3 className="text-xl font-bold mb-2">3. Physical Inspection</h3>
             <p className="text-zinc-600 dark:text-zinc-400 text-sm">Our on-ground agents visit the property to confirm it physically exists and matches the listed photographs.</p>
           </div>

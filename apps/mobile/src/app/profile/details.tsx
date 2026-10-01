@@ -145,7 +145,7 @@ export default function PersonalDetailsScreen() {
  <SafeAreaView className="flex-1 bg-zinc-50 dark:bg-zinc-950 ">
  <Stack.Screen options={{ headerShown: false }} />
  <KeyboardAvoidingView 
- behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+ behavior={Platform.OS === 'ios' ? 'padding' : undefined} 
  className="flex-1"
  >
  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

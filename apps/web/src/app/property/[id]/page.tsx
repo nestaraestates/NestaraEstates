@@ -13,6 +13,7 @@ import { ShieldCheck, MapPin, BedDouble, Bath, Square, CalendarDays, Share2, Hea
 import { FavoriteButton } from '@/components/properties/FavoriteButton'
 import { ShareButton } from '@/components/properties/ShareButton'
 import Link from 'next/link'
+import { FadeIn, FadeInUp } from '@/components/FadeIn'
 import { BuyerInteractionTabs } from '@/components/buyer/BuyerInteractionTabs'
 import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 
@@ -117,7 +118,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-6 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+      <FadeIn delay={0.1}><div className="mb-6 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span className="inline-flex items-center rounded-md bg-amber-50 dark:bg-amber-900/30 px-2 py-1 text-xs font-bold text-amber-700 dark:text-amber-500 ring-1 ring-inset ring-amber-600/20">
@@ -150,12 +151,13 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             <FavoriteButton propertyId={property.id} initiallyFavorited={isFavorited} mode="text" />
           </div>
         </div>
-      </div>
+      </div></FadeIn>
 
-      <PropertyGallery media={publicImages} defaultImage={defaultImage} />
+      <FadeIn delay={0.2}><PropertyGallery media={publicImages} defaultImage={defaultImage} /></FadeIn>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        <div className="lg:col-span-2 space-y-12">
+        <FadeIn delay={0.3} className="lg:col-span-2 space-y-12">
+        <div className="space-y-12">
           
           <div className="flex flex-wrap gap-6 py-6 border-y border-zinc-200 dark:border-zinc-800">
             <div className="flex items-center gap-3">

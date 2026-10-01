@@ -37,8 +37,8 @@ export function DashboardSidebar() {
 
         <div className="text-xs font-bold text-zinc-400 uppercase tracking-wider px-4 mt-6 mb-1">Selling & Leasing</div>
         
-        <Link href="/dashboard/seller?tab=listings" className={`flex items-center gap-3 rounded-xl px-4 py-3 font-medium transition-all ${isActive('/dashboard/seller', 'listings') ? 'bg-blue-50 text-blue-700 shadow-sm border border-blue-100' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'}`}>
-          <Building className={`h-5 w-5 ${isActive('/dashboard/seller', 'listings') ? 'text-blue-600' : 'text-zinc-400'}`} /> 
+        <Link href="/dashboard/seller?tab=listings" className={`flex items-center gap-3 rounded-xl px-4 py-3 font-medium transition-all ${isActive('/dashboard/seller', 'listings') ? 'bg-amber-50 text-amber-700 shadow-sm border border-amber-100' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'}`}>
+          <Building className={`h-5 w-5 ${isActive('/dashboard/seller', 'listings') ? 'text-amber-600' : 'text-zinc-400'}`} /> 
           My Listings
         </Link>
 

@@ -70,7 +70,7 @@ export default function HelpScreen() {
             onPress={() => Linking.openURL('mailto:nestaraestates@gmail.com')}
             className="flex-row items-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-2xl shadow-sm"
           >
-            <View className="w-12 h-12 bg-blue-100 rounded-full items-center justify-center mr-4">
+            <View className="w-12 h-12 bg-amber-100 rounded-full items-center justify-center mr-4">
               <Mail size={24} color="#2563eb" />
             </View>
             <View className="flex-1">
@@ -83,7 +83,7 @@ export default function HelpScreen() {
             onPress={() => Linking.openURL('mailto:vineethbpawar@gmail.com')}
             className="flex-row items-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-2xl shadow-sm"
           >
-            <View className="w-12 h-12 bg-blue-100 rounded-full items-center justify-center mr-4">
+            <View className="w-12 h-12 bg-amber-100 rounded-full items-center justify-center mr-4">
               <Mail size={24} color="#2563eb" />
             </View>
             <View className="flex-1">

@@ -46,7 +46,7 @@ export default async function SellerDashboard({ searchParams }: { searchParams: 
           {tab === 'inbox' ? 'Seller Inbox' : 'My Listings'}
         </h1>
         <Link href="/list-property">
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm font-bold">Add New Property</Button>
+          <Button className="bg-amber-600 hover:bg-amber-700 text-white shadow-sm font-bold">Add New Property</Button>
         </Link>
       </div>
 
@@ -119,7 +119,7 @@ export default async function SellerDashboard({ searchParams }: { searchParams: 
                         Interested in: <Link href={`/property/${enq.property_id}`} className="text-amber-600 hover:underline font-medium">{enq.properties?.title}</Link>
                       </p>
                     </div>
-                    <span className="px-3 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 font-semibold text-xs rounded-full uppercase">
+                    <span className="px-3 py-1 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 font-semibold text-xs rounded-full uppercase">
                       {enq.status || 'Nestara Agent Reviewing'}
                     </span>
                   </div>

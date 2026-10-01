@@ -79,7 +79,7 @@ export function OnboardingForm({ initialName, needsPassword }: { initialName: st
             </div>
 
             <div className="flex items-center space-x-2 pt-1">
-              <input type="checkbox" id="whatsapp_enabled" name="whatsapp_enabled" value="true" className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-600" />
+              <input type="checkbox" id="whatsapp_enabled" name="whatsapp_enabled" value="true" className="h-4 w-4 rounded border-zinc-300 text-amber-600 focus:ring-amber-600" />
               <Label htmlFor="whatsapp_enabled" className="text-sm font-normal text-zinc-700 dark:text-zinc-300">This number is available on WhatsApp</Label>
             </div>
           </div>
@@ -96,7 +96,7 @@ export function OnboardingForm({ initialName, needsPassword }: { initialName: st
 
             <div className="space-y-2">
               <Label htmlFor="primary_intent">Primary Intent</Label>
-              <select id="primary_intent" name="primary_intent" className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:border-transparent dark:border-zinc-800 dark:bg-zinc-950 dark:focus-visible:ring-blue-500">
+              <select id="primary_intent" name="primary_intent" className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-600 focus-visible:border-transparent dark:border-zinc-800 dark:bg-zinc-950 dark:focus-visible:ring-amber-500">
                 <option value="BUY">Looking to Buy</option>
                 <option value="RENT">Looking to Rent</option>
                 <option value="SELL">Looking to Sell / List</option>
@@ -127,18 +127,18 @@ export function OnboardingForm({ initialName, needsPassword }: { initialName: st
         </div>
 
         {needsPassword && (
-          <div className="space-y-4 rounded-xl border border-blue-200 p-5 bg-blue-50 dark:border-blue-900/50 dark:bg-blue-900/10 shadow-sm">
-            <h4 className="font-bold text-blue-900 dark:text-blue-100 mb-1">Create Password</h4>
-            <p className="text-xs text-blue-700 dark:text-blue-300 mb-4">Since you signed in with Google, please create a password for email login.</p>
+          <div className="space-y-4 rounded-xl border border-amber-200 p-5 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-900/10 shadow-sm">
+            <h4 className="font-bold text-amber-900 dark:text-amber-100 mb-1">Create Password</h4>
+            <p className="text-xs text-amber-700 dark:text-amber-300 mb-4">Since you signed in with Google, please create a password for email login.</p>
             
             <div>
-              <Label htmlFor="password" className="text-blue-900 dark:text-blue-100">Password</Label>
+              <Label htmlFor="password" className="text-amber-900 dark:text-amber-100">Password</Label>
               <Input 
                 id="password" 
                 name="password" 
                 type="password" 
                 required 
-                className="bg-white dark:bg-zinc-900 mt-2 border-blue-200 dark:border-blue-800"
+                className="bg-white dark:bg-zinc-900 mt-2 border-amber-200 dark:border-amber-800"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} 
                 placeholder="••••••••"
@@ -146,12 +146,12 @@ export function OnboardingForm({ initialName, needsPassword }: { initialName: st
             </div>
             
             <div>
-              <Label htmlFor="confirm_password" className="text-blue-900 dark:text-blue-100">Confirm Password</Label>
+              <Label htmlFor="confirm_password" className="text-amber-900 dark:text-amber-100">Confirm Password</Label>
               <Input 
                 id="confirm_password" 
                 type="password" 
                 required 
-                className="bg-white dark:bg-zinc-900 mt-2 border-blue-200 dark:border-blue-800" 
+                className="bg-white dark:bg-zinc-900 mt-2 border-amber-200 dark:border-amber-800" 
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
@@ -162,7 +162,7 @@ export function OnboardingForm({ initialName, needsPassword }: { initialName: st
       </div>
 
       <div className="mt-8 space-y-3">
-        <Button disabled={isSubmitting} type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 text-base font-semibold rounded-xl">
+        <Button disabled={isSubmitting} type="submit" className="w-full bg-amber-600 hover:bg-amber-700 text-white h-12 text-base font-semibold rounded-xl">
           {isSubmitting ? 'Saving...' : 'Save & Continue'}
         </Button>
 

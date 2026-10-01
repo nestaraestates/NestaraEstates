@@ -1,204 +1,152 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, ActivityIndicator, Alert, ScrollView, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, Pressable, ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, Image, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, useRouter } from 'expo-router';
 import { supabase } from '@/lib/supabase';
-
 import { GoogleIcon } from '@/components/google-icon';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-
-GoogleSignin.configure({
-  webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
-  iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
-  scopes: ['profile', 'email'],
-});
-
-
+import Animated, { FadeInUp } from 'react-native-reanimated';
+import { Eye, EyeOff } from 'lucide-react-native';
 
 export default function SignupScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const router = useRouter();
 
   async function signUpWithEmail() {
-    if (!acceptedTerms) {
-      Alert.alert('Terms Required', 'Please accept the terms and conditions to create an account.');
-      return;
-    }
+    if (!acceptedTerms) return Alert.alert('Terms Required', 'Please accept the terms to sign up.');
     setLoading(true);
-    const { error, data } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-
+    const { error, data } = await supabase.auth.signUp({ email, password });
     if (error) {
       Alert.alert('Signup Failed', error.message);
-    } else {
-      if (data.session) {
-        // Check if profile is complete
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('full_name, phone_number')
-          .eq('id', data.session.user.id)
-          .single();
-
-        if (!profile?.full_name || !profile?.phone_number) {
-          router.replace('/(auth)/onboarding');
-        } else {
-          router.replace('/(tabs)');
-        }
-      } else {
-        Alert.alert('Success', 'Please check your inbox for email verification!');
-      }
+    } else if (data.session) {
+      router.replace('/(auth)/onboarding');
     }
     setLoading(false);
   }
 
-  // Placeholder for future Google Auth implementation
-  async function signUpWithGoogle() {
-    if (!acceptedTerms) {
-      Alert.alert('Terms Required', 'Please accept the terms and conditions to create an account.');
-      return;
-    }
+  
+  async function signInWithGoogle() {
+    if (!acceptedTerms) return Alert.alert('Terms Required', 'Please accept the terms to sign up.');
     try {
       setLoading(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       if (userInfo.data?.idToken) {
-        const { data, error } = await supabase.auth.signInWithIdToken({
-          provider: 'google',
-          token: userInfo.data.idToken,
-        });
+        const { data, error } = await supabase.auth.signInWithIdToken({ provider: 'google', token: userInfo.data.idToken });
         if (error) throw error;
-        
         if (data.session) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('full_name, phone_number')
-            .eq('id', data.session.user.id)
-            .single();
-
-          if (!profile?.full_name || !profile?.phone_number) {
-            router.replace('/(auth)/onboarding');
-          } else {
-            router.replace('/(tabs)');
-          }
+          const { data: profile } = await supabase.from('profiles').select('full_name, phone_number').eq('id', data.session.user.id).single();
+          if (!profile?.full_name || !profile?.phone_number) router.replace('/(auth)/onboarding');
+          else router.replace('/(tabs)');
         }
-      } else {
-        throw new Error('no ID token present!');
       }
     } catch (error: any) {
-      if (error.code === 'SIGN_IN_CANCELLED') {
-        // user cancelled
-      } else {
-        Alert.alert('Google Sign-In Error', error.message);
-      }
+      if (error.code !== 'SIGN_IN_CANCELLED') Alert.alert('Error', error.message);
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-zinc-50 dark:bg-zinc-950">
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
-        className="flex-1"
-      >
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag">
-        <View className="p-4 w-full max-w-md mx-auto">
-          <View className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm overflow-hidden">
+    <View className="flex-1 bg-black">
+      <StatusBar barStyle="light-content" />
+      <View className="absolute w-full h-full">
+        <Image 
+          source={{ uri: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=2070&auto=format&fit=crop' }} 
+          className="w-full h-full opacity-60" 
+          resizeMode="cover" 
+        />
+        <View className="absolute w-full h-full bg-black/60" />
+      </View>
+
+      <SafeAreaView className="flex-1">
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20} className="flex-1">
+          <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end', paddingBottom: 40 }} keyboardShouldPersistTaps="handled">
             
-            <View className="p-6 pb-2 items-center space-y-2">
-              <Image 
-                source={require('@/assets/images/logo.png')} 
-                className="w-16 h-16 rounded-2xl mb-2" 
-                resizeMode="contain"
-              />
-              <Text className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">Create an account</Text>
-              <Text className="text-zinc-500 dark:text-zinc-400">Join Nestara today</Text>
+            <View className="px-6 mb-8">
+              <Text className="text-3xl font-black text-white mb-2">Create Account</Text>
+              <Text className="text-base text-zinc-300 font-medium">Start your premium real estate journey today.</Text>
             </View>
 
-            <View className="p-6 space-y-4">
-              
-              <View className="space-y-1">
-                <Text className="text-sm font-medium text-zinc-900 dark:text-zinc-50">Email</Text>
+            <Animated.View entering={FadeInUp.delay(200).springify()} className="bg-white/10 px-6 pt-8 pb-6 mx-4 rounded-[32px] border border-white/20 backdrop-blur-xl">
+              <View className="space-y-4">
                 <TextInput
                   value={email}
                   onChangeText={setEmail}
-                  placeholder="you@example.com"
-                  placeholderTextColor="#A1A1AA"
+                  placeholder="Email Address"
+                  placeholderTextColor="#a1a1aa"
                   autoCapitalize="none"
-                  className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md px-3 py-2 text-zinc-900 dark:text-zinc-50"
+                  className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 text-white text-base"
                 />
-              </View>
+                <View className="relative w-full justify-center">
+                  <TextInput
+                    value={password}
+                    onChangeText={setPassword}
+                    placeholder="Create Password"
+                    placeholderTextColor="#a1a1aa"
+                    secureTextEntry={!showPassword}
+                    className="w-full bg-black/30 border border-white/10 rounded-2xl pl-5 pr-14 py-4 text-white text-base"
+                  />
+                  <Pressable 
+                    onPress={() => setShowPassword(!showPassword)} 
+                    className="absolute right-4 h-full justify-center"
+                  >
+                    {showPassword ? <EyeOff size={20} color="#a1a1aa" /> : <Eye size={20} color="#a1a1aa" />}
+                  </Pressable>
+                </View>
 
-              <View className="space-y-1">
-                <Text className="text-sm font-medium text-zinc-900 dark:text-zinc-50">Password</Text>
-                <TextInput
-                  value={password}
-                  onChangeText={setPassword}
-                  placeholder="••••••••"
-                  placeholderTextColor="#A1A1AA"
-                  secureTextEntry
-                  className="w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-md px-3 py-2 text-zinc-900 dark:text-zinc-50"
-                />
-              </View>
+                <View className="flex-row items-center mt-2 mb-2 pr-4">
+                  <Pressable 
+                    onPress={() => setAcceptedTerms(!acceptedTerms)}
+                    className={`w-5 h-5 rounded-md border items-center justify-center mr-3 ${acceptedTerms ? 'bg-amber-500 border-amber-500' : 'border-white/50 bg-black/20'}`}
+                  >
+                    {acceptedTerms && <Text className="text-white text-xs font-bold">✓</Text>}
+                  </Pressable>
+                  <Text className="text-xs text-zinc-300 flex-1 leading-tight">
+                    I agree to the <Link href="/settings/terms" asChild><Text className="text-amber-500 font-bold">Terms</Text></Link> and <Link href="/settings/privacy" asChild><Text className="text-amber-500 font-bold">Privacy Policy</Text></Link>
+                  </Text>
+                </View>
 
-              <View className="flex-row mt-2 mb-1 pr-4">
-                <Pressable 
-                  onPress={() => setAcceptedTerms(!acceptedTerms)}
-                  className={`w-5 h-5 rounded border items-center justify-center mr-2 mt-0.5 ${acceptedTerms ? 'bg-amber-500 border-amber-500' : 'border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900'}`}
+                <Pressable
+                  onPress={signUpWithEmail}
+                  disabled={loading}
+                  className={`w-full bg-amber-500 rounded-2xl py-4 items-center justify-center mt-2 shadow-lg shadow-amber-500/30 ${loading ? 'opacity-70' : ''}`}
                 >
-                  {acceptedTerms && <Text className="text-white text-xs font-bold">✓</Text>}
+                  {loading ? <ActivityIndicator color="white" /> : <Text className="text-white font-black text-lg">Sign Up</Text>}
                 </Pressable>
-                <Text className="text-xs text-zinc-600 dark:text-zinc-300 flex-1 leading-tight">
-                  I agree to the <Link href="/settings/terms" asChild><Text className="text-blue-600 font-medium">Terms and Conditions</Text></Link>
-                </Text>
+
+                <View className="flex-row items-center my-4">
+                  <View className="flex-1 h-px bg-white/20" />
+                  <Text className="mx-4 text-white/50 text-xs font-bold uppercase tracking-widest">or</Text>
+                  <View className="flex-1 h-px bg-white/20" />
+                </View>
+
+                <Pressable
+                  onPress={signInWithGoogle}
+                  className="w-full bg-white rounded-2xl py-4 items-center justify-center flex-row shadow-sm"
+                >
+                  <GoogleIcon width={22} height={22} />
+                  <Text className="text-zinc-900 font-bold text-base ml-3">Continue with Google</Text>
+                </Pressable>
+
               </View>
 
-              <Pressable
-                onPress={signUpWithEmail}
-                disabled={loading}
-                className={`w-full bg-amber-500 rounded-md py-3 items-center justify-center mt-2 ${loading ? 'opacity-70' : ''}`}
-              >
-                {loading ? (
-                  <ActivityIndicator color="white" />
-                ) : (
-                  <Text className="text-white font-bold">Sign Up</Text>
-                )}
-              </Pressable>
-
-              <View className="flex-row items-center my-2">
-                <View className="flex-1 h-px bg-zinc-200" />
-                <Text className="mx-4 text-zinc-400 dark:text-zinc-500 text-sm font-medium">OR</Text>
-                <View className="flex-1 h-px bg-zinc-200" />
+              <View className="mt-8 items-center flex-row justify-center">
+                <Text className="text-zinc-400">Already have an account? </Text>
+                <Link href="/(auth)/login" asChild>
+                  <Pressable>
+                    <Text className="font-bold text-amber-500">Sign in</Text>
+                  </Pressable>
+                </Link>
               </View>
-
-              <Pressable
-                onPress={signUpWithGoogle}
-                className="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-md py-3 items-center justify-center flex-row"
-              >
-                <GoogleIcon width={20} height={20} />
-                <Text className="text-zinc-700 dark:text-zinc-200 font-bold ml-2">Continue with Google</Text>
-              </Pressable>
-
-            </View>
-
-            <View className="border-t border-zinc-100 dark:border-zinc-800 p-6 items-center flex-row justify-center">
-              <Text className="text-sm text-zinc-500 dark:text-zinc-400">Already have an account? </Text>
-              <Link href="/(auth)/login" asChild>
-                <Pressable>
-                  <Text className="text-sm font-semibold text-blue-600">Sign in</Text>
-                </Pressable>
-              </Link>
-            </View>
-
-          </View>
-        </View>
-      </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+            </Animated.View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </View>
   );
 }

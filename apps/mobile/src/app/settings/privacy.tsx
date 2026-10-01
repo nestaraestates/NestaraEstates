@@ -1,44 +1,49 @@
 import React from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { useRouter, Stack } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
 
 export default function PrivacyScreen() {
   const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-zinc-900">
-      <View className="flex-row items-center p-4 border-b border-zinc-200 dark:border-zinc-800">
-        <Pressable onPress={() => { if(router.canGoBack()) router.back(); else router.push('/settings' as any); }} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}} className="mr-3 p-1">
-          <ChevronLeft size={24} color="#18181b" />
+    <SafeAreaView className="flex-1 bg-white">
+      <Stack.Screen options={{ headerShown: false }} />
+      
+      {/* Header */}
+      <View className="px-4 py-4 border-b border-zinc-200 flex-row items-center">
+        <Pressable onPress={() => router.back()} className="mr-4 p-2 bg-zinc-100 rounded-full">
+          <ChevronLeft size={24} color="#3f3f46" />
         </Pressable>
-        <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50">Privacy Policy</Text>
+        <Text className="text-xl font-bold text-zinc-900">Privacy Policy</Text>
       </View>
-      <ScrollView className="flex-1 px-4 py-6" showsVerticalScrollIndicator={false}>
-        <Text className="text-base text-zinc-600 dark:text-zinc-300 mb-6 leading-6">
-          At Nestara Estates, accessible from our mobile app and website, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Nestara Estates and how we use it.
+
+      <ScrollView className="flex-1 px-5 py-6" showsVerticalScrollIndicator={false}>
+        <Text className="text-2xl font-black text-zinc-900 mb-2">Privacy Policy</Text>
+        <Text className="text-sm text-zinc-500 mb-6">Last Updated: September 2026</Text>
+
+        <Text className="text-lg font-bold text-zinc-900 mb-2">1. Data We Collect</Text>
+        <Text className="text-base text-zinc-600 leading-relaxed mb-6">
+          We collect information you provide directly to us, including your name, email address, phone number, and physical address when you register. When listing properties, we collect location data, images, and property details.
+        </Text>
+
+        <Text className="text-lg font-bold text-zinc-900 mb-2">2. How We Use Your Data</Text>
+        <Text className="text-base text-zinc-600 leading-relaxed mb-6">
+          We use this data to provide and improve the Nestara Estates platform, facilitate communication between buyers and sellers, send you push notifications, and verify the authenticity of listings.
+        </Text>
+
+        <Text className="text-lg font-bold text-zinc-900 mb-2">3. Data Sharing</Text>
+        <Text className="text-base text-zinc-600 leading-relaxed mb-6">
+          We do not sell your personal data. Your contact information is only shared with verified admins or users when you explicitly consent to contact them regarding a property enquiry.
+        </Text>
+
+        <Text className="text-lg font-bold text-zinc-900 mb-2">4. Data Deletion</Text>
+        <Text className="text-base text-zinc-600 leading-relaxed mb-6">
+          You have the right to request the deletion of your personal data. You can delete your account and all associated data directly from the "Settings" tab in this app.
         </Text>
         
-        <Text className="text-lg font-bold text-zinc-900 dark:text-zinc-50 mb-2">Information we collect</Text>
-        <Text className="text-base text-zinc-600 dark:text-zinc-300 mb-6 leading-6">
-          The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information. If you contact us directly, we may receive additional information about you such as your name, email address, phone number, and the contents of the message.
-        </Text>
-
-        <Text className="text-lg font-bold text-zinc-900 dark:text-zinc-50 mb-2">How we use your information</Text>
-        <Text className="text-base text-zinc-600 dark:text-zinc-300 mb-6 leading-6">
-          We use the information we collect in various ways, including to:
-          {'\n'}• Provide, operate, and maintain our app
-          {'\n'}• Improve, personalize, and expand our app
-          {'\n'}• Understand and analyze how you use our app
-          {'\n'}• Develop new products, services, features, and functionality
-        </Text>
-
-        <Text className="text-lg font-bold text-zinc-900 dark:text-zinc-50 mb-2">Location Data</Text>
-        <Text className="text-base text-zinc-600 dark:text-zinc-300 mb-10 leading-6">
-          We explicitly hide exact map pins from standard users to protect seller privacy. Only verified admins and property owners can view exact GPS coordinates.
-        </Text>
-        <View className="h-10" />
+        <View className="h-20" />
       </ScrollView>
     </SafeAreaView>
   );

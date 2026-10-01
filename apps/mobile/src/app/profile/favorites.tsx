@@ -3,7 +3,7 @@ import { View, Text, FlatList, ActivityIndicator, Image, Pressable, RefreshContr
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '@/lib/supabase';
 import { Link, useRouter } from 'expo-router';
-import { MapPin, Bed, Bath, Square, ArrowLeft } from 'lucide-react-native';
+import { MapPin, Bed, Bath, Square, ArrowLeft, Heart } from 'lucide-react-native';
 
 export default function FavoritesScreen() {
  const [properties, setProperties] = useState<any[]>([]);
@@ -53,44 +53,44 @@ export default function FavoritesScreen() {
  
  return (
  <Link href={`/property/${item.id}`} asChild>
- <Pressable className="bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden mb-6 shadow-sm border border-zinc-200 dark:border-zinc-800 ">
+ <Pressable className="bg-white rounded-2xl overflow-hidden mb-6 shadow-sm border border-zinc-200 ">
  <Image 
  source={{ uri: mainImage }} 
  className="w-full h-48 bg-zinc-200 "
  resizeMode="cover"
  />
- <View className="absolute top-3 left-3 bg-white dark:bg-zinc-900/90 px-2 py-1 rounded-md">
- <Text className="text-xs font-bold text-zinc-900 dark:text-zinc-50 uppercase">{item.purpose}</Text>
+ <View className="absolute top-3 left-3 bg-white/90 px-2 py-1 rounded-md">
+ <Text className="text-xs font-bold text-zinc-900 uppercase">{item.purpose}</Text>
  </View>
  
  <View className="p-4 space-y-3">
  <View className="flex-row justify-between items-start">
  <View className="flex-1 pr-2">
- <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50 line-clamp-1">{item.title}</Text>
+ <Text className="text-xl font-bold text-zinc-900 line-clamp-1">{item.title}</Text>
  <View className="flex-row items-center mt-1">
  {/* @ts-ignore */}
  <MapPin size={14} color="#71717A" />
- <Text className="text-sm text-zinc-500 dark:text-zinc-400 ml-1">{item.location}, {item.city}</Text>
+ <Text className="text-sm text-zinc-500 ml-1">{item.location}, {item.city}</Text>
  </View>
  </View>
  <Text className="text-xl font-bold text-amber-600">{formatPrice(item.price)}</Text>
  </View>
 
- <View className="flex-row items-center space-x-4 border-t border-zinc-100 dark:border-zinc-800 pt-3">
+ <View className="flex-row items-center space-x-4 border-t border-zinc-100 pt-3">
  <View className="flex-row items-center">
  {/* @ts-ignore */}
  <Bed size={16} color="#71717A" />
- <Text className="text-xs text-zinc-600 dark:text-zinc-300 ml-1 font-medium">{item.bhk} BHK</Text>
+ <Text className="text-xs text-zinc-600 ml-1 font-medium">{item.bhk} BHK</Text>
  </View>
  <View className="flex-row items-center ml-4">
  {/* @ts-ignore */}
  <Bath size={16} color="#71717A" />
- <Text className="text-xs text-zinc-600 dark:text-zinc-300 ml-1 font-medium">{item.bathrooms} Bath</Text>
+ <Text className="text-xs text-zinc-600 ml-1 font-medium">{item.bathrooms} Bath</Text>
  </View>
  <View className="flex-row items-center ml-4">
  {/* @ts-ignore */}
  <Square size={16} color="#71717A" />
- <Text className="text-xs text-zinc-600 dark:text-zinc-300 ml-1 font-medium">{item.area_sqft} sqft</Text>
+ <Text className="text-xs text-zinc-600 ml-1 font-medium">{item.area_sqft} sqft</Text>
  </View>
  </View>
  </View>
@@ -100,13 +100,13 @@ export default function FavoritesScreen() {
  };
 
  return (
- <SafeAreaView className="flex-1 bg-zinc-50 dark:bg-zinc-950 ">
- <View className="px-4 py-4 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex-row items-center">
- <Pressable onPress={() => router.push('/settings' as any)} className="mr-4 p-2 bg-zinc-100 dark:bg-zinc-800 rounded-full">
+ <SafeAreaView className="flex-1 bg-zinc-50 ">
+ <View className="px-4 py-4 bg-white border-b border-zinc-200 flex-row items-center">
+ <Pressable onPress={() => router.push('/settings' as any)} className="mr-4 p-2 bg-zinc-100 rounded-full">
  {/* @ts-ignore */}
  <ArrowLeft size={20} color="#71717A" />
  </Pressable>
- <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50 ">Saved Properties</Text>
+ <Text className="text-xl font-bold text-zinc-900 ">Saved Properties</Text>
  </View>
  
  {loading ? (
@@ -124,8 +124,15 @@ export default function FavoritesScreen() {
  <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); fetchFavorites(); }} tintColor="#f59e0b" />
  }
  ListEmptyComponent={
- <View className="flex-1 justify-center items-center py-20">
- <Text className="text-zinc-500 dark:text-zinc-400 ">You haven't saved any properties yet.</Text>
+ <View className="flex-1 justify-center items-center py-20 px-6 mt-10">
+   <View className="w-24 h-24 bg-red-50 rounded-full items-center justify-center mb-6">
+     <Heart size={40} color="#ef4444" />
+   </View>
+   <Text className="text-2xl font-black text-zinc-900 mb-3 text-center">No Favorites Yet</Text>
+   <Text className="text-zinc-500 text-center px-4 mb-8 leading-6 text-base">You haven't saved any properties. Tap the heart icon on any property to save it for later.</Text>
+   <Pressable onPress={() => router.push('/(tabs)/explore')} className="bg-amber-500 px-8 py-3.5 rounded-2xl shadow-lg shadow-amber-500/30">
+     <Text className="text-white font-bold text-lg">Explore Properties</Text>
+   </Pressable>
  </View>
  }
  />

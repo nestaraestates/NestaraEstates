@@ -1,45 +1,54 @@
 import React from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { useRouter, Stack } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
 
 export default function TermsScreen() {
   const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-zinc-900">
-      <View className="flex-row items-center p-4 border-b border-zinc-200 dark:border-zinc-800">
-        <Pressable onPress={() => { if(router.canGoBack()) router.back(); else router.push('/settings' as any); }} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}} className="mr-3 p-1">
-          <ChevronLeft size={24} color="#18181b" />
+    <SafeAreaView className="flex-1 bg-white">
+      <Stack.Screen options={{ headerShown: false }} />
+      
+      {/* Header */}
+      <View className="px-4 py-4 border-b border-zinc-200 flex-row items-center">
+        <Pressable onPress={() => router.back()} className="mr-4 p-2 bg-zinc-100 rounded-full">
+          <ChevronLeft size={24} color="#3f3f46" />
         </Pressable>
-        <Text className="text-xl font-bold text-zinc-900 dark:text-zinc-50">Terms of Service</Text>
+        <Text className="text-xl font-bold text-zinc-900">Terms of Service</Text>
       </View>
-      <ScrollView className="flex-1 px-4 py-6" showsVerticalScrollIndicator={false}>
-        <Text className="text-base text-zinc-600 dark:text-zinc-300 mb-6 leading-6">
-          Welcome to Nestara Estates. These terms and conditions outline the rules and regulations for the use of our mobile app and services.
+
+      <ScrollView className="flex-1 px-5 py-6" showsVerticalScrollIndicator={false}>
+        <Text className="text-2xl font-black text-zinc-900 mb-2">Terms and Conditions</Text>
+        <Text className="text-sm text-zinc-500 mb-6">Last Updated: September 2026</Text>
+
+        <Text className="text-lg font-bold text-zinc-900 mb-2">1. Acceptance of Terms</Text>
+        <Text className="text-base text-zinc-600 leading-relaxed mb-6">
+          By accessing and using Nestara Estates, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you must not use our application.
+        </Text>
+
+        <Text className="text-lg font-bold text-zinc-900 mb-2">2. User Accounts</Text>
+        <Text className="text-base text-zinc-600 leading-relaxed mb-6">
+          To access certain features, you must create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account. You must provide accurate and complete information.
+        </Text>
+
+        <Text className="text-lg font-bold text-zinc-900 mb-2">3. Property Listings (UGC)</Text>
+        <Text className="text-base text-zinc-600 leading-relaxed mb-6">
+          Users may post property listings ("User Generated Content"). You retain ownership of your content, but grant us a license to display it. We reserve the right to remove or modify any listing that violates our policies, contains inappropriate content, or is deemed fraudulent.
+        </Text>
+
+        <Text className="text-lg font-bold text-zinc-900 mb-2">4. User Conduct</Text>
+        <Text className="text-base text-zinc-600 leading-relaxed mb-6">
+          You agree not to use the app for any unlawful purpose, to spam or harass other users, or to upload malicious code. Any abuse of the chat system or listing platform will result in immediate account termination.
+        </Text>
+
+        <Text className="text-lg font-bold text-zinc-900 mb-2">5. Liability Disclaimer</Text>
+        <Text className="text-base text-zinc-600 leading-relaxed mb-6">
+          Nestara Estates acts solely as a platform connecting buyers and sellers. We do not verify the complete accuracy of every listing and are not liable for any real estate transactions, financial losses, or disputes between users.
         </Text>
         
-        <Text className="text-lg font-bold text-zinc-900 dark:text-zinc-50 mb-2">1. Acceptance of Terms</Text>
-        <Text className="text-base text-zinc-600 dark:text-zinc-300 mb-6 leading-6">
-          By accessing this app, we assume you accept these terms and conditions. Do not continue to use Nestara Estates if you do not agree to all of the terms and conditions stated on this page.
-        </Text>
-
-        <Text className="text-lg font-bold text-zinc-900 dark:text-zinc-50 mb-2">2. User Accounts</Text>
-        <Text className="text-base text-zinc-600 dark:text-zinc-300 mb-6 leading-6">
-          When you create an account with us, you must provide accurate, complete, and current information. Failure to do so constitutes a breach of the terms, which may result in immediate termination of your account on our service.
-        </Text>
-
-        <Text className="text-lg font-bold text-zinc-900 dark:text-zinc-50 mb-2">3. Property Listings</Text>
-        <Text className="text-base text-zinc-600 dark:text-zinc-300 mb-6 leading-6">
-          Users may list properties for sale or rent. You represent and warrant that any information you provide in connection with such listings is accurate and that you have the right to list the property.
-        </Text>
-
-        <Text className="text-lg font-bold text-zinc-900 dark:text-zinc-50 mb-2">4. Limitation of Liability</Text>
-        <Text className="text-base text-zinc-600 dark:text-zinc-300 mb-10 leading-6">
-          In no event shall Nestara Estates, nor any of its officers, directors, and employees, be held liable for anything arising out of or in any way connected with your use of this app.
-        </Text>
-        <View className="h-10" />
+        <View className="h-20" />
       </ScrollView>
     </SafeAreaView>
   );

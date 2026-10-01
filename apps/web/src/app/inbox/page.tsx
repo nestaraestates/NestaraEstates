@@ -53,7 +53,7 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="flex items-center gap-3 mb-8">
-        <div className="bg-blue-100 text-blue-600 p-3 rounded-2xl">
+        <div className="bg-amber-100 text-amber-600 p-3 rounded-2xl">
           <InboxIcon className="h-8 w-8" />
         </div>
         <div>

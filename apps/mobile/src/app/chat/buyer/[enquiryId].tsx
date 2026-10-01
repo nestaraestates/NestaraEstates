@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, FlatList, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, FlatList, ActivityIndicator, Keyboard } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { supabase } from '../../../lib/supabase';
 import { Send, ChevronLeft } from 'lucide-react-native';
@@ -8,11 +8,13 @@ import { Send, ChevronLeft } from 'lucide-react-native';
 export default function BuyerChatScreen() {
  const { enquiryId, propertyId } = useLocalSearchParams();
  const router = useRouter();
+  const insets = useSafeAreaInsets();
  
  const [messages, setMessages] = useState<any[]>([]);
  const [inputText, setInputText] = useState('');
  const [isSending, setIsSending] = useState(false);
  const [loading, setLoading] = useState(true);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
  
  const [currentEnquiryId, setCurrentEnquiryId] = useState<string | null>(
  enquiryId === 'new' ? null : (enquiryId as string)
@@ -22,6 +24,9 @@ export default function BuyerChatScreen() {
 
  useEffect(() => {
  setupUserAndMessages();
+ const showSub = Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
+ const hideSub = Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
+ return () => { showSub.remove(); hideSub.remove(); };
  }, [currentEnquiryId]);
 
  const setupUserAndMessages = async () => {
@@ -155,7 +160,7 @@ export default function BuyerChatScreen() {
  });
  }
  } catch (error) {
- console.error(error); console.error("msgError", msgError); console.error("enqError", enqError);
+ console.error(error); 
  setMessages(prev => prev.filter(m => m.id !== tempId));
  alert('Failed to send message.');
  } finally {
@@ -167,15 +172,15 @@ export default function BuyerChatScreen() {
  const isMe = item.sender_id === userId;
  return (
  <View className={`mb-4 max-w-[80%] ${isMe ? 'self-end' : 'self-start'}`}>
- <View className={`px-4 py-3 rounded-2xl ${isMe ? 'bg-emerald-600 rounded-tr-sm' : 'bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-tl-sm'}`}>
- <Text className={`text-base ${isMe ? 'text-white' : 'text-slate-900 dark:text-zinc-50'}`}>{item.message}</Text>
+ <View className={`px-4 py-3 rounded-2xl ${isMe ? 'bg-emerald-600 rounded-tr-sm' : 'bg-white border border-zinc-200 rounded-tl-sm'}`}>
+ <Text className={`text-base ${isMe ? 'text-white' : 'text-zinc-900'}`}>{item.message}</Text>
  </View>
  </View>
  );
  };
 
  return (
- <SafeAreaView className="flex-1 bg-slate-50 dark:bg-zinc-950" edges={['top']}>
+ <SafeAreaView className="flex-1 bg-zinc-50" edges={['top']}>
  <Stack.Screen options={{ headerShown: false }} />
  
  <View className="flex-row items-center p-4 bg-emerald-600">
@@ -195,8 +200,8 @@ export default function BuyerChatScreen() {
  ) : (
  <KeyboardAvoidingView 
  style={{ flex: 1 }} 
- behavior={Platform.OS === 'ios' ? 'padding' : undefined}
- keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+ behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+ keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 90}
  >
  <FlatList
  ref={flatListRef}
@@ -208,16 +213,16 @@ export default function BuyerChatScreen() {
  onLayout={() => flatListRef.current?.scrollToEnd({ animated: true })}
  ListEmptyComponent={
  <View className="flex-1 justify-center items-center mt-10">
- <Text className="text-slate-400 dark:text-zinc-500 text-center text-sm">
+ <Text className="text-zinc-400 text-center text-sm">
  Send a message to contact the agent about this property.
  </Text>
  </View>
  }
  />
 
- <View className="p-3 bg-white dark:bg-zinc-900 border-t border-slate-200 dark:border-zinc-800 flex-row items-center pb-8">
+ <View className="p-3 bg-white border-t border-zinc-200 flex-row items-center" style={{ paddingBottom: keyboardVisible ? 12 : Math.max(insets.bottom, 12) }}>
  <TextInput
- className="flex-1 bg-slate-100 dark:bg-zinc-800 px-4 py-3 rounded-full mr-2 text-slate-900 dark:text-zinc-50"
+ className="flex-1 bg-zinc-100 px-4 py-3 rounded-full mr-2 text-zinc-900"
  placeholder="Type your message..."
  placeholderTextColor="#9ca3af"
  value={inputText}

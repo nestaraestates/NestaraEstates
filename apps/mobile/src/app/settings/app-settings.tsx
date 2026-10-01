@@ -36,7 +36,7 @@ export default function AppSettingsScreen() {
           </View>
           <View className="flex-row items-center justify-between p-4">
             <View className="flex-row items-center">
-              <View className="w-8 h-8 bg-blue-50 rounded-full items-center justify-center mr-3">
+              <View className="w-8 h-8 bg-amber-50 rounded-full items-center justify-center mr-3">
                 <Globe size={16} color="#2563eb" />
               </View>
               <Text className="text-base font-semibold text-zinc-900 dark:text-zinc-50 dark:text-zinc-50">Email Alerts</Text>

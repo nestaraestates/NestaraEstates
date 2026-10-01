@@ -12,23 +12,23 @@ export default function ToolsScreen() {
  const [rentPrice, setRentPrice] = useState('25000');
 
  return (
- <SafeAreaView className="flex-1 bg-slate-50 dark:bg-zinc-950">
- <View className="flex-row items-center p-4 border-b border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+ <SafeAreaView className="flex-1 bg-zinc-50">
+ <View className="flex-row items-center p-4 border-b border-zinc-200 bg-white">
  <Pressable onPress={() => router.push('/' as any)} className="p-2 mr-2">
  {/* @ts-ignore */}
  <ArrowLeft size={24} color="#52525b" />
  </Pressable>
- <Text className="text-xl font-bold text-slate-900 dark:text-zinc-50">Calculators & Tools</Text>
+ <Text className="text-xl font-bold text-zinc-900">Calculators & Tools</Text>
  </View>
 
  <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
  <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-6">
- <View className="bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800 flex-row p-1 min-w-full">
+ <View className="bg-white rounded-xl border border-zinc-200 flex-row p-1 min-w-full">
  <Pressable 
  onPress={() => setActiveTab('EMI')}
  className={`px-4 py-2.5 items-center rounded-lg ${activeTab === 'EMI' ? 'bg-indigo-100' : ''}`}
  >
- <Text className={`font-semibold ${activeTab === 'EMI' ? 'text-indigo-800' : 'text-slate-600 dark:text-zinc-300'}`}>
+ <Text className={`font-semibold ${activeTab === 'EMI' ? 'text-indigo-800' : 'text-zinc-600'}`}>
  EMI
  </Text>
  </Pressable>
@@ -36,7 +36,7 @@ export default function ToolsScreen() {
  onPress={() => setActiveTab('ROI')}
  className={`px-4 py-2.5 items-center rounded-lg ${activeTab === 'ROI' ? 'bg-emerald-100' : ''}`}
  >
- <Text className={`font-semibold ${activeTab === 'ROI' ? 'text-emerald-800' : 'text-slate-600 dark:text-zinc-300'}`}>
+ <Text className={`font-semibold ${activeTab === 'ROI' ? 'text-emerald-800' : 'text-zinc-600'}`}>
  ROI
  </Text>
  </Pressable>
@@ -44,15 +44,15 @@ export default function ToolsScreen() {
  onPress={() => setActiveTab('AREA')}
  className={`px-4 py-2.5 items-center rounded-lg ${activeTab === 'AREA' ? 'bg-orange-100' : ''}`}
  >
- <Text className={`font-semibold ${activeTab === 'AREA' ? 'text-orange-800' : 'text-slate-600 dark:text-zinc-300'}`}>
+ <Text className={`font-semibold ${activeTab === 'AREA' ? 'text-orange-800' : 'text-zinc-600'}`}>
  Area Converter
  </Text>
  </Pressable>
  <Pressable 
  onPress={() => setActiveTab('RENT_BUY')}
- className={`px-4 py-2.5 items-center rounded-lg ${activeTab === 'RENT_BUY' ? 'bg-blue-100' : ''}`}
+ className={`px-4 py-2.5 items-center rounded-lg ${activeTab === 'RENT_BUY' ? 'bg-amber-100' : ''}`}
  >
- <Text className={`font-semibold ${activeTab === 'RENT_BUY' ? 'text-blue-800' : 'text-slate-600 dark:text-zinc-300'}`}>
+ <Text className={`font-semibold ${activeTab === 'RENT_BUY' ? 'text-amber-800' : 'text-zinc-600'}`}>
  Rent vs Buy
  </Text>
  </Pressable>
@@ -61,9 +61,9 @@ export default function ToolsScreen() {
 
  {activeTab === 'EMI' && (
  <View>
- <Text className="text-sm font-bold text-slate-500 dark:text-zinc-400 mb-2 uppercase tracking-wider">Property Price (₹)</Text>
+ <Text className="text-sm font-bold text-zinc-500 mb-2 uppercase tracking-wider">Property Price (₹)</Text>
  <TextInput
- className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-lg font-semibold text-slate-900 dark:text-zinc-50 mb-4"
+ className="bg-white border border-zinc-200 rounded-xl px-4 py-3 text-lg font-semibold text-zinc-900 mb-4"
  keyboardType="numeric"
  value={propertyPrice}
  onChangeText={setPropertyPrice}
@@ -75,9 +75,9 @@ export default function ToolsScreen() {
  
  {activeTab === 'ROI' && (
  <View>
- <Text className="text-sm font-bold text-slate-500 dark:text-zinc-400 mb-2 uppercase tracking-wider">Monthly Rent (₹)</Text>
+ <Text className="text-sm font-bold text-zinc-500 mb-2 uppercase tracking-wider">Monthly Rent (₹)</Text>
  <TextInput
- className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-lg font-semibold text-slate-900 dark:text-zinc-50 mb-4"
+ className="bg-white border border-zinc-200 rounded-xl px-4 py-3 text-lg font-semibold text-zinc-900 mb-4"
  keyboardType="numeric"
  value={rentPrice}
  onChangeText={setRentPrice}

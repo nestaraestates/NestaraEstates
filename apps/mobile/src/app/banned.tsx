@@ -1,6 +1,7 @@
 import { View, Text, Pressable, Linking } from 'react-native';
 import { ShieldAlert } from 'lucide-react-native';
 import { supabase } from '@/lib/supabase';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { router } from 'expo-router';
 
 export default function BannedScreen() {
@@ -23,6 +24,7 @@ export default function BannedScreen() {
 
       <Pressable 
         onPress={async () => {
+          try { await GoogleSignin.revokeAccess(); } catch(e){} try { await GoogleSignin.signOut(); } catch(e){} 
           await supabase.auth.signOut();
           router.replace('/(auth)/welcome' as any);
         }}

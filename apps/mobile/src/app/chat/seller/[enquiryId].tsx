@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, FlatList, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, FlatList, ActivityIndicator, Keyboard } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { supabase } from '../../../lib/supabase';
 import { Send, ChevronLeft, Store } from 'lucide-react-native';
@@ -8,11 +8,13 @@ import { Send, ChevronLeft, Store } from 'lucide-react-native';
 export default function SellerChatScreen() {
  const { enquiryId } = useLocalSearchParams();
  const router = useRouter();
+  const insets = useSafeAreaInsets();
  
  const [messages, setMessages] = useState<any[]>([]);
  const [inputText, setInputText] = useState('');
  const [isSending, setIsSending] = useState(false);
  const [loading, setLoading] = useState(true);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
  
  const [userId, setUserId] = useState<string | null>(null);
  const flatListRef = useRef<FlatList>(null);
@@ -141,25 +143,25 @@ export default function SellerChatScreen() {
  const isMe = item.sender_id === userId;
  return (
  <View className={`mb-4 max-w-[80%] ${isMe ? 'self-end' : 'self-start'}`}>
- <View className={`px-4 py-3 rounded-2xl ${isMe ? 'bg-blue-600 rounded-tr-sm' : 'bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-tl-sm'}`}>
- <Text className={`text-base ${isMe ? 'text-white' : 'text-slate-900 dark:text-zinc-50'}`}>{item.message}</Text>
+ <View className={`px-4 py-3 rounded-2xl ${isMe ? 'bg-amber-500 rounded-tr-sm' : 'bg-white border border-zinc-200 rounded-tl-sm'}`}>
+ <Text className={`text-base ${isMe ? 'text-white' : 'text-zinc-900'}`}>{item.message}</Text>
  </View>
  </View>
  );
  };
 
  return (
- <SafeAreaView className="flex-1 bg-slate-50 dark:bg-zinc-950" edges={['top']}>
+ <SafeAreaView className="flex-1 bg-zinc-50" edges={['top']}>
  <Stack.Screen options={{ headerShown: false }} />
  
- <View className="flex-row items-center p-4 bg-blue-600">
+ <View className="flex-row items-center p-4 bg-amber-500">
  <TouchableOpacity onPress={() => router.push('/inbox' as any)} className="mr-3">
  <ChevronLeft size={24} color="white" />
  </TouchableOpacity>
  <Store size={20} color="white" className="mr-2" />
  <View>
  <Text className="text-white font-bold text-lg">Seller Support</Text>
- <Text className="text-blue-100 text-xs">Direct agent chat for this property</Text>
+ <Text className="text-amber-100 text-xs">Direct agent chat for this property</Text>
  </View>
  </View>
 
@@ -170,8 +172,8 @@ export default function SellerChatScreen() {
  ) : (
  <KeyboardAvoidingView 
  style={{ flex: 1 }} 
- behavior={Platform.OS === 'ios' ? 'padding' : undefined}
- keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+ behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
+ keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 90}
  >
  <FlatList
  ref={flatListRef}
@@ -183,16 +185,16 @@ export default function SellerChatScreen() {
  onLayout={() => flatListRef.current?.scrollToEnd({ animated: true })}
  ListEmptyComponent={
  <View className="flex-1 justify-center items-center mt-10">
- <Text className="text-slate-400 dark:text-zinc-500 text-center text-sm">
+ <Text className="text-zinc-400 text-center text-sm">
  You are connected with Nestara support.
  </Text>
  </View>
  }
  />
 
- <View className="p-3 bg-white dark:bg-zinc-900 border-t border-slate-200 dark:border-zinc-800 flex-row items-center pb-8">
+ <View className="p-3 bg-white border-t border-zinc-200 flex-row items-center" style={{ paddingBottom: keyboardVisible ? 12 : Math.max(insets.bottom, 12) }}>
  <TextInput
- className="flex-1 bg-slate-100 dark:bg-zinc-800 px-4 py-3 rounded-full mr-2 text-slate-900 dark:text-zinc-50"
+ className="flex-1 bg-zinc-100 px-4 py-3 rounded-full mr-2 text-zinc-900"
  placeholder="Type your message..."
  placeholderTextColor="#9ca3af"
  value={inputText}
@@ -202,7 +204,7 @@ export default function SellerChatScreen() {
  <TouchableOpacity 
  onPress={handleSend}
  disabled={!inputText.trim() || isSending}
- className={`p-3 rounded-full ${(!inputText.trim() || isSending) ? 'bg-blue-300' : 'bg-blue-600'}`}
+ className={`p-3 rounded-full ${(!inputText.trim() || isSending) ? 'bg-amber-300' : 'bg-amber-500'}`}
  >
  <Send size={20} color="white" />
  </TouchableOpacity>

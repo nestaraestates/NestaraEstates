@@ -93,19 +93,19 @@ export default function EditPropertyScreen() {
 
  if (isLoading) {
  return (
- <View className="flex-1 bg-slate-50 dark:bg-zinc-950 items-center justify-center">
+ <View className="flex-1 bg-zinc-50 items-center justify-center">
  <ActivityIndicator size="large" color="#3b82f6" />
  </View>
  );
  }
 
  return (
- <SafeAreaView className="flex-1 bg-slate-50 dark:bg-zinc-950">
- <View className="flex-row items-center px-4 py-3 border-b border-slate-200 dark:border-zinc-800">
+ <SafeAreaView className="flex-1 bg-zinc-50">
+ <View className="flex-row items-center px-4 py-3 border-b border-zinc-200">
  <Pressable onPress={() => router.push('/profile/properties' as any)} className="mr-3">
- <ArrowLeft size={24} className="text-slate-900 dark:text-zinc-50" />
+ <ArrowLeft size={24} className="text-zinc-900" />
  </Pressable>
- <Text className="text-xl font-bold text-slate-900 dark:text-zinc-50">Edit Listing</Text>
+ <Text className="text-xl font-bold text-zinc-900">Edit Listing</Text>
  </View>
 
  <ScrollView className="flex-1 p-4">
@@ -115,20 +115,20 @@ export default function EditPropertyScreen() {
  </View>
  ) : null}
 
- <View className="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-slate-200 dark:border-zinc-800 space-y-4">
+ <View className="bg-white p-4 rounded-xl border border-zinc-200 space-y-4">
  <View>
- <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50 mb-1">Property Title</Text>
+ <Text className="text-sm font-medium text-zinc-900 mb-1">Property Title</Text>
  <TextInput 
- className="bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-3 py-2 text-slate-900 dark:text-zinc-50"
+ className="bg-zinc-50 border border-zinc-200 rounded-md px-3 py-2 text-zinc-900"
  value={formData.title}
  onChangeText={(t) => updateForm('title', t)}
  />
  </View>
 
  <View>
- <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50 mb-1">Price (₹)</Text>
+ <Text className="text-sm font-medium text-zinc-900 mb-1">Price (₹)</Text>
  <TextInput 
- className="bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-3 py-2 text-slate-900 dark:text-zinc-50"
+ className="bg-zinc-50 border border-zinc-200 rounded-md px-3 py-2 text-zinc-900"
  keyboardType="numeric"
  value={formData.price}
  onChangeText={(t) => updateForm('price', t)}
@@ -136,7 +136,7 @@ export default function EditPropertyScreen() {
  </View>
 
  <View>
- <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50 mb-1">Status</Text>
+ <Text className="text-sm font-medium text-zinc-900 mb-1">Status</Text>
  <View className="flex-row flex-wrap">
  {['AVAILABLE', 'SOLD', 'RENTED', 'UNAVAILABLE'].map((s) => (
  <Pressable
@@ -144,11 +144,11 @@ export default function EditPropertyScreen() {
  onPress={() => updateForm('status', s)}
  className={`px-3 py-2 rounded-full border mr-2 mb-2 ${
  formData.status === s 
- ? 'bg-blue-100 border-blue-500 '
- : 'bg-slate-50 dark:bg-zinc-950 border-slate-200 dark:border-zinc-800'
+ ? 'bg-amber-100 border-amber-500 '
+ : 'bg-zinc-50 border-zinc-200'
  }`}
  >
- <Text className={formData.status === s ? 'text-blue-700 font-medium' : 'text-slate-600 dark:text-zinc-300'}>
+ <Text className={formData.status === s ? 'text-amber-700 font-medium' : 'text-zinc-600'}>
  {s}
  </Text>
  </Pressable>
@@ -157,9 +157,9 @@ export default function EditPropertyScreen() {
  </View>
 
  <View>
- <Text className="text-sm font-medium text-slate-900 dark:text-zinc-50 mb-1">Property Description</Text>
+ <Text className="text-sm font-medium text-zinc-900 mb-1">Property Description</Text>
  <TextInput 
- className="bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-md px-3 py-2 text-slate-900 dark:text-zinc-50 min-h-[120px]"
+ className="bg-zinc-50 border border-zinc-200 rounded-md px-3 py-2 text-zinc-900 min-h-[120px]"
  multiline
  textAlignVertical="top"
  value={formData.description}
@@ -168,7 +168,7 @@ export default function EditPropertyScreen() {
  </View>
 
  <Pressable 
- className="w-full py-3 mt-4 rounded-md items-center bg-blue-500"
+ className="w-full py-3 mt-4 rounded-md items-center bg-amber-500"
  onPress={saveChanges}
  disabled={isSaving}
  >

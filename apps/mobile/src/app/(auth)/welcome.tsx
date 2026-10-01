@@ -25,7 +25,7 @@ export default function WelcomeScreen() {
  <View className="w-full">
  <TouchableOpacity
  onPress={() => router.push('/(auth)/signup')}
- className="w-full bg-blue-600 rounded-xl py-4 items-center shadow-sm mb-4"
+ className="w-full bg-amber-500 rounded-xl py-4 items-center shadow-sm mb-4"
  >
  <Text className="text-white font-semibold text-lg">Create Account</Text>
  </TouchableOpacity>

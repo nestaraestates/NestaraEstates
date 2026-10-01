@@ -82,15 +82,15 @@ export default async function NotificationsPage() {
             {notifications.map((notif: any) => (
               <div 
                 key={notif.id} 
-                className={`p-5 rounded-2xl border transition-colors ${notif.is_read ? 'bg-white border-zinc-200' : 'bg-blue-50/50 border-blue-200 shadow-sm'}`}
+                className={`p-5 rounded-2xl border transition-colors ${notif.is_read ? 'bg-white border-zinc-200' : 'bg-amber-50/50 border-amber-200 shadow-sm'}`}
               >
                 <div className="flex items-start gap-4">
-                  <div className={`p-2 rounded-full mt-1 ${notif.title.includes('Message') ? 'bg-blue-100 text-blue-600' : 'bg-emerald-100 text-emerald-600'}`}>
+                  <div className={`p-2 rounded-full mt-1 ${notif.title.includes('Message') ? 'bg-amber-100 text-amber-600' : 'bg-emerald-100 text-emerald-600'}`}>
                     {notif.title.includes('Message') ? <MessageSquare className="h-5 w-5" /> : <CheckCircle2 className="h-5 w-5" />}
                   </div>
                   <div className="flex-1">
                     <div className="flex justify-between items-start mb-1">
-                      <h3 className={`text-base font-bold ${notif.is_read ? 'text-zinc-900' : 'text-blue-900'}`}>
+                      <h3 className={`text-base font-bold ${notif.is_read ? 'text-zinc-900' : 'text-amber-900'}`}>
                         {notif.title}
                       </h3>
                       <span className="text-xs font-medium text-zinc-400">

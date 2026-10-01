@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Pressable, ScrollView, ActivityIndicator, Alert, Image, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import Animated, { FadeInRight } from "react-native-reanimated";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { supabase } from '@/lib/supabase';
@@ -20,27 +21,6 @@ export default function SellScreen() {
   const [mapCoords, setMapCoords] = useState({ lat: 12.9716, lng: 77.5946 });
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      () => {
-        setKeyboardVisible(true);
-      }
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setKeyboardVisible(false);
-      }
-    );
-
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
   
   const [formData, setFormData] = useState({
     title: '',
@@ -246,9 +226,11 @@ export default function SellScreen() {
           bhk: parseInt(formData.bhk) || null,
           bathrooms: parseInt(formData.bathrooms) || null,
           area_sqft: parseInt(formData.area_sqft) || null,
-          location: finalLocation,
+          location: rawLocation,
           city: formData.city,
           status: 'AVAILABLE',
+          latitude: formData.coordinates ? parseFloat(formData.coordinates.split(',')[0]) : null,
+          longitude: formData.coordinates ? parseFloat(formData.coordinates.split(',')[1]) : null,
           is_verified: false
         })
         .select()
@@ -325,96 +307,96 @@ export default function SellScreen() {
     switch (step) {
       case 1:
         return (
-          <View className="flex-1">
-            <Text className="text-2xl font-bold text-slate-900 dark:text-zinc-50 mb-6">Property Information</Text>
+          <Animated.View key={step} entering={FadeInRight.duration(400).springify()} className="flex-1">
+            <Text className="text-2xl font-bold text-zinc-900 mb-6">Property Information</Text>
             
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Property Title *</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-1">Property Title *</Text>
             <TextInput
               value={formData.title}
               onChangeText={(t) => updateForm('title', t)}
               placeholder="e.g. Modern 3BHK in Downtown"
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-4 text-slate-900 dark:text-zinc-50"
+              className="bg-white border border-zinc-200 p-4 rounded-xl mb-4 text-zinc-900"
             />
 
             <View className="flex-row space-x-4 mb-4">
               <View className="flex-1">
-                <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Property Type</Text>
-                <View className="border border-slate-200 dark:border-zinc-800 rounded-xl overflow-hidden bg-white dark:bg-zinc-900">
+                <Text className="text-sm font-medium text-zinc-700 mb-1">Property Type</Text>
+                <View className="border border-zinc-200 rounded-xl overflow-hidden bg-white">
                   <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row p-1">
                     {['House', 'Villa', 'Apartment', 'Land', 'Commercial'].map((t) => (
                       <Pressable key={t} onPress={() => updateForm('type', t)} className={`px-3 py-2 rounded-lg ${formData.type === t ? 'bg-amber-100' : ''}`}>
-                        <Text className={`${formData.type === t ? 'text-amber-700 font-bold' : 'text-slate-600 dark:text-zinc-300'}`}>{t}</Text>
+                        <Text className={`${formData.type === t ? 'text-amber-700 font-bold' : 'text-zinc-600'}`}>{t}</Text>
                       </Pressable>
                     ))}
                   </ScrollView>
                 </View>
               </View>
               <View className="flex-1">
-                <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Purpose</Text>
-                <View className="flex-row bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl p-1">
+                <Text className="text-sm font-medium text-zinc-700 mb-1">Purpose</Text>
+                <View className="flex-row bg-white border border-zinc-200 rounded-xl p-1">
                   {['BUY', 'RENT'].map((p) => (
                     <Pressable key={p} onPress={() => updateForm('purpose', p)} className={`flex-1 items-center justify-center py-2 rounded-lg ${formData.purpose === p ? 'bg-amber-100' : ''}`}>
-                      <Text className={`${formData.purpose === p ? 'text-amber-700 font-bold' : 'text-slate-600 dark:text-zinc-300'}`}>{p === 'BUY' ? 'For Sale' : 'For Rent'}</Text>
+                      <Text className={`${formData.purpose === p ? 'text-amber-700 font-bold' : 'text-zinc-600'}`}>{p === 'BUY' ? 'For Sale' : 'For Rent'}</Text>
                     </Pressable>
                   ))}
                 </View>
               </View>
             </View>
 
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Village / Area / Landmark *</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-1">Village / Area / Landmark *</Text>
             <TextInput
               value={formData.village}
               onChangeText={(t) => updateForm('village', t)}
               placeholder="e.g. Tavarekere"
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-4 text-slate-900 dark:text-zinc-50"
+              className="bg-white border border-zinc-200 p-4 rounded-xl mb-4 text-zinc-900"
             />
 
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Taluk *</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-1">Taluk *</Text>
             <TextInput
               value={formData.taluk}
               onChangeText={(t) => updateForm('taluk', t)}
               placeholder="e.g. Hosakote"
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-4 text-slate-900 dark:text-zinc-50"
+              className="bg-white border border-zinc-200 p-4 rounded-xl mb-4 text-zinc-900"
             />
 
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">City / District *</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-1">City / District *</Text>
             <TextInput
               value={formData.city}
               onChangeText={(t) => updateForm('city', t)}
               placeholder="e.g. Bengaluru"
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-4 text-slate-900 dark:text-zinc-50"
+              className="bg-white border border-zinc-200 p-4 rounded-xl mb-4 text-zinc-900"
             />
 
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Pincode *</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-1">Pincode *</Text>
             <TextInput
               value={formData.pincode}
               onChangeText={(t) => updateForm('pincode', t)}
               placeholder="e.g. 562114"
               keyboardType="numeric"
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-4 text-slate-900 dark:text-zinc-50"
+              className="bg-white border border-zinc-200 p-4 rounded-xl mb-4 text-zinc-900"
             />
 
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">State *</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-1">State *</Text>
             <TextInput
               value={formData.state}
               onChangeText={(t) => updateForm('state', t)}
               placeholder="e.g. Karnataka"
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-6 text-slate-900 dark:text-zinc-50"
+              className="bg-white border border-zinc-200 p-4 rounded-xl mb-6 text-zinc-900"
             />
 
-            <Text className="text-sm font-bold text-slate-900 dark:text-zinc-50 mb-2">Exact Map Coordinates (Hidden from Public)</Text>
-            <Text className="text-xs text-slate-500 dark:text-zinc-400 mb-4">Drag the map and click to pinpoint your exact location.</Text>
+            <Text className="text-sm font-bold text-zinc-900 mb-2">Exact Map Coordinates (Hidden from Public)</Text>
+            <Text className="text-xs text-zinc-500 mb-4">Drag the map and click to pinpoint your exact location.</Text>
             
             <Pressable 
               onPress={detectLocation}
               disabled={loadingLocation}
-              className="flex-row items-center justify-center bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 py-3 rounded-xl mb-4"
+              className="flex-row items-center justify-center bg-white border border-zinc-200 py-3 rounded-xl mb-4"
             >
               {loadingLocation ? <ActivityIndicator size="small" color="#0f172a" /> : <MapPin size={18} color="#0f172a" />}
-              <Text className="font-semibold text-slate-900 dark:text-zinc-50 ml-2">Detect My Location</Text>
+              <Text className="font-semibold text-zinc-900 ml-2">Detect My Location</Text>
             </Pressable>
 
-            <View className="h-64 bg-slate-200 rounded-xl overflow-hidden mb-4 border border-slate-200 dark:border-zinc-800">
+            <View className="h-64 bg-zinc-200 rounded-xl overflow-hidden mb-4 border border-zinc-200">
               <WebView
                 source={{ html: getLeafletHTML(mapCoords.lat, mapCoords.lng) }}
                 onMessage={(event) => {
@@ -432,87 +414,87 @@ export default function SellScreen() {
               onChangeText={(t) => updateForm('coordinates', t)}
               placeholder="12.9716, 77.5946"
               editable={false}
-              className="bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-6 text-slate-600 dark:text-zinc-300 font-mono text-sm text-center"
+              className="bg-zinc-100 border border-zinc-200 p-4 rounded-xl mb-6 text-zinc-600 font-mono text-sm text-center"
             />
 
             <View className="flex-row space-x-2 mb-4">
               <View className="flex-1">
-                <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">BHK</Text>
+                <Text className="text-sm font-medium text-zinc-700 mb-1">BHK</Text>
                 <TextInput
                   value={formData.bhk}
                   onChangeText={(t) => updateForm('bhk', t)}
                   placeholder="e.g. 2"
                   keyboardType="numeric"
-                  className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl text-slate-900 dark:text-zinc-50"
+                  className="bg-white border border-zinc-200 p-4 rounded-xl text-zinc-900"
                 />
               </View>
               <View className="flex-1">
-                <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Area (Sq.ft)</Text>
+                <Text className="text-sm font-medium text-zinc-700 mb-1">Area (Sq.ft)</Text>
                 <TextInput
                   value={formData.area_sqft}
                   onChangeText={(t) => updateForm('area_sqft', t)}
                   placeholder="e.g. 1200"
                   keyboardType="numeric"
-                  className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl text-slate-900 dark:text-zinc-50"
+                  className="bg-white border border-zinc-200 p-4 rounded-xl text-zinc-900"
                 />
               </View>
               <View className="flex-1">
-                <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Bathrooms</Text>
+                <Text className="text-sm font-medium text-zinc-700 mb-1">Bathrooms</Text>
                 <TextInput
                   value={formData.bathrooms}
                   onChangeText={(t) => updateForm('bathrooms', t)}
                   placeholder="e.g. 2"
                   keyboardType="numeric"
-                  className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl text-slate-900 dark:text-zinc-50"
+                  className="bg-white border border-zinc-200 p-4 rounded-xl text-zinc-900"
                 />
               </View>
             </View>
 
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Property Description</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-1">Property Description</Text>
             <TextInput
               value={formData.description}
               onChangeText={(t) => updateForm('description', t)}
               placeholder="Describe the key features, nearby amenities, and highlights of your property..."
               multiline
               numberOfLines={4}
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-4 text-slate-900 dark:text-zinc-50 h-32"
+              className="bg-white border border-zinc-200 p-4 rounded-xl mb-4 text-zinc-900 h-32"
               textAlignVertical="top"
             />
-          </View>
+          </Animated.View>
         );
-      
+
       case 2:
         return (
-          <View className="flex-1">
-            <Text className="text-2xl font-bold text-slate-900 dark:text-zinc-50 mb-6">Pricing</Text>
+          <Animated.View key={step} entering={FadeInRight.duration(400).springify()} className="flex-1">
+            <Text className="text-2xl font-bold text-zinc-900 mb-6">Pricing</Text>
             
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Price (₹) *</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-1">Price (₹) *</Text>
             <TextInput
               value={formData.price}
               onChangeText={(t) => updateForm('price', t)}
               placeholder="e.g. 50L or 2Cr"
               keyboardType="default"
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-4 text-slate-900 dark:text-zinc-50"
+              className="bg-white border border-zinc-200 p-4 rounded-xl mb-4 text-zinc-900"
             />
 
             <Pressable 
               onPress={() => setFormData(prev => ({ ...prev, negotiable: !prev.negotiable }))}
               className="flex-row items-center mb-6"
             >
-              <View className={`w-6 h-6 rounded border items-center justify-center mr-3 ${formData.negotiable ? 'bg-amber-500 border-amber-500' : 'border-slate-300 dark:border-zinc-700'}`}>
+              <View className={`w-6 h-6 rounded border items-center justify-center mr-3 ${formData.negotiable ? 'bg-amber-500 border-amber-500' : 'border-zinc-300'}`}>
                 {formData.negotiable && <Check size={16} color="white" />}
               </View>
-              <Text className="text-slate-700 dark:text-zinc-200 font-medium">Price is Negotiable</Text>
+              <Text className="text-zinc-700 font-medium">Price is Negotiable</Text>
             </Pressable>
-          </View>
+          </Animated.View>
         );
 
       case 3:
         return (
-          <View className="flex-1">
-            <Text className="text-2xl font-bold text-slate-900 dark:text-zinc-50 mb-6">Photos & Media</Text>
+          <Animated.View key={step} entering={FadeInRight.duration(400).springify()} className="flex-1">
+            <Text className="text-2xl font-bold text-zinc-900 mb-6">Photos & Media</Text>
             
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-2">Property Photos (Max 5) *</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-2">Property Photos (Max 5) *</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-6 h-32">
               {images.map((img, index) => (
                 <View key={index} className="mr-3 relative h-24 w-24">
@@ -528,30 +510,30 @@ export default function SellScreen() {
               {images.length < 5 && (
                 <Pressable 
                   onPress={pickImage}
-                  className="w-24 h-24 bg-slate-100 dark:bg-zinc-800 border-2 border-dashed border-slate-300 dark:border-zinc-700 rounded-xl items-center justify-center"
+                  className="w-24 h-24 bg-zinc-100 border-2 border-dashed border-zinc-300 rounded-xl items-center justify-center"
                 >
                   <Upload size={24} color="#94a3b8" />
-                  <Text className="text-xs text-slate-500 dark:text-zinc-400 mt-2">Add Photo</Text>
+                  <Text className="text-xs text-zinc-500 mt-2">Add Photo</Text>
                 </Pressable>
               )}
             </ScrollView>
-          </View>
+          </Animated.View>
         );
 
       case 4:
         return (
-          <View className="flex-1">
-            <Text className="text-2xl font-bold text-slate-900 dark:text-zinc-50 mb-6">Documents (Verification)</Text>
+          <Animated.View key={step} entering={FadeInRight.duration(400).springify()} className="flex-1">
+            <Text className="text-2xl font-bold text-zinc-900 mb-6">Documents (Verification)</Text>
             
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-2">Legal Documents</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-2">Legal Documents</Text>
             
             <Pressable 
               onPress={() => pickDocument('deed')}
-              className="flex-row items-center justify-between bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-3"
+              className="flex-row items-center justify-between bg-white border border-zinc-200 p-4 rounded-xl mb-3"
             >
               <View className="flex-row items-center flex-1 pr-4">
                 <FileText size={20} color={deedDoc ? "#10b981" : "#64748b"} />
-                <Text className={`ml-3 ${deedDoc ? 'text-emerald-600 font-medium' : 'text-slate-600 dark:text-zinc-300'}`} numberOfLines={1}>
+                <Text className={`ml-3 ${deedDoc ? 'text-emerald-600 font-medium' : 'text-zinc-600'}`} numberOfLines={1}>
                   {deedDoc ? deedDoc.name : 'Upload Deed/Title Document'}
                 </Text>
               </View>
@@ -560,62 +542,62 @@ export default function SellScreen() {
 
             <Pressable 
               onPress={() => pickDocument('tax')}
-              className="flex-row items-center justify-between bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-6"
+              className="flex-row items-center justify-between bg-white border border-zinc-200 p-4 rounded-xl mb-6"
             >
               <View className="flex-row items-center flex-1 pr-4">
                 <FileText size={20} color={taxDoc ? "#10b981" : "#64748b"} />
-                <Text className={`ml-3 ${taxDoc ? 'text-emerald-600 font-medium' : 'text-slate-600 dark:text-zinc-300'}`} numberOfLines={1}>
+                <Text className={`ml-3 ${taxDoc ? 'text-emerald-600 font-medium' : 'text-zinc-600'}`} numberOfLines={1}>
                   {taxDoc ? taxDoc.name : 'Upload Latest Tax Receipt'}
                 </Text>
               </View>
               <Upload size={16} color="#94a3b8" />
             </Pressable>
 
-          </View>
+          </Animated.View>
         );
 
       case 5:
         return (
-          <View className="flex-1">
-            <Text className="text-2xl font-bold text-slate-900 dark:text-zinc-50 mb-6">Owner Details</Text>
+          <Animated.View key={step} entering={FadeInRight.duration(400).springify()} className="flex-1">
+            <Text className="text-2xl font-bold text-zinc-900 mb-6">Owner Details</Text>
             
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Owner Name</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-1">Owner Name</Text>
             <TextInput
               value={formData.owner_name}
               onChangeText={(t) => updateForm('owner_name', t)}
               placeholder="John Doe"
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-4 text-slate-900 dark:text-zinc-50"
+              className="bg-white border border-zinc-200 p-4 rounded-xl mb-4 text-zinc-900"
             />
 
-            <Text className="text-sm font-medium text-slate-700 dark:text-zinc-200 mb-1">Owner Phone</Text>
+            <Text className="text-sm font-medium text-zinc-700 mb-1">Owner Phone</Text>
             <TextInput
               value={formData.owner_phone}
               onChangeText={(t) => updateForm('owner_phone', t)}
               placeholder="Enter mobile number"
               keyboardType="phone-pad"
-              className="bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-4 rounded-xl mb-4 text-slate-900 dark:text-zinc-50"
+              className="bg-white border border-zinc-200 p-4 rounded-xl mb-4 text-zinc-900"
             />
             
-            <View className="bg-blue-50 p-4 rounded-xl mt-4 border border-blue-100">
-              <Text className="text-blue-800 text-sm font-medium">
+            <View className="bg-amber-50 p-4 rounded-xl mt-4 border border-amber-200">
+              <Text className="text-amber-800 text-sm font-medium">
                 By submitting, your property will be reviewed by our team for verification before being publicly listed.
               </Text>
             </View>
-          </View>
+          </Animated.View>
         );
     }
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50 dark:bg-zinc-950">
+    <SafeAreaView className="flex-1 bg-zinc-50">
       <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         className="flex-1"
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View className="flex-1">
             {/* Header */}
-            <View className="px-4 py-4 flex-row items-center justify-between border-b border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <View className="px-4 py-4 flex-row items-center justify-between border-b border-zinc-200 bg-white">
               {step > 1 ? (
                 <Pressable onPress={() => setStep(step - 1)} className="p-2 -ml-2">
                   <ChevronLeft size={24} color="#0f172a" />
@@ -623,49 +605,47 @@ export default function SellScreen() {
               ) : (
                 <View className="w-10" />
               )}
-              <Text className="text-lg font-bold text-slate-900 dark:text-zinc-50">List Property ({step}/5)</Text>
+              <Text className="text-lg font-bold text-zinc-900">List Property ({step}/5)</Text>
               <View className="w-10" />
             </View>
 
             {/* Progress Bar */}
-            <View className="h-1 bg-slate-200 w-full">
-              <View className="h-1 bg-amber-500" style={{ width: `${(step / 5) * 100}%` }} />
+            <View className="h-1.5 bg-zinc-200 w-full">
+              <View className="h-1.5 bg-amber-500 rounded-r-full" style={{ width: `${(step / 5) * 100}%` }} />
             </View>
 
-            <ScrollView className="flex-1 px-4 py-6" showsVerticalScrollIndicator={false}>
+            <ScrollView className="flex-1 px-4 py-6" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 250 }} keyboardShouldPersistTaps="handled">
               {renderStep()}
               <View className="h-10" />
             </ScrollView>
 
             {/* Footer */}
-            {!isKeyboardVisible && (
-              <View className="p-4 bg-white dark:bg-zinc-900 border-t border-slate-200 dark:border-zinc-800">
-                {step < 5 ? (
-                  <Pressable 
-                    onPress={nextStep}
-                    className="bg-amber-500 p-4 rounded-xl items-center justify-center flex-row"
-                  >
-                    <Text className="text-white font-bold text-lg mr-2">Next Step</Text>
-                    <ChevronRight size={20} color="white" />
-                  </Pressable>
-                ) : (
-                  <Pressable 
-                    onPress={submitForm}
-                    disabled={loading}
-                    className={`${loading ? 'bg-amber-300' : 'bg-amber-500'} p-4 rounded-xl items-center justify-center flex-row`}
-                  >
-                    {loading ? (
-                      <ActivityIndicator color="white" />
-                    ) : (
-                      <>
-                        <Check size={20} color="white" />
-                        <Text className="text-white font-bold text-lg ml-2">Submit Listing</Text>
-                      </>
-                    )}
-                  </Pressable>
-                )}
-              </View>
-            )}
+            <View className="p-4 bg-white border-t border-zinc-200">
+              {step < 5 ? (
+                <Pressable 
+                  onPress={nextStep}
+                  className="bg-amber-500 p-4 rounded-xl items-center justify-center flex-row"
+                >
+                  <Text className="text-white font-bold text-lg mr-2">Next Step</Text>
+                  <ChevronRight size={20} color="white" />
+                </Pressable>
+              ) : (
+                <Pressable 
+                  onPress={submitForm}
+                  disabled={loading}
+                  className={`${loading ? 'bg-amber-300' : 'bg-amber-500'} p-4 rounded-xl items-center justify-center flex-row`}
+                >
+                  {loading ? (
+                    <ActivityIndicator color="white" />
+                  ) : (
+                    <>
+                      <Check size={20} color="white" />
+                      <Text className="text-white font-bold text-lg ml-2">Submit Listing</Text>
+                    </>
+                  )}
+                </Pressable>
+              )}
+            </View>
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

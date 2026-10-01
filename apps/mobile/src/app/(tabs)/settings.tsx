@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, ActivityIndicator, Pressable, Image } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, Pressable, Image, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '@/lib/supabase';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useRouter } from 'expo-router';
-import { User, Heart, Home, Settings, LogOut, ChevronRight, Bell, Shield, HelpCircle, FileText, Calculator } from 'lucide-react-native';
+import { User, Heart, Home, Settings, LogOut, ChevronRight, Bell, Shield, HelpCircle, FileText, Calculator, Trash2 } from 'lucide-react-native';
 
 export default function ProfileScreen() {
  const [profile, setProfile] = useState<any>(null);
@@ -28,10 +29,36 @@ export default function ProfileScreen() {
  fetchProfile();
  }, []);
 
+ 
+ const handleDeleteAccount = () => {
+    Alert.alert(
+      "Delete Account",
+      "Are you sure you want to permanently delete your account and all associated data? This action cannot be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { 
+          text: "Delete", 
+          style: "destructive",
+          onPress: async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+              try { await GoogleSignin.revokeAccess(); } catch(e){} try { await GoogleSignin.signOut(); } catch(e){}
+              await supabase.auth.signOut();
+              router.replace('/(auth)/login');
+              Alert.alert("Account Deleted", "Your account data has been requested for deletion.");
+            }
+          }
+        }
+      ]
+    );
+  };
+
  const handleSignOut = async () => {
- await supabase.auth.signOut();
- router.replace('/(auth)/login');
- };
+  try { await GoogleSignin.revokeAccess(); } catch(e){}
+  try { await GoogleSignin.signOut(); } catch(e){}
+  await supabase.auth.signOut();
+  router.replace('/(auth)/login');
+};
 
  if (loading) {
  return (
@@ -120,8 +147,20 @@ export default function ProfileScreen() {
     </View>
   ))}
 
+ 
+ {/* Delete Account Button */}
+ <View className="mt-8 px-4">
+ <Pressable 
+ onPress={handleDeleteAccount}
+ className="flex-row items-center justify-center bg-white border border-red-200 py-4 rounded-xl shadow-sm"
+ >
+ <Trash2 size={20} color="#DC2626" />
+ <Text className="text-red-600 font-bold ml-2">Delete Account</Text>
+ </Pressable>
+ </View>
+
  {/* Sign Out Button */}
- <View className="mt-8 px-4 mb-10">
+ <View className="mt-4 px-4 mb-10">
  <Pressable 
  onPress={handleSignOut}
  className="flex-row items-center justify-center bg-red-50 border border-red-200 py-3 rounded-xl"
