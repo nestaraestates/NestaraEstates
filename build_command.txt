@@ -1,0 +1,3 @@
+# Nestara Estates Mobile App - Quick Build Command
+
+cd /home/vini/projects122/NestaraEstates/apps/mobile && npx expo prebuild --clean && cd android && export EXPO_USE_METRO_CACHE=false && ./gradlew assembleRelease -x lint -x lintVitalRelease -x lintVitalAnalyzeRelease --no-build-cache && cp app/build/outputs/apk/release/app-release.apk /home/vini/Downloads/NestaraEstates/apk/NestaraEstates.apk
