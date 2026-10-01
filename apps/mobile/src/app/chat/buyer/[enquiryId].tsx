@@ -202,7 +202,7 @@ export default function BuyerChatScreen() {
  <KeyboardAvoidingView 
  style={{ flex: 1 }} 
  behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
- keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 90}
+ keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
  >
  <FlatList
  ref={flatListRef}
