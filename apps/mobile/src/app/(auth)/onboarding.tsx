@@ -313,12 +313,12 @@ export default function OnboardingScreen() {
 
  {/* Section 4: Password Setup (For Google Logins) */}
  {needsPassword && (
- <View className="bg-amber-50 border border-amber-300 rounded-xl p-5 space-y-4 shadow-sm">
- <Text className="text-lg font-bold text-amber-900 mb-1">Create Password</Text>
- <Text className="text-xs text-white mb-2">Since you signed in with Google, please create a password for email login.</Text>
+ <View className="bg-white/10 border border-white/20 rounded-[32px] p-6 space-y-4 shadow-sm backdrop-blur-xl mt-4">
+ <Text className="text-xl font-bold text-white mb-1">Create Password</Text>
+ <Text className="text-xs text-zinc-300 mb-2 ml-1">Since you signed in with Google, please create a password for email login.</Text>
 
  <View className="space-y-1">
- <Text className="text-sm font-medium text-amber-900">Password</Text>
+ <Text className="text-sm font-medium text-white mb-1 ml-1">Password</Text>
  <View className="relative">
  <TextInput
  value={password}
@@ -326,11 +326,11 @@ export default function OnboardingScreen() {
  placeholder="••••••••"
  placeholderTextColor="#A1A1AA"
  secureTextEntry={!showPassword}
- className="w-full bg-white border border-amber-300 rounded-md px-3 py-2.5 pr-10 text-white"
+ className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 pr-14 text-white"
  />
  <Pressable 
  onPress={() => setShowPassword(!showPassword)}
- className="absolute right-3 top-3"
+ className="absolute right-4 h-full justify-center"
  >
  {/* @ts-ignore */}
  {showPassword ? <EyeOff size={20} color="#A1A1AA" /> : <Eye size={20} color="#A1A1AA" />}
@@ -339,7 +339,7 @@ export default function OnboardingScreen() {
  </View>
 
  <View className="space-y-1">
- <Text className="text-sm font-medium text-amber-900">Confirm Password</Text>
+ <Text className="text-sm font-medium text-white mb-1 ml-1">Confirm Password</Text>
  <View className="relative">
  <TextInput
  value={confirmPassword}
@@ -347,11 +347,11 @@ export default function OnboardingScreen() {
  placeholder="••••••••"
  placeholderTextColor="#A1A1AA"
  secureTextEntry={!showConfirmPassword}
- className="w-full bg-white border border-amber-300 rounded-md px-3 py-2.5 pr-10 text-white"
+ className="w-full bg-black/30 border border-white/10 rounded-2xl px-5 py-4 pr-14 text-white"
  />
  <Pressable 
  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
- className="absolute right-3 top-3"
+ className="absolute right-4 h-full justify-center"
  >
  {/* @ts-ignore */}
  {showConfirmPassword ? <EyeOff size={20} color="#A1A1AA" /> : <Eye size={20} color="#A1A1AA" />}
