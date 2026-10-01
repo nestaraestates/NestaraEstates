@@ -116,6 +116,7 @@ export default function BuyerChatScreen() {
  const { data: profile } = await supabase.from('profiles').select('*').eq('id', userId).single();
  
  const { data: newEnq, error: enqError } = await supabase.from('enquiries').insert({
+ property_id: propertyId,
  user_id: userId,
  name: profile?.full_name || 'Anonymous Buyer',
  email: profile?.email || 'unknown@example.com',
