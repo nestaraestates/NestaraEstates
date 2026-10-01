@@ -663,7 +663,7 @@ fetchProperty();
                 <X size={20} color="#52525B" />
               </Pressable>
             </View>
-            <ScrollView className="flex-1" showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+            <ScrollView className="w-full" showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
               <Text className="text-zinc-500 mb-8 font-medium">
                 Fill in your details and we'll connect you directly with the property owner or agent.
               </Text>
