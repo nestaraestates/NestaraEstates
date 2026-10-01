@@ -1,16 +1,16 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 
 export function RealtimePropertiesListener() {
   const router = useRouter()
-  const supabase = createClient()
+  const [supabase] = useState(() => createClient())
 
   useEffect(() => {
     const channel = supabase
-      .channel(`public:properties:refresh_${Math.random()}`)
+      .channel(`public:properties:refresh`)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'properties' },

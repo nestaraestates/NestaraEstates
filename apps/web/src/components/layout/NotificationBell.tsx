@@ -8,11 +8,11 @@ import Link from 'next/link'
 
 export function NotificationBell({ initialCount, userId }: { initialCount: number, userId: string }) {
   const [unreadCount, setUnreadCount] = useState(initialCount)
-  const supabase = createClient()
+  const [supabase] = useState(() => createClient())
 
   useEffect(() => {
     const channel = supabase
-      .channel(`notifications_changes_${Math.random()}`)
+      .channel(`notifications_changes_`)
       .on('postgres_changes', {
         event: '*', // INSERT, UPDATE, DELETE
         schema: 'public',

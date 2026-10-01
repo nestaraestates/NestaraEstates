@@ -11,7 +11,7 @@ export function AdminDirectChat({ propertyId, sellerId, adminId }: { propertyId:
   const [isSending, setIsSending] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
-  const supabase = createClient()
+  const [supabase] = useState(() => createClient())
 
   useEffect(() => {
     if (!isOpen) return

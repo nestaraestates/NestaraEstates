@@ -11,7 +11,7 @@ export function SellerDirectChat({ propertyId, sellerId, autoOpen = false }: { p
   const [isSending, setIsSending] = useState(false)
   const [isOpen, setIsOpen] = useState(autoOpen)
   const scrollRef = useRef<HTMLDivElement>(null)
-  const supabase = createClient()
+  const [supabase] = useState(() => createClient())
 
   useEffect(() => {
     if (autoOpen) {
@@ -43,7 +43,7 @@ export function SellerDirectChat({ propertyId, sellerId, autoOpen = false }: { p
     fetchMessages()
 
     const channel = supabase
-      .channel(`direct_messages_${propertyId}_${Math.random()}`)
+      .channel(`direct_messages_${propertyId}_`)
       .on('postgres_changes', { 
         event: 'INSERT', 
         schema: 'public', 

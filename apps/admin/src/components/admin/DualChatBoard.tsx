@@ -14,7 +14,7 @@ export function DualChatBoard({ enquiry, initialMessages, adminId }: { enquiry: 
   const [isSending, setIsSending] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   
-  const supabase = createClient()
+  const [supabase] = useState(() => createClient())
 
   const buyerId = enquiry.user_id
   const sellerId = enquiry.properties?.owner_id

@@ -10,7 +10,7 @@ export function FullScreenSellerChat({ propertyId, sellerId, initialMessages, ad
   const [inputText, setInputText] = useState('')
   const [isSending, setIsSending] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
-  const supabase = createClient()
+  const [supabase] = useState(() => createClient())
 
   // Realtime subscription
   useEffect(() => {
