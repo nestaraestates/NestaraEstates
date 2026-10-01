@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "843765453172",
+    "project_id": "nestaraestates-5e0fd",
+    "storage_bucket": "nestaraestates-5e0fd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843765453172:android:37efeebf40ec5585e4dc21",
+        "android_client_info": {
+          "package_name": "com.nestara.estates"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhH43ypMo_x6H1mzyxd_vqjAI0m8GIDAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
