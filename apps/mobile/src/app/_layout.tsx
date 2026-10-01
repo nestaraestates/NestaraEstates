@@ -5,6 +5,17 @@ import { View } from 'react-native';
 import { NetworkBanner } from '@/components/NetworkBanner';
 import { PermissionsPopup } from "@/components/PermissionsPopup";
 
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
+
+
 
 import { useEffect } from 'react';
 import { Alert } from 'react-native';
