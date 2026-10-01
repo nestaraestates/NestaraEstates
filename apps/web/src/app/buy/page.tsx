@@ -65,7 +65,7 @@ export default async function BuyPropertiesPage({ searchParams }: { searchParams
     }
   }
 
-  const { data: properties } = await query
+  const { data: properties } = await query as unknown as { data: any[] }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -105,12 +105,8 @@ export default async function BuyPropertiesPage({ searchParams }: { searchParams
           />
         ))}
 
-        {(!properties || properties.length === 0) && (
-          <div className="col-span-full py-12 text-center text-zinc-500">
-            No properties found matching your criteria.
-          </div>
-        )}
       </div>
+      )}
     </div>
   )
 }

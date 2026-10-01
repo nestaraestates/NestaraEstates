@@ -156,7 +156,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       <FadeIn delay={0.2}><PropertyGallery media={publicImages} defaultImage={defaultImage} /></FadeIn>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        <FadeIn delay={0.3} className="lg:col-span-2 space-y-12">
+        <div className="lg:col-span-2">
         <div className="space-y-12">
           
           <div className="flex flex-wrap gap-6 py-6 border-y border-zinc-200 dark:border-zinc-800">
@@ -274,6 +274,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
           </div>
         </div>
 
+        </div>
         <div className="lg:col-span-1" id="contact-agent">
           <div className="sticky top-24">
             {isOwner ? (
