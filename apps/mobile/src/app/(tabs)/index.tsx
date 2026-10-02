@@ -42,8 +42,8 @@ export default function HomeScreen() {
 
   // Filter State
   const [showFilters, setShowFilters] = useState(false);
-  const [tempFilters, setTempFilters] = useState({ location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0 });
-  const [appliedFilters, setAppliedFilters] = useState({ location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0 });
+  const [tempFilters, setTempFilters] = useState({ location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0, radiusSource: 'saved' as 'gps' | 'saved' | null });
+  const [appliedFilters, setAppliedFilters] = useState({ location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0, radiusSource: 'saved' as 'gps' | 'saved' | null });
 
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(false);
   const [savedPropertyIds, setSavedPropertyIds] = useState<string[]>([]);
@@ -134,14 +134,33 @@ export default function HomeScreen() {
       if (status !== 'granted') {
         Alert.alert('Permission Denied', 'Please enable location permissions in your settings to search by radius.');
         setLoading(false);
-        setLoadingMore(false);
         setRefreshing(false);
         return;
       }
-      let location = await Location.getCurrentPositionAsync({});
+      
+      let lat = 0;
+      let lng = 0;
+      
+      if (appliedFilters.radiusSource === 'gps') {
+        let location = await Location.getCurrentPositionAsync({});
+        lat = location.coords.latitude;
+        lng = location.coords.longitude;
+      } else {
+        const savedLat = await AsyncStorage.getItem('user_location_lat');
+        const savedLng = await AsyncStorage.getItem('user_location_lng');
+        if (savedLat && savedLng) {
+          lat = parseFloat(savedLat);
+          lng = parseFloat(savedLng);
+        } else {
+          let location = await Location.getCurrentPositionAsync({});
+          lat = location.coords.latitude;
+          lng = location.coords.longitude;
+        }
+      }
+      
       query = supabase.rpc('get_properties_within_radius', {
-        user_lat: location.coords.latitude,
-        user_lng: location.coords.longitude,
+        user_lat: lat,
+        user_lng: lng,
         radius_km: appliedFilters.radius
       }).select('*, property_media(url, media_type)');
     } else {
@@ -225,7 +244,7 @@ export default function HomeScreen() {
   };
 
   const clearFilters = () => {
-    const emptyFilters = { location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0 };
+    const emptyFilters = { location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0, radiusSource: 'saved' as 'gps' | 'saved' | null };
     setTempFilters(emptyFilters);
     setAppliedFilters(emptyFilters);
     setShowFilters(false);
@@ -379,14 +398,14 @@ export default function HomeScreen() {
 
               {/* Radius Filter */}
               <View className="mb-6">
-                <Text className="text-sm font-semibold text-surface-900 mb-2">Search Radius (from your location)</Text>
-                <View className="flex-row flex-wrap">
+                <Text className="text-sm font-semibold text-surface-900 mb-2">Search Radius</Text>
+                <View className="flex-row flex-wrap mb-3">
                   {[0, 5, 10, 25, 50].map((km) => {
                     const isSelected = tempFilters.radius === km;
                     return (
                       <Pressable
                         key={km}
-                        onPress={() => setTempFilters({...tempFilters, radius: km})}
+                        onPress={() => setTempFilters({...tempFilters, radius: km, radiusSource: km === 0 ? null : (tempFilters.radiusSource || 'saved')})}
                         className={`px-4 py-2 rounded-xl border mr-2 mb-2 ${isSelected ? 'bg-brand-500 border-brand-500' : 'bg-white border-zinc-200'}`}
                       >
                         <Text className={`font-medium text-sm ${isSelected ? 'text-white' : 'text-surface-900'}`}>{km === 0 ? 'Anywhere' : `${km} km`}</Text>
@@ -394,6 +413,37 @@ export default function HomeScreen() {
                     );
                   })}
                 </View>
+
+                {tempFilters.radius > 0 && (
+                  <View className="bg-zinc-50 p-3 rounded-xl border border-zinc-100">
+                    <Text className="text-xs font-semibold text-zinc-500 mb-2 uppercase tracking-wider">Measure radius from:</Text>
+                    <View className="flex-col space-y-2">
+                      <View className="flex-row space-x-2">
+                        <Pressable 
+                          onPress={() => setTempFilters({...tempFilters, radiusSource: 'saved'})}
+                          className={`flex-1 py-2 px-3 rounded-lg border ${tempFilters.radiusSource === 'saved' ? 'bg-brand-50 border-brand-200' : 'bg-white border-zinc-200'}`}
+                        >
+                          <Text className={`text-center text-sm font-medium ${tempFilters.radiusSource === 'saved' ? 'text-brand-700' : 'text-zinc-600'}`}>Saved Map</Text>
+                        </Pressable>
+                        <Pressable 
+                          onPress={() => setTempFilters({...tempFilters, radiusSource: 'gps'})}
+                          className={`flex-1 py-2 px-3 rounded-lg border ${tempFilters.radiusSource === 'gps' ? 'bg-brand-50 border-brand-200' : 'bg-white border-zinc-200'}`}
+                        >
+                          <Text className={`text-center text-sm font-medium ${tempFilters.radiusSource === 'gps' ? 'text-brand-700' : 'text-zinc-600'}`}>Current GPS</Text>
+                        </Pressable>
+                      </View>
+                      <Pressable 
+                        onPress={() => {
+                          setShowFilters(false);
+                          router.push('/location-picker' as any);
+                        }}
+                        className="py-2 px-3 rounded-lg border border-brand-200 bg-brand-50/50"
+                      >
+                        <Text className="text-center text-sm font-semibold text-brand-600">🗺️ Choose New Location</Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                )}
               </View>
 
               <View className="mb-6">
