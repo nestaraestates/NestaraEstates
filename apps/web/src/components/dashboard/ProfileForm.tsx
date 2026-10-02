@@ -71,7 +71,7 @@ export function ProfileForm({ profile }: { profile: any }) {
         </div>
 
         {/* Editable fields */}
-        <div className="space-y-8 bg-surface-50 p-4 rounded-xl shadow-sm border border-zinc-100">
+        <div className="flex flex-col gap-y-2 max-w-3xl w-full bg-surface-50 p-4 rounded-xl shadow-sm border border-zinc-100">
           <div className="space-y-2">
             <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Full Name</Label>
             {isEditing ? (
