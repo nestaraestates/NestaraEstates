@@ -1,18 +1,15 @@
-;
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ShieldCheck, Search, Building2, TrendingUp, Sparkles } from 'lucide-react'
+import { ShieldCheck, Search, Building2, TrendingUp, Sparkles, MapPin } from 'lucide-react'
 import { HomeSearch } from '@/components/properties/HomeSearch'
 import { createStaticClient } from '@/utils/supabase/static'
 import { PropertyCard } from '@/components/properties/PropertyCard'
-
 
 export const revalidate = 60
 
 export default async function Home() {
   const supabase = createStaticClient()
   
-
   // Fetch all available, verified properties
   const { data: properties } = await supabase
     .from('properties')
@@ -25,54 +22,73 @@ export default async function Home() {
     .order('created_at', { ascending: false })
 
   return (
-    <div className="flex-1 bg-zinc-50/50">
+    <div className="flex-1 bg-surface-50">
       {/* Hero Section */}
-      <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden">
+      <section className="relative flex min-h-[80vh] items-center justify-center overflow-hidden bg-surface-900">
         {/* Background Image with Overlay */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop")' }}
         >
-          <div className="absolute inset-0 bg-zinc-950/70" />
+          <div className="absolute inset-0 bg-surface-950/80 backdrop-blur-[2px]" />
         </div>
 
-        <div className="container relative z-10 mx-auto px-4 text-center mt-10">
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center mt-12 mb-12">
+          <div className="inline-flex items-center gap-2 rounded-full bg-surface-800/80 px-4 py-2 text-sm font-medium text-brand-400 mb-8 border border-surface-700 backdrop-blur-md">
+            <Sparkles className="h-4 w-4" />
+            <span>Discover Premium Real Estate</span>
+          </div>
           
-          <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="mb-6 text-4xl font-black tracking-tighter text-white sm:text-6xl md:text-7xl lg:text-8xl">
             Find a Property <br className="hidden sm:block" />
-            <span className="text-amber-500">You Can Trust.</span>
+            <span className="text-brand-500">You Can Trust.</span>
           </h1>
-          <p className="mx-auto mb-10 max-w-2xl text-lg text-zinc-300 sm:text-xl">
+          
+          <p className="mx-auto mb-12 max-w-2xl text-lg text-surface-300 sm:text-xl font-medium leading-relaxed">
             Discover, compare, verify and connect with premium properties through Nestara Estates.
           </p>
 
-          <HomeSearch />
+          <div className="max-w-4xl mx-auto bg-white/5 p-3 sm:p-4 rounded-3xl backdrop-blur-md border border-white/10 shadow-2xl">
+            <HomeSearch />
+          </div>
           
-          <div className="mt-8 flex justify-center gap-4 text-sm text-zinc-300">
-            <span className="flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-amber-500" /> Verified Listings</span>
-            <span className="flex items-center gap-1.5"><TrendingUp className="h-4 w-4 text-amber-500" /> Best Market Prices</span>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-sm font-semibold text-surface-300">
+            <span className="flex items-center gap-2">
+              <div className="rounded-full bg-brand-500/20 p-1.5"><ShieldCheck className="h-5 w-5 text-brand-400" /></div>
+              Verified Listings
+            </span>
+            <span className="flex items-center gap-2">
+              <div className="rounded-full bg-brand-500/20 p-1.5"><TrendingUp className="h-5 w-5 text-brand-400" /></div>
+              Best Market Prices
+            </span>
+            <span className="flex items-center gap-2">
+              <div className="rounded-full bg-brand-500/20 p-1.5"><MapPin className="h-5 w-5 text-brand-400" /></div>
+              Prime Locations
+            </span>
           </div>
         </div>
       </section>
 
       {/* Main Properties Display */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <h2 className="text-3xl font-black text-zinc-900 tracking-tight flex items-center gap-2">
-              <Sparkles className="h-6 w-6 text-amber-500" /> Featured Properties
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+        <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl font-black tracking-tight text-surface-900 sm:text-4xl md:text-5xl dark:text-white flex items-center gap-3">
+              Featured Properties
             </h2>
-            <p className="text-zinc-500 mt-2">Explore our latest verified listings for sale and rent.</p>
+            <p className="text-surface-500 dark:text-surface-400 mt-4 text-lg">
+              Explore our hand-picked selection of verified premium listings for sale and rent.
+            </p>
           </div>
-          <Link href="/buy">
-            <Button variant="outline" className="border-zinc-300 text-zinc-700 font-bold hover:bg-zinc-100">
+          <Link href="/buy" className="shrink-0">
+            <Button variant="outline" size="lg" className="border-surface-300 text-surface-700 font-bold hover:bg-surface-100 hover:text-surface-900 rounded-xl h-12 px-6 dark:border-surface-700 dark:text-surface-300 dark:hover:bg-surface-800">
               View Map Search
             </Button>
           </Link>
         </div>
 
         {properties && properties.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {properties.map((property: any) => {
               const imageMedia = property.property_media?.find((m: any) => m.media_type === 'IMAGE')
               
@@ -95,55 +111,71 @@ export default async function Home() {
             })}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white border border-zinc-200 rounded-3xl">
-            <h3 className="text-xl font-bold text-zinc-900 mb-2">No verified properties yet</h3>
-            <p className="text-zinc-500">Check back soon for new listings.</p>
+          <div className="flex flex-col items-center justify-center text-center py-32 bg-white dark:bg-surface-900 border border-surface-200 dark:border-surface-800 rounded-3xl shadow-sm">
+            <div className="rounded-full bg-surface-100 p-6 mb-6 dark:bg-surface-800">
+              <Search className="h-10 w-10 text-surface-400" />
+            </div>
+            <h3 className="text-2xl font-black text-surface-900 dark:text-white mb-3">No verified properties yet</h3>
+            <p className="text-surface-500 dark:text-surface-400 text-lg max-w-md">Check back soon for new exclusive listings added to our platform.</p>
           </div>
         )}
       </section>
 
-      {/* Why Nestara Section (Only shown to logged OUT users) */}
-      
-        <section className="bg-white py-24 border-t border-zinc-100">
-          <div className="container mx-auto px-4">
-            <div className="mb-16 text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Why Choose Nestara Estates</h2>
-              <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">The modern approach to real estate transactions.</p>
-            </div>
-            
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                { title: 'Trust', desc: 'Transparent and reliable information for every property.', icon: ShieldCheck },
-                { title: 'Verification', desc: 'Structured legal and identity verification services.', icon: Building2 },
-                { title: 'Technology', desc: 'Making discovery and decisions easier than ever.', icon: Search },
-                { title: 'Convenience', desc: 'Everything you need in one centralized platform.', icon: TrendingUp },
-              ].map((feature) => (
-                <div key={feature.title} className="flex flex-col items-center rounded-2xl bg-zinc-50 p-8 text-center border border-zinc-100">
-                  <div className="mb-4 rounded-full bg-amber-100 p-4 text-amber-600">
-                    <feature.icon className="h-8 w-8" />
-                  </div>
-                  <h3 className="mb-2 text-xl font-semibold text-zinc-900">{feature.title}</h3>
-                  <p className="text-zinc-600 text-sm">{feature.desc}</p>
-                </div>
-              ))}
-            </div>
+      {/* Why Nestara Section */}
+      <section className="bg-white dark:bg-surface-950 py-24 lg:py-32 border-t border-surface-100 dark:border-surface-900">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 md:mb-20 text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl font-black tracking-tight text-surface-900 sm:text-4xl md:text-5xl dark:text-white">
+              Why Choose Nestara
+            </h2>
+            <p className="mt-6 text-lg text-surface-600 dark:text-surface-400">
+              The modern, transparent, and secure approach to real estate transactions.
+            </p>
           </div>
-        </section>
+          
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { title: 'Trust', desc: 'Transparent and reliable information for every property.', icon: ShieldCheck },
+              { title: 'Verification', desc: 'Structured legal and identity verification services.', icon: Building2 },
+              { title: 'Technology', desc: 'Making discovery and decisions easier than ever.', icon: Search },
+              { title: 'Convenience', desc: 'Everything you need in one centralized platform.', icon: TrendingUp },
+            ].map((feature) => (
+              <div key={feature.title} className="group flex flex-col items-center rounded-3xl bg-surface-50 dark:bg-surface-900 p-8 text-center border border-surface-100 dark:border-surface-800 transition-all hover:shadow-lg hover:-translate-y-1">
+                <div className="mb-6 rounded-2xl bg-brand-100 dark:bg-brand-900/30 p-5 text-brand-600 dark:text-brand-500 transition-transform group-hover:scale-110">
+                  <feature.icon className="h-8 w-8" />
+                </div>
+                <h3 className="mb-3 text-xl font-bold text-surface-900 dark:text-white">{feature.title}</h3>
+                <p className="text-surface-600 dark:text-surface-400 font-medium leading-relaxed">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Promotion Section for Owners */}
-      <section className="container mx-auto px-4 py-20 border-t border-zinc-200">
-        <div className="max-w-4xl mx-auto">
-          {/* Owner Promo */}
-          <div className="bg-amber-50 rounded-3xl p-10 flex flex-col items-center text-center justify-center border border-amber-100 shadow-sm">
-            <h3 className="text-3xl md:text-4xl font-black text-amber-900 mb-4 tracking-tight">List Your Property</h3>
-            <p className="text-amber-800 text-lg mb-8 leading-relaxed max-w-2xl">
-              Are you an owner or dealer? List your property with Nestara today. Our Nestara Agents will handle all the tedious negotiations and verifications for you, filtering out spam to bring you only serious, verified buyers.
-            </p>
-            <Link href="/list-property">
-              <Button className="bg-amber-600 hover:bg-amber-700 text-white font-bold px-10 py-6 text-lg rounded-xl shadow-md transition-all hover:-translate-y-1">
-                Start Listing For Free
-              </Button>
-            </Link>
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+        <div className="max-w-5xl mx-auto">
+          <div className="relative overflow-hidden bg-brand-600 dark:bg-brand-700 rounded-[2.5rem] p-8 sm:p-12 md:p-16 flex flex-col items-center text-center shadow-2xl">
+            {/* Background Decorations */}
+            <div className="absolute top-0 left-0 w-64 h-64 bg-brand-500 rounded-full blur-3xl opacity-50 -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 right-0 w-64 h-64 bg-brand-800 rounded-full blur-3xl opacity-50 translate-x-1/2 translate-y-1/2" />
+            
+            <div className="relative z-10 flex flex-col items-center">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-brand-500/30 border border-brand-400/30 text-white font-bold text-sm tracking-wide mb-6">
+                FOR OWNERS & DEALERS
+              </span>
+              <h3 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
+                List Your Property Today
+              </h3>
+              <p className="text-brand-100 text-lg md:text-xl mb-10 leading-relaxed max-w-2xl font-medium">
+                Our specialized Nestara Agents handle tedious negotiations and verifications for you, filtering out spam to connect you only with serious, verified buyers.
+              </p>
+              <Link href="/list-property">
+                <Button size="lg" className="bg-white text-brand-700 hover:bg-surface-50 font-black px-10 h-14 text-lg rounded-xl shadow-lg transition-all hover:scale-105 hover:shadow-xl">
+                  Start Listing For Free
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
