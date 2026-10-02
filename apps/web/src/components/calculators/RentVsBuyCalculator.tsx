@@ -26,7 +26,7 @@ export function RentVsBuyCalculator({ defaultPrice = 5000000 }: { defaultPrice?:
     formatIndianCurrencyShort(val)
 
   return (
-    <Card className="border-zinc-200 dark:border-zinc-800 shadow-sm mt-6">
+    <Card className="border-surface-200 dark:border-surface-800 shadow-sm mt-6">
       <CardHeader>
         <CardTitle className="text-xl">Rent vs Buy Calculator</CardTitle>
       </CardHeader>
@@ -47,15 +47,15 @@ export function RentVsBuyCalculator({ defaultPrice = 5000000 }: { defaultPrice?:
             </div>
           </div>
 
-          <div className="rounded-xl bg-zinc-50 p-4 dark:bg-zinc-900/50 flex flex-col justify-center">
+          <div className="rounded-xl bg-surface-50 p-4 dark:bg-surface-900/50 flex flex-col justify-center">
             <h4 className="text-lg font-bold mb-4">After {years} Years:</h4>
             <div className="space-y-3 text-sm">
-              <div className="flex justify-between border-b border-zinc-200 pb-2 dark:border-zinc-800">
-                <span className="text-zinc-600 dark:text-zinc-400">Total Rent Paid</span>
+              <div className="flex justify-between border-b border-surface-200 pb-2 dark:border-surface-800">
+                <span className="text-surface-600 dark:text-surface-400">Total Rent Paid</span>
                 <span className="font-semibold text-red-500">{formatCurrency(totalRentPaid)}</span>
               </div>
-              <div className="flex justify-between border-b border-zinc-200 pb-2 dark:border-zinc-800">
-                <span className="text-zinc-600 dark:text-zinc-400">Est. Property Value (5% growth)</span>
+              <div className="flex justify-between border-b border-surface-200 pb-2 dark:border-surface-800">
+                <span className="text-surface-600 dark:text-surface-400">Est. Property Value (5% growth)</span>
                 <span className="font-semibold text-emerald-500">{formatCurrency(estimatedAppreciation)}</span>
               </div>
             </div>

@@ -36,7 +36,7 @@ export function EmiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: numbe
     formatIndianCurrencyShort(val)
 
   return (
-    <Card className="border-zinc-200 dark:border-zinc-800 shadow-sm">
+    <Card className="border-surface-200 dark:border-surface-800 shadow-sm">
       <CardHeader>
         <CardTitle className="text-xl">EMI Calculator</CardTitle>
       </CardHeader>
@@ -65,22 +65,22 @@ export function EmiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: numbe
           </div>
 
           {/* Outputs */}
-          <div className="rounded-xl bg-amber-50 p-4 dark:bg-amber-950/20 flex flex-col justify-center">
+          <div className="rounded-xl bg-brand-50 p-4 dark:bg-brand-950/20 flex flex-col justify-center">
             <div className="mb-6 text-center">
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">Your Monthly EMI</p>
-              <p className="text-2xl font-bold text-amber-600 dark:text-amber-500">{formatCurrency(emi)}</p>
+              <p className="text-sm text-surface-600 dark:text-surface-400">Your Monthly EMI</p>
+              <p className="text-2xl font-bold text-brand-600 dark:text-brand-500">{formatCurrency(emi)}</p>
             </div>
             
             <div className="space-y-3 text-sm">
-              <div className="flex justify-between border-b border-amber-200/50 pb-2 dark:border-amber-900/50">
-                <span className="text-zinc-600 dark:text-zinc-400">Principal Amount</span>
+              <div className="flex justify-between border-b border-brand-200/50 pb-2 dark:border-brand-900/50">
+                <span className="text-surface-600 dark:text-surface-400">Principal Amount</span>
                 <span className="font-semibold">{formatCurrency((Number(price) || 0) - (Number(downPayment) || 0))}</span>
               </div>
-              <div className="flex justify-between border-b border-amber-200/50 pb-2 dark:border-amber-900/50">
-                <span className="text-zinc-600 dark:text-zinc-400">Total Interest</span>
+              <div className="flex justify-between border-b border-brand-200/50 pb-2 dark:border-brand-900/50">
+                <span className="text-surface-600 dark:text-surface-400">Total Interest</span>
                 <span className="font-semibold">{formatCurrency(totalInterest)}</span>
               </div>
-              <div className="flex justify-between font-bold text-zinc-900 dark:text-white pt-1">
+              <div className="flex justify-between font-bold text-surface-900 dark:text-white pt-1">
                 <span>Total Amount Payable</span>
                 <span>{formatCurrency(totalAmount)}</span>
               </div>

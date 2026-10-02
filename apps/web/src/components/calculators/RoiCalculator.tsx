@@ -24,7 +24,7 @@ export function RoiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: numbe
     formatIndianCurrencyShort(val)
 
   return (
-    <Card className="border-zinc-200 dark:border-zinc-800 shadow-sm mt-6">
+    <Card className="border-surface-200 dark:border-surface-800 shadow-sm mt-6">
       <CardHeader>
         <CardTitle className="text-xl">ROI & Rental Yield Calculator</CardTitle>
       </CardHeader>
@@ -45,12 +45,12 @@ export function RoiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: numbe
             </div>
           </div>
 
-          <div className="rounded-xl bg-zinc-50 p-4 dark:bg-zinc-900/50 flex flex-col justify-center text-center">
-            <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Estimated Gross Rental Yield</p>
-            <p className="text-2xl font-bold text-amber-600 dark:text-amber-500 mb-6">{roi.toFixed(2)}%</p>
+          <div className="rounded-xl bg-surface-50 p-4 dark:bg-surface-900/50 flex flex-col justify-center text-center">
+            <p className="text-sm text-surface-600 dark:text-surface-400 mb-2">Estimated Gross Rental Yield</p>
+            <p className="text-2xl font-bold text-brand-600 dark:text-brand-500 mb-6">{roi.toFixed(2)}%</p>
             
-            <div className="flex justify-between border-t border-zinc-200 pt-4 dark:border-zinc-800">
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">Net Annual Income</span>
+            <div className="flex justify-between border-t border-surface-200 pt-4 dark:border-surface-800">
+              <span className="text-sm text-surface-600 dark:text-surface-400">Net Annual Income</span>
               <span className="font-semibold">{formatCurrency(netAnnualIncome)}</span>
             </div>
           </div>
