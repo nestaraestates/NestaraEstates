@@ -5,10 +5,12 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Search, SlidersHorizontal } from 'lucide-react'
+import { useLocation } from '@/components/layout/LocationContext'
 
 export function PropertyFilters() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { location } = useLocation()
 
   const [search, setSearch] = useState(searchParams.get('search') || '')
   const [minPrice, setMinPrice] = useState(searchParams.get('minPrice') || '')
@@ -27,20 +29,27 @@ export function PropertyFilters() {
     if (bhk) params.set('bhk', bhk)
     
     if (radius) {
-      setIsLocating(true);
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          params.set('lat', position.coords.latitude.toString());
-          params.set('lng', position.coords.longitude.toString());
-          params.set('radius', radius);
-          setIsLocating(false);
-          router.push(`?${params.toString()}`);
-        },
-        (error) => {
-          setIsLocating(false);
-          alert('Could not get your location. Please enable location permissions.');
-        }
-      );
+      if (location.lat && location.lng) {
+        params.set('lat', location.lat.toString());
+        params.set('lng', location.lng.toString());
+        params.set('radius', radius);
+        router.push(`?${params.toString()}`);
+      } else {
+        setIsLocating(true);
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            params.set('lat', position.coords.latitude.toString());
+            params.set('lng', position.coords.longitude.toString());
+            params.set('radius', radius);
+            setIsLocating(false);
+            router.push(`?${params.toString()}`);
+          },
+          (error) => {
+            setIsLocating(false);
+            alert('Could not get your location. Please select it from the navbar or enable location permissions.');
+          }
+        );
+      }
       return;
     }
     

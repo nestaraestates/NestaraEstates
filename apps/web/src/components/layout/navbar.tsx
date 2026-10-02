@@ -11,12 +11,17 @@ import { MobileMenu } from './mobile-menu'
 import { MobileBottomNav } from './MobileBottomNav'
 import { useEffect, useState } from 'react'
 import type { User as SupabaseUser } from '@supabase/supabase-js'
+import { useLocation } from './LocationContext'
+import { MapPin } from 'lucide-react'
+import { LocationPickerModal } from './LocationPickerModal'
 
 export function Navbar() {
   const [user, setUser] = useState<SupabaseUser | null>(null)
   const [unreadCount, setUnreadCount] = useState(0)
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false)
   const router = useRouter()
   const supabase = createClient()
+  const { location, isLocating } = useLocation()
 
   useEffect(() => {
     async function loadUser() {
@@ -38,7 +43,7 @@ export function Navbar() {
     })
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, [supabase])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -47,17 +52,33 @@ export function Navbar() {
 
   return (
     <>
+      <LocationPickerModal isOpen={isLocationModalOpen} onClose={() => setIsLocationModalOpen(false)} />
       <header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-950/80">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2">
               <img src="/logo.png" alt="Nestara Estates" className="h-10 w-auto object-contain" />
             </Link>
+            <Button 
+              variant="ghost" 
+              className="hidden sm:flex items-center gap-1 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+              onClick={() => setIsLocationModalOpen(true)}
+            >
+              <MapPin className="h-4 w-4" />
+              {isLocating ? '...' : (location.city || 'Anywhere')}
+            </Button>
             <NavLinks />
           </div>
           <div className="flex items-center gap-2 md:gap-4">
+            <Button 
+              variant="ghost" 
+              className="sm:hidden flex items-center gap-1 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 p-2"
+              onClick={() => setIsLocationModalOpen(true)}
+            >
+              <MapPin className="h-4 w-4" />
+            </Button>
             <Link href="/downloads" target="_blank">
-              <Button variant="ghost" className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:text-emerald-500 dark:hover:bg-emerald-950/30 font-bold flex items-center gap-2">
+              <Button variant="ghost" className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 dark:text-emerald-500 dark:hover:bg-emerald-950/30 font-bold hidden sm:flex items-center gap-2">
                 <Smartphone className="h-4 w-4" />
                 Get App
               </Button>

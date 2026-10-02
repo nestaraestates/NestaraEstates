@@ -42,6 +42,7 @@ import { CompareFloatingButton } from "@/components/properties/CompareFloatingBu
 import { UrlToasts } from "@/components/layout/UrlToasts";
 import { Suspense } from "react";
 import { createClient } from "@/utils/supabase/server";
+import { LocationProvider } from "@/components/layout/LocationContext";
 
 export default async function RootLayout({
   children,
@@ -96,16 +97,18 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <NavbarWrapper>
-          <Navbar />
-        </NavbarWrapper>
-        <Suspense fallback={null}>
-          <UrlToasts />
-        </Suspense>
-        <main className="flex-1 flex flex-col pb-16 md:pb-0">
-          {children}
-        </main>
-        <CompareFloatingButton />
+        <LocationProvider>
+          <NavbarWrapper>
+            <Navbar />
+          </NavbarWrapper>
+          <Suspense fallback={null}>
+            <UrlToasts />
+          </Suspense>
+          <main className="flex-1 flex flex-col pb-16 md:pb-0">
+            {children}
+          </main>
+          <CompareFloatingButton />
+        </LocationProvider>
       </body>
     </html>
   );
