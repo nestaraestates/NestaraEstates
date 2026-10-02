@@ -24,47 +24,32 @@ export default async function Home() {
   return (
     <div className="flex-1 bg-surface-50">
       {/* Hero Section */}
-      <section className="relative flex min-h-[80vh] items-center justify-center overflow-hidden bg-surface-900">
-        {/* Background Image with Overlay */}
+      <section className="relative flex py-16 items-center justify-center overflow-hidden bg-surface-900 border-b border-surface-800">
+        {/* Modern Clean Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop")' }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
+          style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&q=80&w=2070")' }}
         >
-          <div className="absolute inset-0 bg-surface-950/80 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-surface-950 via-surface-900/90 to-surface-900/40" />
         </div>
 
-        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center mt-12 mb-12">
-          <div className="inline-flex items-center gap-2 rounded-full bg-surface-800/80 px-4 py-2 text-sm font-medium text-brand-400 mb-8 border border-surface-700 backdrop-blur-md">
-            <Sparkles className="h-4 w-4" />
-            <span>Discover Premium Real Estate</span>
+        <div className="container relative z-10 mx-auto px-4 max-w-7xl flex flex-col lg:flex-row items-center justify-between gap-12">
+          <div className="flex-1 max-w-2xl text-left">
+            <h1 className="mb-4 text-4xl font-bold tracking-tight text-white md:text-5xl">
+              Find a Property <span className="text-brand-400">You Can Trust.</span>
+            </h1>
+            <p className="mb-8 text-base text-surface-300 md:text-lg font-medium leading-relaxed max-w-xl">
+              Discover, compare, verify and connect with premium properties through Nestara Estates.
+            </p>
+            <div className="flex flex-wrap items-center gap-6 text-sm font-semibold text-surface-400">
+              <span className="flex items-center gap-2"><ShieldCheck className="h-5 w-5 text-brand-500" /> Verified</span>
+              <span className="flex items-center gap-2"><MapPin className="h-5 w-5 text-brand-500" /> Prime Locations</span>
+              <span className="flex items-center gap-2"><Building2 className="h-5 w-5 text-brand-500" /> Premium</span>
+            </div>
           </div>
-          
-          <h1 className="mb-6 text-2xl font-black tracking-tighter text-white sm:text-2xl md:text-2xl lg:text-8xl">
-            Find a Property <br className="hidden sm:block" />
-            <span className="text-brand-500">You Can Trust.</span>
-          </h1>
-          
-          <p className="mx-auto mb-12 max-w-2xl text-lg text-surface-300 sm:text-xl font-medium leading-relaxed">
-            Discover, compare, verify and connect with premium properties through Nestara Estates.
-          </p>
 
-          <div className="max-w-4xl mx-auto bg-white/5 p-3 sm:p-4 rounded-xl backdrop-blur-md border border-white/10 shadow-2xl">
+          <div className="w-full lg:w-[480px] bg-white rounded-xl shadow-2xl overflow-hidden border border-surface-200">
             <HomeSearch />
-          </div>
-          
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-10 text-sm font-semibold text-surface-300">
-            <span className="flex items-center gap-2">
-              <div className="rounded-full bg-brand-500/20 p-1.5"><ShieldCheck className="h-5 w-5 text-brand-400" /></div>
-              Verified Listings
-            </span>
-            <span className="flex items-center gap-2">
-              <div className="rounded-full bg-brand-500/20 p-1.5"><TrendingUp className="h-5 w-5 text-brand-400" /></div>
-              Best Market Prices
-            </span>
-            <span className="flex items-center gap-2">
-              <div className="rounded-full bg-brand-500/20 p-1.5"><MapPin className="h-5 w-5 text-brand-400" /></div>
-              Prime Locations
-            </span>
           </div>
         </div>
       </section>
