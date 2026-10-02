@@ -149,22 +149,34 @@ export default function ProfileScreen() {
 
  
  {/* Account Actions */}
-        <View className="mt-8 mb-12 px-4">
-          <Pressable 
-            onPress={handleSignOut}
-            className="flex-row items-center justify-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 py-4 rounded-2xl active:bg-zinc-50"
-          >
-            <LogOut size={20} color="#52525b" />
-            <Text className="text-zinc-700 dark:text-zinc-300 font-bold text-base ml-2">Sign Out</Text>
-          </Pressable>
+        <View className="mb-12 mt-2 px-4">
+          <View className="bg-white rounded-2xl border border-zinc-100 overflow-hidden shadow-sm">
+            <Pressable 
+              onPress={handleSignOut}
+              className="flex-row items-center p-4 border-b border-zinc-100 bg-white"
+            >
+              <View className="w-10 h-10 bg-zinc-50 rounded-full items-center justify-center mr-4">
+                <LogOut size={20} color="#52525b" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-base font-semibold text-zinc-900">Sign Out</Text>
+                <Text className="text-xs text-zinc-500 mt-0.5">Securely log out of your account</Text>
+              </View>
+            </Pressable>
 
-          <Pressable 
-            onPress={handleDeleteAccount}
-            className="flex-row items-center justify-center py-4 mt-2 active:opacity-50"
-          >
-            <Trash2 size={16} color="#ef4444" />
-            <Text className="text-red-500 font-semibold text-sm ml-2">Delete Account</Text>
-          </Pressable>
+            <Pressable 
+              onPress={handleDeleteAccount}
+              className="flex-row items-center p-4 bg-white"
+            >
+              <View className="w-10 h-10 bg-red-50 rounded-full items-center justify-center mr-4">
+                <Trash2 size={20} color="#ef4444" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-base font-semibold text-red-500">Delete Account</Text>
+                <Text className="text-xs text-red-400 mt-0.5">Permanently erase your data</Text>
+              </View>
+            </Pressable>
+          </View>
         </View>
 
  </ScrollView>
