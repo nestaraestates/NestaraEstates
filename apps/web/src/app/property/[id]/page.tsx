@@ -121,10 +121,10 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
       <FadeIn delay={0.1}><div className="mb-6 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="inline-flex items-center rounded-md bg-amber-50 dark:bg-amber-900/30 px-2 py-1 text-xs font-bold text-amber-700 dark:text-amber-500 ring-1 ring-inset ring-amber-600/20">
+            <span className="inline-flex items-center rounded-md bg-brand-50 dark:bg-brand-900/30 px-2 py-1 text-xs font-bold text-brand-700 dark:text-brand-500 ring-1 ring-inset ring-brand-600/20">
               FOR {property.purpose}
             </span>
-            <span className="inline-flex items-center rounded-md bg-zinc-50 dark:bg-zinc-900 px-2 py-1 text-xs font-bold text-zinc-600 dark:text-zinc-400 ring-1 ring-inset ring-zinc-500/20">
+            <span className="inline-flex items-center rounded-md bg-surface-50 dark:bg-surface-900 px-2 py-1 text-xs font-bold text-surface-600 dark:text-surface-400 ring-1 ring-inset ring-surface-500/20">
               {property.type}
             </span>
             {property.is_verified && (
@@ -133,18 +133,18 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
               </span>
             )}
           </div>
-          <h1 className="text-2xl md:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
+          <h1 className="text-2xl font-bold text-surface-900 dark:text-white mb-2">
             {property.title}
           </h1>
-          <div className="flex items-center text-zinc-600 dark:text-zinc-400">
+          <div className="flex items-center text-surface-600 dark:text-surface-400">
             <MapPin className="h-4 w-4 mr-1" />
             {finalLocationText}
           </div>
         </div>
         
         <div className="text-left md:text-right">
-          <div className="text-2xl sm:text-2xl font-bold text-amber-600 dark:text-amber-500 mb-2">
-            {formattedPrice} {property.purpose === 'RENT' && <span className="text-xl font-normal text-zinc-500">/mo</span>}
+          <div className="text-2xl font-bold text-brand-600 dark:text-brand-500 mb-2">
+            {formattedPrice} {property.purpose === 'RENT' && <span className="text-xl font-normal text-surface-500">/mo</span>}
           </div>
           <div className="flex gap-2">
             <ShareButton title={property.title} />
@@ -155,29 +155,29 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
       <FadeIn delay={0.2}><PropertyGallery media={publicImages} defaultImage={defaultImage} /></FadeIn>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
         <div className="space-y-12">
           
-          <div className="flex flex-wrap gap-4 py-6 border-y border-zinc-200 dark:border-zinc-800">
+          <div className="flex flex-wrap gap-4 py-6 border-y border-surface-200 dark:border-surface-800">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-zinc-100 dark:bg-zinc-900 rounded-lg text-amber-600"><BedDouble className="h-6 w-6" /></div>
+              <div className="p-3 bg-surface-100 dark:bg-surface-900 rounded-lg text-brand-600"><BedDouble className="h-6 w-6" /></div>
               <div>
-                <p className="text-sm text-zinc-500">Bedrooms</p>
+                <p className="text-sm text-surface-500">Bedrooms</p>
                 <p className="font-semibold">{property.bhk} BHK</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-zinc-100 dark:bg-zinc-900 rounded-lg text-amber-600"><Bath className="h-6 w-6" /></div>
+              <div className="p-3 bg-surface-100 dark:bg-surface-900 rounded-lg text-brand-600"><Bath className="h-6 w-6" /></div>
               <div>
-                <p className="text-sm text-zinc-500">Bathrooms</p>
+                <p className="text-sm text-surface-500">Bathrooms</p>
                 <p className="font-semibold">{property.bathrooms}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-zinc-100 dark:bg-zinc-900 rounded-lg text-amber-600"><Square className="h-6 w-6" /></div>
+              <div className="p-3 bg-surface-100 dark:bg-surface-900 rounded-lg text-brand-600"><Square className="h-6 w-6" /></div>
               <div>
-                <p className="text-sm text-zinc-500">Super Area</p>
+                <p className="text-sm text-surface-500">Super Area</p>
                 <p className="font-semibold">{property.area_sqft} sq.ft</p>
               </div>
             </div>
@@ -185,13 +185,13 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
 
           <section>
             <h2 className="text-2xl font-bold mb-4">Description</h2>
-            <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed whitespace-pre-wrap">
+            <p className="text-surface-600 dark:text-surface-400 leading-relaxed whitespace-pre-wrap">
               {property.description ? property.description : "No description provided by the seller."}
             </p>
           </section>
 
-          <section className={`${property.is_verified ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-100 dark:border-emerald-900' : 'bg-amber-50 dark:bg-amber-950/20 border-amber-100 dark:border-amber-900'} border rounded-xl p-4`}>
-            <h3 className={`text-xl font-bold ${property.is_verified ? 'text-emerald-900 dark:text-emerald-500' : 'text-amber-900 dark:text-amber-500'} mb-4 flex items-center`}>
+          <section className={`${property.is_verified ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-100 dark:border-emerald-900' : 'bg-brand-50 dark:bg-brand-950/20 border-brand-100 dark:border-brand-900'} border rounded-xl p-4`}>
+            <h3 className={`text-xl font-bold ${property.is_verified ? 'text-emerald-900 dark:text-emerald-500' : 'text-brand-900 dark:text-brand-500'} mb-4 flex items-center`}>
               <ShieldCheck className="mr-2 h-6 w-6" /> {property.is_verified ? 'Verification Status: Verified' : 'Verification Status: Pending/Unverified'}
             </h3>
             
@@ -217,11 +217,11 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
                     const isPending = value === 'Pending'
                     
                     return (
-                      <p key={key} className={`flex items-center gap-2 ${isVerified ? 'text-emerald-700 dark:text-emerald-500/80' : isPending ? 'text-amber-600 dark:text-amber-500/80' : 'text-red-600 dark:text-red-500/80'}`}>
+                      <p key={key} className={`flex items-center gap-2 ${isVerified ? 'text-emerald-700 dark:text-emerald-500/80' : isPending ? 'text-brand-600 dark:text-brand-500/80' : 'text-red-600 dark:text-red-500/80'}`}>
                         {isVerified ? (
                           <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-500" /> 
                         ) : isPending ? (
-                          <ShieldCheck className="h-4 w-4 text-amber-500 dark:text-amber-400" />
+                          <ShieldCheck className="h-4 w-4 text-brand-500 dark:text-brand-400" />
                         ) : (
                           <XCircle className="h-4 w-4 text-red-500 dark:text-red-400" />
                         )}
@@ -252,19 +252,19 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             {isOwner ? (
               <PropertyMap location={`${property.location}, ${property.city}`} />
             ) : (
-              <div className="w-full h-[400px] rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex flex-col items-center justify-center p-4 text-center relative overflow-hidden">
+              <div className="w-full h-[400px] rounded-xl border border-surface-200 dark:border-surface-800 bg-surface-100 dark:bg-surface-900 flex flex-col items-center justify-center p-4 text-center relative overflow-hidden">
                 <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800")', backgroundSize: 'cover', backgroundPosition: 'center', filter: 'blur(8px)' }}></div>
                 
-                <div className="relative z-10 bg-white/90 dark:bg-zinc-950/90 p-4 rounded-xl shadow-sm backdrop-blur-sm max-w-sm">
-                  <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="relative z-10 bg-white/90 dark:bg-surface-950/90 p-4 rounded-xl shadow-sm backdrop-blur-sm max-w-sm">
+                  <div className="w-12 h-12 bg-brand-100 dark:bg-brand-900/30 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <MapPin className="h-6 w-6" />
                   </div>
                   <h3 className="font-bold text-lg mb-2">Location Protected</h3>
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+                  <p className="text-sm text-surface-600 dark:text-surface-400 mb-4">
                     To protect the seller's privacy, the exact map pin is hidden.
                   </p>
                   <a href="#contact-agent" className="block w-full">
-                    <Button variant="outline" className="w-full text-amber-700 border-amber-200 hover:bg-amber-50 dark:border-amber-900 dark:text-amber-500 dark:hover:bg-amber-950/30">
+                    <Button variant="outline" className="w-full text-brand-700 border-brand-200 hover:bg-brand-50 dark:border-brand-900 dark:text-brand-500 dark:hover:bg-brand-950/30">
                       Contact Agent for Details
                     </Button>
                   </a>
@@ -278,22 +278,22 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
         <div className="lg:col-span-1" id="contact-agent">
           <div className="sticky top-24">
             {isOwner ? (
-              <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 rounded-xl p-4 text-center shadow-xl">
-                <div className="mx-auto w-12 h-12 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mb-4">
-                  <ShieldCheck className="h-6 w-6 text-amber-600 dark:text-amber-500" />
+              <div className="bg-brand-50 dark:bg-brand-950/20 border border-brand-200 dark:border-brand-900 rounded-xl p-4 text-center shadow-xl">
+                <div className="mx-auto w-12 h-12 bg-brand-100 dark:bg-brand-900/50 rounded-full flex items-center justify-center mb-4">
+                  <ShieldCheck className="h-6 w-6 text-brand-600 dark:text-brand-500" />
                 </div>
-                <h3 className="text-xl font-bold mb-2 text-zinc-900 dark:text-white">Your Listing</h3>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-6">
+                <h3 className="text-xl font-bold mb-2 text-surface-900 dark:text-white">Your Listing</h3>
+                <p className="text-sm text-surface-600 dark:text-surface-400 mb-6">
                   You are the owner of this property. You cannot send an enquiry to yourself.
                 </p>
                 <div className="space-y-3">
                   <Link href="/dashboard/seller">
-                    <Button variant="outline" className="w-full border-amber-200 hover:bg-amber-100 text-amber-700 dark:border-amber-900/50 dark:text-amber-500 dark:hover:bg-amber-900/50">
+                    <Button variant="outline" className="w-full border-brand-200 hover:bg-brand-100 text-brand-700 dark:border-brand-900/50 dark:text-brand-500 dark:hover:bg-brand-900/50">
                       Dashboard
                     </Button>
                   </Link>
                   <Link href={`/edit-property/${property.id}`} className="block w-full">
-                    <Button className="w-full bg-amber-500 hover:bg-amber-600 text-white">
+                    <Button className="w-full bg-brand-500 hover:bg-brand-600 text-white">
                       Edit Listing
                     </Button>
                   </Link>
