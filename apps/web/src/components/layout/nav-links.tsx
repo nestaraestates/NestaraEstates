@@ -17,7 +17,7 @@ export function NavLinks() {
   ]
 
   return (
-    <nav className="hidden md:ml-8 md:flex md:gap-6">
+    <nav className="hidden md:ml-8 md:flex md:gap-4">
       {links.map((link) => {
         const isActive = pathname === link.href
         return (

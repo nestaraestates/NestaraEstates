@@ -41,7 +41,7 @@ export function EmiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: numbe
         <CardTitle className="text-xl">EMI Calculator</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2">
           {/* Inputs */}
           <div className="space-y-4">
             <div className="space-y-2">
@@ -65,10 +65,10 @@ export function EmiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: numbe
           </div>
 
           {/* Outputs */}
-          <div className="rounded-xl bg-amber-50 p-6 dark:bg-amber-950/20 flex flex-col justify-center">
+          <div className="rounded-xl bg-amber-50 p-4 dark:bg-amber-950/20 flex flex-col justify-center">
             <div className="mb-6 text-center">
               <p className="text-sm text-zinc-600 dark:text-zinc-400">Your Monthly EMI</p>
-              <p className="text-4xl font-bold text-amber-600 dark:text-amber-500">{formatCurrency(emi)}</p>
+              <p className="text-2xl font-bold text-amber-600 dark:text-amber-500">{formatCurrency(emi)}</p>
             </div>
             
             <div className="space-y-3 text-sm">

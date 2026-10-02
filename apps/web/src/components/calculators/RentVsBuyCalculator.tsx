@@ -31,7 +31,7 @@ export function RentVsBuyCalculator({ defaultPrice = 5000000 }: { defaultPrice?:
         <CardTitle className="text-xl">Rent vs Buy Calculator</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>Property Price (₹)</Label>
@@ -47,7 +47,7 @@ export function RentVsBuyCalculator({ defaultPrice = 5000000 }: { defaultPrice?:
             </div>
           </div>
 
-          <div className="rounded-xl bg-zinc-50 p-6 dark:bg-zinc-900/50 flex flex-col justify-center">
+          <div className="rounded-xl bg-zinc-50 p-4 dark:bg-zinc-900/50 flex flex-col justify-center">
             <h4 className="text-lg font-bold mb-4">After {years} Years:</h4>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between border-b border-zinc-200 pb-2 dark:border-zinc-800">

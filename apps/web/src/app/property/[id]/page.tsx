@@ -133,7 +133,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
               </span>
             )}
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white mb-2">
+          <h1 className="text-2xl md:text-2xl font-bold text-zinc-900 dark:text-white mb-2">
             {property.title}
           </h1>
           <div className="flex items-center text-zinc-600 dark:text-zinc-400">
@@ -143,7 +143,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
         </div>
         
         <div className="text-left md:text-right">
-          <div className="text-3xl sm:text-4xl font-bold text-amber-600 dark:text-amber-500 mb-2">
+          <div className="text-2xl sm:text-2xl font-bold text-amber-600 dark:text-amber-500 mb-2">
             {formattedPrice} {property.purpose === 'RENT' && <span className="text-xl font-normal text-zinc-500">/mo</span>}
           </div>
           <div className="flex gap-2">
@@ -159,7 +159,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
         <div className="lg:col-span-2">
         <div className="space-y-12">
           
-          <div className="flex flex-wrap gap-6 py-6 border-y border-zinc-200 dark:border-zinc-800">
+          <div className="flex flex-wrap gap-4 py-6 border-y border-zinc-200 dark:border-zinc-800">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-zinc-100 dark:bg-zinc-900 rounded-lg text-amber-600"><BedDouble className="h-6 w-6" /></div>
               <div>
@@ -190,7 +190,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             </p>
           </section>
 
-          <section className={`${property.is_verified ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-100 dark:border-emerald-900' : 'bg-amber-50 dark:bg-amber-950/20 border-amber-100 dark:border-amber-900'} border rounded-2xl p-6`}>
+          <section className={`${property.is_verified ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-100 dark:border-emerald-900' : 'bg-amber-50 dark:bg-amber-950/20 border-amber-100 dark:border-amber-900'} border rounded-xl p-4`}>
             <h3 className={`text-xl font-bold ${property.is_verified ? 'text-emerald-900 dark:text-emerald-500' : 'text-amber-900 dark:text-amber-500'} mb-4 flex items-center`}>
               <ShieldCheck className="mr-2 h-6 w-6" /> {property.is_verified ? 'Verification Status: Verified' : 'Verification Status: Pending/Unverified'}
             </h3>
@@ -252,10 +252,10 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
             {isOwner ? (
               <PropertyMap location={`${property.location}, ${property.city}`} />
             ) : (
-              <div className="w-full h-[400px] rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
+              <div className="w-full h-[400px] rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex flex-col items-center justify-center p-4 text-center relative overflow-hidden">
                 <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800")', backgroundSize: 'cover', backgroundPosition: 'center', filter: 'blur(8px)' }}></div>
                 
-                <div className="relative z-10 bg-white/90 dark:bg-zinc-950/90 p-6 rounded-2xl shadow-sm backdrop-blur-sm max-w-sm">
+                <div className="relative z-10 bg-white/90 dark:bg-zinc-950/90 p-4 rounded-xl shadow-sm backdrop-blur-sm max-w-sm">
                   <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <MapPin className="h-6 w-6" />
                   </div>
@@ -278,7 +278,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
         <div className="lg:col-span-1" id="contact-agent">
           <div className="sticky top-24">
             {isOwner ? (
-              <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 rounded-2xl p-6 text-center shadow-xl">
+              <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 rounded-xl p-4 text-center shadow-xl">
                 <div className="mx-auto w-12 h-12 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mb-4">
                   <ShieldCheck className="h-6 w-6 text-amber-600 dark:text-amber-500" />
                 </div>

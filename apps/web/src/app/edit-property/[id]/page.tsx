@@ -35,7 +35,7 @@ export default async function EditPropertyPage({ params }: { params: Promise<{ i
   return (
     <div className="container mx-auto max-w-2xl py-12 px-4">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">Edit Listing</h1>
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Edit Listing</h1>
         <p className="text-zinc-500 mt-2">Update your property details.</p>
       </div>
 

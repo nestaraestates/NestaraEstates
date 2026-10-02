@@ -29,7 +29,7 @@ export function RoiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: numbe
         <CardTitle className="text-xl">ROI & Rental Yield Calculator</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-4">
             <div className="space-y-2">
               <Label>Property Price (₹)</Label>
@@ -45,9 +45,9 @@ export function RoiCalculator({ defaultPrice = 5000000 }: { defaultPrice?: numbe
             </div>
           </div>
 
-          <div className="rounded-xl bg-zinc-50 p-6 dark:bg-zinc-900/50 flex flex-col justify-center text-center">
+          <div className="rounded-xl bg-zinc-50 p-4 dark:bg-zinc-900/50 flex flex-col justify-center text-center">
             <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">Estimated Gross Rental Yield</p>
-            <p className="text-4xl font-bold text-amber-600 dark:text-amber-500 mb-6">{roi.toFixed(2)}%</p>
+            <p className="text-2xl font-bold text-amber-600 dark:text-amber-500 mb-6">{roi.toFixed(2)}%</p>
             
             <div className="flex justify-between border-t border-zinc-200 pt-4 dark:border-zinc-800">
               <span className="text-sm text-zinc-600 dark:text-zinc-400">Net Annual Income</span>

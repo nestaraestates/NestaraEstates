@@ -39,7 +39,7 @@ export default async function Home() {
             <span>Discover Premium Real Estate</span>
           </div>
           
-          <h1 className="mb-6 text-4xl font-black tracking-tighter text-white sm:text-6xl md:text-7xl lg:text-8xl">
+          <h1 className="mb-6 text-2xl font-black tracking-tighter text-white sm:text-2xl md:text-2xl lg:text-8xl">
             Find a Property <br className="hidden sm:block" />
             <span className="text-brand-500">You Can Trust.</span>
           </h1>
@@ -48,11 +48,11 @@ export default async function Home() {
             Discover, compare, verify and connect with premium properties through Nestara Estates.
           </p>
 
-          <div className="max-w-4xl mx-auto bg-white/5 p-3 sm:p-4 rounded-3xl backdrop-blur-md border border-white/10 shadow-2xl">
+          <div className="max-w-4xl mx-auto bg-white/5 p-3 sm:p-4 rounded-xl backdrop-blur-md border border-white/10 shadow-2xl">
             <HomeSearch />
           </div>
           
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-sm font-semibold text-surface-300">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-10 text-sm font-semibold text-surface-300">
             <span className="flex items-center gap-2">
               <div className="rounded-full bg-brand-500/20 p-1.5"><ShieldCheck className="h-5 w-5 text-brand-400" /></div>
               Verified Listings
@@ -70,10 +70,10 @@ export default async function Home() {
       </section>
 
       {/* Main Properties Display */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
-        <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-28">
+        <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-black tracking-tight text-surface-900 sm:text-4xl md:text-5xl dark:text-white flex items-center gap-3">
+            <h2 className="text-2xl font-black tracking-tight text-surface-900 sm:text-2xl md:text-2xl dark:text-white flex items-center gap-3">
               Featured Properties
             </h2>
             <p className="text-surface-500 dark:text-surface-400 mt-4 text-lg">
@@ -88,7 +88,7 @@ export default async function Home() {
         </div>
 
         {properties && properties.length > 0 ? (
-          <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-4 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {properties.map((property: any) => {
               const imageMedia = property.property_media?.find((m: any) => m.media_type === 'IMAGE')
               
@@ -111,8 +111,8 @@ export default async function Home() {
             })}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center text-center py-32 bg-white dark:bg-surface-900 border border-surface-200 dark:border-surface-800 rounded-3xl shadow-sm">
-            <div className="rounded-full bg-surface-100 p-6 mb-6 dark:bg-surface-800">
+          <div className="flex flex-col items-center justify-center text-center py-12 bg-white dark:bg-surface-900 border border-surface-200 dark:border-surface-800 rounded-xl shadow-sm">
+            <div className="rounded-full bg-surface-100 p-4 mb-6 dark:bg-surface-800">
               <Search className="h-10 w-10 text-surface-400" />
             </div>
             <h3 className="text-2xl font-black text-surface-900 dark:text-white mb-3">No verified properties yet</h3>
@@ -122,10 +122,10 @@ export default async function Home() {
       </section>
 
       {/* Why Nestara Section */}
-      <section className="bg-white dark:bg-surface-950 py-24 lg:py-32 border-t border-surface-100 dark:border-surface-900">
+      <section className="bg-white dark:bg-surface-950 py-12 lg:py-12 border-t border-surface-100 dark:border-surface-900">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16 md:mb-20 text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl font-black tracking-tight text-surface-900 sm:text-4xl md:text-5xl dark:text-white">
+            <h2 className="text-2xl font-black tracking-tight text-surface-900 sm:text-2xl md:text-2xl dark:text-white">
               Why Choose Nestara
             </h2>
             <p className="mt-6 text-lg text-surface-600 dark:text-surface-400">
@@ -133,15 +133,15 @@ export default async function Home() {
             </p>
           </div>
           
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { title: 'Trust', desc: 'Transparent and reliable information for every property.', icon: ShieldCheck },
               { title: 'Verification', desc: 'Structured legal and identity verification services.', icon: Building2 },
               { title: 'Technology', desc: 'Making discovery and decisions easier than ever.', icon: Search },
               { title: 'Convenience', desc: 'Everything you need in one centralized platform.', icon: TrendingUp },
             ].map((feature) => (
-              <div key={feature.title} className="group flex flex-col items-center rounded-3xl bg-surface-50 dark:bg-surface-900 p-8 text-center border border-surface-100 dark:border-surface-800 transition-all hover:shadow-lg hover:-translate-y-1">
-                <div className="mb-6 rounded-2xl bg-brand-100 dark:bg-brand-900/30 p-5 text-brand-600 dark:text-brand-500 transition-transform group-hover:scale-110">
+              <div key={feature.title} className="group flex flex-col items-center rounded-xl bg-surface-50 dark:bg-surface-900 p-4 text-center border border-surface-100 dark:border-surface-800 transition-all hover:shadow-lg hover:-translate-y-1">
+                <div className="mb-6 rounded-xl bg-brand-100 dark:bg-brand-900/30 p-5 text-brand-600 dark:text-brand-500 transition-transform group-hover:scale-110">
                   <feature.icon className="h-8 w-8" />
                 </div>
                 <h3 className="mb-3 text-xl font-bold text-surface-900 dark:text-white">{feature.title}</h3>
@@ -153,9 +153,9 @@ export default async function Home() {
       </section>
 
       {/* Promotion Section for Owners */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-12">
         <div className="max-w-5xl mx-auto">
-          <div className="relative overflow-hidden bg-brand-600 dark:bg-brand-700 rounded-[2.5rem] p-8 sm:p-12 md:p-16 flex flex-col items-center text-center shadow-2xl">
+          <div className="relative overflow-hidden bg-brand-600 dark:bg-brand-700 rounded-[2.5rem] p-4 sm:p-12 md:p-16 flex flex-col items-center text-center shadow-2xl">
             {/* Background Decorations */}
             <div className="absolute top-0 left-0 w-64 h-64 bg-brand-500 rounded-full blur-3xl opacity-50 -translate-x-1/2 -translate-y-1/2" />
             <div className="absolute bottom-0 right-0 w-64 h-64 bg-brand-800 rounded-full blur-3xl opacity-50 translate-x-1/2 translate-y-1/2" />
@@ -164,7 +164,7 @@ export default async function Home() {
               <span className="inline-block px-4 py-1.5 rounded-full bg-brand-500/30 border border-brand-400/30 text-white font-bold text-sm tracking-wide mb-6">
                 FOR OWNERS & DEALERS
               </span>
-              <h3 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
+              <h3 className="text-2xl md:text-2xl font-black text-white mb-6 tracking-tight">
                 List Your Property Today
               </h3>
               <p className="text-brand-100 text-lg md:text-xl mb-10 leading-relaxed max-w-2xl font-medium">

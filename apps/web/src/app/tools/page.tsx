@@ -7,9 +7,9 @@ import { AreaConverter } from '@/components/calculators/AreaConverter'
 
 export default function ToolsPage() {
   return (
-    <div className="container mx-auto px-4 py-16 max-w-6xl">
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="text-center mb-16 space-y-4">
-        <h1 className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-white tracking-tight">
+        <h1 className="text-2xl md:text-2xl font-black text-zinc-900 dark:text-white tracking-tight">
           Financial <span className="text-amber-500">Tools & Calculators</span>
         </h1>
         <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">

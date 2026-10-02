@@ -10,15 +10,15 @@ export default function PropertyLoading() {
         <div className="h-12 w-48 bg-zinc-200 dark:bg-zinc-800 rounded-lg"></div>
       </div>
       
-      <div className="h-[500px] w-full bg-zinc-100 dark:bg-zinc-900 rounded-3xl mb-8"></div>
+      <div className="h-[500px] w-full bg-zinc-100 dark:bg-zinc-900 rounded-xl mb-8"></div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 space-y-8">
-          <div className="h-32 bg-zinc-100 dark:bg-zinc-900 rounded-2xl"></div>
-          <div className="h-48 bg-zinc-100 dark:bg-zinc-900 rounded-2xl"></div>
+          <div className="h-32 bg-zinc-100 dark:bg-zinc-900 rounded-xl"></div>
+          <div className="h-48 bg-zinc-100 dark:bg-zinc-900 rounded-xl"></div>
         </div>
         <div className="space-y-6">
-          <div className="h-64 bg-zinc-100 dark:bg-zinc-900 rounded-2xl"></div>
+          <div className="h-64 bg-zinc-100 dark:bg-zinc-900 rounded-xl"></div>
         </div>
       </div>
     </div>

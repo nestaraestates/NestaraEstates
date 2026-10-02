@@ -3,7 +3,7 @@ import Link from 'next/link'
 export default function TermsAndConditions() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6 text-zinc-900 dark:text-white">Terms and Conditions</h1>
+      <h1 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-white">Terms and Conditions</h1>
       <div className="prose dark:prose-invert max-w-none space-y-6 text-zinc-600 dark:text-zinc-300">
         <p>
           Welcome to Nestara Estates. These terms and conditions outline the rules and regulations for the use of our website and services.

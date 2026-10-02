@@ -71,7 +71,7 @@ export default async function BuyPropertiesPage({ searchParams }: { searchParams
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <RealtimePropertiesListener />
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white sm:text-4xl">Properties for Sale</h1>
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-white sm:text-2xl">Properties for Sale</h1>
         <p className="mt-2 text-zinc-500 dark:text-zinc-400">Find your dream home from our verified listings.</p>
       </div>
 
@@ -79,7 +79,7 @@ export default async function BuyPropertiesPage({ searchParams }: { searchParams
 
       {/* Grid - Mobile: 1 col, Tablet: 2 cols, Desktop: 3/4 cols */}
       {properties?.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-24 bg-white dark:bg-zinc-950 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+        <div className="flex flex-col items-center justify-center py-12 bg-white dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
           <div className="w-20 h-20 bg-surface-50 dark:bg-zinc-900 rounded-full flex items-center justify-center mb-4">
             <Search className="h-10 w-10 text-zinc-400" />
           </div>
@@ -87,7 +87,7 @@ export default async function BuyPropertiesPage({ searchParams }: { searchParams
           <p className="text-zinc-500 text-center max-w-md">We couldn't find any properties matching your current location or filters. Try adjusting your search radius or price range.</p>
         </div>
       ) : (
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {properties?.map((property) => (
           <PropertyCard
             key={property.id}

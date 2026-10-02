@@ -4,9 +4,9 @@ import { Input } from '@/components/ui/input'
 
 export default function ContactPage() {
   return (
-    <div className="container mx-auto px-4 py-16 max-w-6xl">
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="text-center mb-16 space-y-4">
-        <h1 className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-white tracking-tight">
+        <h1 className="text-2xl md:text-2xl font-black text-zinc-900 dark:text-white tracking-tight">
           Get in Touch
         </h1>
         <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
@@ -17,7 +17,7 @@ export default function ContactPage() {
       <div className="grid lg:grid-cols-3 gap-12">
         {/* Contact Info */}
         <div className="lg:col-span-1 space-y-8">
-          <div className="bg-amber-50 dark:bg-amber-950/20 p-8 rounded-3xl border border-amber-100 dark:border-amber-900/50">
+          <div className="bg-amber-50 dark:bg-amber-950/20 p-4 rounded-xl border border-amber-100 dark:border-amber-900/50">
             <h3 className="text-xl font-bold text-amber-900 dark:text-amber-500 mb-6">Contact Information</h3>
             
             <div className="space-y-6">
@@ -58,10 +58,10 @@ export default function ContactPage() {
 
         {/* Contact Form */}
         <div className="lg:col-span-2">
-          <div className="bg-white dark:bg-zinc-950 p-8 md:p-10 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+          <div className="bg-white dark:bg-zinc-950 p-4 md:p-10 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
             <h2 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-white">Send us a Message</h2>
             <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-zinc-700 dark:text-zinc-300">Full Name</label>
                   <Input placeholder="John Doe" className="bg-zinc-50 dark:bg-zinc-900" />

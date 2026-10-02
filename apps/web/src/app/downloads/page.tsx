@@ -14,7 +14,7 @@ export default function DownloadsPage() {
             <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-emerald-200 dark:border-emerald-800">
               <Smartphone className="h-10 w-10 text-emerald-600 dark:text-emerald-500" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-zinc-900 dark:text-zinc-50 tracking-tight mb-6">
+            <h1 className="text-2xl md:text-2xl font-extrabold text-zinc-900 dark:text-zinc-50 tracking-tight mb-6">
               Experience Real Estate at <span className="text-emerald-600 dark:text-emerald-500">Native Speed</span>
             </h1>
             <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto mb-10">
@@ -34,15 +34,15 @@ export default function DownloadsPage() {
       </section>
 
       {/* Why the App? (Advantages) */}
-      <section className="py-16 bg-white dark:bg-zinc-900 border-y border-zinc-200 dark:border-zinc-800">
+      <section className="py-8 bg-white dark:bg-zinc-900 border-y border-zinc-200 dark:border-zinc-800">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50">Built for Power Users</h2>
+            <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">Built for Power Users</h2>
             <p className="text-zinc-600 dark:text-zinc-400 mt-3">Why limit yourself to a browser? Unleash the full potential of your device.</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 shadow-sm">
               <div className="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center mb-4">
                 <Gauge className="h-6 w-6 text-amber-600 dark:text-amber-500" />
               </div>
@@ -52,7 +52,7 @@ export default function DownloadsPage() {
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+            <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 shadow-sm">
               <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mb-4">
                 <Bell className="h-6 w-6 text-blue-600 dark:text-blue-500" />
               </div>
@@ -62,7 +62,7 @@ export default function DownloadsPage() {
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+            <div className="p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 shadow-sm">
               <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center mb-4">
                 <Camera className="h-6 w-6 text-purple-600 dark:text-purple-500" />
               </div>

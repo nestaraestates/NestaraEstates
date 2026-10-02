@@ -31,7 +31,7 @@ export function PropertyCard({ id, title, price, location, city, bhk, bathrooms,
   const formattedPrice = formatIndianCurrencyShort(price)
 
   return (
-    <Card className="group flex flex-col overflow-hidden rounded-2xl border border-surface-200 bg-white transition-all duration-300 hover:shadow-xl hover:-translate-y-1 dark:border-surface-800 dark:bg-surface-900 relative">
+    <Card className="group flex flex-col overflow-hidden rounded-xl border border-surface-200 bg-white transition-all duration-300 hover:shadow-xl hover:-translate-y-1 dark:border-surface-800 dark:bg-surface-900 relative">
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-100 dark:bg-surface-800">
         <img
           src={imageUrl}

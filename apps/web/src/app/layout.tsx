@@ -68,7 +68,7 @@ export default async function RootLayout({
     return (
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex items-center justify-center bg-zinc-50`}>
-          <div className="max-w-md p-8 bg-white border border-zinc-200 rounded-xl shadow-sm text-center">
+          <div className="max-w-md p-4 bg-white border border-zinc-200 rounded-xl shadow-sm text-center">
             <h1 className="text-2xl font-bold text-red-600 mb-2">Account {accountStatus.charAt(0) + accountStatus.slice(1).toLowerCase()}</h1>
             <p className="text-zinc-600 mb-4">
               Your account has been {accountStatus.toLowerCase()}. Please contact support for more assistance.

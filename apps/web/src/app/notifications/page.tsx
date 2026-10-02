@@ -43,14 +43,14 @@ export default async function NotificationsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-16 max-w-3xl">
+    <div className="container mx-auto px-4 py-8 max-w-3xl">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
-          <div className="bg-zinc-100 text-zinc-600 p-3 rounded-2xl">
+          <div className="bg-zinc-100 text-zinc-600 p-3 rounded-xl">
             <BellRing className="h-8 w-8" />
           </div>
           <div>
-            <h1 className="text-3xl font-black text-zinc-900 tracking-tight">Notifications</h1>
+            <h1 className="text-2xl font-black text-zinc-900 tracking-tight">Notifications</h1>
             <p className="text-zinc-500 font-medium">Updates, alerts, and account activity</p>
           </div>
         </div>
@@ -68,10 +68,10 @@ export default async function NotificationsPage() {
         )}
       </div>
 
-      <div className="bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm min-h-[400px]">
+      <div className="bg-white border border-zinc-200 rounded-xl p-4 shadow-sm min-h-[400px]">
         {(!notifications || notifications.length === 0) ? (
           <div className="flex flex-col items-center justify-center text-center h-[350px]">
-            <div className="bg-zinc-50 rounded-full p-6 mb-4">
+            <div className="bg-zinc-50 rounded-full p-4 mb-4">
               <BellRing className="h-12 w-12 text-zinc-300" />
             </div>
             <h2 className="text-xl font-bold text-zinc-900 mb-2">You're all caught up!</h2>
@@ -82,7 +82,7 @@ export default async function NotificationsPage() {
             {notifications.map((notif: any) => (
               <div 
                 key={notif.id} 
-                className={`p-5 rounded-2xl border transition-colors ${notif.is_read ? 'bg-white border-zinc-200' : 'bg-amber-50/50 border-amber-200 shadow-sm'}`}
+                className={`p-5 rounded-xl border transition-colors ${notif.is_read ? 'bg-white border-zinc-200' : 'bg-amber-50/50 border-amber-200 shadow-sm'}`}
               >
                 <div className="flex items-start gap-4">
                   <div className={`p-2 rounded-full mt-1 ${notif.title.includes('Message') ? 'bg-amber-100 text-amber-600' : 'bg-emerald-100 text-emerald-600'}`}>

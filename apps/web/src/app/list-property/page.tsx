@@ -120,7 +120,7 @@ export default function ListPropertyPage() {
   return (
     <div className="container mx-auto max-w-3xl py-12 px-4">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">List Your Property</h1>
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">List Your Property</h1>
         <p className="text-zinc-500 mt-2">Complete the steps below to list your property and request verification.</p>
       </div>
 

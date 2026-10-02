@@ -43,7 +43,7 @@ export function HomeSearch() {
       </div>
 
       {/* Search Bar Container */}
-      <div className="rounded-2xl rounded-tl-none bg-white/10 p-2 backdrop-blur-md shadow-2xl">
+      <div className="rounded-xl rounded-tl-none bg-white/10 p-2 backdrop-blur-md shadow-2xl">
         <form onSubmit={handleSearch} className="flex flex-col gap-2 rounded-xl bg-white p-2 shadow-inner sm:flex-row dark:bg-zinc-950">
           
           <div className="flex flex-1 items-center gap-2 px-3 py-2">

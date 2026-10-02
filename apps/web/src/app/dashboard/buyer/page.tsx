@@ -49,7 +49,7 @@ export default async function BuyerDashboard({ searchParams }: { searchParams: P
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between mb-2">
-        <h1 className="text-3xl font-black text-zinc-900 tracking-tight">
+        <h1 className="text-2xl font-black text-zinc-900 tracking-tight">
           {tab === 'saved' ? 'Saved Properties' : 'My Enquiries'}
         </h1>
       </div>
@@ -97,7 +97,7 @@ export default async function BuyerDashboard({ searchParams }: { searchParams: P
       )}
 
       {tab === 'saved' && (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {savedProps?.map((saved: any) => {
             const property = saved.properties
             if (!property) return null

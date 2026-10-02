@@ -53,11 +53,11 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="flex items-center gap-3 mb-8">
-        <div className="bg-amber-100 text-amber-600 p-3 rounded-2xl">
+        <div className="bg-amber-100 text-amber-600 p-3 rounded-xl">
           <InboxIcon className="h-8 w-8" />
         </div>
         <div>
-          <h1 className="text-3xl font-black text-zinc-900 tracking-tight">Messages Hub</h1>
+          <h1 className="text-2xl font-black text-zinc-900 tracking-tight">Messages Hub</h1>
           <p className="text-zinc-500 font-medium">Manage all your communications with Nestara Agents</p>
         </div>
       </div>
@@ -66,21 +66,21 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
       <div className="flex gap-4 mb-8">
         <Link 
           href="?view=buyer" 
-          className={`flex-1 flex items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all font-bold text-lg ${view === 'buyer' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm' : 'border-zinc-200 bg-white text-zinc-500 hover:bg-zinc-50 hover:border-zinc-300'}`}
+          className={`flex-1 flex items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all font-bold text-lg ${view === 'buyer' ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm' : 'border-zinc-200 bg-white text-zinc-500 hover:bg-zinc-50 hover:border-zinc-300'}`}
         >
           <ShoppingBag className="h-6 w-6" /> 
           Buyer Inbox
         </Link>
         <Link 
           href="?view=seller" 
-          className={`flex-1 flex items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all font-bold text-lg ${view === 'seller' ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm' : 'border-zinc-200 bg-white text-zinc-500 hover:bg-zinc-50 hover:border-zinc-300'}`}
+          className={`flex-1 flex items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all font-bold text-lg ${view === 'seller' ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm' : 'border-zinc-200 bg-white text-zinc-500 hover:bg-zinc-50 hover:border-zinc-300'}`}
         >
           <Store className="h-6 w-6" /> 
           Seller Inbox
         </Link>
       </div>
 
-      <div className="bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm min-h-[500px]">
+      <div className="bg-white border border-zinc-200 rounded-xl p-4 shadow-sm min-h-[500px]">
         {/* BUYER VIEW */}
         {view === 'buyer' && (
           <div className="space-y-6">
@@ -89,7 +89,7 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
             </h2>
             
             {(!buyerEnquiries || buyerEnquiries.length === 0) ? (
-              <div className="text-center py-20 border-2 border-dashed border-zinc-200 rounded-2xl">
+              <div className="text-center py-12 border-2 border-dashed border-zinc-200 rounded-xl">
                 <MessageSquare className="h-10 w-10 text-zinc-300 mx-auto mb-3" />
                 <p className="text-zinc-500 font-medium">You haven't enquired about any properties yet.</p>
                 <Link href="/buy" className="text-emerald-600 font-bold mt-2 inline-block hover:underline">
@@ -99,7 +99,7 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
             ) : (
               <div className="space-y-4">
                 {buyerEnquiries.map((enq: any) => (
-                  <div key={enq.id} className="border border-zinc-200 rounded-2xl p-5 hover:border-emerald-200 transition-colors">
+                  <div key={enq.id} className="border border-zinc-200 rounded-xl p-5 hover:border-emerald-200 transition-colors">
                     <div className="flex flex-col md:flex-row justify-between gap-4">
                       <div>
                         <Link href={`/property/${enq.properties.id}`} className="font-bold text-lg text-emerald-700 hover:underline">
@@ -139,7 +139,7 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
               <p className="text-sm text-zinc-500 mb-4">Chat with Nestara agents directly regarding your listed properties (verification, updates, etc).</p>
               
               {(!sellerProperties || sellerProperties.length === 0) ? (
-                <div className="text-center py-10 border-2 border-dashed border-zinc-200 rounded-2xl">
+                <div className="text-center py-10 border-2 border-dashed border-zinc-200 rounded-xl">
                   <p className="text-zinc-500 font-medium">You haven't listed any properties to sell.</p>
                   <Link href="/list-property" className="text-amber-600 font-bold mt-2 inline-block hover:underline">
                     List a Property <ArrowRight className="h-4 w-4 inline" />
@@ -148,7 +148,7 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
               ) : (
                 <div className="grid gap-4 md:grid-cols-2">
                   {sellerProperties.map((prop: any) => (
-                    <div key={prop.id} className="border border-zinc-200 rounded-2xl p-5 hover:border-amber-200 transition-colors flex flex-col justify-between">
+                    <div key={prop.id} className="border border-zinc-200 rounded-xl p-5 hover:border-amber-200 transition-colors flex flex-col justify-between">
                       <div>
                         <h3 className="font-bold text-zinc-900 line-clamp-1">{prop.title}</h3>
                         <p className="text-xs text-zinc-500 mb-3">{prop.city}</p>
@@ -167,7 +167,7 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
                 </h2>
                 <div className="space-y-4">
                   {sellerLeads.map((lead: any) => (
-                    <div key={lead.id} className="border border-zinc-200 rounded-2xl p-5 bg-amber-50/30">
+                    <div key={lead.id} className="border border-zinc-200 rounded-xl p-5 bg-amber-50/30">
                       <div className="flex justify-between items-start mb-2">
                         <span className="text-sm font-bold text-amber-800">Lead for: {lead.properties.title}</span>
                         <span className="text-xs text-zinc-500">{new Date(lead.created_at).toLocaleDateString()}</span>

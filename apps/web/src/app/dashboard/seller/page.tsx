@@ -42,7 +42,7 @@ export default async function SellerDashboard({ searchParams }: { searchParams: 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
-        <h1 className="text-3xl font-black text-zinc-900 tracking-tight">
+        <h1 className="text-2xl font-black text-zinc-900 tracking-tight">
           {tab === 'inbox' ? 'Seller Inbox' : 'My Listings'}
         </h1>
         <Link href="/list-property">
@@ -51,7 +51,7 @@ export default async function SellerDashboard({ searchParams }: { searchParams: 
       </div>
 
       {tab === 'listings' && (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {properties?.map((property) => (
             <div key={property.id} className="relative">
               {/* Status Badge Overlays */}

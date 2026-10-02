@@ -49,7 +49,7 @@ export default async function ForgotPasswordPage({ searchParams }: { searchParam
             </form>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-center border-t border-zinc-100 p-6 dark:border-zinc-900">
+        <CardFooter className="flex justify-center border-t border-zinc-100 p-4 dark:border-zinc-900">
           <Link href="/login" className="flex items-center text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-white transition-colors">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to login

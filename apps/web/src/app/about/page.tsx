@@ -2,10 +2,10 @@ import { Building2, Target, Eye, ShieldCheck, Users, TrendingUp } from 'lucide-r
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 py-16 max-w-6xl">
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
       {/* Hero Section */}
       <div className="text-center mb-16 space-y-4">
-        <h1 className="text-4xl md:text-6xl font-black text-zinc-900 dark:text-white tracking-tight">
+        <h1 className="text-2xl md:text-2xl font-black text-zinc-900 dark:text-white tracking-tight">
           About <span className="text-amber-500">Nestara Estates</span>
         </h1>
         <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-3xl mx-auto">
@@ -14,9 +14,9 @@ export default function AboutPage() {
       </div>
 
       {/* Mission & Vision */}
-      <div className="grid md:grid-cols-2 gap-8 mb-20">
-        <div className="bg-zinc-50 dark:bg-zinc-900 rounded-3xl p-8 border border-zinc-200 dark:border-zinc-800">
-          <div className="bg-amber-100 dark:bg-amber-900/30 w-14 h-14 flex items-center justify-center rounded-2xl mb-6 text-amber-600 dark:text-amber-400">
+      <div className="grid md:grid-cols-2 gap-4 mb-20">
+        <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4 border border-zinc-200 dark:border-zinc-800">
+          <div className="bg-amber-100 dark:bg-amber-900/30 w-14 h-14 flex items-center justify-center rounded-xl mb-6 text-amber-600 dark:text-amber-400">
             <Target className="h-7 w-7" />
           </div>
           <h2 className="text-2xl font-bold mb-4 text-zinc-900 dark:text-white">Our Mission</h2>
@@ -25,8 +25,8 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="bg-zinc-50 dark:bg-zinc-900 rounded-3xl p-8 border border-zinc-200 dark:border-zinc-800">
-          <div className="bg-amber-100 dark:bg-amber-900/30 w-14 h-14 flex items-center justify-center rounded-2xl mb-6 text-amber-600 dark:text-amber-400">
+        <div className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4 border border-zinc-200 dark:border-zinc-800">
+          <div className="bg-amber-100 dark:bg-amber-900/30 w-14 h-14 flex items-center justify-center rounded-xl mb-6 text-amber-600 dark:text-amber-400">
             <Eye className="h-7 w-7" />
           </div>
           <h2 className="text-2xl font-bold mb-4 text-zinc-900 dark:text-white">Our Vision</h2>
@@ -38,8 +38,8 @@ export default function AboutPage() {
 
       {/* Core Values */}
       <div className="mb-20">
-        <h2 className="text-3xl font-bold text-center mb-12 text-zinc-900 dark:text-white">Why Nestara Was Created</h2>
-        <div className="grid md:grid-cols-3 gap-8">
+        <h2 className="text-2xl font-bold text-center mb-12 text-zinc-900 dark:text-white">Why Nestara Was Created</h2>
+        <div className="grid md:grid-cols-3 gap-4">
           <div className="text-center">
             <div className="mx-auto bg-emerald-50 dark:bg-emerald-900/20 w-16 h-16 flex items-center justify-center rounded-full mb-4 text-emerald-600">
               <ShieldCheck className="h-8 w-8" />

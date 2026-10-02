@@ -10,9 +10,9 @@ export default function DashboardLoading() {
       </div>
       
       {/* Cards Skeleton */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-72 bg-zinc-100 dark:bg-zinc-900 rounded-2xl"></div>
+          <div key={i} className="h-72 bg-zinc-100 dark:bg-zinc-900 rounded-xl"></div>
         ))}
       </div>
     </div>

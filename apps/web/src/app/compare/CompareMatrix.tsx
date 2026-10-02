@@ -39,13 +39,13 @@ export function CompareMatrix() {
   }, [idsParam])
 
   if (loading) {
-    return <div className="text-center py-24"><div className="animate-spin h-8 w-8 mx-auto border-4 border-amber-500 rounded-full border-t-transparent"></div></div>
+    return <div className="text-center py-12"><div className="animate-spin h-8 w-8 mx-auto border-4 border-amber-500 rounded-full border-t-transparent"></div></div>
   }
 
   if (ids.length === 0 || properties.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-24 text-center">
-        <h1 className="text-3xl font-bold mb-4">Compare Properties</h1>
+      <div className="container mx-auto px-4 py-12 text-center">
+        <h1 className="text-2xl font-bold mb-4">Compare Properties</h1>
         <p className="text-zinc-500 mb-8">You haven't selected any properties to compare yet.</p>
         <Link href="/buy">
           <Button className="bg-amber-500 hover:bg-amber-600 text-white">Browse Properties</Button>
@@ -58,7 +58,7 @@ export function CompareMatrix() {
 
   return (
     <div className="overflow-x-auto pb-8">
-      <div className="flex gap-6 min-w-max">
+      <div className="flex gap-4 min-w-max">
         {properties.map((property) => (
           <div key={property.id} className="w-[350px] flex-shrink-0 space-y-4">
             <PropertyCard

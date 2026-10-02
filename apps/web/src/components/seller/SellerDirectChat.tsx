@@ -136,7 +136,7 @@ export function SellerDirectChat({ propertyId, sellerId, autoOpen = false }: { p
           const isSeller = msg.sender_id === sellerId
           return (
             <div key={msg.id} className={`flex ${isSeller ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[85%] rounded-2xl px-4 py-2 text-sm shadow-sm ${
+              <div className={`max-w-[85%] rounded-xl px-4 py-2 text-sm shadow-sm ${
                 isSeller ? 'bg-amber-500 text-white rounded-tr-sm' : 'bg-white border border-zinc-200 text-zinc-800 rounded-tl-sm'
               }`}>
                 {msg.message}

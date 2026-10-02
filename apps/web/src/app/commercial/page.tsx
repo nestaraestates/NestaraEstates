@@ -50,14 +50,14 @@ export default async function CommercialPropertiesPage({ searchParams }: { searc
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <RealtimePropertiesListener />
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white sm:text-4xl">Commercial Properties</h1>
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-white sm:text-2xl">Commercial Properties</h1>
         <p className="mt-2 text-zinc-500 dark:text-zinc-400">Discover premium commercial spaces verified for your business.</p>
       </div>
 
       <Suspense fallback={<div className="h-20 animate-pulse bg-zinc-100 rounded-xl"></div>}><PropertyFilters /></Suspense>
 
       {/* Grid - Mobile: 1 col, Tablet: 2 cols, Desktop: 3/4 cols */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {properties?.map((property) => (
           <PropertyCard
             key={property.id}

@@ -44,7 +44,7 @@ export default async function LoginPage() {
             </Suspense>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-center border-t border-zinc-100 p-6 dark:border-zinc-900">
+        <CardFooter className="flex justify-center border-t border-zinc-100 p-4 dark:border-zinc-900">
           <div className="text-sm text-zinc-500">
             Don't have an account?{' '}
             <Link href="/signup" className="font-semibold text-amber-600 hover:text-amber-500">

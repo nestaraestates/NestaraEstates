@@ -61,7 +61,7 @@ export function PropertyGallery({ media, defaultImage }: PropertyGalleryProps) {
       <div className="mb-8 grid grid-cols-1 md:grid-cols-4 gap-4 h-[400px] md:h-[500px]">
         {/* Main large image */}
         <div 
-          className={`rounded-2xl overflow-hidden relative group cursor-pointer ${images.length > 1 ? 'md:col-span-3' : 'md:col-span-4'}`}
+          className={`rounded-xl overflow-hidden relative group cursor-pointer ${images.length > 1 ? 'md:col-span-3' : 'md:col-span-4'}`}
           onClick={() => openLightbox(0)}
         >
           <img 
@@ -75,7 +75,7 @@ export function PropertyGallery({ media, defaultImage }: PropertyGalleryProps) {
         {images.length > 1 && (
           <div className="hidden md:flex flex-col gap-4">
             <div 
-              className="h-1/2 rounded-2xl overflow-hidden relative group cursor-pointer"
+              className="h-1/2 rounded-xl overflow-hidden relative group cursor-pointer"
               onClick={() => openLightbox(1)}
             >
               <img 
@@ -87,7 +87,7 @@ export function PropertyGallery({ media, defaultImage }: PropertyGalleryProps) {
             
             {images.length > 2 && (
               <div 
-                className="h-1/2 rounded-2xl overflow-hidden relative group cursor-pointer"
+                className="h-1/2 rounded-xl overflow-hidden relative group cursor-pointer"
                 onClick={() => openLightbox(2)}
               >
                 {images.length > 3 && (
@@ -104,7 +104,7 @@ export function PropertyGallery({ media, defaultImage }: PropertyGalleryProps) {
             )}
             
             {images.length === 2 && (
-              <div className="h-1/2 rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-400">
+              <div className="h-1/2 rounded-xl overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-400">
                 <span className="text-sm">No more photos</span>
               </div>
             )}

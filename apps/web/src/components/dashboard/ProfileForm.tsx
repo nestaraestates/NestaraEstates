@@ -49,7 +49,7 @@ export function ProfileForm({ profile }: { profile: any }) {
       </CardHeader>
       <CardContent className="space-y-6 pt-6">
         {/* Read-only system fields */}
-        <div className="grid md:grid-cols-2 gap-6 p-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-lg border border-zinc-100 dark:border-zinc-800 mb-6">
+        <div className="grid md:grid-cols-2 gap-4 p-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-lg border border-zinc-100 dark:border-zinc-800 mb-6">
           <div>
             <div className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-1">Account ID</div>
             <div className="font-mono text-zinc-900 dark:text-white font-medium">{profile?.account_id || 'PENDING'}</div>
@@ -71,7 +71,7 @@ export function ProfileForm({ profile }: { profile: any }) {
         </div>
 
         {/* Editable fields */}
-        <div className="space-y-8 bg-surface-50 p-6 rounded-2xl shadow-sm border border-zinc-100">
+        <div className="space-y-8 bg-surface-50 p-4 rounded-xl shadow-sm border border-zinc-100">
           <div className="space-y-2">
             <Label className="text-xs font-bold text-zinc-500 uppercase tracking-wider">Full Name</Label>
             {isEditing ? (

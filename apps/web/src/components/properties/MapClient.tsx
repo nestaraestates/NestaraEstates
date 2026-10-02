@@ -19,7 +19,7 @@ export default function MapClient({ location, lat = 28.6139, lng = 77.2090 }: { 
   const position: [number, number] = [lat, lng]
 
   return (
-    <div className="h-[400px] w-full rounded-2xl overflow-hidden z-0 relative">
+    <div className="h-[400px] w-full rounded-xl overflow-hidden z-0 relative">
       <MapContainer center={position} zoom={13} scrollWheelZoom={true} className="h-full w-full">
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

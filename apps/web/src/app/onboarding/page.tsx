@@ -27,9 +27,9 @@ export default async function OnboardingPage() {
 
   return (
     <div className="flex flex-col items-center py-12 px-4 sm:px-6">
-      <div className="w-full max-w-xl space-y-8 rounded-2xl bg-white p-8 shadow-xl border border-zinc-100 dark:bg-zinc-950 dark:border-zinc-800">
+      <div className="w-full max-w-xl space-y-8 rounded-xl bg-white p-4 shadow-xl border border-zinc-100 dark:bg-zinc-950 dark:border-zinc-800">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Complete Your Profile</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Complete Your Profile</h2>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
             Tell us a bit more about yourself to get started.
           </p>

@@ -24,7 +24,7 @@ export function EnquiryWidget({ propertyId, profile, forceOpen = false, onCancel
 
   if (!isOpen) {
     return (
-      <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm text-center dark:border-zinc-800 dark:bg-zinc-950">
+      <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm text-center dark:border-zinc-800 dark:bg-zinc-950">
         <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">Interested in this property?</h3>
         <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6">Contact our agents to negotiate or ask questions.</p>
         <Button onClick={() => setIsOpen(true)} className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold">
@@ -35,7 +35,7 @@ export function EnquiryWidget({ propertyId, profile, forceOpen = false, onCancel
   }
 
   return (
-    <div className={forceOpen ? "p-6" : "rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950"}>
+    <div className={forceOpen ? "p-4" : "rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950"}>
       <div className="mb-6">
         <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Contact Nestara Agent</h3>
         <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
