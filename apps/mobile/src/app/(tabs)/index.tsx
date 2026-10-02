@@ -51,6 +51,11 @@ export default function HomeScreen() {
   useFocusEffect(useCallback(() => {
     let channel: any;
     async function loadProfileAndData() {
+      // 1. Read location from AsyncStorage (instant sync from Map)
+      try {
+        const savedLoc = await AsyncStorage.getItem('user_location');
+        if (savedLoc) setUserLocation(savedLoc);
+      } catch(e) {}
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         // Fetch Profile
