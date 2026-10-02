@@ -43,6 +43,7 @@ import { UrlToasts } from "@/components/layout/UrlToasts";
 import { Suspense } from "react";
 import { createClient } from "@/utils/supabase/server";
 import { LocationProvider } from "@/components/layout/LocationContext";
+import NextTopLoader from 'nextjs-toploader';
 
 export default async function RootLayout({
   children,
@@ -97,6 +98,17 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
+        <NextTopLoader 
+          color="#10b981" 
+          initialPosition={0.08} 
+          crawlSpeed={200} 
+          height={3} 
+          crawl={true} 
+          showSpinner={false} 
+          easing="ease" 
+          speed={200} 
+          shadow="0 0 10px #10b981,0 0 5px #10b981" 
+        />
         <LocationProvider>
           <NavbarWrapper>
             <Navbar />
