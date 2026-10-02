@@ -30,7 +30,7 @@ export default async function Home() {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=2070")' }}
         >
-          <div className="absolute inset-0 bg-surface-950/80" />
+          <div className="absolute inset-0 bg-black/50 bg-gradient-to-t from-black/90 via-black/40 to-black/80" />
         </div>
 
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center py-16">
@@ -39,12 +39,12 @@ export default async function Home() {
             <span>Discover Premium Real Estate</span>
           </div>
           
-          <h1 className="mb-6 text-4xl font-black tracking-tighter text-white sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="mb-6 text-4xl font-black tracking-tighter text-white sm:text-5xl md:text-6xl lg:text-7xl drop-shadow-xl">
             Find a Property <br className="hidden sm:block" />
             <span className="text-brand-500">You Can Trust.</span>
           </h1>
           
-          <p className="mx-auto mb-12 max-w-2xl text-lg text-surface-300 sm:text-xl font-medium leading-relaxed">
+          <p className="mx-auto mb-12 max-w-2xl text-lg text-zinc-200 sm:text-xl font-medium leading-relaxed drop-shadow-md">
             Discover, compare, verify and connect with premium properties through Nestara Estates.
           </p>
 
