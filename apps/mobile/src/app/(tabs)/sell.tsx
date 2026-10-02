@@ -279,8 +279,20 @@ export default function SellScreen() {
         });
       }
 
+      // Reset Form
+      setFormData({
+        title: '', description: '', purpose: 'BUY', type: 'House',
+        price: '', bhk: '', bathrooms: '', area_sqft: '',
+        village: '', taluk: '', city: '', pincode: '', state: '',
+        coordinates: '', negotiable: false, owner_name: formData.owner_name, owner_phone: formData.owner_phone
+      });
+      setImages([]);
+      setDeedDoc(null);
+      setTaxDoc(null);
+      setStep(1);
+      
       Alert.alert("Success!", "Property submitted for verification.", [
-        { text: "OK", onPress: () => router.replace('/(tabs)') }
+        { text: "View My Properties", onPress: () => router.replace('/profile/properties' as any) }
       ]);
 
     } catch (e: any) {
@@ -636,7 +648,10 @@ export default function SellScreen() {
                   className={`${loading ? 'bg-brand-300' : 'bg-brand-500'} p-4 rounded-xl items-center justify-center flex-row`}
                 >
                   {loading ? (
-                    <ActivityIndicator color="white" />
+                    <>
+                      <ActivityIndicator color="white" />
+                      <Text className="text-white font-bold text-lg ml-2">Uploading...</Text>
+                    </>
                   ) : (
                     <>
                       <Check size={20} color="white" />
