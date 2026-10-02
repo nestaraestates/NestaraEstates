@@ -514,21 +514,38 @@ fetchProperty();
 
       {/* STICKY FOOTER ACTION BAR */}
       <Animated.View entering={FadeInUp.duration(300)} className="absolute bottom-0 w-full bg-surface-100/95 backdrop-blur-3xl border-t border-zinc-200 px-5 pt-3 pb-6 flex-row items-center shadow-sm" style={{ paddingBottom: Math.max(insets.bottom, 20) }}>
-        <Pressable 
-          className="flex-1 bg-brand-500 rounded-xl py-3.5 items-center justify-center flex-row shadow-sm"
-          onPress={async () => {
-              try {
-                if (!currentUserId) {
-                  Alert.alert("Login Required", "Please login to contact the agent.");
-                  return;
-                }
-                setShowContactOptions(true);
-              } catch(e){}
-          }}
-        >
-          <MessageSquare size={18} color="white" />
-          <Text className="text-white font-bold text-base ml-2">Contact Agent</Text>
-        </Pressable>
+        {currentUserId === property?.owner_id ? (
+          <View className="flex-row space-x-3 w-full">
+            <Pressable 
+              className="flex-1 bg-white border border-brand-500 rounded-xl py-3.5 items-center justify-center flex-row shadow-sm"
+              onPress={() => router.push(`/edit-property/${property?.id}` as any)}
+            >
+              <Text className="text-brand-500 font-bold text-base">Edit</Text>
+            </Pressable>
+            <Pressable 
+              className="flex-1 bg-red-500 rounded-xl py-3.5 items-center justify-center flex-row shadow-sm"
+              onPress={handleDelete}
+            >
+              <Text className="text-white font-bold text-base">Delete</Text>
+            </Pressable>
+          </View>
+        ) : (
+          <Pressable 
+            className="flex-1 bg-brand-500 rounded-xl py-3.5 items-center justify-center flex-row shadow-sm"
+            onPress={async () => {
+                try {
+                  if (!currentUserId) {
+                    Alert.alert("Login Required", "Please login to contact the agent.");
+                    return;
+                  }
+                  setShowContactOptions(true);
+                } catch(e){}
+            }}
+          >
+            <MessageSquare size={18} color="white" />
+            <Text className="text-white font-bold text-base ml-2">Contact Agent</Text>
+          </Pressable>
+        )}
       </Animated.View>
 
       {/* FULLSCREEN IMAGE VIEWER */}
