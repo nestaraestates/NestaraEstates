@@ -53,9 +53,9 @@ export default function PropertyCard({ property, isSavedInitial = false, index =
   };
 
   return (
-    <Animated.View entering={FadeInDown.delay(Math.min(index, 10) * 100).springify()}>
+    <Animated.View entering={FadeInDown.duration(300)}>
       <Link href={`/property/${property.id}`} asChild>
-      <Pressable className="bg-white rounded-[20px] overflow-hidden shadow-md shadow-zinc-200/50 mb-5 border border-zinc-100">
+      <Pressable className="bg-surface-100 rounded-2xl overflow-hidden shadow-sm mb-4 border border-zinc-100">
         {imageUrl ? (
           <Image 
             source={{ uri: imageUrl }}
@@ -69,62 +69,62 @@ export default function PropertyCard({ property, isSavedInitial = false, index =
           </View>
         )}
         
-        <View className="absolute top-3 right-3 bg-white/95 px-3 py-1.5 rounded-full shadow-sm">
-          <Text className="text-[10px] font-bold tracking-wider text-zinc-800 uppercase">{property.type}</Text>
+        <View className="absolute top-3 right-3 bg-surface-100/95 px-3 py-1.5 rounded-full shadow-sm">
+          <Text className="text-xs font-bold tracking-wider text-surface-900 uppercase">{property.type}</Text>
         </View>
 
         {/* Favorites Button */}
         <Pressable 
           onPress={toggleSaved}
-          className="absolute top-3 left-3 bg-white/95 p-2 rounded-full shadow-sm"
+          className="absolute top-3 left-3 bg-surface-100/95 p-2 rounded-full shadow-sm"
         >
           <Heart size={18} color={isSaved ? "#ef4444" : "#71717a"} fill={isSaved ? "#ef4444" : "transparent"} />
         </Pressable>
         <Pressable 
           onPress={() => toggleCompare(property.id)}
-          className={`absolute top-3 left-14 ${isCompared ? 'bg-amber-100 border border-amber-300' : 'bg-white/95'} p-2 rounded-full shadow-sm`}
+          className={`absolute top-3 left-14 ${isCompared ? 'bg-brand-500/10 border border-brand-500' : 'bg-surface-100/95'} p-2 rounded-full shadow-sm`}
         >
-          <Scale size={18} color={isCompared ? "#d97706" : "#71717a"} />
+          <Scale size={18} color={isCompared ? "#brand-500" : "#71717a"} className={isCompared ? "text-brand-500" : "text-zinc-500"} />
         </Pressable>
         
         <View className="p-4">
-          <View className="flex-row justify-between items-center mb-1.5">
-            <Text className="text-xl font-black text-amber-500">
+          <View className="flex-row justify-between items-center mb-2">
+            <Text className="text-xl font-bold text-brand-500">
               {formatIndianCurrency(property.price)}
             </Text>
             {property.is_verified ? (
               <View className="flex-row items-center border border-emerald-500 px-2 py-1 rounded-full">
                 <ShieldCheck size={12} color="#10b981" />
-                <Text className="text-[10px] font-bold text-emerald-600 ml-1 uppercase">Verified</Text>
+                <Text className="text-xs font-bold text-emerald-600 ml-1 uppercase">Verified</Text>
               </View>
             ) : (
               <View className="flex-row items-center border border-zinc-300 px-2 py-1 rounded-full">
                 <ShieldCheck size={12} color="#71717a" />
-                <Text className="text-[10px] font-bold text-zinc-500 ml-1 uppercase">Unverified</Text>
+                <Text className="text-xs font-bold text-zinc-500 ml-1 uppercase">Unverified</Text>
               </View>
             )}
           </View>
-          <Text className="text-lg font-bold text-zinc-900 mb-1" numberOfLines={1}>
+          <Text className="text-lg font-bold text-surface-900 mb-1" numberOfLines={1}>
             {property.title}
           </Text>
           
           <View className="flex-row items-center mb-4">
             <MapPin size={14} color="#71717a" />
-            <Text className="text-sm font-medium text-zinc-500 ml-1.5" numberOfLines={1}>{formatLocation(property.location)}, {property.city}</Text>
+            <Text className="text-sm font-medium text-zinc-500 ml-1" numberOfLines={1}>{formatLocation(property.location)}, {property.city}</Text>
           </View>
           
-          <View className="flex-row items-center justify-between border-t border-zinc-100 pt-4">
-            <View className="flex-row items-center bg-zinc-50 px-2 py-1 rounded-lg">
-              <Bed size={14} color="#f59e0b" />
-              <Text className="text-[10px] font-bold text-zinc-700 ml-1.5">{property.bhk} Beds</Text>
+          <View className="flex-row items-center justify-between border-t border-zinc-100 pt-3">
+            <View className="flex-row items-center bg-zinc-50 px-2 py-1.5 rounded-lg">
+              <Bed size={14} className="text-brand-500" />
+              <Text className="text-xs font-medium text-surface-900 ml-1">{property.bhk} Beds</Text>
             </View>
-            <View className="flex-row items-center bg-zinc-50 px-2 py-1 rounded-lg">
-              <Bath size={14} color="#f59e0b" />
-              <Text className="text-[10px] font-bold text-zinc-700 ml-1.5">{property.bathrooms} Baths</Text>
+            <View className="flex-row items-center bg-zinc-50 px-2 py-1.5 rounded-lg">
+              <Bath size={14} className="text-brand-500" />
+              <Text className="text-xs font-medium text-surface-900 ml-1">{property.bathrooms} Baths</Text>
             </View>
-            <View className="flex-row items-center bg-zinc-50 px-2 py-1 rounded-lg">
-              <Square size={14} color="#f59e0b" />
-              <Text className="text-[10px] font-bold text-zinc-700 ml-1.5">{property.area_sqft} sqft</Text>
+            <View className="flex-row items-center bg-zinc-50 px-2 py-1.5 rounded-lg">
+              <Square size={14} className="text-brand-500" />
+              <Text className="text-xs font-medium text-surface-900 ml-1">{property.area_sqft} sqft</Text>
             </View>
           </View>
         </View>

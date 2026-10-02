@@ -46,7 +46,10 @@ export function FinancialTools({ propertyPrice, purpose }: FinancialToolsProps) 
         </View>
         
         <View className="flex-row justify-between mb-3 items-center">
-          <Text className="text-slate-500 font-medium">Down Payment (₹)</Text>
+          <View>
+            <Text className="text-slate-500 font-medium">Down Payment (₹)</Text>
+            {downPayment > 999 && <Text className="text-[10px] font-bold text-indigo-600 mt-0.5">{formatIndianCurrency(downPayment)}</Text>}
+          </View>
           <TextInput 
             className="border border-slate-200 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 min-w-[100px] bg-slate-50"
             keyboardType="numeric"
@@ -114,7 +117,10 @@ export function FinancialTools({ propertyPrice, purpose }: FinancialToolsProps) 
       </View>
       
       <View className="flex-row justify-between mb-5 items-center">
-        <Text className="text-slate-500 font-medium">Property Value (₹)</Text>
+        <View>
+            <Text className="text-slate-500 font-medium">Property Value (₹)</Text>
+            {valueNum > 999 && <Text className="text-[10px] font-bold text-indigo-600 mt-0.5">{formatIndianCurrency(valueNum)}</Text>}
+          </View>
         <TextInput 
           className="border border-slate-200 rounded-xl px-4 py-2 text-right font-semibold text-slate-800 min-w-[120px] bg-slate-50"
           keyboardType="numeric"
@@ -253,7 +259,10 @@ export function RentVsBuyCalculator() {
       </View>
 
       <View className="flex-row justify-between mb-3 items-center">
-        <Text className="text-slate-500 font-medium">Current Monthly Rent (₹)</Text>
+        <View>
+            <Text className="text-slate-500 font-medium">Current Monthly Rent (₹)</Text>
+            {monthlyRent > 999 && <Text className="text-[10px] font-bold text-indigo-600 mt-0.5">{formatIndianCurrency(monthlyRent)}</Text>}
+          </View>
         <TextInput 
           className="border border-slate-200 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 min-w-[100px] bg-slate-50"
           keyboardType="numeric"
@@ -262,7 +271,10 @@ export function RentVsBuyCalculator() {
         />
       </View>
       <View className="flex-row justify-between mb-3 items-center">
-        <Text className="text-slate-500 font-medium">Property Price (₹)</Text>
+        <View>
+            <Text className="text-slate-500 font-medium">Property Price (₹)</Text>
+            {propertyPrice > 999 && <Text className="text-[10px] font-bold text-indigo-600 mt-0.5">{formatIndianCurrency(propertyPrice)}</Text>}
+          </View>
         <TextInput 
           className="border border-slate-200 rounded-xl px-3 py-1.5 text-right font-semibold text-slate-800 min-w-[120px] bg-slate-50"
           keyboardType="numeric"

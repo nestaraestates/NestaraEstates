@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, ActivityIndicator, Image, Pressable, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '@/lib/supabase';
+import { formatIndianCurrency } from '@/utils/format';
 import { Link, useRouter } from 'expo-router';
 import { MapPin, Bed, Bath, Square, ArrowLeft, TrendingUp, Heart, Building, CheckCircle2 } from 'lucide-react-native';
 import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
@@ -38,7 +39,7 @@ export default function MyPropertiesScreen() {
   }, []);
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(price);
+    return formatIndianCurrency(price);
   };
 
   // Dashboard Aggregations
@@ -49,7 +50,7 @@ export default function MyPropertiesScreen() {
 
   const renderDashboardHeader = () => (
     <Animated.View entering={FadeIn.duration(600)} className="mb-6 mt-2">
-      <Text className="text-2xl font-black text-zinc-900 mb-4 px-1">Analytics Overview</Text>
+      <Text className="text-2xl font-black text-surface-900 mb-4 px-1">Analytics Overview</Text>
       
       <View className="flex-row justify-between mb-4">
         {/* Total Value Widget */}
@@ -61,21 +62,21 @@ export default function MyPropertiesScreen() {
 
         <View className="flex-1 ml-2 space-y-4">
           {/* Active Listings Widget */}
-          <View className="bg-white rounded-3xl p-4 border border-zinc-200 shadow-sm shadow-zinc-200/50 flex-row items-center justify-between">
+          <View className="bg-white rounded-3xl p-4 border border-surface-200 shadow-sm shadow-zinc-200/50 flex-row items-center justify-between">
             <View>
-              <Text className="text-zinc-500 text-xs font-bold uppercase mb-1">Active</Text>
-              <Text className="text-zinc-900 text-xl font-black">{activeListings}</Text>
+              <Text className="text-surface-500 text-xs font-bold uppercase mb-1">Active</Text>
+              <Text className="text-surface-900 text-xl font-black">{activeListings}</Text>
             </View>
-            <View className="w-10 h-10 bg-amber-50 rounded-full items-center justify-center">
+            <View className="w-10 h-10 bg-brand-50 rounded-full items-center justify-center">
               <CheckCircle2 size={20} color="#3b82f6" />
             </View>
           </View>
           
           {/* Favorites Widget */}
-          <View className="bg-white rounded-3xl p-4 border border-zinc-200 shadow-sm shadow-zinc-200/50 flex-row items-center justify-between mt-3">
+          <View className="bg-white rounded-3xl p-4 border border-surface-200 shadow-sm shadow-zinc-200/50 flex-row items-center justify-between mt-3">
             <View>
-              <Text className="text-zinc-500 text-xs font-bold uppercase mb-1">Favorites</Text>
-              <Text className="text-zinc-900 text-xl font-black">{totalFavorites}</Text>
+              <Text className="text-surface-500 text-xs font-bold uppercase mb-1">Favorites</Text>
+              <Text className="text-surface-900 text-xl font-black">{totalFavorites}</Text>
             </View>
             <View className="w-10 h-10 bg-red-50 rounded-full items-center justify-center">
               <Heart size={20} color="#ef4444" />
@@ -84,7 +85,7 @@ export default function MyPropertiesScreen() {
         </View>
       </View>
       
-      <Text className="text-lg font-bold text-zinc-900 mt-4 px-1">Your Listings</Text>
+      <Text className="text-lg font-bold text-surface-900 mt-4 px-1">Your Listings</Text>
     </Animated.View>
   );
 
@@ -96,24 +97,24 @@ export default function MyPropertiesScreen() {
     return (
       <Animated.View entering={FadeInDown.delay(Math.min(index, 10) * 100).springify()}>
         <Link href={`/property/${item.id}`} asChild>
-          <Pressable className="bg-white rounded-3xl overflow-hidden mb-6 shadow-sm border border-zinc-200">
+          <Pressable className="bg-white rounded-3xl overflow-hidden mb-6 shadow-sm border border-surface-200">
             <View className="relative">
-              <Image source={{ uri: mainImage }} className="w-full h-52 bg-zinc-200" resizeMode="cover" />
+              <Image source={{ uri: mainImage }} className="w-full h-52 bg-surface-200" resizeMode="cover" />
               
               {/* Status Badge */}
               <View className="absolute top-3 left-3 bg-white/95 px-3 py-1.5 rounded-full shadow-sm">
-                <Text className="text-xs font-bold text-zinc-900 uppercase tracking-wider">{item.status}</Text>
+                <Text className="text-xs font-bold text-surface-900 uppercase tracking-wider">{item.status}</Text>
               </View>
               
               {/* Analytics Badge */}
-              <View className="absolute bottom-3 right-3 bg-zinc-900/80 backdrop-blur-md px-3 py-1.5 rounded-full flex-row items-center">
+              <View className="absolute bottom-3 right-3 bg-surface-900/80 backdrop-blur-md px-3 py-1.5 rounded-full flex-row items-center">
                 <Heart size={14} color="#fca5a5" fill="#fca5a5" />
                 <Text className="text-white text-xs font-bold ml-1.5">{favCount} Saves</Text>
               </View>
 
               {/* Hot Listing Tag */}
               {isHot && (
-                <View className="absolute top-3 right-3 bg-amber-500 px-3 py-1.5 rounded-full shadow-sm flex-row items-center">
+                <View className="absolute top-3 right-3 bg-brand-500 px-3 py-1.5 rounded-full shadow-sm flex-row items-center">
                   <Text className="text-white text-xs font-bold uppercase tracking-wider">🔥 Hot</Text>
                 </View>
               )}
@@ -122,27 +123,27 @@ export default function MyPropertiesScreen() {
             <View className="p-5 space-y-3">
               <View className="flex-row justify-between items-start">
                 <View className="flex-1 pr-2">
-                  <Text className="text-xl font-bold text-zinc-900 line-clamp-1">{item.title}</Text>
+                  <Text className="text-xl font-bold text-surface-900 line-clamp-1">{item.title}</Text>
                   <View className="flex-row items-center mt-1.5">
                     <MapPin size={14} color="#71717A" />
-                    <Text className="text-sm text-zinc-500 ml-1.5">{item.location}, {item.city}</Text>
+                    <Text className="text-sm text-surface-500 ml-1.5">{item.location}, {item.city}</Text>
                   </View>
                 </View>
-                <Text className="text-xl font-black text-amber-600">{formatPrice(item.price)}</Text>
+                <Text className="text-xl font-black text-brand-600">{formatPrice(item.price)}</Text>
               </View>
 
               <View className="flex-row items-center justify-between border-t border-zinc-100 pt-4 mt-2">
-                <View className="flex-row items-center bg-zinc-50 px-3 py-2 rounded-xl">
+                <View className="flex-row items-center bg-surface px-3 py-2 rounded-xl">
                   <Bed size={16} color="#71717A" />
-                  <Text className="text-xs font-bold text-zinc-700 ml-1.5">{item.bhk} BHK</Text>
+                  <Text className="text-xs font-bold text-surface-700 ml-1.5">{item.bhk} BHK</Text>
                 </View>
-                <View className="flex-row items-center bg-zinc-50 px-3 py-2 rounded-xl">
+                <View className="flex-row items-center bg-surface px-3 py-2 rounded-xl">
                   <Bath size={16} color="#71717A" />
-                  <Text className="text-xs font-bold text-zinc-700 ml-1.5">{item.bathrooms} Bath</Text>
+                  <Text className="text-xs font-bold text-surface-700 ml-1.5">{item.bathrooms} Bath</Text>
                 </View>
-                <View className="flex-row items-center bg-zinc-50 px-3 py-2 rounded-xl">
+                <View className="flex-row items-center bg-surface px-3 py-2 rounded-xl">
                   <Square size={16} color="#71717A" />
-                  <Text className="text-xs font-bold text-zinc-700 ml-1.5">{item.area_sqft} sqft</Text>
+                  <Text className="text-xs font-bold text-surface-700 ml-1.5">{item.area_sqft} sqft</Text>
                 </View>
               </View>
             </View>
@@ -153,12 +154,12 @@ export default function MyPropertiesScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-zinc-50">
-      <View className="px-4 py-4 bg-white border-b border-zinc-200 flex-row items-center shadow-sm z-10">
-        <Pressable onPress={() => router.push('/settings' as any)} className="mr-4 p-2 bg-zinc-100 rounded-full">
+    <SafeAreaView className="flex-1 bg-surface">
+      <View className="px-4 py-4 bg-white border-b border-surface-200 flex-row items-center shadow-sm z-10">
+        <Pressable onPress={() => router.push('/settings' as any)} className="mr-4 p-2 bg-surface-100 rounded-full">
           <ArrowLeft size={20} color="#71717A" />
         </Pressable>
-        <Text className="text-xl font-bold text-zinc-900">Dashboard</Text>
+        <Text className="text-xl font-bold text-surface-900">Dashboard</Text>
       </View>
       
       {loading ? (
@@ -179,8 +180,8 @@ export default function MyPropertiesScreen() {
           ListEmptyComponent={
             <View className="flex-1 justify-center items-center py-20">
               <Building size={48} color="#d4d4d8" className="mb-4" />
-              <Text className="text-lg font-bold text-zinc-900 mb-2">No Active Listings</Text>
-              <Text className="text-zinc-500 text-center px-8">You haven't posted any properties yet. Your stats will appear here once you list your first property.</Text>
+              <Text className="text-lg font-bold text-surface-900 mb-2">No Active Listings</Text>
+              <Text className="text-surface-500 text-center px-8">You haven't posted any properties yet. Your stats will appear here once you list your first property.</Text>
             </View>
           }
         />

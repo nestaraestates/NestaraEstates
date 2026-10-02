@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, Image, StatusBar } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { View, Text, TextInput, Pressable, ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, useRouter } from 'expo-router';
 import { supabase } from '@/lib/supabase';
@@ -53,7 +54,7 @@ export default function SignupScreen() {
 
   return (
     <View className="flex-1 bg-black">
-      <StatusBar barStyle="light-content" />
+      <StatusBar style="light" />
       <View className="absolute w-full h-full">
         <Image 
           source={{ uri: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=2070&auto=format&fit=crop' }} 

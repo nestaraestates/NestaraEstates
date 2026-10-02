@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
 import { FinancialTools, AreaConverter, RentVsBuyCalculator } from '@/components/FinancialTools';
+import { formatIndianCurrency } from '@/utils/format';
 
 export default function ToolsScreen() {
  const router = useRouter();
@@ -61,7 +62,12 @@ export default function ToolsScreen() {
 
  {activeTab === 'EMI' && (
  <View>
- <Text className="text-sm font-bold text-zinc-500 mb-2 uppercase tracking-wider">Property Price (₹)</Text>
+ <View className="flex-row items-center justify-between mb-2">
+            <Text className="text-sm font-bold text-zinc-500 uppercase tracking-wider">Property Price (₹)</Text>
+            {parseFloat(propertyPrice) > 999 && (
+              <Text className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">{formatIndianCurrency(parseFloat(propertyPrice))}</Text>
+            )}
+          </View>
  <TextInput
  className="bg-white border border-zinc-200 rounded-xl px-4 py-3 text-lg font-semibold text-zinc-900 mb-4"
  keyboardType="numeric"
@@ -75,7 +81,12 @@ export default function ToolsScreen() {
  
  {activeTab === 'ROI' && (
  <View>
- <Text className="text-sm font-bold text-zinc-500 mb-2 uppercase tracking-wider">Monthly Rent (₹)</Text>
+ <View className="flex-row items-center justify-between mb-2">
+            <Text className="text-sm font-bold text-zinc-500 uppercase tracking-wider">Monthly Rent (₹)</Text>
+            {parseFloat(rentPrice) > 999 && (
+              <Text className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">{formatIndianCurrency(parseFloat(rentPrice))}</Text>
+            )}
+          </View>
  <TextInput
  className="bg-white border border-zinc-200 rounded-xl px-4 py-3 text-lg font-semibold text-zinc-900 mb-4"
  keyboardType="numeric"

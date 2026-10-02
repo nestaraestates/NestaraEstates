@@ -5,6 +5,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Search, WifiOff, SlidersHorizontal, X } from 'lucide-react-native';
 import PropertyCard from '@/components/PropertyCard';
 import { supabase } from '@/lib/supabase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useCompareStore } from '@/store/compare';
 import { Scale } from 'lucide-react-native';
@@ -67,10 +68,24 @@ export default function ExploreScreen() {
         setRefreshing(false);
         return;
       }
-      let location = await Location.getCurrentPositionAsync({});
+      let lat = 0;
+      let lng = 0;
+      
+      const savedLat = await AsyncStorage.getItem('user_location_lat');
+      const savedLng = await AsyncStorage.getItem('user_location_lng');
+      
+      if (savedLat && savedLng) {
+        lat = parseFloat(savedLat);
+        lng = parseFloat(savedLng);
+      } else {
+        let location = await Location.getCurrentPositionAsync({});
+        lat = location.coords.latitude;
+        lng = location.coords.longitude;
+      }
+      
       query = supabase.rpc('get_properties_within_radius', {
-        user_lat: location.coords.latitude,
-        user_lng: location.coords.longitude,
+        user_lat: lat,
+        user_lng: lng,
         radius_km: appliedFilters.radius
       }).select('*, property_media(url, media_type)');
     } else {
@@ -120,7 +135,7 @@ export default function ExploreScreen() {
     const timer = setTimeout(() => {
       setPage(0);
       loadProperties(false, 0);
-    }, 300);
+    }, 150);
     return () => clearTimeout(timer);
   }, [activeTab, appliedFilters, searchQuery]);
 
@@ -153,27 +168,27 @@ export default function ExploreScreen() {
   };
 
   const renderHeader = () => (
-    <View className="px-4 pt-3 pb-3 bg-white border-b border-zinc-200">
-      <View className="flex-row items-center mb-2">
+    <View className="px-4 py-4 bg-surface-100">
+      <View className="flex-row items-center mb-4">
         <Image source={require('@/assets/images/logo-sm.png')} className="w-8 h-8 mr-3 rounded-lg" resizeMode="contain" />
-        <Text className="text-2xl font-bold text-zinc-900">Explore</Text>
+        <Text className="text-xl font-bold text-surface-900">Explore</Text>
       </View>
       
       {/* Search & Filter */}
-      <View className="flex-row items-center mb-2">
-        <View className="flex-1 flex-row items-center bg-zinc-100 px-3.5 py-2.5 rounded-xl">
+      <View className="flex-row items-center mb-4">
+        <View className="flex-1 flex-row items-center bg-white px-4 h-[48px] rounded-2xl border border-zinc-200 shadow-sm">
           <Search size={18} color="#71717a" />
           <TextInput
             value={searchQuery}
             onChangeText={setSearchQuery}
             placeholder="Search properties, locations..."
-            className="flex-1 ml-2 text-[15px] text-zinc-900"
+            className="flex-1 ml-3 text-[15px] text-surface-900 py-0"
             placeholderTextColor="#71717a"
           />
         </View>
         <Pressable 
           onPress={() => setShowFilters(true)}
-          className="ml-3 bg-amber-500 w-11 h-11 rounded-xl items-center justify-center"
+          className="ml-3 bg-brand-500 w-[48px] h-[48px] rounded-2xl items-center justify-center shadow-sm"
         >
           <SlidersHorizontal size={18} color="white" />
         </Pressable>
@@ -189,7 +204,7 @@ export default function ExploreScreen() {
               onPress={() => setActiveTab(tab as any)}
               className={`flex-1 py-2 items-center justify-center rounded-lg ${isActive ? 'bg-white shadow-sm' : ''}`}
             >
-              <Text className={`font-bold ${isActive ? 'text-zinc-900' : 'text-zinc-500'}`}>
+              <Text className={`font-medium text-sm ${isActive ? 'text-surface-900 font-bold' : 'text-zinc-500'}`}>
                 {tab === 'COMMERCIAL' ? 'Commercial' : tab.charAt(0) + tab.slice(1).toLowerCase()}
               </Text>
             </Pressable>
@@ -200,39 +215,39 @@ export default function ExploreScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-zinc-50">
+    <SafeAreaView className="flex-1 bg-surface-100">
       {renderHeader()}
       <FlatList keyboardShouldPersistTaps="handled"
         data={properties}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => (
-          <View className="px-4 mt-4">
+          <View className="px-4 mt-2">
             <PropertyCard property={item} isSavedInitial={savedPropertyIds.includes(item.id)} index={index} />
           </View>
         )}
         
         ListEmptyComponent={
           loading ? (
-            <ActivityIndicator size="large" color="#f59e0b" className="mt-10" />
+            <ActivityIndicator size="large" className="mt-10" />
           ) : (
-            <View className="items-center justify-center py-20 mt-10 bg-white rounded-[24px] border border-zinc-100 shadow-sm mx-4">
-              <View className="w-20 h-20 bg-zinc-50 rounded-full items-center justify-center mb-4">
-                <Search size={32} color="#a1a1aa" />
+            <View className="items-center justify-center py-20 mt-10 bg-surface-100 rounded-2xl border border-zinc-100 shadow-sm mx-4">
+              <View className="w-16 h-16 bg-zinc-50 rounded-full items-center justify-center mb-4">
+                <Search size={24} color="#a1a1aa" />
               </View>
-              <Text className="text-xl font-black text-zinc-900 mb-2">No Properties Found</Text>
-              <Text className="text-zinc-500 text-center px-8 font-medium">Try adjusting your filters or searching in a different area.</Text>
+              <Text className="text-xl font-bold text-surface-900 mb-2">No Properties Found</Text>
+              <Text className="text-zinc-500 text-center px-8 font-medium text-sm">Try adjusting your filters or searching in a different area.</Text>
             </View>
           )
         }
         ListFooterComponent={
           loadingMore ? (
             <View className="py-4 items-center">
-              <ActivityIndicator size="small" color="#f59e0b" />
+              <ActivityIndicator size="small" />
             </View>
           ) : <View className="h-20" />
         }
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#f59e0b" />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
@@ -246,11 +261,11 @@ export default function ExploreScreen() {
         transparent={true}
         onRequestClose={() => setShowFilters(false)}
       >
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20} className="flex-1 justify-end bg-black/50">
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'padding'} keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20} className="flex-1 justify-end bg-black/50" style={{ paddingTop: Math.max(insets.top, 24) }}>
           <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}>
-            <View className="bg-white rounded-t-3xl p-6" style={{ paddingBottom: Math.max(insets.bottom, 24) }}>
+            <View className="bg-surface-100 rounded-t-2xl p-6" style={{ paddingBottom: Math.max(insets.bottom, 24) }}>
               <View className="flex-row justify-between items-center mb-6">
-                <Text className="text-xl font-bold text-zinc-900">Advanced Filters</Text>
+                <Text className="text-xl font-bold text-surface-900">Advanced Filters</Text>
                 <Pressable onPress={() => setShowFilters(false)}>
                   <X size={24} color="#71717A" />
                 </Pressable>
@@ -258,7 +273,7 @@ export default function ExploreScreen() {
 
               {/* Radius Filter */}
               <View className="mb-6">
-                <Text className="text-sm font-semibold text-zinc-900 mb-2">Search Radius (from your location)</Text>
+                <Text className="text-sm font-semibold text-surface-900 mb-2">Search Radius (from your selected location)</Text>
                 <View className="flex-row flex-wrap">
                   {[0, 5, 10, 25, 50].map((km) => {
                     const isSelected = tempFilters.radius === km;
@@ -266,9 +281,9 @@ export default function ExploreScreen() {
                       <Pressable
                         key={km}
                         onPress={() => setTempFilters({...tempFilters, radius: km})}
-                        className={`px-4 py-2 rounded-full border mr-2 mb-2 ${isSelected ? 'bg-amber-500 border-amber-500' : 'bg-white border-zinc-200'}`}
+                        className={`px-4 py-2 rounded-xl border mr-2 mb-2 ${isSelected ? 'bg-brand-500 border-brand-500' : 'bg-white border-zinc-200'}`}
                       >
-                        <Text className={`font-semibold ${isSelected ? 'text-white' : 'text-zinc-600'}`}>{km === 0 ? 'Anywhere' : `${km} km`}</Text>
+                        <Text className={`font-medium text-sm ${isSelected ? 'text-white' : 'text-surface-900'}`}>{km === 0 ? 'Anywhere' : `${km} km`}</Text>
                       </Pressable>
                     );
                   })}
@@ -276,7 +291,7 @@ export default function ExploreScreen() {
               </View>
 
               <View className="mb-6">
-                <Text className="text-sm font-semibold text-zinc-900 mb-2">Price Range (e.g. 50L)</Text>
+                <Text className="text-sm font-semibold text-surface-900 mb-2">Price Range (e.g. 50L)</Text>
                 <View className="flex-row items-center space-x-4">
                   <View className="flex-1">
                     <TextInput
@@ -284,7 +299,7 @@ export default function ExploreScreen() {
                       onChangeText={(t) => setTempFilters({...tempFilters, minPrice: t})}
                       placeholder="Min Price"
                       keyboardType="default"
-                      className="bg-zinc-100 p-3 rounded-xl text-zinc-900"
+                      className="bg-zinc-50 border border-zinc-200 p-3 rounded-xl text-surface-900"
                     />
                   </View>
                   <Text className="text-zinc-500">-</Text>
@@ -294,14 +309,14 @@ export default function ExploreScreen() {
                       onChangeText={(t) => setTempFilters({...tempFilters, maxPrice: t})}
                       placeholder="Max Price"
                       keyboardType="default"
-                      className="bg-zinc-100 p-3 rounded-xl text-zinc-900"
+                      className="bg-zinc-50 border border-zinc-200 p-3 rounded-xl text-surface-900"
                     />
                   </View>
                 </View>
               </View>
 
               <View className="mb-6">
-                <Text className="text-sm font-semibold text-zinc-900 mb-2">Bedrooms (BHK)</Text>
+                <Text className="text-sm font-semibold text-surface-900 mb-2">Bedrooms (BHK)</Text>
                 <View className="flex-row flex-wrap">
                   {['', '1', '2', '3', '4'].map((num) => {
                     const label = num === '' ? 'Any' : num === '4' ? '4+' : num;
@@ -310,9 +325,9 @@ export default function ExploreScreen() {
                       <Pressable
                         key={num}
                         onPress={() => setTempFilters({...tempFilters, bhk: num})}
-                        className={`px-4 py-2 rounded-full border mr-2 mb-2 ${isSelected ? 'bg-amber-500 border-amber-500' : 'bg-white border-zinc-200'}`}
+                        className={`px-4 py-2 rounded-xl border mr-2 mb-2 ${isSelected ? 'bg-brand-500 border-brand-500' : 'bg-white border-zinc-200'}`}
                       >
-                        <Text className={`font-semibold ${isSelected ? 'text-white' : 'text-zinc-600'}`}>{label}</Text>
+                        <Text className={`font-medium text-sm ${isSelected ? 'text-white' : 'text-surface-900'}`}>{label}</Text>
                       </Pressable>
                     );
                   })}
@@ -320,20 +335,20 @@ export default function ExploreScreen() {
               </View>
 
               <View className="flex-row items-center justify-between mb-8">
-                <Text className="text-sm font-semibold text-zinc-900">Verified Properties Only</Text>
+                <Text className="text-sm font-semibold text-surface-900">Verified Properties Only</Text>
                 <Pressable
                   onPress={() => setTempFilters({...tempFilters, verifiedOnly: !tempFilters.verifiedOnly})}
-                  className={`w-12 h-6 rounded-full ${tempFilters.verifiedOnly ? 'bg-emerald-500' : 'bg-zinc-200'} justify-center px-1`}
+                  className={`w-12 h-6 rounded-full ${tempFilters.verifiedOnly ? 'bg-brand-500' : 'bg-zinc-200'} justify-center px-1`}
                 >
                   <View className={`w-4 h-4 bg-white rounded-full transition-transform ${tempFilters.verifiedOnly ? 'translate-x-6' : 'translate-x-0'}`} />
                 </Pressable>
               </View>
 
               <View className="flex-row space-x-4 mb-4">
-                <Pressable onPress={clearFilters} className="flex-1 py-4 items-center justify-center rounded-xl bg-zinc-100">
-                  <Text className="font-bold text-zinc-600">Clear All</Text>
+                <Pressable onPress={clearFilters} className="flex-1 py-3 items-center justify-center rounded-xl bg-zinc-100">
+                  <Text className="font-bold text-surface-900">Clear All</Text>
                 </Pressable>
-                <Pressable onPress={applyFilters} className="flex-1 py-4 items-center justify-center rounded-xl bg-amber-500 shadow-md shadow-amber-500/30">
+                <Pressable onPress={applyFilters} className="flex-1 py-3 items-center justify-center rounded-xl bg-brand-500 shadow-sm">
                   <Text className="font-bold text-white">Show Results</Text>
                 </Pressable>
               </View>
@@ -345,7 +360,7 @@ export default function ExploreScreen() {
       {compareIds.length > 0 && (
         <Pressable 
           onPress={() => router.push('/compare' as any)}
-          className="absolute bottom-6 self-center bg-amber-500 flex-row items-center justify-center px-6 py-3 rounded-full shadow-lg shadow-amber-500/30 border-2 border-white"
+          className="absolute bottom-6 self-center bg-brand-500 flex-row items-center justify-center px-6 py-3 rounded-full shadow-sm"
         >
           <Scale size={20} color="white" />
           <Text className="text-white font-bold ml-2">Compare ({compareIds.length}/3)</Text>

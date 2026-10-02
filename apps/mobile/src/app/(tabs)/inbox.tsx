@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, Image, Pressable, ActivityIndicator, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, Image, Pressable, ActivityIndicator, RefreshControl, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { supabase } from '@/lib/supabase';
@@ -22,6 +22,33 @@ export default function InboxScreen() {
     setRefreshing(true);
     await fetchInbox();
     setRefreshing(false);
+  };
+
+  const deleteChat = (id: string, isBuyer: boolean) => {
+    Alert.alert(
+      "Delete Chat",
+      "Are you sure you want to delete this conversation? This cannot be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { 
+          text: "Delete", 
+          style: "destructive",
+          onPress: async () => {
+            try {
+              const { error } = await supabase.rpc('delete_chat_completely', { chat_id: id });
+              if (error) throw error;
+              if (isBuyer) {
+                setBuyerEnquiries(prev => prev.filter(e => e.id !== id));
+              } else {
+                setSellerLeads(prev => prev.filter(e => e.id !== id));
+              }
+            } catch (err: any) {
+              Alert.alert("Error", err.message);
+            }
+          }
+        }
+      ]
+    );
   };
 
   const fetchInbox = async () => {
@@ -108,6 +135,8 @@ export default function InboxScreen() {
                 <Pressable 
                   key={enq.id}
                   onPress={() => router.push(`/chat/buyer/${enq.id}`)}
+                  onLongPress={() => deleteChat(enq.id, true)}
+                  delayLongPress={500}
                   className="bg-white dark:bg-zinc-900 p-4 rounded-2xl border border-slate-200 dark:border-zinc-800 mb-4 flex-row items-center"
                 >
                   <View className="w-12 h-12 bg-emerald-100 rounded-full items-center justify-center mr-4">
@@ -139,6 +168,8 @@ export default function InboxScreen() {
                 <Pressable 
                   key={enq.id}
                   onPress={() => router.push(`/chat/seller/${enq.id}`)}
+                  onLongPress={() => deleteChat(enq.id, false)}
+                  delayLongPress={500}
                   className="bg-white dark:bg-zinc-900 p-4 rounded-2xl border border-slate-200 dark:border-zinc-800 mb-4 flex-row items-center"
                 >
                   <View className="w-12 h-12 bg-amber-100 rounded-full items-center justify-center mr-4">

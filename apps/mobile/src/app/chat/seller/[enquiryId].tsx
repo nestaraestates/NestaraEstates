@@ -143,7 +143,7 @@ export default function SellerChatScreen() {
  const isMe = item.sender_id === userId;
  return (
  <View className={`mb-4 max-w-[80%] ${isMe ? 'self-end' : 'self-start'}`}>
- <View className={`px-4 py-3 rounded-2xl ${isMe ? 'bg-amber-500 rounded-tr-sm' : 'bg-white border border-zinc-200 rounded-tl-sm'}`}>
+ <View className={`px-4 py-3 rounded-2xl ${isMe ? 'bg-brand-500 rounded-tr-sm' : 'bg-white border border-zinc-200 rounded-tl-sm'}`}>
  <Text className={`text-base ${isMe ? 'text-white' : 'text-zinc-900'}`}>{item.message}</Text>
  </View>
  </View>
@@ -151,23 +151,25 @@ export default function SellerChatScreen() {
  };
 
  return (
- <SafeAreaView className="flex-1 bg-zinc-50" edges={['top']}>
+ <View className="flex-1 bg-zinc-50">
  <Stack.Screen options={{ headerShown: false }} />
  
- <View className="flex-row items-center p-4 bg-amber-500">
- <TouchableOpacity onPress={() => router.push('/inbox' as any)} className="mr-3">
+ <View className="flex-row items-center px-4 pb-4 bg-amber-500" style={{ paddingTop: Math.max(insets?.top || 0, 16) }}>
+ <TouchableOpacity onPress={() => router.push('/inbox' as any)} className="mr-3 p-1">
  <ChevronLeft size={24} color="white" />
  </TouchableOpacity>
- <Store size={20} color="white" className="mr-2" />
- <View>
- <Text className="text-white font-bold text-lg">Seller Support</Text>
- <Text className="text-amber-100 text-xs">Direct agent chat for this property</Text>
+ <View className="w-10 h-10 bg-amber-600 rounded-full items-center justify-center mr-3">
+   <Store size={20} color="white" />
+ </View>
+ <View className="flex-1 justify-center">
+ <Text className="text-white font-bold text-lg leading-tight mb-0.5">Seller Support</Text>
+ <Text className="text-amber-100 text-xs leading-tight">Direct agent chat</Text>
  </View>
  </View>
 
  {loading ? (
  <View className="flex-1 justify-center items-center">
- <ActivityIndicator size="large" color="#2563eb" />
+ <ActivityIndicator size="large" color="#0f172a" />
  </View>
  ) : (
  <KeyboardAvoidingView 
@@ -204,13 +206,13 @@ export default function SellerChatScreen() {
  <TouchableOpacity 
  onPress={handleSend}
  disabled={!inputText.trim() || isSending}
- className={`p-3 rounded-full ${(!inputText.trim() || isSending) ? 'bg-amber-300' : 'bg-amber-500'}`}
+ className={`p-3 rounded-full ${(!inputText.trim() || isSending) ? 'bg-brand-300' : 'bg-brand-500'}`}
  >
  <Send size={20} color="white" />
  </TouchableOpacity>
  </View>
  </KeyboardAvoidingView>
  )}
- </SafeAreaView>
+ </View>
  );
 }

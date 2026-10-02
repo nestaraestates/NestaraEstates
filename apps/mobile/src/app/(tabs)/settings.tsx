@@ -148,28 +148,24 @@ export default function ProfileScreen() {
   ))}
 
  
- {/* Delete Account Button */}
- <View className="mt-8 px-4">
- <Pressable 
- onPress={handleDeleteAccount}
- className="flex-row items-center justify-center bg-white border border-red-200 py-4 rounded-xl shadow-sm"
- >
- <Trash2 size={20} color="#DC2626" />
- <Text className="text-red-600 font-bold ml-2">Delete Account</Text>
- </Pressable>
- </View>
+ {/* Account Actions */}
+        <View className="mt-8 mb-12 px-4">
+          <Pressable 
+            onPress={handleSignOut}
+            className="flex-row items-center justify-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 py-4 rounded-2xl active:bg-zinc-50"
+          >
+            <LogOut size={20} color="#52525b" />
+            <Text className="text-zinc-700 dark:text-zinc-300 font-bold text-base ml-2">Sign Out</Text>
+          </Pressable>
 
- {/* Sign Out Button */}
- <View className="mt-4 px-4 mb-10">
- <Pressable 
- onPress={handleSignOut}
- className="flex-row items-center justify-center bg-red-50 border border-red-200 py-3 rounded-xl"
- >
- {/* @ts-ignore */}
- <LogOut size={20} color="#DC2626" />
- <Text className="text-red-600 font-bold ml-2">Sign Out</Text>
- </Pressable>
- </View>
+          <Pressable 
+            onPress={handleDeleteAccount}
+            className="flex-row items-center justify-center py-4 mt-2 active:opacity-50"
+          >
+            <Trash2 size={16} color="#ef4444" />
+            <Text className="text-red-500 font-semibold text-sm ml-2">Delete Account</Text>
+          </Pressable>
+        </View>
 
  </ScrollView>
  </SafeAreaView>

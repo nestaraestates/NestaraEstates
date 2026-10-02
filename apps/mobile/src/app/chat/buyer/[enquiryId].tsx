@@ -173,7 +173,7 @@ export default function BuyerChatScreen() {
  const isMe = item.sender_id === userId;
  return (
  <View className={`mb-4 max-w-[80%] ${isMe ? 'self-end' : 'self-start'}`}>
- <View className={`px-4 py-3 rounded-2xl ${isMe ? 'bg-emerald-600 rounded-tr-sm' : 'bg-white border border-zinc-200 rounded-tl-sm'}`}>
+ <View className={`px-4 py-3 rounded-2xl ${isMe ? 'bg-brand-500 rounded-tr-sm' : 'bg-white border border-zinc-200 rounded-tl-sm'}`}>
  <Text className={`text-base ${isMe ? 'text-white' : 'text-zinc-900'}`}>{item.message}</Text>
  </View>
  </View>
@@ -181,22 +181,22 @@ export default function BuyerChatScreen() {
  };
 
  return (
- <SafeAreaView className="flex-1 bg-zinc-50" edges={['top']}>
+ <View className="flex-1 bg-zinc-50">
  <Stack.Screen options={{ headerShown: false }} />
  
- <View className="flex-row items-center p-4 bg-emerald-600">
- <TouchableOpacity onPress={() => router.push('/inbox' as any)} className="mr-3">
+ <View className="flex-row items-center px-4 pb-4 bg-emerald-600" style={{ paddingTop: Math.max(insets?.top || 0, 16) }}>
+ <TouchableOpacity onPress={() => router.push('/inbox' as any)} className="mr-3 p-1">
  <ChevronLeft size={24} color="white" />
  </TouchableOpacity>
- <View>
- <Text className="text-white font-bold text-lg">Agent Support</Text>
- <Text className="text-emerald-100 text-xs">Direct chat for property enquiry</Text>
+ <View className="flex-1 justify-center">
+ <Text className="text-white font-bold text-lg leading-tight mb-0.5">Agent Support</Text>
+ <Text className="text-emerald-100 text-xs leading-tight">Direct chat for property enquiry</Text>
  </View>
  </View>
 
  {loading ? (
  <View className="flex-1 justify-center items-center">
- <ActivityIndicator size="large" color="#10b981" />
+ <ActivityIndicator size="large" color="#0f172a" />
  </View>
  ) : (
  <KeyboardAvoidingView 
@@ -233,13 +233,13 @@ export default function BuyerChatScreen() {
  <TouchableOpacity 
  onPress={handleSend}
  disabled={!inputText.trim() || isSending}
- className={`p-3 rounded-full ${(!inputText.trim() || isSending) ? 'bg-emerald-300' : 'bg-emerald-600'}`}
+ className={`p-3 rounded-full ${(!inputText.trim() || isSending) ? 'bg-brand-300' : 'bg-brand-500'}`}
  >
  <Send size={20} color="white" />
  </TouchableOpacity>
  </View>
  </KeyboardAvoidingView>
  )}
- </SafeAreaView>
+ </View>
  );
 }
