@@ -47,7 +47,7 @@ export default async function CommercialPropertiesPage({ searchParams }: { searc
   const { data: properties } = await query
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
       <RealtimePropertiesListener />
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-zinc-900 dark:text-white sm:text-4xl">Commercial Properties</h1>

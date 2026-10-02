@@ -27,7 +27,7 @@ export function HomeSearch() {
         <button 
           onClick={() => setPurpose('buy')}
           className={`px-6 py-2 rounded-t-lg font-semibold text-sm transition-colors ${
-            purpose === 'buy' ? 'bg-amber-500 text-white' : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-md'
+            purpose === 'buy' ? 'bg-brand-500 text-white' : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-md'
           }`}
         >
           Buy
@@ -35,7 +35,7 @@ export function HomeSearch() {
         <button 
           onClick={() => setPurpose('rent')}
           className={`px-6 py-2 rounded-t-lg font-semibold text-sm transition-colors ${
-            purpose === 'rent' ? 'bg-amber-500 text-white' : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-md'
+            purpose === 'rent' ? 'bg-brand-500 text-white' : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-md'
           }`}
         >
           Rent
@@ -57,7 +57,7 @@ export function HomeSearch() {
             />
           </div>
 
-          <Button type="submit" size="lg" className="h-12 w-full bg-amber-500 text-white hover:bg-amber-600 sm:w-auto px-8">
+          <Button type="submit" size="lg" className="h-12 w-full bg-brand-500 text-white hover:bg-brand-600 sm:w-auto px-8">
             <Search className="mr-2 h-4 w-4" />
             Search Properties
           </Button>

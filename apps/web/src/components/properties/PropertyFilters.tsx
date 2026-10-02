@@ -136,7 +136,7 @@ export function PropertyFilters() {
           <Button type="button" variant="outline" onClick={handleClear} className="flex-1 md:flex-none">
             Clear
           </Button>
-          <Button type="submit" className="flex-1 md:flex-none bg-amber-500 hover:bg-amber-600 text-white">
+          <Button type="submit" className="flex-1 md:flex-none bg-brand-500 hover:bg-brand-600 text-white">
             <SlidersHorizontal className="mr-2 h-4 w-4" />
             {isLocating ? 'Locating...' : 'Filter'}
           </Button>

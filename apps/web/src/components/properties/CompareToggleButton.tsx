@@ -48,7 +48,7 @@ export function CompareToggleButton({ propertyId }: { propertyId: string }) {
       onClick={toggleCompare}
       className={`absolute top-3 right-12 z-10 p-2 rounded-full shadow-sm backdrop-blur-md transition-all ${
         isComparing 
-          ? 'bg-amber-500 text-white hover:bg-amber-600' 
+          ? 'bg-brand-500 text-white hover:bg-brand-600' 
           : 'bg-white/90 text-zinc-600 hover:text-amber-600 hover:bg-white'
       }`}
       title={isComparing ? "Remove from compare" : "Add to compare"}
