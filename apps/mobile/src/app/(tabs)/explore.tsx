@@ -30,8 +30,8 @@ export default function ExploreScreen() {
 
   // Filter State
   const [showFilters, setShowFilters] = useState(false);
-  const [tempFilters, setTempFilters] = useState({ location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0 });
-  const [appliedFilters, setAppliedFilters] = useState({ location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0 });
+  const [tempFilters, setTempFilters] = useState({ location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0, radiusSource: 'saved' as 'gps' | 'saved' | null });
+  const [appliedFilters, setAppliedFilters] = useState({ location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0, radiusSource: 'saved' as 'gps' | 'saved' | null });
 
   useEffect(() => {
     async function loadSaved() {
@@ -74,13 +74,19 @@ export default function ExploreScreen() {
       const savedLat = await AsyncStorage.getItem('user_location_lat');
       const savedLng = await AsyncStorage.getItem('user_location_lng');
       
-      if (savedLat && savedLng) {
-        lat = parseFloat(savedLat);
-        lng = parseFloat(savedLng);
-      } else {
+      if (appliedFilters.radiusSource === 'gps') {
         let location = await Location.getCurrentPositionAsync({});
         lat = location.coords.latitude;
         lng = location.coords.longitude;
+      } else {
+        if (savedLat && savedLng) {
+          lat = parseFloat(savedLat);
+          lng = parseFloat(savedLng);
+        } else {
+          let location = await Location.getCurrentPositionAsync({});
+          lat = location.coords.latitude;
+          lng = location.coords.longitude;
+        }
       }
       
       query = supabase.rpc('get_properties_within_radius', {
@@ -161,7 +167,7 @@ export default function ExploreScreen() {
   };
 
   const clearFilters = () => {
-    const emptyFilters = { location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0 };
+    const emptyFilters = { location: '', minPrice: '', maxPrice: '', bhk: '', bathrooms: '', verifiedOnly: false, radius: 0, radiusSource: 'saved' as 'gps' | 'saved' | null };
     setTempFilters(emptyFilters);
     setAppliedFilters(emptyFilters);
     setShowFilters(false);
@@ -273,14 +279,37 @@ export default function ExploreScreen() {
 
               {/* Radius Filter */}
               <View className="mb-6">
-                <Text className="text-sm font-semibold text-surface-900 mb-2">Search Radius (from your selected location)</Text>
+                <Text className="text-sm font-semibold text-surface-900 mb-2">Search Radius</Text>
                 <View className="flex-row flex-wrap">
                   {[0, 5, 10, 25, 50].map((km) => {
                     const isSelected = tempFilters.radius === km;
                     return (
                       <Pressable
                         key={km}
-                        onPress={() => setTempFilters({...tempFilters, radius: km})}
+                        onPress={() => {
+                          if (km === 0) {
+                            setTempFilters({...tempFilters, radius: km, radiusSource: null});
+                          } else {
+                            Alert.alert(
+                              "Radius Search Center",
+                              "Where do you want to measure the radius from?",
+                              [
+                                { 
+                                  text: "My Current GPS Location", 
+                                  onPress: () => setTempFilters({...tempFilters, radius: km, radiusSource: 'gps'}) 
+                                },
+                                { 
+                                  text: "My Saved Map Location", 
+                                  onPress: () => setTempFilters({...tempFilters, radius: km, radiusSource: 'saved'}) 
+                                },
+                                {
+                                  text: "Cancel",
+                                  style: "cancel"
+                                }
+                              ]
+                            );
+                          }
+                        }}
                         className={`px-4 py-2 rounded-xl border mr-2 mb-2 ${isSelected ? 'bg-brand-500 border-brand-500' : 'bg-white border-zinc-200'}`}
                       >
                         <Text className={`font-medium text-sm ${isSelected ? 'text-white' : 'text-surface-900'}`}>{km === 0 ? 'Anywhere' : `${km} km`}</Text>

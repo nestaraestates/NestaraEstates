@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, useRouter } from 'expo-router';
-import MapView, { Marker, Region } from 'react-native-maps';
+import { WebView } from 'react-native-webview';
 import * as Location from 'expo-location';
 import { ChevronLeft, Navigation, MapPin } from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,12 +12,65 @@ export default function LocationPickerScreen() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [addressName, setAddressName] = useState('Move map to select location');
-  const [region, setRegion] = useState<Region>({
-    latitude: 12.9716, // Default Bangalore
-    longitude: 77.5946,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
+  const getLeafletHTML = (lat: number, lng: number) => `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <style>
+            body { padding: 0; margin: 0; }
+            html, body, #map { height: 100%; width: 100vw; }
+            .target-icon {
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+                background: white;
+                padding: 10px;
+                border-radius: 50%;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                z-index: 1000;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <script>
+            var map = L.map('map').setView([${lat}, ${lng}], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            var marker = L.marker([${lat}, ${lng}], { draggable: true }).addTo(map);
+
+            function sendLocation(lat, lng) {
+                window.ReactNativeWebView.postMessage(JSON.stringify({ lat: lat, lng: lng }));
+            }
+
+            marker.on('dragend', function (e) {
+                var coords = e.target.getLatLng();
+                sendLocation(coords.lat, coords.lng);
+            });
+
+            map.on('click', function(e) {
+                marker.setLatLng(e.latlng);
+                sendLocation(e.latlng.lat, e.latlng.lng);
+            });
+            
+            // Allow reacting to location updates from React Native
+            window.updateMapLocation = function(newLat, newLng) {
+                map.setView([newLat, newLng], 13);
+                marker.setLatLng([newLat, newLng]);
+            };
+        </script>
+    </body>
+    </html>
+  `;
+  
+  const [region, setRegion] = useState({ latitude: 12.9716, longitude: 77.5946 });
+  const webViewRef = React.useRef<WebView>(null);
 
   const reverseGeocode = async (lat: number, lng: number) => {
     try {
@@ -49,7 +102,8 @@ export default function LocationPickerScreen() {
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       };
-      setRegion(newRegion);
+      setRegion({ latitude: newRegion.latitude, longitude: newRegion.longitude });
+      webViewRef.current?.injectJavaScript(`window.updateMapLocation(${newRegion.latitude}, ${newRegion.longitude}); true;`);
       await reverseGeocode(newRegion.latitude, newRegion.longitude);
     } catch (error) {
       Alert.alert('Error', 'Could not detect location.');
@@ -57,10 +111,7 @@ export default function LocationPickerScreen() {
     setLoading(false);
   };
 
-  const handleRegionChangeComplete = async (newRegion: Region) => {
-    setRegion(newRegion);
-    await reverseGeocode(newRegion.latitude, newRegion.longitude);
-  };
+  
 
   const handleConfirm = async () => {
     try {
@@ -100,17 +151,19 @@ export default function LocationPickerScreen() {
 
       {/* Map */}
       <View className="flex-1">
-        <MapView 
+        <WebView
+          ref={webViewRef}
           style={{ flex: 1 }}
-          region={region}
-          onRegionChangeComplete={handleRegionChangeComplete}
-          showsUserLocation={true}
+          source={{ html: getLeafletHTML(region.latitude, region.longitude) }}
+          onMessage={async (event) => {
+            try {
+              const data = JSON.parse(event.nativeEvent.data);
+              setRegion({ latitude: data.lat, longitude: data.lng });
+              await reverseGeocode(data.lat, data.lng);
+            } catch (e) {}
+          }}
+          scrollEnabled={false}
         />
-        
-        {/* Center Pin Marker (Fixed in center of map) */}
-        <View className="absolute top-1/2 left-1/2 -mt-8 -ml-4" pointerEvents="none">
-          <MapPin size={32} color="#DC2626" fill="#DC2626" />
-        </View>
 
         {/* Floating Auto-Detect Button */}
         <TouchableOpacity 

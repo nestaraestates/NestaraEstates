@@ -243,11 +243,11 @@ export default function HomeScreen() {
               <View className="flex-row items-center justify-between mb-4">
                 <View className="flex-row items-center">
                   <Image source={require('@/assets/images/logo-sm.png')} className="w-10 h-10 mr-3 rounded-xl" resizeMode="contain" />
-                  <Pressable onPress={() => router.push('/profile/details')}>
+                  <Pressable onPress={() => router.push('/location-picker' as any)}>
                     <Text className="text-xs font-medium text-zinc-500">Current Location</Text>
                     <View className="flex-row items-center">
                       <MapPin size={14} className="text-brand-500" />
-                      <Text className="text-sm font-bold text-surface-900 ml-1">{userProfile.location}</Text>
+                      <Text className="text-sm font-bold text-surface-900 ml-1 truncate max-w-[200px]" numberOfLines={1}>{userLocation !== 'Set your location' ? userLocation : userProfile.location || 'Set your location'}</Text>
                     </View>
                   </Pressable>
                 </View>
