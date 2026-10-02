@@ -28,9 +28,9 @@ export default async function Home() {
         {/* Modern Clean Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&q=80&w=2070")' }}
+          style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=2070")' }}
         >
-          <div className="absolute inset-0 bg-surface-950/70 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-surface-950/80" />
         </div>
 
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center py-16">
