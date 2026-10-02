@@ -20,49 +20,40 @@ export function HomeSearch() {
     router.push(`/${purpose}?${params.toString()}`)
   }
 
-  return (
-    <div className="mx-auto max-w-4xl">
-      {/* Tabs */}
-      <div className="flex gap-2 mb-2 ml-4">
-        <button 
-          onClick={() => setPurpose('buy')}
-          className={`px-6 py-2 rounded-t-lg font-semibold text-sm transition-colors ${
-            purpose === 'buy' ? 'bg-brand-500 text-white' : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-md'
-          }`}
-        >
-          Buy
-        </button>
-        <button 
-          onClick={() => setPurpose('rent')}
-          className={`px-6 py-2 rounded-t-lg font-semibold text-sm transition-colors ${
-            purpose === 'rent' ? 'bg-brand-500 text-white' : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-md'
-          }`}
-        >
-          Rent
-        </button>
-      </div>
-
-      {/* Search Bar Container */}
-      <div className="rounded-xl rounded-tl-none bg-white/10 p-2 backdrop-blur-md shadow-2xl">
-        <form onSubmit={handleSearch} className="flex flex-col gap-2 rounded-xl bg-white p-2 shadow-inner sm:flex-row dark:bg-zinc-950">
-          
-          <div className="flex flex-1 items-center gap-2 px-3 py-2">
-            <MapPin className="h-5 w-5 text-zinc-400" />
-            <Input 
-              type="text" 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Location, Landmark, or City..." 
-              className="border-0 bg-transparent text-base focus-visible:ring-0 focus-visible:ring-offset-0 px-1"
-            />
-          </div>
-
-          <Button type="submit" size="lg" className="h-12 w-full bg-brand-500 text-white hover:bg-brand-600 sm:w-auto px-8">
-            <Search className="mr-2 h-4 w-4" />
-            Search Properties
-          </Button>
-        </form>
-      </div>
+    return (
+    <div className="w-full bg-white p-2">
+      <form onSubmit={handleSearch} className="flex flex-col sm:flex-row items-center gap-2">
+        <div className="flex bg-surface-100 p-1 rounded-lg w-full sm:w-auto shrink-0">
+          <button 
+            type="button"
+            onClick={() => setPurpose('buy')}
+            className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${purpose === 'buy' ? 'bg-white text-surface-900 shadow-sm' : 'text-surface-600 hover:text-surface-900'}`}
+          >
+            Buy
+          </button>
+          <button 
+            type="button"
+            onClick={() => setPurpose('rent')}
+            className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-semibold transition-all ${purpose === 'rent' ? 'bg-white text-surface-900 shadow-sm' : 'text-surface-600 hover:text-surface-900'}`}
+          >
+            Rent
+          </button>
+        </div>
+        
+        <div className="flex-1 w-full relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-surface-400" />
+          <Input 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by city, neighborhood, or property type..." 
+            className="w-full pl-9 h-10 bg-white border-surface-200 focus-visible:ring-brand-500 rounded-lg"
+          />
+        </div>
+        
+        <Button type="submit" className="w-full sm:w-auto h-10 px-6 bg-brand-500 hover:bg-brand-600 text-white rounded-lg shrink-0">
+          Search
+        </Button>
+      </form>
     </div>
   )
 }
