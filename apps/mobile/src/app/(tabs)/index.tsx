@@ -52,21 +52,42 @@ export default function HomeScreen() {
     let channel: any;
     async function loadProfileAndData() {
       // 1. Read location from AsyncStorage (instant sync from Map)
+      let savedLoc = null;
       try {
-        const savedLoc = await AsyncStorage.getItem('user_location');
+        savedLoc = await AsyncStorage.getItem('user_location');
         if (savedLoc) setUserLocation(savedLoc);
       } catch(e) {}
+      
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         // Fetch Profile
         const { data: profile } = await supabase
           .from('profiles')
-          .select('full_name, avatar_url, address')
+          .select('full_name, avatar_url, address, preferred_cities')
           .eq('id', session.user.id)
           .single();
         
         if (profile) {
           const initials = profile.full_name ? profile.full_name.substring(0, 2).toUpperCase() : 'U';
+          
+          // RESTORE LOGIC: If uninstalled/new device, restore from Supabase
+          if (!savedLoc && profile.preferred_cities && profile.preferred_cities.length > 0) {
+            const dbCity = profile.preferred_cities[0];
+            setUserLocation(dbCity);
+            
+            // Re-cache locally
+            AsyncStorage.setItem('user_location', dbCity);
+            
+            // Try to recover lat/lng via geocoding
+            try {
+               const geocoded = await Location.geocodeAsync(dbCity);
+               if (geocoded && geocoded.length > 0) {
+                 AsyncStorage.setItem('user_location_lat', geocoded[0].latitude.toString());
+                 AsyncStorage.setItem('user_location_lng', geocoded[0].longitude.toString());
+               }
+            } catch(e) {}
+          }
+
           setUserProfile({
             initials,
             location: profile.address || 'Set your location',
