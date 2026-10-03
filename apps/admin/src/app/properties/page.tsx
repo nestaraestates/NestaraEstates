@@ -4,32 +4,47 @@ import { isSuperAdmin } from '@/lib/admin'
 import { Building, MapPin, Search, Edit, Trash2, CheckCircle2, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import { formatIndianCurrencyShort } from '@/lib/formatPrice'
+import { AdvancedSearchControls } from '@/components/AdvancedSearchControls'
 
 export const dynamic = 'force-dynamic'
 
-export default async function AdminPropertiesPage() {
+export default async function AdminPropertiesPage({
+  searchParams
+}: {
+  searchParams?: { [key: string]: string | undefined }
+}) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) redirect('/login')
 
-  const [profileRes, propertiesRes] = await Promise.all([
-    supabase.from('profiles').select('role').eq('id', user.id).single(),
-    supabase
-      .from('properties')
-      .select(`
-        id, title, price, location, city, status, is_verified, created_at, is_deleted,
-        profiles ( full_name, email )
-      `)
-      .order('created_at', { ascending: false })
-  ])
-
+  const profileRes = await supabase.from('profiles').select('role').eq('id', user.id).single()
   const profile = profileRes.data
+
   if (!isSuperAdmin(user.email) && (profile?.role !== 'admin' && profile?.role !== 'ADMIN')) {
     redirect('/')
   }
 
-  const { data: properties, error } = propertiesRes
+  const sp = await searchParams || {}
+  const q = sp.q
+  const status = sp.status
+
+  let propertiesQuery = supabase
+    .from('properties')
+    .select(`
+      id, title, price, location, city, status, is_verified, created_at, is_deleted,
+      profiles ( full_name, email )
+    `)
+    .order('created_at', { ascending: false })
+
+  if (q) {
+    propertiesQuery = propertiesQuery.or(`title.ilike.%${q}%,location.ilike.%${q}%,city.ilike.%${q}%`)
+  }
+  if (status) {
+    propertiesQuery = propertiesQuery.eq('status', status)
+  }
+
+  const { data: properties, error } = await propertiesQuery
 
   return (
     <div className="h-full flex flex-col space-y-6">
@@ -39,14 +54,16 @@ export default async function AdminPropertiesPage() {
           <p className="text-zinc-500 font-medium text-sm mt-1">Manage all listings across the platform.</p>
         </div>
         
-        <div className="relative w-full sm:w-72">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-          <input 
-            type="text" 
-            placeholder="Search properties..." 
-            className="w-full pl-9 pr-4 py-2 bg-white border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+        <AdvancedSearchControls 
+          placeholder="Search properties..." 
+          filters={[
+            { key: 'status', label: 'All Statuses', options: [
+              { label: 'Available', value: 'AVAILABLE' },
+              { label: 'Sold', value: 'SOLD' },
+              { label: 'Deleted', value: 'DELETED' }
+            ]}
+          ]} 
+        />
       </div>
 
       <div className="bg-white border border-zinc-200 shadow-sm rounded-xl overflow-hidden flex-1 flex flex-col">

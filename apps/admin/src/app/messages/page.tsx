@@ -3,43 +3,72 @@ import { redirect } from 'next/navigation'
 import { isSuperAdmin } from '@/lib/admin'
 import Link from 'next/link'
 import { MessageSquare, ArrowRight } from 'lucide-react'
+import { AdvancedSearchControls } from '@/components/AdvancedSearchControls'
 
 export const dynamic = 'force-dynamic'
 
-export default async function AdminInboxPage() {
+export default async function AdminInboxPage({
+  searchParams
+}: {
+  searchParams?: { [key: string]: string | undefined }
+}) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) redirect('/login')
 
-  const [profileRes, leadsRes] = await Promise.all([
-    supabase.from('profiles').select('role').eq('id', user.id).single(),
-    supabase
-      .from('enquiries')
-      .select(`
-        id, name, email, message, status, created_at,
-        properties ( title )
-      `)
-      .order('created_at', { ascending: false })
-  ])
-
+  const profileRes = await supabase.from('profiles').select('role').eq('id', user.id).single()
   const profile = profileRes.data
+
   if (!isSuperAdmin(user.email) && (profile?.role !== 'admin' && profile?.role !== 'ADMIN')) {
     redirect('/')
   }
 
-  const { data: leads } = leadsRes
+  const sp = await searchParams || {}
+  const q = sp.q
+  const status = sp.status
+
+  let query = supabase
+    .from('enquiries')
+    .select(`
+      id, name, email, message, status, created_at,
+      properties!inner ( title )
+    `)
+    .order('created_at', { ascending: false })
+
+  if (q) {
+    query = query.or(`name.ilike.%${q}%,email.ilike.%${q}%,message.ilike.%${q}%,properties.title.ilike.%${q}%`)
+  }
+  if (status) {
+    query = query.eq('status', status)
+  }
+
+  const { data: leads } = await query
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="bg-blue-100 text-blue-600 p-3 rounded-2xl">
-          <MessageSquare className="h-8 w-8" />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div className="flex items-center gap-3">
+          <div className="bg-blue-100 text-blue-600 p-3 rounded-2xl">
+            <MessageSquare className="h-8 w-8" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-black text-zinc-900 tracking-tight">Admin Inbox</h1>
+            <p className="text-zinc-500 font-medium">All incoming buyer chats and enquiries</p>
+          </div>
         </div>
-        <div>
-          <h1 className="text-3xl font-black text-zinc-900 tracking-tight">Admin Inbox</h1>
-          <p className="text-zinc-500 font-medium">All incoming buyer chats and enquiries</p>
-        </div>
+
+        <AdvancedSearchControls 
+          placeholder="Search messages..." 
+          filters={[
+            { key: 'status', label: 'All Statuses', options: [
+              { label: 'New', value: 'NEW' },
+              { label: 'Pending', value: 'PENDING' },
+              { label: 'Contacted', value: 'CONTACTED' },
+              { label: 'Closed', value: 'CLOSED' }
+            ]}
+          ]} 
+        />
       </div>
 
       <div className="bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm min-h-[500px]">

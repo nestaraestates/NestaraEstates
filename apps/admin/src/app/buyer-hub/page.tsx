@@ -1,27 +1,58 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { Users, Eye, Search } from 'lucide-react'
+import { AdvancedSearchControls } from '@/components/AdvancedSearchControls'
 
 export const dynamic = 'force-dynamic'
 
-export default async function BuyerHubPage() {
+export default async function BuyerHubPage({
+  searchParams
+}: {
+  searchParams?: { [key: string]: string | undefined }
+}) {
   const supabase = await createClient()
 
-  const { data: leads } = await supabase
+  const sp = await searchParams || {}
+  const q = sp.q
+  const status = sp.status
+
+  let query = supabase
     .from('enquiries')
     .select(`
       id, name, email, phone, status, created_at, property_id,
-      properties(title, purpose)
+      properties!inner(title, purpose)
     `)
     .order('created_at', { ascending: false })
 
+  if (q) {
+    query = query.or(`name.ilike.%${q}%,email.ilike.%${q}%,phone.ilike.%${q}%,properties.title.ilike.%${q}%`)
+  }
+  if (status) {
+    query = query.eq('status', status)
+  }
+
+  const { data: leads } = await query
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-2">
-          <Users className="h-6 w-6 text-blue-600" /> Buyer Hub
-        </h1>
-        <p className="text-zinc-500 text-sm mt-1">Manage all buyer enquiries and leads across all properties.</p>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-2">
+            <Users className="h-6 w-6 text-blue-600" /> Buyer Hub
+          </h1>
+          <p className="text-zinc-500 text-sm mt-1">Manage all buyer enquiries and leads across all properties.</p>
+        </div>
+        
+        <AdvancedSearchControls 
+          placeholder="Search leads..." 
+          filters={[
+            { key: 'status', label: 'All Statuses', options: [
+              { label: 'New / Pending', value: 'PENDING' },
+              { label: 'Contacted', value: 'CONTACTED' },
+              { label: 'Closed', value: 'CLOSED' }
+            ]}
+          ]} 
+        />
       </div>
 
       <div className="bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-sm">

@@ -1,16 +1,34 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { Target, Eye } from 'lucide-react'
+import { AdvancedSearchControls } from '@/components/AdvancedSearchControls'
 
 export const dynamic = 'force-dynamic'
 
-export default async function EnquiredPropertiesPage() {
+export default async function EnquiredPropertiesPage({
+  searchParams
+}: {
+  searchParams?: { [key: string]: string | undefined }
+}) {
   const supabase = await createClient()
 
-  const { data: properties } = await supabase
+  const sp = await searchParams || {}
+  const q = sp.q
+  const purpose = sp.purpose
+
+  let query = supabase
     .from('properties')
     .select('id, title, price, purpose, status, enquiries!inner(id)')
     .order('created_at', { ascending: false })
+
+  if (q) {
+    query = query.or(`title.ilike.%${q}%`)
+  }
+  if (purpose) {
+    query = query.eq('purpose', purpose)
+  }
+
+  const { data: properties } = await query
 
   // Deduplicate properties (since the inner join will return multiple rows if multiple enquiries)
   const uniquePropsMap = new Map()
@@ -26,11 +44,24 @@ export default async function EnquiredPropertiesPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-2">
-          <Target className="h-6 w-6 text-blue-600" /> Enquired Properties
-        </h1>
-        <p className="text-zinc-500 text-sm mt-1">Properties that have active buyer interest.</p>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-2">
+            <Target className="h-6 w-6 text-blue-600" /> Enquired Properties
+          </h1>
+          <p className="text-zinc-500 text-sm mt-1">Properties that have active buyer interest.</p>
+        </div>
+        
+        <AdvancedSearchControls 
+          placeholder="Search properties..." 
+          filters={[
+            { key: 'purpose', label: 'All Purposes', options: [
+              { label: 'Buy', value: 'BUY' },
+              { label: 'Rent', value: 'RENT' },
+              { label: 'Commercial', value: 'COMMERCIAL' }
+            ]}
+          ]} 
+        />
       </div>
 
       <div className="bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-sm">

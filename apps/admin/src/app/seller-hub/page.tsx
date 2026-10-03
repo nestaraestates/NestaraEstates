@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import { Store, Eye } from 'lucide-react'
 import { formatIndianCurrencyShort } from '@/lib/formatPrice'
+import { AdvancedSearchControls } from '@/components/AdvancedSearchControls'
 
 export const dynamic = 'force-dynamic'
 
@@ -11,6 +12,7 @@ export default async function SellerHubPage(props: {
   const searchParams = await props.searchParams
   const purpose = (searchParams?.purpose as string) || 'BUY'
   const filter = (searchParams?.filter as string) || 'NEW'
+  const q = searchParams?.q as string | undefined
 
   const supabase = await createClient()
 
@@ -29,6 +31,10 @@ export default async function SellerHubPage(props: {
   if (filter === 'CLOSED') query = query.eq('status', 'CLOSED').eq('is_deleted', false)
   if (filter === 'DELETED') query = query.eq('is_deleted', true)
 
+  if (q) {
+    query = query.or(`title.ilike.%${q}%,location.ilike.%${q}%`)
+  }
+
   const { data: properties } = await query
 
   const purposes = ['BUY', 'RENT', 'COMMERCIAL']
@@ -36,11 +42,14 @@ export default async function SellerHubPage(props: {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-2">
-          <Store className="h-6 w-6 text-blue-600" /> Seller Hub
-        </h1>
-        <p className="text-zinc-500 text-sm mt-1">Manage incoming seller properties and deal stages.</p>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-2">
+            <Store className="h-6 w-6 text-blue-600" /> Seller Hub
+          </h1>
+          <p className="text-zinc-500 text-sm mt-1">Manage incoming seller properties and deal stages.</p>
+        </div>
+        <AdvancedSearchControls placeholder="Search properties..." />
       </div>
 
       <div className="bg-white border border-zinc-200 rounded-2xl overflow-hidden shadow-sm p-1">
