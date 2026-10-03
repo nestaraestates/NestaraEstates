@@ -2,6 +2,8 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { webpush } from '@/lib/webpush'
+
 
 export async function approvePropertyWithChecks(propertyId: string, checks: any) {
   const supabase = await createClient()
@@ -32,6 +34,47 @@ export async function approvePropertyWithChecks(propertyId: string, checks: any)
     })
   }
 
+  
+  // --- ADMIN AUDIT LOGGING ---
+  try {
+    const { data: { user: adminUser } } = await supabase.auth.getUser()
+    if (adminUser) {
+      await supabase.from('admin_audit_logs').insert({
+        admin_id: adminUser.id,
+        action: 'VERIFIED_PROPERTY',
+        target_id: propertyId,
+        details: { timestamp: new Date().toISOString() }
+      })
+    }
+  } catch(e) { console.error('Audit Log Error', e) }
+
+  // --- PUSH NOTIFICATIONS ---
+  try {
+    const { data: propData } = await supabase.from('properties').select('owner_id').eq('id', propertyId).single()
+    if (propData?.owner_id) {
+      const { data: subs } = await supabase.from('push_subscriptions').select('*').eq('user_id', propData.owner_id)
+      if (subs && subs.length > 0) {
+        const payload = JSON.stringify({
+          title: 'Property Verified!',
+          body: 'Your property is now live on Nestara Estates.',
+          url: '/dashboard/seller'
+        })
+        for (const sub of subs) {
+          try {
+            await webpush.sendNotification({
+              endpoint: sub.endpoint,
+              keys: { p256dh: sub.p256dh, auth: sub.auth }
+            }, payload)
+          } catch (err: any) {
+            if (err.statusCode === 410 || err.statusCode === 404) {
+              await supabase.from('push_subscriptions').delete().eq('id', sub.id)
+            }
+          }
+        }
+      }
+    }
+  } catch (e) { console.error('Push Error', e) }
+  
   revalidatePath(`/properties/${propertyId}`)
   revalidatePath('/', 'layout')
   revalidatePath('/buy')
@@ -55,6 +98,47 @@ export async function approveProperty(propertyId: string) {
     return { error: 'Failed to approve property' }
   }
 
+  
+  // --- ADMIN AUDIT LOGGING ---
+  try {
+    const { data: { user: adminUser } } = await supabase.auth.getUser()
+    if (adminUser) {
+      await supabase.from('admin_audit_logs').insert({
+        admin_id: adminUser.id,
+        action: 'VERIFIED_PROPERTY',
+        target_id: propertyId,
+        details: { timestamp: new Date().toISOString() }
+      })
+    }
+  } catch(e) { console.error('Audit Log Error', e) }
+
+  // --- PUSH NOTIFICATIONS ---
+  try {
+    const { data: propData } = await supabase.from('properties').select('owner_id').eq('id', propertyId).single()
+    if (propData?.owner_id) {
+      const { data: subs } = await supabase.from('push_subscriptions').select('*').eq('user_id', propData.owner_id)
+      if (subs && subs.length > 0) {
+        const payload = JSON.stringify({
+          title: 'Property Verified!',
+          body: 'Your property is now live on Nestara Estates.',
+          url: '/dashboard/seller'
+        })
+        for (const sub of subs) {
+          try {
+            await webpush.sendNotification({
+              endpoint: sub.endpoint,
+              keys: { p256dh: sub.p256dh, auth: sub.auth }
+            }, payload)
+          } catch (err: any) {
+            if (err.statusCode === 410 || err.statusCode === 404) {
+              await supabase.from('push_subscriptions').delete().eq('id', sub.id)
+            }
+          }
+        }
+      }
+    }
+  } catch (e) { console.error('Push Error', e) }
+  
   revalidatePath(`/properties/${propertyId}`)
   revalidatePath('/', 'layout')
   revalidatePath('/buy')
@@ -78,6 +162,47 @@ export async function rejectProperty(propertyId: string) {
     return { error: 'Failed to reject property' }
   }
 
+  
+  // --- ADMIN AUDIT LOGGING ---
+  try {
+    const { data: { user: adminUser } } = await supabase.auth.getUser()
+    if (adminUser) {
+      await supabase.from('admin_audit_logs').insert({
+        admin_id: adminUser.id,
+        action: 'REJECTED_PROPERTY',
+        target_id: propertyId,
+        details: { timestamp: new Date().toISOString() }
+      })
+    }
+  } catch(e) { console.error('Audit Log Error', e) }
+
+  // --- PUSH NOTIFICATIONS ---
+  try {
+    const { data: propData } = await supabase.from('properties').select('owner_id').eq('id', propertyId).single()
+    if (propData?.owner_id) {
+      const { data: subs } = await supabase.from('push_subscriptions').select('*').eq('user_id', propData.owner_id)
+      if (subs && subs.length > 0) {
+        const payload = JSON.stringify({
+          title: 'Property Rejected',
+          body: 'Your property listing requires revisions.',
+          url: '/dashboard/seller'
+        })
+        for (const sub of subs) {
+          try {
+            await webpush.sendNotification({
+              endpoint: sub.endpoint,
+              keys: { p256dh: sub.p256dh, auth: sub.auth }
+            }, payload)
+          } catch (err: any) {
+            if (err.statusCode === 410 || err.statusCode === 404) {
+              await supabase.from('push_subscriptions').delete().eq('id', sub.id)
+            }
+          }
+        }
+      }
+    }
+  } catch (e) { console.error('Push Error', e) }
+  
   revalidatePath(`/properties/${propertyId}`)
   revalidatePath('/', 'layout')
   revalidatePath('/buy')
@@ -124,6 +249,47 @@ export async function hardDeleteProperty(propertyId: string) {
     return { error: 'Failed to delete property' }
   }
 
+  
+  // --- ADMIN AUDIT LOGGING ---
+  try {
+    const { data: { user: adminUser } } = await supabase.auth.getUser()
+    if (adminUser) {
+      await supabase.from('admin_audit_logs').insert({
+        admin_id: adminUser.id,
+        action: 'DELETED_PROPERTY',
+        target_id: propertyId,
+        details: { timestamp: new Date().toISOString() }
+      })
+    }
+  } catch(e) { console.error('Audit Log Error', e) }
+
+  // --- PUSH NOTIFICATIONS ---
+  try {
+    const { data: propData } = await supabase.from('properties').select('owner_id').eq('id', propertyId).single()
+    if (propData?.owner_id) {
+      const { data: subs } = await supabase.from('push_subscriptions').select('*').eq('user_id', propData.owner_id)
+      if (subs && subs.length > 0) {
+        const payload = JSON.stringify({
+          title: 'Property Removed',
+          body: 'Your property has been removed by an admin.',
+          url: '/dashboard/seller'
+        })
+        for (const sub of subs) {
+          try {
+            await webpush.sendNotification({
+              endpoint: sub.endpoint,
+              keys: { p256dh: sub.p256dh, auth: sub.auth }
+            }, payload)
+          } catch (err: any) {
+            if (err.statusCode === 410 || err.statusCode === 404) {
+              await supabase.from('push_subscriptions').delete().eq('id', sub.id)
+            }
+          }
+        }
+      }
+    }
+  } catch (e) { console.error('Push Error', e) }
+  
   revalidatePath('/properties')
   return { success: true }
 }
@@ -143,6 +309,47 @@ export async function updatePropertyDealStatus(propertyId: string, status: strin
     throw new Error('Failed to update deal status')
   }
 
+  
+  // --- ADMIN AUDIT LOGGING ---
+  try {
+    const { data: { user: adminUser } } = await supabase.auth.getUser()
+    if (adminUser) {
+      await supabase.from('admin_audit_logs').insert({
+        admin_id: adminUser.id,
+        action: 'UPDATED_DEAL_STATUS',
+        target_id: propertyId,
+        details: { timestamp: new Date().toISOString() }
+      })
+    }
+  } catch(e) { console.error('Audit Log Error', e) }
+
+  // --- PUSH NOTIFICATIONS ---
+  try {
+    const { data: propData } = await supabase.from('properties').select('owner_id').eq('id', propertyId).single()
+    if (propData?.owner_id) {
+      const { data: subs } = await supabase.from('push_subscriptions').select('*').eq('user_id', propData.owner_id)
+      if (subs && subs.length > 0) {
+        const payload = JSON.stringify({
+          title: 'Deal Status Updated',
+          body: 'Your property deal status has been updated by an admin.',
+          url: '/dashboard/seller'
+        })
+        for (const sub of subs) {
+          try {
+            await webpush.sendNotification({
+              endpoint: sub.endpoint,
+              keys: { p256dh: sub.p256dh, auth: sub.auth }
+            }, payload)
+          } catch (err: any) {
+            if (err.statusCode === 410 || err.statusCode === 404) {
+              await supabase.from('push_subscriptions').delete().eq('id', sub.id)
+            }
+          }
+        }
+      }
+    }
+  } catch (e) { console.error('Push Error', e) }
+  
   revalidatePath('/seller-hub')
   revalidatePath(`/properties/${propertyId}`)
 }
@@ -165,6 +372,47 @@ export async function holdProperty(propertyId: string) {
     throw new Error('Failed to put property on hold')
   }
 
+  
+  // --- ADMIN AUDIT LOGGING ---
+  try {
+    const { data: { user: adminUser } } = await supabase.auth.getUser()
+    if (adminUser) {
+      await supabase.from('admin_audit_logs').insert({
+        admin_id: adminUser.id,
+        action: 'HELD_PROPERTY',
+        target_id: propertyId,
+        details: { timestamp: new Date().toISOString() }
+      })
+    }
+  } catch(e) { console.error('Audit Log Error', e) }
+
+  // --- PUSH NOTIFICATIONS ---
+  try {
+    const { data: propData } = await supabase.from('properties').select('owner_id').eq('id', propertyId).single()
+    if (propData?.owner_id) {
+      const { data: subs } = await supabase.from('push_subscriptions').select('*').eq('user_id', propData.owner_id)
+      if (subs && subs.length > 0) {
+        const payload = JSON.stringify({
+          title: 'Property On Hold',
+          body: 'Your property verification has been paused.',
+          url: '/dashboard/seller'
+        })
+        for (const sub of subs) {
+          try {
+            await webpush.sendNotification({
+              endpoint: sub.endpoint,
+              keys: { p256dh: sub.p256dh, auth: sub.auth }
+            }, payload)
+          } catch (err: any) {
+            if (err.statusCode === 410 || err.statusCode === 404) {
+              await supabase.from('push_subscriptions').delete().eq('id', sub.id)
+            }
+          }
+        }
+      }
+    }
+  } catch (e) { console.error('Push Error', e) }
+  
   revalidatePath('/seller-hub')
   revalidatePath(`/properties/${propertyId}`)
 }

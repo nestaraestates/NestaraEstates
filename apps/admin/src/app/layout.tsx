@@ -7,6 +7,7 @@ import { isSuperAdmin } from '@/lib/admin'
 import { AdminDesktopNav, AdminMobileNav } from '@/components/admin/AdminNav'
 import { NotificationBell } from '@/components/layout/NotificationBell'
 import { SignOutButton } from '@/components/admin/SignOutButton'
+import { PushSubscribeButton } from '@/components/admin/PushSubscribeButton'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -111,6 +112,7 @@ export default async function RootLayout({
                 </div>
                 <div className="flex items-center gap-2">
                   <NotificationBell initialCount={unreadCount} userId={user.id} />
+                  <PushSubscribeButton />
                   <SignOutButton />
                 </div>
               </div>
@@ -127,6 +129,7 @@ export default async function RootLayout({
                 <div className="h-7 w-7 shrink-0 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-bold text-blue-700 border border-blue-200">
                   {user.email?.substring(0, 2).toUpperCase()}
                 </div>
+                <PushSubscribeButton />
                 <SignOutButton />
               </div>
             </header>
