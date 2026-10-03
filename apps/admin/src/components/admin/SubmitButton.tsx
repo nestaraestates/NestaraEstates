@@ -12,6 +12,7 @@ export function SubmitButton({
   children: React.ReactNode
   className?: string
   loadingText?: string
+  title?: string
 }) {
   const { pending } = useFormStatus()
   
@@ -19,6 +20,7 @@ export function SubmitButton({
     <button
       type="submit"
       disabled={pending}
+      title={title}
       className={`${className} flex items-center justify-center ${pending ? 'opacity-70 cursor-not-allowed' : ''}`}
     >
       {pending ? (
