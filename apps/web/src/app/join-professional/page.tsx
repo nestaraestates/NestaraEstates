@@ -46,7 +46,7 @@ export default function JoinProfessionalPage() {
           Grow your business with <span className="text-brand-600">Nestara</span>
         </h1>
         <p className="text-xl text-surface-600 max-w-2xl mx-auto">
-          Join thousands of professionals connecting with property buyers and owners every day. List your services, get qualified leads, and manage your projects in one place.
+          Join an exclusive network of professionals connecting with property buyers and owners. List your services, get qualified leads, and manage your projects in one place.
         </p>
       </div>
 
@@ -76,15 +76,15 @@ export default function JoinProfessionalPage() {
                 <div className="flex gap-4">
                   <CheckCircle2 className="w-6 h-6 text-emerald-500 flex-shrink-0" />
                   <div>
-                    <h4 className="font-bold text-surface-900">Zero Commission on Leads</h4>
-                    <p className="text-sm text-surface-600 mt-1">We don't take a cut of your hard work. Connect with clients and negotiate your own terms directly.</p>
+                    <h4 className="font-bold text-surface-900">Premium Qualified Leads</h4>
+                    <p className="text-sm text-surface-600 mt-1">Get direct access to highly qualified leads and high-budget projects with our transparent partnership model.</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
                   <CheckCircle2 className="w-6 h-6 text-emerald-500 flex-shrink-0" />
                   <div>
                     <h4 className="font-bold text-surface-900">Verified Customer Base</h4>
-                    <p className="text-sm text-surface-600 mt-1">Get access to thousands of users actively buying, renting, or renovating their homes on Nestara.</p>
+                    <p className="text-sm text-surface-600 mt-1">Get access to motivated users actively buying, renting, or renovating their homes on Nestara.</p>
                   </div>
                 </div>
               </div>
