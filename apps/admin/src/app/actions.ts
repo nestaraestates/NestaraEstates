@@ -415,3 +415,40 @@ export async function holdProperty(propertyId: string) {
   revalidatePath('/seller-hub')
   revalidatePath(`/properties/${propertyId}`)
 }
+
+export async function adminUpdatePropertyDetails(propertyId: string, formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Unauthorized' }
+
+  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+  const isAdmin = (profile?.role === 'admin' || profile?.role === 'ADMIN') || user.email === 'nestaraestates@gmail.com' || user.email === 'vineethbpawar@gmail.com'
+  
+  if (!isAdmin) return { error: 'Unauthorized' }
+
+  const updates = {
+    title: formData.get('title') as string,
+    description: formData.get('description') as string,
+    price: Number(formData.get('price')),
+    city: formData.get('city') as string,
+    location: formData.get('location') as string,
+    status: formData.get('status') as string,
+  }
+
+  const { error } = await supabase
+    .from('properties')
+    .update(updates)
+    .eq('id', propertyId)
+
+  if (error) {
+    console.error('Update error:', error)
+    return { error: 'Failed to update property.' }
+  }
+
+  revalidatePath('/properties')
+  revalidatePath(`/properties/${propertyId}`)
+  revalidatePath('/seller-hub')
+  revalidatePath('/', 'layout')
+  
+  return { success: true }
+}
