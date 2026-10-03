@@ -291,6 +291,8 @@ export async function hardDeleteProperty(propertyId: string) {
   } catch (e) { console.error('Push Error', e) }
   
   revalidatePath('/properties')
+  revalidatePath('/seller-hub')
+  revalidatePath('/', 'layout')
   return { success: true }
 }
 
