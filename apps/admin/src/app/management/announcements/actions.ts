@@ -68,7 +68,49 @@ export async function broadcastAnnouncement(formData: FormData) {
     await Promise.allSettled(pushPromises)
   }
 
+  
+  // 3.5 Send Expo Push (OS-Level Mobile Push) to all valid app users in safe chunks
+  const { data: expoUsers } = await supabase
+    .from('profiles')
+    .select('push_token')
+    .not('push_token', 'is', null);
+
+  if (expoUsers && expoUsers.length > 0) {
+    // Filter out empty strings just in case
+    const validTokens = expoUsers.map(u => u.push_token).filter(token => token && token.trim() !== '');
+    
+    // Expo allows a maximum of 100 tickets per request
+    const EXPO_CHUNK_SIZE = 100;
+    
+    for (let i = 0; i < validTokens.length; i += EXPO_CHUNK_SIZE) {
+      const tokenChunk = validTokens.slice(i, i + EXPO_CHUNK_SIZE);
+      
+      const messages = tokenChunk.map(token => ({
+        to: token,
+        sound: 'default',
+        title: title || 'Nestara Estates',
+        body: content || 'You have a new announcement.',
+        data: { link: link }
+      }));
+
+      try {
+        await fetch('https://exp.host/--/api/v2/push/send', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(messages),
+        });
+      } catch (err) {
+        console.error('Failed to send Expo chunk:', err);
+      }
+    }
+  }
+
   // 4. Log Audit Action
+
   await supabase.from('admin_audit_logs').insert({
     admin_id: user.id,
     action: 'BROADCAST_ANNOUNCEMENT',
