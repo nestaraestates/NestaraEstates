@@ -25,6 +25,12 @@ export default async function EditPropertyPage({ params }: { params: { id: strin
 
   if (!property) return notFound()
 
+  const { data: media } = await supabase
+    .from('property_media')
+    .select('*')
+    .eq('property_id', property.id)
+    .order('created_at', { ascending: true })
+
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex items-center gap-4">
@@ -41,7 +47,7 @@ export default async function EditPropertyPage({ params }: { params: { id: strin
       </div>
 
       <Card className="p-6 md:p-8 shadow-sm border-zinc-200">
-        <EditForm property={property} />
+        <EditForm property={property} initialMedia={media || []} />
       </Card>
     </div>
   )
