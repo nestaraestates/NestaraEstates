@@ -281,7 +281,7 @@ export default function HomeScreen() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         onEndReached={loadMore}
         onEndReachedThreshold={0.5}
-        ListHeaderComponent={() => (
+        ListHeaderComponent={(
           <>
             {/* Header */}
             <View className="px-4 py-4 bg-surface-100">
@@ -376,7 +376,7 @@ export default function HomeScreen() {
             />
           </View>
         )}
-        ListEmptyComponent={() => (
+        ListEmptyComponent={(
           loading ? (
             <ActivityIndicator size="large" className="mt-10" />
           ) : (
@@ -389,7 +389,7 @@ export default function HomeScreen() {
             </View>
           )
         )}
-        ListFooterComponent={() => (
+        ListFooterComponent={(
           <View className="pb-20">
             {loadingMore && (
               <View className="py-4 items-center">
