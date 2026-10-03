@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
-import { Megaphone, Users, User, Building, ShieldCheck, ShieldAlert, ArrowRight, MessageSquare, Activity, MapPin, Search } from 'lucide-react'
+import { Megaphone, Users, User, Building, ShieldCheck, ShieldAlert, ArrowRight, MessageSquare, Activity, MapPin, Search, Smartphone } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -162,6 +162,18 @@ export default async function AdminDashboard() {
                     <span className="font-medium text-zinc-800 group-hover:text-emerald-900">View CRM Leads</span>
                   </div>
                   <ArrowRight className="h-4 w-4 text-zinc-400 group-hover:text-emerald-600 transition-transform group-hover:translate-x-1" />
+                </div>
+              </Link>
+
+              <Link href="/management/ads" className="block">
+                <div className="group flex items-center justify-between p-4 rounded-xl border border-zinc-100 bg-white hover:border-pink-200 hover:bg-pink-50/50 transition-all">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-pink-100 p-2 rounded-lg text-pink-600 group-hover:bg-pink-200 transition-colors">
+                      <Smartphone className="h-4 w-4" />
+                    </div>
+                    <span className="font-medium text-zinc-800 group-hover:text-pink-900">Manage Ad Slots</span>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-zinc-400 group-hover:text-pink-600 transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>
             </CardContent>
