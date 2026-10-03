@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { promoteToAdmin, demoteFromAdmin } from '../actions'
 import { isSuperAdmin, SUPER_ADMIN_EMAILS } from '@/lib/admin'
 import { redirect } from 'next/navigation'
+import { SubmitButton } from '@/components/admin/SubmitButton'
 
 export default async function ManageAdminsPage({
   searchParams,

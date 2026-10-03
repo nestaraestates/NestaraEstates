@@ -5,6 +5,7 @@ import { Building, MapPin, Search, Edit, Trash2, CheckCircle2, XCircle } from 'l
 import Link from 'next/link'
 import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 import { AdvancedSearchControls } from '@/components/AdvancedSearchControls'
+import { SubmitButton } from '@/components/admin/SubmitButton'
 
 
 const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)
@@ -160,9 +161,9 @@ export default async function AdminPropertiesPage({
                         const { hardDeleteProperty } = await import('@/app/actions')
                         await hardDeleteProperty(prop.id)
                       }}>
-                        <button type="submit" className="h-8 w-8 rounded bg-zinc-50 text-zinc-500 hover:text-red-600 hover:bg-red-50 border border-zinc-200 flex items-center justify-center transition-colors" title="Delete">
+                        <SubmitButton className="h-8 w-8 rounded bg-zinc-50 text-zinc-500 hover:text-red-600 hover:bg-red-50 border border-zinc-200 flex items-center justify-center transition-colors" title="Delete">
                           <Trash2 className="h-4 w-4" />
-                        </button>
+                        </SubmitButton>
                       </form>
                     </div>
                   </td>

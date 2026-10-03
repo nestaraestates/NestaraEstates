@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowLeft, User, Mail, Phone, Calendar, Shield, CheckCircle } from 'lucide-react'
 import { promoteToAdmin, demoteFromAdmin, updateUserStatus } from '../actions'
 import { isSuperAdmin } from '@/lib/admin'
+import { SubmitButton } from '@/components/admin/SubmitButton'
 
 export default async function UserDetailsPage({
   params,
@@ -226,15 +227,15 @@ export default async function UserDetailsPage({
                   <div className="text-sm font-medium mb-3">Admin Access</div>
                   {(profile?.role !== 'admin' && profile?.role !== 'ADMIN') && profile?.role !== 'ADMIN' ? (
                     <form action={promoteToAdmin.bind(null, profile.id)}>
-                      <button type="submit" className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-amber-200 bg-amber-50 text-sm font-medium text-amber-700 hover:bg-amber-100 transition-colors">
+                      <SubmitButton className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-amber-200 bg-amber-50 text-sm font-medium text-amber-700 hover:bg-amber-100 transition-colors">
                         Promote to Admin
-                      </button>
+                      </SubmitButton>
                     </form>
                   ) : (
                     <form action={demoteFromAdmin.bind(null, profile.id)}>
-                      <button type="submit" className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-zinc-200 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition-colors">
+                      <SubmitButton className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-zinc-200 bg-white text-sm font-medium text-zinc-700 hover:bg-zinc-50 transition-colors">
                         Remove Admin Access
-                      </button>
+                      </SubmitButton>
                     </form>
                   )}
                   <p className="text-xs text-zinc-500 mt-2">
@@ -266,22 +267,22 @@ export default async function UserDetailsPage({
                   {profile.account_status === 'ACTIVE' || !profile.account_status ? (
                     <>
                       <form action={updateUserStatus.bind(null, profile.id, 'SUSPENDED')}>
-                        <button type="submit" className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-red-200 bg-white text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
+                        <SubmitButton className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-red-200 bg-white text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
                           Suspend Account
-                        </button>
+                        </SubmitButton>
                       </form>
                       
                       <form action={updateUserStatus.bind(null, profile.id, 'BANNED')}>
-                        <button type="submit" className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-transparent bg-red-600 text-sm font-medium text-white hover:bg-red-700 transition-colors">
+                        <SubmitButton className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-transparent bg-red-600 text-sm font-medium text-white hover:bg-red-700 transition-colors">
                           Ban User Permanently
-                        </button>
+                        </SubmitButton>
                       </form>
                     </>
                   ) : (
                     <form action={updateUserStatus.bind(null, profile.id, 'ACTIVE')}>
-                      <button type="submit" className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-green-200 bg-white text-sm font-medium text-green-700 hover:bg-green-50 transition-colors">
+                      <SubmitButton className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-green-200 bg-white text-sm font-medium text-green-700 hover:bg-green-50 transition-colors">
                         Restore / Activate Account
-                      </button>
+                      </SubmitButton>
                     </form>
                   )}
                 </>
