@@ -6,6 +6,7 @@ import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TextInput, Pres
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Search, WifiOff, MapPin, SlidersHorizontal, Home as HomeIcon, Building2, LayoutGrid, Trees, Briefcase, Store, X, Bell, Calculator } from 'lucide-react-native';
 import PropertyCard from '@/components/PropertyCard';
+import AdCarousel from '@/components/AdCarousel';
 import { supabase } from '@/lib/supabase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from 'expo-router';
@@ -336,6 +337,7 @@ export default function HomeScreen() {
               </View>
             </View>
 
+            <AdCarousel />
             {/* Categories */}
             <View className="mt-2 mb-2">
               <ScrollView keyboardShouldPersistTaps="handled" horizontal showsHorizontalScrollIndicator={false} className="px-4">
