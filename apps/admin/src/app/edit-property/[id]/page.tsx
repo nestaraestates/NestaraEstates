@@ -7,7 +7,7 @@ import { EditForm } from './EditForm'
 
 export const dynamic = 'force-dynamic'
 
-export default async function EditPropertyPage({ params }: { params: { id: string } }) {
+export default async function EditPropertyPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -20,7 +20,7 @@ export default async function EditPropertyPage({ params }: { params: { id: strin
   const { data: property } = await supabase
     .from('properties')
     .select('*')
-    .eq('id', params.id)
+    .eq('id', (await params).id)
     .single()
 
   if (!property) return notFound()

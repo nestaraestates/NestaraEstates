@@ -8,8 +8,7 @@ export const dynamic = 'force-dynamic'
 export default async function EnquiredPropertiesPage({
   searchParams
 }: {
-  searchParams?: { [key: string]: string | undefined }
-}) {
+  searchParams: Promise<{ [key: string]: string | undefined }>}) {
   const supabase = await createClient()
 
   const sp = await searchParams || {}
