@@ -188,7 +188,7 @@ export default async function UserDetailsPage({
                   {recentEnquiries.map((enq) => (
                     <div key={enq.id} className="flex justify-between items-center border-b pb-2 last:border-0 last:pb-0">
                       <div>
-                        <div className="font-medium text-sm text-zinc-900">{enq.properties?.title || 'Unknown Property'}</div>
+                        <div className="font-medium text-sm text-zinc-900">{(Array.isArray(enq.properties) ? (enq.properties[0] as any)?.title : (enq.properties as any)?.title) || 'Unknown Property'}</div>
                         <div className="text-xs text-zinc-500">{new Date(enq.created_at).toLocaleDateString()} • {enq.status}</div>
                       </div>
                       {enq.property_id && (
