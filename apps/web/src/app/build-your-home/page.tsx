@@ -119,7 +119,22 @@ export default function BuildYourHomePage() {
                   <Label htmlFor="budget_approx" className="flex items-center gap-2 text-surface-700">
                     <IndianRupee className="w-4 h-4 text-brand-500" /> Approximate Budget (₹)
                   </Label>
-                  <Input id="budget_approx" name="budget_approx" type="number" required placeholder="e.g. 5000000" className="h-12 text-base" />
+                  <select 
+                    id="budget_approx" 
+                    name="budget_approx" 
+                    required 
+                    className="flex h-12 w-full items-center justify-between rounded-md border border-zinc-200 bg-white px-3 py-2 text-base ring-offset-white focus:outline-none focus:ring-2 focus:ring-zinc-950 focus:ring-offset-2"
+                  >
+                    <option value="">Select an approximate budget...</option>
+                    <option value="50000">Under ₹50k</option>
+                    <option value="100000">₹50k - ₹1 Lakh</option>
+                    <option value="500000">₹1 Lakh - ₹5 Lakhs</option>
+                    <option value="1500000">₹5 Lakhs - ₹15 Lakhs</option>
+                    <option value="5000000">₹15 Lakhs - ₹50 Lakhs</option>
+                    <option value="10000000">₹50 Lakhs - ₹1 Crore</option>
+                    <option value="50000000">₹1 Crore - ₹5 Crores</option>
+                    <option value="100000000">₹5 Crores +</option>
+                  </select>
                 </div>
               </div>
 
