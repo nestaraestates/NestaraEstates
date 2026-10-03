@@ -15,7 +15,7 @@ export default function AdSlotClient({ slot }: { slot: any }) {
   const [file, setFile] = useState<File | null>(null)
   
   const handleUpload = async () => {
-    if (!file || !redirectUrl) return alert('Please provide both image and redirect URL')
+    if (!file) return alert('Please provide an ad image')
     
     setIsUploading(true)
     try {
@@ -91,7 +91,7 @@ export default function AdSlotClient({ slot }: { slot: any }) {
             <Button 
               className="w-full" 
               onClick={handleUpload} 
-              disabled={isUploading || !file || !redirectUrl}
+              disabled={isUploading || !file}
             >
               {isUploading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Upload className="h-4 w-4 mr-2" />}
               {isUploading ? 'Uploading...' : 'Add Ad'}
@@ -105,7 +105,7 @@ export default function AdSlotClient({ slot }: { slot: any }) {
             </div>
             <div className="flex items-center gap-2 text-sm text-zinc-600 bg-zinc-50 p-3 rounded-lg border border-zinc-100 break-all">
               <LinkIcon className="h-4 w-4 flex-shrink-0" />
-              <a href={slot.redirect_url} target="_blank" rel="noreferrer" className="hover:underline line-clamp-1">{slot.redirect_url}</a>
+              {slot.redirect_url ? <a href={slot.redirect_url} target="_blank" rel="noreferrer" className="hover:underline line-clamp-1">{slot.redirect_url}</a> : <span className="italic text-zinc-400">No redirect link provided</span>}
             </div>
             <div className="mt-auto pt-4">
               <Button variant="destructive" className="w-full" onClick={handleDelete}>
