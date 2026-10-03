@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Target, Eye } from 'lucide-react'
 import { AdvancedSearchControls } from '@/components/AdvancedSearchControls'
 
+const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)
 export const dynamic = 'force-dynamic'
 
 export default async function EnquiredPropertiesPage({
@@ -21,7 +22,17 @@ export default async function EnquiredPropertiesPage({
     .order('created_at', { ascending: false })
 
   if (q) {
-    query = query.or(`title.ilike.%${q}%`)
+    if (isUUID(q)) {
+      query = query.or(`id.eq.${q},owner_id.eq.${q}`)
+    } else {
+      const { data: matchedProfiles } = await supabase.from('profiles').select('id').or(`full_name.ilike.%${q}%,email.ilike.%${q}%`)
+      const matchedProfileIds = matchedProfiles?.map(p => p.id) || []
+      let orStr = `title.ilike.%${q}%`
+      if (matchedProfileIds.length > 0) {
+        orStr += `,owner_id.in.(${matchedProfileIds.join(',')})`
+      }
+      query = query.or(orStr)
+    }
   }
   if (purpose) {
     query = query.eq('purpose', purpose)

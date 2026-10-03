@@ -37,23 +37,15 @@ export default async function SellerHubPage(props: {
   if (q) {
     if (isUUID(q)) {
       query = query.or(`id.eq.${q},owner_id.eq.${q}`)
-    } else if (q.includes('@')) {
-      const { data: matchedProfiles } = await supabase.from('profiles').select('id').ilike('email', `%${q}%`)
-      if (matchedProfiles && matchedProfiles.length > 0) {
-        const ids = matchedProfiles.map(p => p.id).join(',')
-        query = query.filter('owner_id', 'in', `(${ids})`)
-      } else {
-        query = query.eq('id', '00000000-0000-0000-0000-000000000000')
+        } else {
+      const { data: matchedProfiles } = await supabase.from('profiles').select('id').or(`full_name.ilike.%${q}%,email.ilike.%${q}%`)
+      const matchedProfileIds = matchedProfiles?.map(p => p.id) || []
+      let orStr = `title.ilike.%${q}%,location.ilike.%${q}%`
+      if (matchedProfileIds.length > 0) {
+        orStr += `,owner_id.in.(${matchedProfileIds.join(',')})`
       }
-    } else if (/^[0-9a-fA-F]{4,12}$/.test(q)) {
-      const { data: allProps } = await supabase.from('properties').select('id, owner_id')
-      const matchedIds = allProps?.filter(p => p.id.toLowerCase().includes(q.toLowerCase()) || p.owner_id.toLowerCase().includes(q.toLowerCase())).map(p => p.id) || []
-      
-      if (matchedIds.length > 0) {
-        query = query.filter('id', 'in', `(${matchedIds.join(',')})`)
-      } else {
-        query = query.or(`title.ilike.%${q}%,location.ilike.%${q}%`)
-      }
+      query = query.or(orStr)
+    }
     } else {
       query = query.or(`title.ilike.%${q}%,location.ilike.%${q}%`)
     }
