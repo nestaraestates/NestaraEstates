@@ -17,7 +17,7 @@ export default function BuildYourHomePage() {
     setIsSubmitting(true)
     setErrorMsg('')
     const formData = new FormData(e.currentTarget)
-    formData.append('service_category', 'CONSTRUCTION')
+    
     
     try {
       const res = await createServiceRequest(formData)
@@ -61,6 +61,28 @@ export default function BuildYourHomePage() {
                 </div>
               )}
               
+              <div className="space-y-3 mb-8">
+                <Label htmlFor="service_category" className="flex items-center gap-2 text-surface-700">
+                  <HardHat className="w-4 h-4 text-brand-500" /> What do you need help with?
+                </Label>
+                <select 
+                  id="service_category" 
+                  name="service_category" 
+                  required 
+                  className="flex h-12 w-full items-center justify-between rounded-md border border-zinc-200 bg-white px-3 py-2 text-base ring-offset-white focus:outline-none focus:ring-2 focus:ring-zinc-950 focus:ring-offset-2"
+                >
+                  <option value="">Select a service type...</option>
+                  <option value="Full Home Construction">Full Home Construction</option>
+                  <option value="Interior Design">Interior Design Only</option>
+                  <option value="Renovation">Home Renovation & Remodeling</option>
+                  <option value="Plumbing">Plumbing Services</option>
+                  <option value="Electrical">Electrical Work</option>
+                  <option value="Painting">Painting</option>
+                  <option value="Carpentry">Carpentry & Woodwork</option>
+                  <option value="Other">Other Maintenance Work</option>
+                </select>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
                   <Label htmlFor="city" className="flex items-center gap-2 text-surface-700">
