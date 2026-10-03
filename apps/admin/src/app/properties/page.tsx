@@ -42,7 +42,22 @@ export default async function AdminPropertiesPage({
   if (q) {
     if (isUUID(q)) {
       propertiesQuery = propertiesQuery.or(`id.eq.${q},owner_id.eq.${q}`)
-        } else {
+    } else if (/^[0-9a-fA-F]{4,12}$/.test(q)) {
+      const { data: allProps } = await supabase.from('properties').select('id, owner_id')
+      const matchedIds = allProps?.filter(p => p.id.toLowerCase().includes(q.toLowerCase()) || p.owner_id.toLowerCase().includes(q.toLowerCase())).map(p => p.id) || []
+      
+      if (matchedIds.length > 0) {
+        propertiesQuery = propertiesQuery.filter('id', 'in', `(${matchedIds.join(',')})`)
+      } else {
+        const { data: matchedProfiles } = await supabase.from('profiles').select('id').or(`full_name.ilike.%${q}%,email.ilike.%${q}%`)
+        const matchedProfileIds = matchedProfiles?.map(p => p.id) || []
+        let orStr = `title.ilike.%${q}%,location.ilike.%${q}%,city.ilike.%${q}%`
+        if (matchedProfileIds.length > 0) {
+          orStr += `,owner_id.in.(${matchedProfileIds.join(',')})`
+        }
+        propertiesQuery = propertiesQuery.or(orStr)
+      }
+    } else {
       const { data: matchedProfiles } = await supabase.from('profiles').select('id').or(`full_name.ilike.%${q}%,email.ilike.%${q}%`)
       const matchedProfileIds = matchedProfiles?.map(p => p.id) || []
       let orStr = `title.ilike.%${q}%,location.ilike.%${q}%,city.ilike.%${q}%`
@@ -50,9 +65,6 @@ export default async function AdminPropertiesPage({
         orStr += `,owner_id.in.(${matchedProfileIds.join(',')})`
       }
       propertiesQuery = propertiesQuery.or(orStr)
-    }
-    } else {
-      propertiesQuery = propertiesQuery.or(`title.ilike.%${q}%,location.ilike.%${q}%,city.ilike.%${q}%`)
     }
   }
   if (status) {
