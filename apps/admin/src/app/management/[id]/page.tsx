@@ -110,7 +110,7 @@ export default async function UserDetailsPage({
             <CardContent className="space-y-6">
               <div>
                 <div className="text-sm font-medium mb-2">Current Role</div>
-                <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${profile.role === 'admin' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'}`}>
+                <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium ${(profile?.role === 'admin' || profile?.role === 'ADMIN') || profile?.role === 'ADMIN' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'}`}>
                   <Shield className="h-3.5 w-3.5 mr-1.5" />
                   {profile.role || 'user'}
                 </span>
@@ -119,7 +119,7 @@ export default async function UserDetailsPage({
               {isSuper && (
                 <div className="pt-4 border-t border-zinc-100">
                   <div className="text-sm font-medium mb-3">Admin Access</div>
-                  {profile.role !== 'admin' ? (
+                  {(profile?.role !== 'admin' && profile?.role !== 'ADMIN') && profile?.role !== 'ADMIN' ? (
                     <form action={promoteToAdmin.bind(null, profile.id)}>
                       <button type="submit" className="w-full inline-flex justify-center items-center h-8 px-3 rounded-lg border border-amber-200 bg-amber-50 text-sm font-medium text-amber-700 hover:bg-amber-100 transition-colors">
                         Promote to Admin

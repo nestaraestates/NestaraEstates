@@ -24,7 +24,7 @@ export default async function AdminInboxPage() {
   ])
 
   const profile = profileRes.data
-  if (!isSuperAdmin(user.email) && profile?.role !== 'admin') {
+  if (!isSuperAdmin(user.email) && (profile?.role !== 'admin' && profile?.role !== 'ADMIN')) {
     redirect('/')
   }
 

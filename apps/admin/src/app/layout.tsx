@@ -57,7 +57,7 @@ export default async function RootLayout({
 
   const profile = profileRes.data
   const isSuper = isSuperAdmin(user.email)
-  const isAssignedAdmin = profile?.role === 'admin'
+  const isAssignedAdmin = (profile?.role === 'admin' || profile?.role === 'ADMIN')
 
   if (!isSuper && !isAssignedAdmin) {
     return (

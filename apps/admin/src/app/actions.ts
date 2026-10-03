@@ -217,7 +217,7 @@ export async function hardDeleteProperty(propertyId: string) {
   if (!user) return { error: 'Unauthorized' }
   
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-  const isAdmin = profile?.role === 'admin' || user.email === 'nestaraestates@gmail.com' || user.email === 'vineethbpawar@gmail.com'
+  const isAdmin = (profile?.role === 'admin' || profile?.role === 'ADMIN') || user.email === 'nestaraestates@gmail.com' || user.email === 'vineethbpawar@gmail.com'
   
   if (!isAdmin) return { error: 'Unauthorized' }
 

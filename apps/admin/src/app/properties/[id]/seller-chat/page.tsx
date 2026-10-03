@@ -29,7 +29,7 @@ export default async function SellerChatPage({ params }: { params: Promise<{ id:
   ])
 
   const profile = profileRes.data
-  if (!isSuperAdmin(user.email) && profile?.role !== 'admin') {
+  if (!isSuperAdmin(user.email) && (profile?.role !== 'admin' && profile?.role !== 'ADMIN')) {
     redirect('/')
   }
 

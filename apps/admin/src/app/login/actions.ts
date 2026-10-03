@@ -23,7 +23,7 @@ export async function login(prevState: any, formData: FormData) {
 
     const { data: profile } = await supabase.from('profiles').select('role').eq('id', authData.user.id).single()
     const isSuper = isSuperAdmin(authData.user.email)
-    const isAssignedAdmin = profile?.role === 'admin'
+    const isAssignedAdmin = (profile?.role === 'admin' || profile?.role === 'ADMIN')
 
     if (!isSuper && !isAssignedAdmin) {
       await supabase.auth.signOut()

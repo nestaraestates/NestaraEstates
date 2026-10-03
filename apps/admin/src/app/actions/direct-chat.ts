@@ -44,7 +44,7 @@ export async function sendDirectMessage(propertyId: string, receiverId: string |
   }
 
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-  const isAdmin = profile?.role === 'admin' || user.email === 'nestaraestates@gmail.com' || user.email === 'vineethbpawar@gmail.com'
+  const isAdmin = (profile?.role === 'admin' || profile?.role === 'ADMIN') || user.email === 'nestaraestates@gmail.com' || user.email === 'vineethbpawar@gmail.com'
 
   if (finalReceiverId) {
     await supabase.from('notifications').insert({
