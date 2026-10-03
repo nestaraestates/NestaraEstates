@@ -30,9 +30,20 @@ export default async function BuyerHubPage({
   if (q) {
     if (isUUID(q)) {
       query = query.or(`id.eq.${q},user_id.eq.${q},property_id.eq.${q}`)
+    } else if (/^[0-9a-fA-F]{4,12}$/.test(q)) {
+      const { data: allEnqs } = await supabase.from('enquiries').select('id, user_id, property_id')
+      const matchedIds = allEnqs?.filter(e => 
+        e.id.toLowerCase().includes(q.toLowerCase()) || 
+        (e.user_id && e.user_id.toLowerCase().includes(q.toLowerCase())) || 
+        (e.property_id && e.property_id.toLowerCase().includes(q.toLowerCase()))
+      ).map(e => e.id) || []
+      
+      if (matchedIds.length > 0) {
+        query = query.filter('id', 'in', `(${matchedIds.join(',')})`)
+      } else {
+        query = query.or(`name.ilike.%${q}%,email.ilike.%${q}%,phone.ilike.%${q}%`)
+      }
     } else {
-      // NOTE: Supabase JS doesn't support nested table fields in top-level .or() easily if they are not explicitly embedded correctly, but we'll try:
-      // wait, the subagent used 'properties.title.ilike', let's preserve it or replace it safely.
       query = query.or(`name.ilike.%${q}%,email.ilike.%${q}%,phone.ilike.%${q}%`)
     }
   }

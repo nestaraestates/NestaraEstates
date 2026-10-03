@@ -53,6 +53,16 @@ export default async function AdminPropertiesPage({
         // If no email matches, force empty result
         propertiesQuery = propertiesQuery.eq('id', '00000000-0000-0000-0000-000000000000')
       }
+    } else if (/^[0-9a-fA-F]{4,12}$/.test(q)) {
+      // Looks like a short UUID piece!
+      const { data: allProps } = await supabase.from('properties').select('id, owner_id')
+      const matchedIds = allProps?.filter(p => p.id.toLowerCase().includes(q.toLowerCase()) || p.owner_id.toLowerCase().includes(q.toLowerCase())).map(p => p.id) || []
+      
+      if (matchedIds.length > 0) {
+        propertiesQuery = propertiesQuery.filter('id', 'in', `(${matchedIds.join(',')})`)
+      } else {
+        propertiesQuery = propertiesQuery.or(`title.ilike.%${q}%,location.ilike.%${q}%,city.ilike.%${q}%`)
+      }
     } else {
       propertiesQuery = propertiesQuery.or(`title.ilike.%${q}%,location.ilike.%${q}%,city.ilike.%${q}%`)
     }

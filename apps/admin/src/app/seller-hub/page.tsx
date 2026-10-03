@@ -45,6 +45,15 @@ export default async function SellerHubPage(props: {
       } else {
         query = query.eq('id', '00000000-0000-0000-0000-000000000000')
       }
+    } else if (/^[0-9a-fA-F]{4,12}$/.test(q)) {
+      const { data: allProps } = await supabase.from('properties').select('id, owner_id')
+      const matchedIds = allProps?.filter(p => p.id.toLowerCase().includes(q.toLowerCase()) || p.owner_id.toLowerCase().includes(q.toLowerCase())).map(p => p.id) || []
+      
+      if (matchedIds.length > 0) {
+        query = query.filter('id', 'in', `(${matchedIds.join(',')})`)
+      } else {
+        query = query.or(`title.ilike.%${q}%,location.ilike.%${q}%`)
+      }
     } else {
       query = query.or(`title.ilike.%${q}%,location.ilike.%${q}%`)
     }
