@@ -238,15 +238,12 @@ export async function hardDeleteProperty(propertyId: string) {
     }
   }
 
-  // 2. Hard Delete from Database
-  const { error } = await supabase
-    .from('properties')
-    .delete()
-    .eq('id', propertyId)
+  // 2. Hard Delete from Database (Using RPC to definitively bypass RLS)
+  const { error } = await supabase.rpc('admin_hard_delete_property', { prop_id: propertyId })
 
   if (error) {
-    console.error('Admin hard delete error:', error)
-    return { error: 'Failed to delete property' }
+    console.error('Admin hard delete RPC error:', error)
+    throw new Error('RPC DELETE ERROR: ' + JSON.stringify(error))
   }
 
   
