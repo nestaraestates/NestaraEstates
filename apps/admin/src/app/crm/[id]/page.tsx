@@ -46,7 +46,7 @@ export default async function CrmChatPage({ params }: { params: Promise<{ id: st
   const messages = messagesRes.data || []
 
   return (
-    <div className="flex flex-col h-[calc(100vh-100px)] w-full max-w-4xl mx-auto bg-white border border-zinc-200 rounded-2xl shadow-sm overflow-hidden">
+    <div className="flex flex-col h-[calc(100dvh-100px)] w-full max-w-4xl mx-auto bg-white border border-zinc-200 rounded-2xl shadow-sm overflow-hidden">
       <div className="flex items-center gap-4 p-4 border-b border-zinc-200 bg-white shrink-0">
         <Link href="/messages" className="p-2 hover:bg-zinc-100 rounded-full transition-colors group">
           <ChevronLeft className="h-5 w-5 text-zinc-500 group-hover:text-zinc-900" />

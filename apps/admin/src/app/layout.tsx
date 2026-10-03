@@ -43,7 +43,7 @@ export default async function RootLayout({
   if (!user) {
     return (
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white`}>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-[100dvh] bg-white`}>
           {children}
         </body>
       </html>
@@ -62,7 +62,7 @@ export default async function RootLayout({
   if (!isSuper && !isAssignedAdmin) {
     return (
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-zinc-50 flex items-center justify-center p-4`}>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-[100dvh] bg-zinc-50 flex items-center justify-center p-4`}>
           <div className="bg-white p-8 rounded-xl shadow-sm border border-zinc-200 text-center max-w-md w-full">
             <div className="mx-auto w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
@@ -87,8 +87,8 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-hidden`}>
-        <div className="flex h-screen bg-zinc-50 text-zinc-900 font-sans overflow-hidden">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-[100dvh] overflow-hidden`}>
+        <div className="flex h-[100dvh] bg-zinc-50 text-zinc-900 font-sans overflow-hidden">
           {/* Desktop Sidebar */}
           <aside className="hidden md:flex w-64 bg-white border-r border-zinc-200 flex-col flex-shrink-0 z-20 shadow-sm">
             <div className="flex h-16 items-center gap-3 border-b border-zinc-100 px-6 bg-white">
@@ -120,7 +120,7 @@ export default async function RootLayout({
           </aside>
 
           {/* Main Content Area */}
-          <main className="flex-1 flex flex-col h-screen w-full relative z-0 pb-16 md:pb-0 overflow-hidden bg-zinc-50/50">
+          <main className="flex-1 flex flex-col h-[100dvh] w-full relative z-0 pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0 overflow-hidden bg-zinc-50/50">
             {/* Mobile Header */}
             <header className="md:hidden flex h-14 items-center justify-between border-b border-zinc-200 bg-white px-4 flex-shrink-0 z-10 sticky top-0 shadow-sm">
               <img src="/logo.png" alt="NestaraOS" className="h-6 w-auto object-contain" />
