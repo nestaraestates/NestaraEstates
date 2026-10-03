@@ -84,19 +84,12 @@ export function Navbar() {
               </Button>
             </Link>
 
-            <div className="flex md:hidden items-center gap-2">
-              <Link href="/buy" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300">
-                Buy
-              </Link>
-              <Link href="/rent" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300">
-                Rent
-              </Link>
-              <Link href="/commercial" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300">
-                Commercial
-              </Link>
-              <Link href="/tools" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300">
-                Tools
-              </Link>
+            <div className="flex md:hidden items-center gap-2 overflow-x-auto scrollbar-hide pb-1">
+              <Link href="/buy" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300 whitespace-nowrap">Buy</Link>
+              <Link href="/rent" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300 whitespace-nowrap">Rent</Link>
+              <Link href="/commercial" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300 whitespace-nowrap">Commercial</Link>
+              <Link href="/build-your-home" className="text-[13px] font-medium text-brand-600 dark:text-brand-500 whitespace-nowrap">Build</Link>
+              <Link href="/join-professional" className="text-[13px] font-medium text-indigo-600 dark:text-indigo-400 whitespace-nowrap">Pro</Link>
             </div>
             
             <Link href="/list-property" className="hidden sm:block">

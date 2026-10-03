@@ -10,10 +10,9 @@ export function NavLinks() {
     { name: 'Buy', href: '/buy' },
     { name: 'Rent', href: '/rent' },
     { name: 'Commercial', href: '/commercial' },
-    { name: 'Verification', href: '/verification' },
+    { name: 'Build Home', href: '/build-your-home' },
+    { name: 'Professionals', href: '/join-professional' },
     { name: 'Tools', href: '/tools' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
   ]
 
   return (
