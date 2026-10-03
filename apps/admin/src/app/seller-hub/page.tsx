@@ -4,6 +4,9 @@ import { Store, Eye } from 'lucide-react'
 import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 import { AdvancedSearchControls } from '@/components/AdvancedSearchControls'
 
+
+const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)
+
 export const dynamic = 'force-dynamic'
 
 export default async function SellerHubPage(props: {
@@ -32,7 +35,19 @@ export default async function SellerHubPage(props: {
   if (filter === 'DELETED') query = query.eq('is_deleted', true)
 
   if (q) {
-    query = query.or(`title.ilike.%${q}%,location.ilike.%${q}%`)
+    if (isUUID(q)) {
+      query = query.or(`id.eq.${q},owner_id.eq.${q}`)
+    } else if (q.includes('@')) {
+      const { data: matchedProfiles } = await supabase.from('profiles').select('id').ilike('email', `%${q}%`)
+      if (matchedProfiles && matchedProfiles.length > 0) {
+        const ids = matchedProfiles.map(p => p.id).join(',')
+        query = query.filter('owner_id', 'in', `(${ids})`)
+      } else {
+        query = query.eq('id', '00000000-0000-0000-0000-000000000000')
+      }
+    } else {
+      query = query.or(`title.ilike.%${q}%,location.ilike.%${q}%`)
+    }
   }
 
   const { data: properties } = await query

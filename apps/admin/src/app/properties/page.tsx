@@ -6,6 +6,9 @@ import Link from 'next/link'
 import { formatIndianCurrencyShort } from '@/lib/formatPrice'
 import { AdvancedSearchControls } from '@/components/AdvancedSearchControls'
 
+
+const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)
+
 export const dynamic = 'force-dynamic'
 
 export default async function AdminPropertiesPage({
@@ -38,7 +41,21 @@ export default async function AdminPropertiesPage({
     .order('created_at', { ascending: false })
 
   if (q) {
-    propertiesQuery = propertiesQuery.or(`title.ilike.%${q}%,location.ilike.%${q}%,city.ilike.%${q}%`)
+    if (isUUID(q)) {
+      propertiesQuery = propertiesQuery.or(`id.eq.${q},owner_id.eq.${q}`)
+    } else if (q.includes('@')) {
+      // If it looks like an email, find matching profile IDs first
+      const { data: matchedProfiles } = await supabase.from('profiles').select('id').ilike('email', `%${q}%`)
+      if (matchedProfiles && matchedProfiles.length > 0) {
+        const ids = matchedProfiles.map(p => p.id).join(',')
+        propertiesQuery = propertiesQuery.filter('owner_id', 'in', `(${ids})`)
+      } else {
+        // If no email matches, force empty result
+        propertiesQuery = propertiesQuery.eq('id', '00000000-0000-0000-0000-000000000000')
+      }
+    } else {
+      propertiesQuery = propertiesQuery.or(`title.ilike.%${q}%,location.ilike.%${q}%,city.ilike.%${q}%`)
+    }
   }
   if (status) {
     propertiesQuery = propertiesQuery.eq('status', status)

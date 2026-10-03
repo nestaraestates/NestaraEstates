@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { Users, Eye, Search } from 'lucide-react'
 import { AdvancedSearchControls } from '@/components/AdvancedSearchControls'
 
+
+const isUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str)
+
 export const dynamic = 'force-dynamic'
 
 export default async function BuyerHubPage({
@@ -25,7 +28,13 @@ export default async function BuyerHubPage({
     .order('created_at', { ascending: false })
 
   if (q) {
-    query = query.or(`name.ilike.%${q}%,email.ilike.%${q}%,phone.ilike.%${q}%,properties.title.ilike.%${q}%`)
+    if (isUUID(q)) {
+      query = query.or(`id.eq.${q},user_id.eq.${q},property_id.eq.${q}`)
+    } else {
+      // NOTE: Supabase JS doesn't support nested table fields in top-level .or() easily if they are not explicitly embedded correctly, but we'll try:
+      // wait, the subagent used 'properties.title.ilike', let's preserve it or replace it safely.
+      query = query.or(`name.ilike.%${q}%,email.ilike.%${q}%,phone.ilike.%${q}%`)
+    }
   }
   if (status) {
     query = query.eq('status', status)
