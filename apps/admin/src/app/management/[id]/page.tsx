@@ -36,6 +36,38 @@ export default async function UserDetailsPage({
     .select('*', { count: 'exact', head: true })
     .eq('owner_id', id)
 
+  const { count: enquiriesCount } = await supabase
+    .from('enquiries')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', id)
+
+  const { data: pushSubscription } = await supabase
+    .from('push_subscriptions')
+    .select('id')
+    .eq('user_id', id)
+    .limit(1)
+    .maybeSingle()
+    
+  const hasPushSubscription = !!pushSubscription
+  
+  const { data: listedProperties } = await supabase
+    .from('properties')
+    .select('id, title, price, status')
+    .eq('owner_id', id)
+    .order('created_at', { ascending: false })
+    
+  const { data: recentEnquiries } = await supabase
+    .from('enquiries')
+    .select(`
+      id, 
+      created_at, 
+      status, 
+      property_id,
+      properties ( title )
+    `)
+    .eq('user_id', id)
+    .order('created_at', { ascending: false })
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4 mb-4">
@@ -60,28 +92,43 @@ export default async function UserDetailsPage({
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3 text-sm">
                 <User className="h-4 w-4 text-zinc-400" />
-                <span className="font-medium w-24">Name:</span>
+                <span className="font-medium w-36">Name:</span>
                 <span className="text-zinc-600">{profile.full_name || 'Not provided'}</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <Mail className="h-4 w-4 text-zinc-400" />
-                <span className="font-medium w-24">Email:</span>
+                <span className="font-medium w-36">Email:</span>
                 <span className="text-zinc-600">{profile.email}</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <Phone className="h-4 w-4 text-zinc-400" />
-                <span className="font-medium w-24">Phone:</span>
+                <span className="font-medium w-36">Phone:</span>
                 <span className="text-zinc-600">{profile.phone_number || 'Not provided'}</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <Calendar className="h-4 w-4 text-zinc-400" />
-                <span className="font-medium w-24">Joined:</span>
+                <span className="font-medium w-36">Joined:</span>
                 <span className="text-zinc-600">{new Date(profile.created_at).toLocaleDateString()}</span>
               </div>
               <div className="flex items-center gap-3 text-sm">
                 <CheckCircle className="h-4 w-4 text-zinc-400" />
-                <span className="font-medium w-24">Verification:</span>
+                <span className="font-medium w-36">Verification:</span>
                 <span className="text-zinc-600 capitalize">{profile.verification_status?.toLowerCase()}</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm">
+                <User className="h-4 w-4 text-zinc-400" />
+                <span className="font-medium w-36">Full UUID:</span>
+                <span className="text-zinc-600 font-mono text-xs">{profile.id}</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm">
+                <User className="h-4 w-4 text-zinc-400" />
+                <span className="font-medium w-36">Preferred Cities:</span>
+                <span className="text-zinc-600">{profile.preferred_cities?.join(', ') || 'None'}</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm">
+                <CheckCircle className="h-4 w-4 text-zinc-400" />
+                <span className="font-medium w-36">Push Notifications:</span>
+                <span className="text-zinc-600">{hasPushSubscription ? 'Enabled' : 'Disabled'}</span>
               </div>
             </CardContent>
           </Card>
@@ -96,7 +143,65 @@ export default async function UserDetailsPage({
                   <div className="text-2xl font-bold text-zinc-900">{propertyCount || 0}</div>
                   <div className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Properties Listed</div>
                 </div>
+                <div className="bg-zinc-50 p-4 rounded-lg border border-zinc-100 text-center">
+                  <div className="text-2xl font-bold text-zinc-900">{enquiriesCount || 0}</div>
+                  <div className="text-xs text-zinc-500 uppercase tracking-wider mt-1">Enquiries Made</div>
+                </div>
               </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Listed Properties</CardTitle>
+              <CardDescription>Properties owned by this user</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {listedProperties && listedProperties.length > 0 ? (
+                <div className="space-y-4">
+                  {listedProperties.map((prop) => (
+                    <div key={prop.id} className="flex justify-between items-center border-b pb-2 last:border-0 last:pb-0">
+                      <div>
+                        <div className="font-medium text-sm text-zinc-900">{prop.title}</div>
+                        <div className="text-xs text-zinc-500">₹{prop.price?.toLocaleString()} • {prop.status}</div>
+                      </div>
+                      <Link href={`/properties/${prop.id}`}>
+                        <Button variant="outline" size="sm" className="h-7 text-xs">View</Button>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-sm text-zinc-500 text-center py-4">No properties listed.</div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Enquiries</CardTitle>
+              <CardDescription>Properties this user enquired about</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {recentEnquiries && recentEnquiries.length > 0 ? (
+                <div className="space-y-4">
+                  {recentEnquiries.map((enq) => (
+                    <div key={enq.id} className="flex justify-between items-center border-b pb-2 last:border-0 last:pb-0">
+                      <div>
+                        <div className="font-medium text-sm text-zinc-900">{enq.properties?.title || 'Unknown Property'}</div>
+                        <div className="text-xs text-zinc-500">{new Date(enq.created_at).toLocaleDateString()} • {enq.status}</div>
+                      </div>
+                      {enq.property_id && (
+                        <Link href={`/properties/${enq.property_id}`}>
+                          <Button variant="outline" size="sm" className="h-7 text-xs">Property</Button>
+                        </Link>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-sm text-zinc-500 text-center py-4">No enquiries made.</div>
+              )}
             </CardContent>
           </Card>
         </div>
