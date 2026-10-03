@@ -27,7 +27,7 @@ export default async function InboxPage({ searchParams }: { searchParams: Promis
     .single()
 
   // Admins still get routed to their master CRM automatically
-  if (profile?.role === 'admin') {
+  if ((profile?.role === 'admin' || profile?.role === 'ADMIN')) {
     redirect('/admin/crm')
   }
 

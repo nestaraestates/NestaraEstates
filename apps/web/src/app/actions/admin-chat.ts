@@ -10,7 +10,7 @@ export async function sendChatMessage(enquiryId: string, receiverId: string, mes
   if (!user) return { error: 'Unauthorized' }
 
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-  if (!isSuperAdmin(user.email) && profile?.role !== 'admin') {
+  if (!isSuperAdmin(user.email) && (profile?.role !== 'admin' && profile?.role !== 'ADMIN')) {
     return { error: 'Forbidden' }
   }
 
