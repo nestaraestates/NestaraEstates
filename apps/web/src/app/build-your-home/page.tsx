@@ -130,10 +130,17 @@ export default function BuildYourHomePage() {
                     <option value="100000">₹50k - ₹1 Lakh</option>
                     <option value="500000">₹1 Lakh - ₹5 Lakhs</option>
                     <option value="1500000">₹5 Lakhs - ₹15 Lakhs</option>
-                    <option value="5000000">₹15 Lakhs - ₹50 Lakhs</option>
-                    <option value="10000000">₹50 Lakhs - ₹1 Crore</option>
-                    <option value="50000000">₹1 Crore - ₹5 Crores</option>
-                    <option value="100000000">₹5 Crores +</option>
+                    <option value="1500001">₹15 Lakhs - ₹25 Lakhs</option>
+                    <option value="2500000">₹25 Lakhs - ₹35 Lakhs</option>
+                    <option value="3500000">₹35 Lakhs - ₹45 Lakhs</option>
+                    <option value="4500000">₹45 Lakhs - ₹55 Lakhs</option>
+                    <option value="5500000">₹55 Lakhs - ₹65 Lakhs</option>
+                    <option value="6500000">₹65 Lakhs - ₹75 Lakhs</option>
+                    <option value="7500000">₹75 Lakhs - ₹85 Lakhs</option>
+                    <option value="8500000">₹85 Lakhs - ₹95 Lakhs</option>
+                    <option value="9500000">₹95 Lakhs - ₹1 Crore</option>
+                    <option value="10000000">₹1 Crore - ₹5 Crores</option>
+                    <option value="50000000">₹5 Crores +</option>
                   </select>
                 </div>
               </div>
