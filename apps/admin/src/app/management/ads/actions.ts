@@ -30,3 +30,10 @@ export async function deleteAd(id: string | number) {
   if (error) throw new Error(error.message)
   revalidatePath('/management/ads')
 }
+
+export async function updateAd(id: string, updates: { image_url?: string, redirect_url?: string }) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('mobile_ads').update(updates).eq('id', id)
+  if (error) throw new Error(error.message)
+  revalidatePath('/management/ads')
+}
