@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
+import { RequestQuoteModal } from './RequestQuoteModal'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { MapPin, Briefcase, IndianRupee, Star, ShieldCheck, CheckCircle2 } from 'lucide-react'
@@ -104,6 +105,11 @@ export default async function ProfessionalProfilePage({ params }: { params: Prom
               </div>
             </div>
           </CardContent>
+          {user && user.id !== pro.id && (
+            <div className="px-8 pb-8 pt-0">
+              <RequestQuoteModal pro={pro} />
+            </div>
+          )}
         </Card>
 
         {/* Portfolio Section */}

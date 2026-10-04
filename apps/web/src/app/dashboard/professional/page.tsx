@@ -45,11 +45,19 @@ export default async function ProfessionalDashboard() {
     .order('created_at', { ascending: false })
 
   // Fetch active leads (service requests)
-  const { data: leads } = await supabase
+  const { data: allLeads } = await supabase
     .from('service_requests')
     .select('*')
     .eq('status', 'OPEN')
     .order('created_at', { ascending: false })
+
+  // Filter leads: show global leads AND direct leads targeted at this specific professional
+  const leads = allLeads?.filter((lead: any) => {
+    if (lead.details?.startsWith('DIRECT_REQUEST_FOR:')) {
+      return lead.details.startsWith(`DIRECT_REQUEST_FOR:${user.id}`);
+    }
+    return true; // it's a global lead
+  }) || []
 
   // Fetch quotes submitted by this professional
   const { data: myQuotes } = await supabase
@@ -182,15 +190,25 @@ export default async function ProfessionalDashboard() {
                 <div className="divide-y divide-surface-100">
                   {leads.map((lead: any) => {
                     const hasQuoted = quotedRequestIds.has(lead.id);
+                    const isDirect = lead.details?.startsWith('DIRECT_REQUEST_FOR:');
+                    const displayDetails = isDirect ? lead.details.split('|').slice(1).join('|').trim() : lead.details;
+                    
                     return (
-                      <div key={lead.id} className="p-6 hover:bg-surface-50 transition-colors">
+                      <div key={lead.id} className={`p-6 transition-colors ${isDirect ? 'bg-amber-50/50 hover:bg-amber-50 dark:bg-amber-950/20' : 'hover:bg-surface-50'}`}>
                         <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-bold text-surface-900">{lead.service_category}</h4>
+                          <div className="flex items-center gap-2">
+                            <h4 className="font-bold text-surface-900">{lead.service_category}</h4>
+                            {isDirect && (
+                              <span className="text-[10px] font-bold tracking-wider uppercase bg-amber-200 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 px-2 py-0.5 rounded-full border border-amber-300/50">
+                                Direct Request
+                              </span>
+                            )}
+                          </div>
                           <span className="text-xs font-medium bg-brand-100 text-brand-700 px-2 py-1 rounded">
                             {hasQuoted ? 'Quote Sent' : 'New Lead'}
                           </span>
                         </div>
-                        <p className="text-sm text-surface-600 mb-4 line-clamp-2">{lead.details}</p>
+                        <p className="text-sm text-surface-600 mb-4 line-clamp-2">{displayDetails}</p>
                         <div className="flex items-center gap-4 text-xs text-surface-500 mb-4">
                           <div className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {lead.location_data?.city || 'Anywhere'}</div>
                           <div className="flex items-center gap-1"><IndianRupee className="w-3 h-3" /> Budget: ₹{lead.budget_approx?.toLocaleString() || 'Flexible'}</div>

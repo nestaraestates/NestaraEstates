@@ -32,3 +32,39 @@ export async function submitReview(formData: FormData) {
   revalidatePath(`/professionals/${professional_id}`)
   return { success: true }
 }
+
+export async function createDirectRequest(proId: string, formData: FormData) {
+  const supabase = await createClient()
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { error: 'You must be logged in to send a request.' }
+  }
+
+  const service_category = formData.get('service_category') as string
+  const budget_approx = parseFloat(formData.get('budget_approx') as string)
+  const userDetails = formData.get('details') as string
+  
+  // We use a prefix in the details column to securely identify targeted requests
+  // without needing to alter the database schema to add a professional_id column
+  const targetedDetails = `DIRECT_REQUEST_FOR:${proId} | ${userDetails}`
+
+  const { error } = await supabase
+    .from('service_requests')
+    .insert({
+      customer_id: user.id,
+      service_category,
+      budget_approx,
+      details: targetedDetails,
+      status: 'OPEN'
+    })
+
+  if (error) {
+    console.error('Error creating direct request:', error)
+    return { error: 'Failed to send request. Please try again.' }
+  }
+
+  revalidatePath('/dashboard/buyer')
+  revalidatePath('/dashboard/professional')
+  return { success: true }
+}
