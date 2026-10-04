@@ -10,6 +10,7 @@ import { LogoUploader } from './LogoUploader'
 import { EditProfileModal } from './EditProfileModal'
 import { ProjectCard } from './ProjectCard'
 import { QuoteModal } from './QuoteModal'
+import { formatIndianNumber } from '@/utils/format'
 
 export default async function ProfessionalDashboard() {
   const supabase = await createClient()
@@ -60,7 +61,7 @@ export default async function ProfessionalDashboard() {
 
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-20">
+    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 pb-20">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-surface-900">Professional Hub</h1>
@@ -109,7 +110,7 @@ export default async function ProfessionalDashboard() {
               </div>
               <div className="flex items-center gap-3 text-surface-600 text-sm">
                 <IndianRupee className="w-4 h-4 text-surface-400" />
-                <span>Base: ₹{profile.base_price_amount} ({profile.pricing_model.replace('_', ' ')})</span>
+                <span>Base: ₹{formatIndianNumber(profile.base_price_amount)} ({profile.pricing_model.replace('_', ' ')})</span>
               </div>
               <div className="pt-4 border-t border-surface-100">
                 <p className="text-xs font-medium text-surface-400 uppercase tracking-wider mb-2">Verification Level</p>

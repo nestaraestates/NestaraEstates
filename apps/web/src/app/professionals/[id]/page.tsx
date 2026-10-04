@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { MapPin, Briefcase, IndianRupee, Star, ShieldCheck, CheckCircle2 } from 'lucide-react'
 import { ReviewForm } from './ReviewForm'
+import { formatIndianNumber } from '@/utils/format'
 
 export default async function ProfessionalProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -91,7 +92,7 @@ export default async function ProfessionalProfilePage({ params }: { params: Prom
                 <IndianRupee className="w-5 h-5 text-brand-500" />
                 <div>
                   <p className="text-sm font-medium text-surface-900">Pricing Base</p>
-                  <p className="text-sm text-surface-500">₹{pro.base_price_amount} ({pro.pricing_model})</p>
+                  <p className="text-sm text-surface-500">₹{formatIndianNumber(pro.base_price_amount)} ({pro.pricing_model.replace('_', ' ')})</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">

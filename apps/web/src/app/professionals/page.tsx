@@ -1,7 +1,8 @@
 import { createStaticClient } from '@/utils/supabase/static'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Briefcase, MapPin, Star, ShieldCheck, Camera, Search, Filter } from 'lucide-react'
+import { Briefcase, MapPin, Star, ShieldCheck, Camera, Search, Filter, User } from 'lucide-react'
+import { formatIndianNumber } from '@/utils/format'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
 import { ProfessionalsFilter } from './ProfessionalsFilter'
@@ -87,12 +88,19 @@ export default async function ProfessionalsPage({ searchParams }: { searchParams
                       )}
                     </div>
                     <CardContent className="p-4">
-                      <div className="flex justify-between items-start mb-2">
+                      <div className="flex gap-3 items-start mb-2">
+                        {pro.profiles?.avatar_url ? (
+                          <img src={pro.profiles.avatar_url} alt={name} className="w-10 h-10 rounded-full object-cover border border-zinc-200 shadow-sm shrink-0" />
+                        ) : (
+                          <div className="w-10 h-10 rounded-full bg-zinc-200 dark:bg-zinc-800 flex items-center justify-center shrink-0 shadow-sm">
+                            <User className="w-5 h-5 text-zinc-500" />
+                          </div>
+                        )}
                         <div>
-                          <span  className="mb-2 bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/30 dark:text-indigo-400 dark:border-indigo-800/50">
+                          <div className="mb-1 text-[11px] font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
                             {pro.category} {pro.sub_category ? `- ${pro.sub_category}` : ''}
-                          </span>
-                          <h3 className="font-semibold text-lg line-clamp-1">{name}</h3>
+                          </div>
+                          <h3 className="font-semibold text-lg leading-tight line-clamp-1">{name}</h3>
                         </div>
                       </div>
                       
@@ -104,7 +112,7 @@ export default async function ProfessionalsPage({ searchParams }: { searchParams
                         {pro.base_price_amount && (
                           <div className="flex items-center gap-2">
                             <span className="font-medium text-zinc-900 dark:text-zinc-100">
-                              ₹{pro.base_price_amount.toLocaleString('en-IN')}
+                              ₹{formatIndianNumber(pro.base_price_amount)}
                             </span>
                             <span className="text-xs">
                               {pro.pricing_model === 'PER_HOUR' ? '/ hr' : pro.pricing_model === 'PER_SQFT' ? '/ sq.ft' : ''}
