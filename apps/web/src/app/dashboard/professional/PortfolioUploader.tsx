@@ -19,7 +19,13 @@ export function PortfolioUploader() {
     
     try {
       const formData = new FormData(e.currentTarget)
-      const res = await uploadPortfolioItem(formData)
+          const files = formData.getAll('images');
+    if (files.length > 3) {
+      setError('You can only upload up to 3 images per project.');
+      setIsUploading(false);
+      return;
+    }
+    const res = await uploadPortfolioItem(formData)
       if (res?.error) {
         setError(res.error)
       } else {
@@ -71,8 +77,8 @@ export function PortfolioUploader() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="image">High-Quality Photo/Render</Label>
-                <Input id="image" name="image" type="file" accept="image/*" required />
+                <Label htmlFor="image">High-Quality Photos (Up to 3)</Label>
+                <Input id="image" name="images" multiple max="3" type="file" accept="image/*" required />
               </div>
 
               <div className="pt-4 flex justify-end gap-2">

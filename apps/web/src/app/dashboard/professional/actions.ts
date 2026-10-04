@@ -9,29 +9,40 @@ export async function uploadPortfolioItem(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'Unauthorized' }
 
+  
   const title = formData.get('title') as string
   const project_type = formData.get('project_type') as string
   const budget_range = formData.get('budget_range') as string
-  const image = formData.get('image') as File | null
+  const images = formData.getAll('images') as File[]
 
-  if (!title || !image || image.size === 0) {
-    return { error: 'Title and image are required.' }
+  if (!title || images.length === 0 || images[0].size === 0) {
+    return { error: 'Title and at least one image are required.' }
+  }
+  if (images.length > 3) {
+    return { error: 'Maximum 3 images allowed per project.' }
   }
 
-  // Upload image to storage
-  const fileExt = image.name.split('.').pop()
-  const fileName = `portfolio-${user.id}-${Date.now()}.${fileExt}`
-  const buffer = await image.arrayBuffer()
-  
-  const { error: uploadError } = await supabase.storage
-    .from('media')
-    .upload(fileName, buffer, { contentType: image.type })
+  const media_urls: string[] = []
 
-  if (uploadError) {
-    return { error: 'Failed to upload image.' }
+  for (const image of images) {
+    if (image.size === 0) continue;
+    const fileExt = image.name.split('.').pop()
+    const fileName = `portfolio-${user.id}-${Math.random().toString(36).substring(7)}.${fileExt}`
+    const buffer = await image.arrayBuffer()
+    
+    const { error: uploadError } = await supabase.storage
+      .from('media')
+      .upload(fileName, buffer, { contentType: image.type })
+
+    if (!uploadError) {
+      const { data: publicUrlData } = supabase.storage.from('media').getPublicUrl(fileName)
+      media_urls.push(publicUrlData.publicUrl)
+    }
   }
 
-  const { data: publicUrlData } = supabase.storage.from('media').getPublicUrl(fileName)
+  if (media_urls.length === 0) {
+    return { error: 'Failed to upload images.' }
+  }
 
   // Save to DB
   const { error: dbError } = await supabase.from('professional_portfolios').insert({
@@ -39,8 +50,9 @@ export async function uploadPortfolioItem(formData: FormData) {
     title,
     project_type,
     budget_range,
-    media_urls: [publicUrlData.publicUrl]
+    media_urls
   })
+
 
   if (dbError) {
     return { error: 'Failed to save portfolio record.' }
@@ -91,6 +103,33 @@ export async function submitQuote(formData: FormData) {
   })
 
   if (error) return { error: 'Failed to submit quote.' }
+  
+  revalidatePath('/dashboard/professional')
+  return { success: true }
+}
+
+
+export async function uploadCompanyLogo(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Unauthorized' }
+
+  const image = formData.get('logo') as File | null
+  if (!image || image.size === 0) return { error: 'Logo is required' }
+
+  const fileExt = image.name.split('.').pop()
+  const fileName = `logo-${user.id}-${Date.now()}.${fileExt}`
+  const buffer = await image.arrayBuffer()
+  
+  const { error: uploadError } = await supabase.storage
+    .from('avatars')
+    .upload(fileName, buffer, { contentType: image.type, upsert: true })
+
+  if (uploadError) return { error: 'Failed to upload logo' }
+
+  const { data: publicUrlData } = supabase.storage.from('avatars').getPublicUrl(fileName)
+
+  await supabase.from('profiles').update({ avatar_url: publicUrlData.publicUrl }).eq('id', user.id)
   
   revalidatePath('/dashboard/professional')
   return { success: true }

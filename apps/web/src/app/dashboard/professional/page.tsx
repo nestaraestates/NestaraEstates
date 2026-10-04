@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { MapPin, Briefcase, IndianRupee, Clock, Star, Plus, CheckCircle2, XCircle } from 'lucide-react'
 import { toggleAvailability } from './actions'
 import { PortfolioUploader } from './PortfolioUploader'
+import { LogoUploader } from './LogoUploader'
 import { QuoteModal } from './QuoteModal'
 
 export default async function ProfessionalDashboard() {
@@ -17,7 +18,7 @@ export default async function ProfessionalDashboard() {
   // Fetch professional profile
   const { data: profile } = await supabase
     .from('professional_profiles')
-    .select('*')
+    .select('*, profiles:id(avatar_url)')
     .eq('id', user.id)
     .single()
 
