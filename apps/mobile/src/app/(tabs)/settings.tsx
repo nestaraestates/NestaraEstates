@@ -79,13 +79,6 @@ export default function ProfileScreen() {
     },
 
     {
-      title: 'Professional Services',
-      items: [
-        { icon: <Hammer size={22} color="#f97316" /> as any, title: 'Build Your Home', subtitle: 'Post a project for pros', route: '/build-your-home' },
-        { icon: <Briefcase size={22} color="#10b981" /> as any, title: 'Pro Dashboard', subtitle: 'Manage leads and links', route: '/dashboard/professional' },
-      ]
-    },
-    {
       title: 'Tools & Preferences',
       items: [
         { icon: <Calculator size={22} color="#8b5cf6" /> as any, title: 'Calculators & Tools', subtitle: 'EMI, ROI, Area Converter', route: '/tools' },

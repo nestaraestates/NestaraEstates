@@ -363,7 +363,7 @@ export default function HomeScreen() {
 
             {/* Professional Services Banner */}
             <Pressable 
-              onPress={() => router.push('/professionals' as any)}
+              onPress={() => router.push('/services-hub' as any)}
               className="mx-4 mt-2 mb-2 p-5 bg-zinc-900 rounded-3xl flex-row items-center justify-between shadow-sm overflow-hidden"
             >
               <View className="flex-1 pr-4">
@@ -371,8 +371,8 @@ export default function HomeScreen() {
                   <Text className="text-amber-400 font-bold text-xs uppercase tracking-wider mb-1">Nestara Pros</Text>
                   <View className="ml-2 px-1.5 py-0.5 bg-brand-500 rounded"><Text className="text-[10px] text-white font-bold">NEW</Text></View>
                 </View>
-                <Text className="text-white font-bold text-lg mb-1">Hire Verified Pros</Text>
-                <Text className="text-zinc-400 text-xs">Architects, Interior Designers, & Contractors</Text>
+                <Text className="text-white font-bold text-lg mb-1">Hire, Build, or Manage</Text>
+                <Text className="text-zinc-400 text-xs">Directory | Global Requests | Pro Dashboard</Text>
               </View>
               <View className="w-12 h-12 bg-white/10 rounded-full items-center justify-center">
                 <Briefcase size={22} color="#FFF" />
