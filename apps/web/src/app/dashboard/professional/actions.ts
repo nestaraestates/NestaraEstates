@@ -61,3 +61,37 @@ export async function toggleAvailability(currentStatus: boolean) {
   
   revalidatePath('/dashboard/professional')
 }
+
+export async function submitQuote(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Unauthorized' }
+
+  const request_id = formData.get('request_id') as string
+  const quoted_amount = parseFloat(formData.get('quoted_amount') as string) || 0
+  const message = formData.get('message') as string
+
+  // Check if already quoted
+  const { data: existing } = await supabase.from('quotes')
+    .select('id')
+    .eq('request_id', request_id)
+    .eq('professional_id', user.id)
+    .single()
+
+  if (existing) {
+    return { error: 'You have already submitted a quote for this lead.' }
+  }
+
+  const { error } = await supabase.from('quotes').insert({
+    request_id,
+    professional_id: user.id,
+    quoted_amount,
+    message,
+    status: 'PENDING'
+  })
+
+  if (error) return { error: 'Failed to submit quote.' }
+  
+  revalidatePath('/dashboard/professional')
+  return { success: true }
+}

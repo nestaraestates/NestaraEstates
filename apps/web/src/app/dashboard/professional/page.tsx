@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { MapPin, Briefcase, IndianRupee, Clock, Star, Plus, CheckCircle2, XCircle } from 'lucide-react'
 import { toggleAvailability } from './actions'
 import { PortfolioUploader } from './PortfolioUploader'
+import { QuoteModal } from './QuoteModal'
 
 export default async function ProfessionalDashboard() {
   const supabase = await createClient()
@@ -38,6 +39,22 @@ export default async function ProfessionalDashboard() {
     .select('*')
     .eq('professional_id', user.id)
     .order('created_at', { ascending: false })
+
+  // Fetch active leads (service requests)
+  const { data: leads } = await supabase
+    .from('service_requests')
+    .select('*')
+    .eq('status', 'OPEN')
+    .order('created_at', { ascending: false })
+
+  // Fetch quotes submitted by this professional
+  const { data: myQuotes } = await supabase
+    .from('quotes')
+    .select('request_id')
+    .eq('professional_id', user.id)
+
+  const quotedRequestIds = new Set(myQuotes?.map(q => q.request_id) || [])
+
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-20">
@@ -146,14 +163,44 @@ export default async function ProfessionalDashboard() {
               <CardTitle>Active Leads & Service Requests</CardTitle>
               <CardDescription>Respond to clients who need your services.</CardDescription>
             </CardHeader>
-            <CardContent className="p-10 text-center flex flex-col items-center">
-              <div className="w-16 h-16 bg-surface-100 rounded-full flex items-center justify-center mb-4">
-                <Clock className="w-8 h-8 text-surface-400" />
-              </div>
-              <h3 className="text-lg font-bold text-surface-900 mb-2">No Active Leads</h3>
-              <p className="text-surface-500 max-w-md">
-                You don't have any pending service requests right now. Keep your profile updated and portfolio fresh to attract more customers.
-              </p>
+            <CardContent className="p-0">
+              {!leads || leads.length === 0 ? (
+                <div className="p-10 text-center flex flex-col items-center">
+                  <div className="w-16 h-16 bg-surface-100 rounded-full flex items-center justify-center mb-4">
+                    <Clock className="w-8 h-8 text-surface-400" />
+                  </div>
+                  <h3 className="text-lg font-bold text-surface-900 mb-2">No Active Leads</h3>
+                  <p className="text-surface-500 max-w-md">
+                    You don't have any pending service requests right now.
+                  </p>
+                </div>
+              ) : (
+                <div className="divide-y divide-surface-100">
+                  {leads.map((lead: any) => {
+                    const hasQuoted = quotedRequestIds.has(lead.id);
+                    return (
+                      <div key={lead.id} className="p-6 hover:bg-surface-50 transition-colors">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="font-bold text-surface-900">{lead.service_category}</h4>
+                          <span className="text-xs font-medium bg-brand-100 text-brand-700 px-2 py-1 rounded">
+                            {hasQuoted ? 'Quote Sent' : 'New Lead'}
+                          </span>
+                        </div>
+                        <p className="text-sm text-surface-600 mb-4 line-clamp-2">{lead.details}</p>
+                        <div className="flex items-center gap-4 text-xs text-surface-500 mb-4">
+                          <div className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {lead.location_data?.city || 'Anywhere'}</div>
+                          <div className="flex items-center gap-1"><IndianRupee className="w-3 h-3" /> Budget: ₹{lead.budget_approx?.toLocaleString() || 'Flexible'}</div>
+                        </div>
+                        {hasQuoted ? (
+                          <Button disabled variant="outline" className="w-full text-xs">Waiting for Customer</Button>
+                        ) : (
+                          <QuoteModal request={lead} />
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
             </CardContent>
           </Card>
 

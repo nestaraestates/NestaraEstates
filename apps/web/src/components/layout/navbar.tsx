@@ -89,7 +89,8 @@ export function Navbar() {
               <Link href="/rent" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300 whitespace-nowrap">Rent</Link>
               <Link href="/commercial" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300 whitespace-nowrap">Commercial</Link>
               <Link href="/build-your-home" className="text-[13px] font-medium text-brand-600 dark:text-brand-500 whitespace-nowrap">Build</Link>
-              <Link href="/join-professional" className="text-[13px] font-medium text-indigo-600 dark:text-indigo-400 whitespace-nowrap">Pro</Link>
+              <Link href="/professionals" className="text-[13px] font-medium text-indigo-600 dark:text-indigo-400 whitespace-nowrap">Hire Pros</Link>
+              <Link href="/join-professional" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300 whitespace-nowrap">Join Pro</Link>
             </div>
             
             <Link href="/list-property" className="hidden sm:block">

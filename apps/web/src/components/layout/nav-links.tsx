@@ -11,7 +11,8 @@ export function NavLinks() {
     { name: 'Rent', href: '/rent' },
     { name: 'Commercial', href: '/commercial' },
     { name: 'Build Home', href: '/build-your-home' },
-    { name: 'Professionals', href: '/join-professional' },
+    { name: 'Hire Pros', href: '/professionals' },
+    { name: 'Join as Pro', href: '/join-professional' },
     { name: 'Tools', href: '/tools' },
   ]
 
