@@ -58,9 +58,15 @@ export function AdminLoginForm() {
       <Button 
         type="button" 
         onClick={async () => {
-          const res = await loginWithGoogle();
-          if (res.success && res.url) {
-            window.location.href = res.url;
+          const supabase = createClient();
+          const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+              redirectTo: `${window.location.origin}/auth/callback`,
+            },
+          });
+          if (error) {
+            console.error('Google login error:', error);
           }
         }}
         variant="outline" 
