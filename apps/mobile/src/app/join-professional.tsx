@@ -4,6 +4,7 @@ import { Stack, useRouter } from 'expo-router';
 import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '@/lib/supabase';
 import { Hammer, Truck, Paintbrush, ChevronLeft, CheckCircle2 } from 'lucide-react-native';
+import { Picker } from '@react-native-picker/picker';
 
 const CATEGORIES = [
   { id: 'DESIGNER', title: 'Interior Designer', icon: Paintbrush, desc: '3D renders, floor plans, and space styling.', color: '#9333ea', bg: 'bg-purple-100', border: 'border-purple-500' },
@@ -163,17 +164,18 @@ export default function JoinProfessionalScreen() {
 
               <View className="mb-4">
                 <Text className="text-sm font-bold text-zinc-900 mb-2">Specialization</Text>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-                  {SUB_CATEGORIES[selectedCat]?.map((sub: string) => (
-                    <Pressable
-                      key={sub}
-                      onPress={() => setSubCategory(sub)}
-                      className={`px-4 py-2 rounded-full border mr-2 ${subCategory === sub ? 'bg-brand-50 border-brand-500' : 'bg-zinc-50 border-zinc-200'}`}
-                    >
-                      <Text className={`font-medium ${subCategory === sub ? 'text-brand-700' : 'text-zinc-600'}`}>{sub}</Text>
-                    </Pressable>
-                  ))}
-                </ScrollView>
+                <View className="bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden">
+                  <Picker
+                    selectedValue={subCategory}
+                    onValueChange={(itemValue) => setSubCategory(itemValue)}
+                    style={{ height: 50, width: '100%' }}
+                  >
+                    <Picker.Item label="Select specialization..." value="" color="#a1a1aa" />
+                    {SUB_CATEGORIES[selectedCat]?.map((sub: string) => (
+                      <Picker.Item key={sub} label={sub} value={sub} />
+                    ))}
+                  </Picker>
+                </View>
               </View>
 
               <View className="flex-row gap-4 mb-4">
@@ -200,17 +202,17 @@ export default function JoinProfessionalScreen() {
 
               <View className="mb-4">
                 <Text className="text-sm font-bold text-zinc-900 mb-2">Pricing Model</Text>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-                  {PRICING_MODELS.map((model) => (
-                    <Pressable
-                      key={model.id}
-                      onPress={() => setPricingModel(model.id)}
-                      className={`px-4 py-2 rounded-full border mr-2 ${pricingModel === model.id ? 'bg-brand-50 border-brand-500' : 'bg-zinc-50 border-zinc-200'}`}
-                    >
-                      <Text className={`font-medium ${pricingModel === model.id ? 'text-brand-700' : 'text-zinc-600'}`}>{model.label}</Text>
-                    </Pressable>
-                  ))}
-                </ScrollView>
+                <View className="bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden">
+                  <Picker
+                    selectedValue={pricingModel}
+                    onValueChange={(itemValue) => setPricingModel(itemValue)}
+                    style={{ height: 50, width: '100%' }}
+                  >
+                    {PRICING_MODELS.map((model) => (
+                      <Picker.Item key={model.id} label={model.label} value={model.id} />
+                    ))}
+                  </Picker>
+                </View>
               </View>
 
               <View className="mb-6">
