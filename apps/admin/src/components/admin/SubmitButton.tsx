@@ -7,7 +7,8 @@ import React from 'react'
 export function SubmitButton({ 
   children, 
   className,
-  loadingText
+  loadingText,
+  title
 }: { 
   children: React.ReactNode
   className?: string
