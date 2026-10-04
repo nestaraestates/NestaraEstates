@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '@/lib/supabase';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useRouter } from 'expo-router';
-import { User, Heart, Home, Settings, LogOut, ChevronRight, Bell, Shield, HelpCircle, FileText, Calculator, Trash2 } from 'lucide-react-native';
+import { User, Heart, Home, Settings, LogOut, ChevronRight, Bell, Shield, HelpCircle, FileText, Calculator, Trash2 , Briefcase, Hammer } from 'lucide-react-native';
 
 export default function ProfileScreen() {
  const [profile, setProfile] = useState<any>(null);
@@ -75,6 +75,14 @@ export default function ProfileScreen() {
         { icon: <User size={22} color="#4f46e5" /> as any, title: 'Personal Details', subtitle: 'Update your profile and address', route: '/profile/details' },
         { icon: <Home size={22} color="#059669" /> as any, title: 'My Properties', subtitle: 'Manage your active listings', route: '/profile/properties' },
         { icon: <Heart size={22} color="#ef4444" /> as any, title: 'Favorites', subtitle: 'Properties you have saved', route: '/profile/favorites' },
+      ]
+    },
+
+    {
+      title: 'Professional Services',
+      items: [
+        { icon: <Hammer size={22} color="#f97316" /> as any, title: 'Build Your Home', subtitle: 'Post a project for pros', route: '/build-your-home' },
+        { icon: <Briefcase size={22} color="#10b981" /> as any, title: 'Pro Dashboard', subtitle: 'Manage leads and links', route: '/dashboard/professional' },
       ]
     },
     {

@@ -3,7 +3,8 @@ import { View, Text, ScrollView, ActivityIndicator, Image, Pressable, Modal, Tex
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { supabase } from '@/lib/supabase';
-import { Briefcase, MapPin, Star, ShieldCheck, IndianRupee, X, Send } from 'lucide-react-native';
+import { Briefcase, MapPin, Star, ShieldCheck, IndianRupee, X, Send, Link as LinkIcon, ExternalLink } from 'lucide-react-native';
+import * as Linking from 'expo-linking';
 
 export default function ProfessionalProfileScreen() {
   const { id } = useLocalSearchParams();
@@ -12,6 +13,7 @@ export default function ProfessionalProfileScreen() {
   
   const [pro, setPro] = useState<any>(null);
   const [portfolio, setPortfolio] = useState<any[]>([]);
+  const [links, setLinks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Quote Modal State
@@ -40,7 +42,8 @@ export default function ProfessionalProfileScreen() {
         .eq('professional_id', id);
         
       setPro(proData);
-      setPortfolio(portData || []);
+      setPortfolio(portData?.filter((p: any) => p.project_type !== 'WEBSITE_LINK') || []);
+      setLinks(portData?.filter((p: any) => p.project_type === 'WEBSITE_LINK') || []);
     } catch (e) {
       console.error(e);
     } finally {
@@ -146,7 +149,20 @@ export default function ProfessionalProfileScreen() {
               <Text className="text-xs text-zinc-500 mt-1">Years Exp.</Text>
             </View>
           </View>
+
+          {links.length > 0 && (
+            <View className="flex-row flex-wrap gap-2 mt-6 pt-6 border-t border-zinc-100 px-2">
+              {links.map((link: any) => (
+                <Pressable key={link.id} onPress={() => Linking.openURL(link.description)} className="flex-row items-center bg-white px-4 py-2 rounded-full border border-zinc-200 shadow-sm mr-2 mb-2">
+                  <LinkIcon size={14} color="#0284c7" />
+                  <Text className="text-sm font-bold text-zinc-900 ml-2 mr-1">{link.title}</Text>
+                  <ExternalLink size={12} color="#A1A1AA" />
+                </Pressable>
+              ))}
+            </View>
+          )}
         </View>
+
 
         {/* Stats */}
         <View className="flex-row p-4 gap-4">
