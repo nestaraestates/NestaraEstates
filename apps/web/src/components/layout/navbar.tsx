@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Building, Smartphone, User, LogOut, MessageSquare } from 'lucide-react'
+import { Building, Smartphone, User, LogOut, MessageSquare, Briefcase } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -18,6 +18,7 @@ import { LocationPickerModal } from './LocationPickerModal'
 export function Navbar() {
   const [user, setUser] = useState<SupabaseUser | null>(null)
   const [unreadCount, setUnreadCount] = useState(0)
+  const [isProfessional, setIsProfessional] = useState(false)
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false)
   const router = useRouter()
   const supabase = createClient()
@@ -27,13 +28,21 @@ export function Navbar() {
     async function loadUser() {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
-      if (user) {
+            if (user) {
         const { count } = await supabase
           .from('notifications')
           .select('*', { count: 'exact', head: true })
           .eq('user_id', user.id)
           .eq('is_read', false)
         setUnreadCount(count || 0)
+
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('professional_type')
+          .eq('id', user.id)
+          .single()
+        
+        setIsProfessional(!!(profile?.professional_type && profile.professional_type.length > 0))
       }
     }
     loadUser()
@@ -108,6 +117,14 @@ export function Navbar() {
                     <span className="sr-only">Inbox</span>
                   </Button>
                 </Link>
+                                {isProfessional && (
+                  <Link href="/dashboard/professional">
+                    <Button variant="ghost" size="icon" className="text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 dark:text-brand-400 dark:bg-brand-900/30">
+                      <Briefcase className="h-5 w-5" />
+                      <span className="sr-only">Pro Dashboard</span>
+                    </Button>
+                  </Link>
+                )}
                 <Link href="/dashboard/buyer">
                   <Button variant="ghost" size="icon" className="text-amber-600 hover:text-amber-700 dark:text-amber-500">
                     <User className="h-5 w-5" />
