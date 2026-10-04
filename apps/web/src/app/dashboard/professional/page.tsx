@@ -7,6 +7,8 @@ import { MapPin, Briefcase, IndianRupee, Clock, Star, Plus, CheckCircle2, XCircl
 import { toggleAvailability } from './actions'
 import { PortfolioUploader } from './PortfolioUploader'
 import { LogoUploader } from './LogoUploader'
+import { EditProfileModal } from './EditProfileModal'
+import { ProjectCard } from './ProjectCard'
 import { QuoteModal } from './QuoteModal'
 
 export default async function ProfessionalDashboard() {
@@ -90,7 +92,10 @@ export default async function ProfessionalDashboard() {
               </div>
               <div className="flex flex-col items-start gap-4">
                 <LogoUploader currentLogo={profile.profiles?.avatar_url} companyName={profile.company_name} />
-                <CardTitle className="text-xl">{profile.company_name}</CardTitle>
+                <div className="flex items-center gap-2">
+                  <CardTitle className="text-xl">{profile.company_name}</CardTitle>
+                  <EditProfileModal profile={profile} />
+                </div>
               </div>
             </CardHeader>
             <CardContent className="p-6 space-y-4">
@@ -149,13 +154,7 @@ export default async function ProfessionalDashboard() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {portfolio.map((item) => (
-                    <div key={item.id} className="group relative rounded-xl overflow-hidden border border-surface-200">
-                      <img src={item.media_urls[0]} alt={item.title} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-4">
-                        <h4 className="text-white font-bold">{item.title}</h4>
-                        <p className="text-surface-300 text-xs">{item.project_type} • {item.budget_range}</p>
-                      </div>
-                    </div>
+                    <ProjectCard key={item.id} item={item} />
                   ))}
                 </div>
               )}

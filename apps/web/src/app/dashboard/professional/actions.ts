@@ -134,3 +134,50 @@ export async function uploadCompanyLogo(formData: FormData) {
   revalidatePath('/dashboard/professional')
   return { success: true }
 }
+
+export async function deletePortfolioItem(id: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Unauthorized' }
+
+  const { error } = await supabase
+    .from('professional_portfolios')
+    .delete()
+    .eq('id', id)
+    .eq('professional_id', user.id)
+
+  if (error) return { error: 'Failed to delete project.' }
+  
+  revalidatePath('/dashboard/professional')
+  return { success: true }
+}
+
+export async function updateProfessionalProfile(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Unauthorized' }
+
+  const company_name = formData.get('company_name') as string
+  const years_experience = parseInt(formData.get('years_experience') as string) || 0
+  const service_radius_km = parseInt(formData.get('service_radius_km') as string) || 50
+  const base_price_amount = parseFloat(formData.get('base_price_amount') as string) || 0
+  const pricing_model = formData.get('pricing_model') as string
+
+  if (!company_name) return { error: 'Company Name is required' }
+
+  const { error } = await supabase
+    .from('professional_profiles')
+    .update({
+      company_name,
+      years_experience,
+      service_radius_km,
+      base_price_amount,
+      pricing_model
+    })
+    .eq('id', user.id)
+
+  if (error) return { error: 'Failed to update profile.' }
+  
+  revalidatePath('/dashboard/professional')
+  return { success: true }
+}
