@@ -22,7 +22,7 @@ export default async function ProfessionalsPage({ searchParams }: { searchParams
     .from('professional_profiles')
     .select(`
       *,
-      profiles:id (full_name, avatar_url),
+      profiles (full_name, avatar_url),
       professional_portfolios (media_urls)
     `)
     .eq('is_available', true)

@@ -13,7 +13,7 @@ export default async function ProfessionalProfilePage({ params }: { params: Prom
 
   const { data: pro } = await supabase
     .from('professional_profiles')
-    .select('*, profiles:id (full_name, avatar_url)')
+    .select('*, profiles (full_name, avatar_url)')
     .eq('id', id)
     .single()
 
