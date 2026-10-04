@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, ActivityIndicator, Pressable, Image } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
+import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '@/lib/supabase';
 import { Briefcase, MapPin, Star, ShieldCheck, ChevronRight, Camera, User, IndianRupee } from 'lucide-react-native';
 
@@ -105,11 +106,16 @@ export default function ProfessionalsDirectoryScreen() {
     );
   };
 
+  const insets = useSafeAreaInsets();
+
   return (
-    <View className="flex-1 bg-zinc-50">
-      <Stack.Screen options={{ title: 'Hire Professionals', headerTitleStyle: { fontWeight: 'bold' } }} />
+    <SafeAreaView className="flex-1 bg-zinc-50" style={{ paddingTop: insets.top }}>
+      <Stack.Screen options={{ title: 'Hire Professionals', headerTitleStyle: { fontWeight: 'bold' }, headerShown: false }} />
       
-      <View className="px-4 pt-6 pb-2">
+      <View className="px-4 pt-4 pb-2">
+        <Pressable onPress={() => router.back()} className="w-10 h-10 bg-white rounded-full items-center justify-center shadow-sm border border-zinc-200 mb-4">
+          <ChevronRight size={24} color="#52525B" style={{ transform: [{ rotate: '180deg' }] }} />
+        </Pressable>
         <Text className="text-2xl font-black text-zinc-900 mb-1">Global Service Directory</Text>
         <Text className="text-sm text-zinc-500">Find verified experts to design, build, and transport.</Text>
       </View>

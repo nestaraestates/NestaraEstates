@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, ActivityIndicator, Image, Pressable, Modal, TextInput } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, Image, Pressable, Modal, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { supabase } from '@/lib/supabase';
@@ -32,7 +32,7 @@ export default function ProfessionalProfileScreen() {
     try {
       const { data: proData } = await supabase
         .from('professional_profiles')
-        .select('*, profiles:id (full_name, avatar_url)')
+        .select('*, profiles (full_name, avatar_url)')
         .eq('id', id)
         .single();
         
@@ -212,65 +212,67 @@ export default function ProfessionalProfileScreen() {
 
       {/* Request Quote Modal */}
       <Modal visible={showQuoteModal} animationType="slide" transparent>
-        <View className="flex-1 justify-end bg-black/50">
-          <View className="bg-white rounded-t-3xl p-6" style={{ paddingBottom: Math.max(insets.bottom, 24) }}>
-            <View className="flex-row justify-between items-center mb-6">
-              <Text className="text-xl font-bold text-zinc-900">Request Quote</Text>
-              <Pressable onPress={() => setShowQuoteModal(false)}>
-                <X size={24} color="#71717A" />
-              </Pressable>
-            </View>
-
-            {success ? (
-              <View className="py-8 items-center">
-                <View className="w-16 h-16 bg-emerald-100 rounded-full items-center justify-center mb-4">
-                  <Send size={32} color="#059669" />
-                </View>
-                <Text className="text-xl font-bold text-zinc-900 mb-2">Request Sent!</Text>
-                <Text className="text-center text-zinc-500">{pro.company_name} will get back to you soon.</Text>
-              </View>
-            ) : (
-              <View>
-                <Text className="text-sm font-semibold text-zinc-900 mb-2">Service Needed</Text>
-                <View className="border border-zinc-200 rounded-xl mb-4 px-4 py-3 bg-brand-50 border-brand-100">
-                  <Text className="text-brand-700 font-bold">{pro.category}</Text>
-                </View>
-
-                <Text className="text-sm font-semibold text-zinc-900 mb-2">Approximate Budget (₹)</Text>
-                <TextInput
-                  value={budget}
-                  onChangeText={setBudget}
-                  keyboardType="numeric"
-                  placeholder="e.g. 50000"
-                  className="border border-zinc-200 rounded-xl mb-4 px-4 py-3 bg-zinc-50 text-zinc-900"
-                />
-
-                <Text className="text-sm font-semibold text-zinc-900 mb-2">Project Details</Text>
-                <TextInput
-                  value={details}
-                  onChangeText={setDetails}
-                  multiline
-                  numberOfLines={4}
-                  placeholder="Describe your project, timeline..."
-                  className="border border-zinc-200 rounded-xl mb-6 px-4 py-3 bg-zinc-50 text-zinc-900 h-24 text-top"
-                  style={{ textAlignVertical: 'top' }}
-                />
-
-                <Pressable 
-                  disabled={isSubmitting}
-                  onPress={submitRequest}
-                  className={`py-4 rounded-xl items-center justify-center ${isSubmitting ? 'bg-brand-400' : 'bg-brand-600'}`}
-                >
-                  {isSubmitting ? (
-                    <ActivityIndicator color="white" />
-                  ) : (
-                    <Text className="text-white font-bold text-base">Send Request</Text>
-                  )}
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+          <View className="flex-1 justify-end bg-black/50">
+            <View className="bg-white rounded-t-3xl p-6" style={{ paddingBottom: Math.max(insets.bottom, 24) }}>
+              <View className="flex-row justify-between items-center mb-6">
+                <Text className="text-xl font-bold text-zinc-900">Request Quote</Text>
+                <Pressable onPress={() => setShowQuoteModal(false)}>
+                  <X size={24} color="#71717A" />
                 </Pressable>
               </View>
-            )}
+
+              {success ? (
+                <View className="py-8 items-center">
+                  <View className="w-16 h-16 bg-emerald-100 rounded-full items-center justify-center mb-4">
+                    <Send size={32} color="#059669" />
+                  </View>
+                  <Text className="text-xl font-bold text-zinc-900 mb-2">Request Sent!</Text>
+                  <Text className="text-center text-zinc-500">{pro.company_name} will get back to you soon.</Text>
+                </View>
+              ) : (
+                <View>
+                  <Text className="text-sm font-semibold text-zinc-900 mb-2">Service Needed</Text>
+                  <View className="border border-zinc-200 rounded-xl mb-4 px-4 py-3 bg-brand-50 border-brand-100">
+                    <Text className="text-brand-700 font-bold">{pro.category}</Text>
+                  </View>
+
+                  <Text className="text-sm font-semibold text-zinc-900 mb-2">Approximate Budget (₹)</Text>
+                  <TextInput
+                    value={budget}
+                    onChangeText={setBudget}
+                    keyboardType="numeric"
+                    placeholder="e.g. 50000"
+                    className="border border-zinc-200 rounded-xl mb-4 px-4 py-3 bg-zinc-50 text-zinc-900"
+                  />
+
+                  <Text className="text-sm font-semibold text-zinc-900 mb-2">Project Details</Text>
+                  <TextInput
+                    value={details}
+                    onChangeText={setDetails}
+                    multiline
+                    numberOfLines={4}
+                    placeholder="Describe your project, timeline..."
+                    className="border border-zinc-200 rounded-xl mb-6 px-4 py-3 bg-zinc-50 text-zinc-900 h-24 text-top"
+                    style={{ textAlignVertical: 'top' }}
+                  />
+
+                  <Pressable 
+                    disabled={isSubmitting}
+                    onPress={submitRequest}
+                    className={`py-4 rounded-xl items-center justify-center ${isSubmitting ? 'bg-brand-400' : 'bg-brand-600'}`}
+                  >
+                    {isSubmitting ? (
+                      <ActivityIndicator color="white" />
+                    ) : (
+                      <Text className="text-white font-bold text-base">Send Request</Text>
+                    )}
+                  </Pressable>
+                </View>
+              )}
+            </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     </View>
   );
