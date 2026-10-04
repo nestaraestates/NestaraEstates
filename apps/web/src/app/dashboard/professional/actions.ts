@@ -181,3 +181,27 @@ export async function updateProfessionalProfile(formData: FormData) {
   revalidatePath('/dashboard/professional')
   return { success: true }
 }
+
+export async function updatePortfolioItem(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Unauthorized' }
+
+  const id = formData.get('id') as string
+  const title = formData.get('title') as string
+  const project_type = formData.get('project_type') as string
+  const budget_range = formData.get('budget_range') as string
+
+  if (!id || !title) return { error: 'Project Title is required' }
+
+  const { error } = await supabase
+    .from('professional_portfolios')
+    .update({ title, project_type, budget_range })
+    .eq('id', id)
+    .eq('professional_id', user.id)
+
+  if (error) return { error: 'Failed to update project.' }
+  
+  revalidatePath('/dashboard/professional')
+  return { success: true }
+}
