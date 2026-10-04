@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-export function MobileMenu() {
+export function MobileMenu({ isProfessional }: { isProfessional?: boolean }) {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
@@ -16,7 +16,7 @@ export function MobileMenu() {
     { name: 'Commercial', href: '/commercial' },
     { name: 'Build Home', href: '/build-your-home' },
     { name: 'Hire Pros', href: '/professionals' },
-    { name: 'Join as Pro', href: '/join-professional' },
+    isProfessional ? { name: 'Pro Dashboard', href: '/dashboard/professional' } : { name: 'Join as Pro', href: '/join-professional' },
     { name: 'Verification', href: '/verification' },
     { name: 'Tools', href: '/tools' },
     { name: 'About', href: '/about' },

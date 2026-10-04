@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-export function NavLinks() {
+export function NavLinks({ isProfessional }: { isProfessional?: boolean }) {
   const pathname = usePathname()
 
   const links = [
@@ -12,7 +12,7 @@ export function NavLinks() {
     { name: 'Commercial', href: '/commercial' },
     { name: 'Build Home', href: '/build-your-home' },
     { name: 'Hire Pros', href: '/professionals' },
-    { name: 'Join as Pro', href: '/join-professional' },
+    isProfessional ? { name: 'Pro Dashboard', href: '/dashboard/professional' } : { name: 'Join as Pro', href: '/join-professional' },
     { name: 'Tools', href: '/tools' },
   ]
 

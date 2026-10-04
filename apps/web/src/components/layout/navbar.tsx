@@ -76,7 +76,7 @@ export function Navbar() {
               <MapPin className="h-4 w-4" />
               {isLocating ? '...' : (location.city || 'Anywhere')}
             </Button>
-            <NavLinks />
+            <NavLinks isProfessional={isProfessional} />
           </div>
           <div className="flex items-center gap-2 md:gap-4">
             <Button 
@@ -99,7 +99,11 @@ export function Navbar() {
               <Link href="/commercial" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300 whitespace-nowrap">Commercial</Link>
               <Link href="/build-your-home" className="text-[13px] font-medium text-brand-600 dark:text-brand-500 whitespace-nowrap">Build</Link>
               <Link href="/professionals" className="text-[13px] font-medium text-indigo-600 dark:text-indigo-400 whitespace-nowrap">Hire Pros</Link>
-              <Link href="/join-professional" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300 whitespace-nowrap">Join Pro</Link>
+              {isProfessional ? (
+                <Link href="/dashboard/professional" className="text-[13px] font-medium text-brand-600 dark:text-brand-400 whitespace-nowrap">Pro Hub</Link>
+              ) : (
+                <Link href="/join-professional" className="text-[13px] font-medium text-zinc-600 dark:text-zinc-300 whitespace-nowrap">Join Pro</Link>
+              )}
             </div>
             
             <Link href="/list-property" className="hidden sm:block">
@@ -117,14 +121,7 @@ export function Navbar() {
                     <span className="sr-only">Inbox</span>
                   </Button>
                 </Link>
-                                {isProfessional && (
-                  <Link href="/dashboard/professional">
-                    <Button variant="ghost" size="icon" className="text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 dark:text-brand-400 dark:bg-brand-900/30">
-                      <Briefcase className="h-5 w-5" />
-                      <span className="sr-only">Pro Dashboard</span>
-                    </Button>
-                  </Link>
-                )}
+                                
                 <Link href="/dashboard/buyer">
                   <Button variant="ghost" size="icon" className="text-amber-600 hover:text-amber-700 dark:text-amber-500">
                     <User className="h-5 w-5" />
@@ -145,7 +142,7 @@ export function Navbar() {
               </Link>
             )}
             
-            <MobileMenu />
+            <MobileMenu isProfessional={isProfessional} />
           </div>
         </div>
       </header>
