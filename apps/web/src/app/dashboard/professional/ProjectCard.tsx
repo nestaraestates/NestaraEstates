@@ -31,6 +31,12 @@ export function ProjectCard({ item }: { item: any }) {
     
     try {
       const formData = new FormData(e.currentTarget)
+      const files = formData.getAll('images') as File[]
+      if (files.length > 3) {
+        setError('You can only upload up to 3 images per project.')
+        setIsSaving(false)
+        return
+      }
       formData.append('id', item.id)
       const res = await updatePortfolioItem(formData)
       if (res?.error) {
@@ -108,6 +114,11 @@ export function ProjectCard({ item }: { item: any }) {
               <div className="space-y-2">
                 <Label htmlFor="budget_range">Budget Range</Label>
                 <Input id="budget_range" name="budget_range" defaultValue={item.budget_range} required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="images">Update Photos (Optional)</Label>
+                <Input id="images" name="images" type="file" accept="image/*" multiple max="3" />
+                <p className="text-xs text-zinc-500">Leave empty to keep existing photos, or select up to 3 new photos to replace them.</p>
               </div>
 
               <div className="pt-4 flex justify-end gap-2">

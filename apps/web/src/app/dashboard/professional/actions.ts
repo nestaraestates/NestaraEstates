@@ -191,12 +191,41 @@ export async function updatePortfolioItem(formData: FormData) {
   const title = formData.get('title') as string
   const project_type = formData.get('project_type') as string
   const budget_range = formData.get('budget_range') as string
+  const images = formData.getAll('images') as File[]
 
   if (!id || !title) return { error: 'Project Title is required' }
 
+  let updateData: any = { title, project_type, budget_range }
+
+  // Check if new images were uploaded
+  if (images.length > 0 && images[0].size > 0) {
+    if (images.length > 3) return { error: 'Maximum 3 images allowed per project.' }
+    
+    const media_urls: string[] = []
+    for (const image of images) {
+      if (image.size === 0) continue;
+      const fileExt = image.name.split('.').pop()
+      const fileName = `portfolio-${user.id}-${Math.random().toString(36).substring(7)}.${fileExt}`
+      const buffer = await image.arrayBuffer()
+      
+      const { error: uploadError } = await supabase.storage
+        .from('media')
+        .upload(fileName, buffer, { contentType: image.type })
+
+      if (!uploadError) {
+        const { data: publicUrlData } = supabase.storage.from('media').getPublicUrl(fileName)
+        media_urls.push(publicUrlData.publicUrl)
+      }
+    }
+    
+    if (media_urls.length > 0) {
+      updateData.media_urls = media_urls
+    }
+  }
+
   const { error } = await supabase
     .from('professional_portfolios')
-    .update({ title, project_type, budget_range })
+    .update(updateData)
     .eq('id', id)
     .eq('professional_id', user.id)
 
