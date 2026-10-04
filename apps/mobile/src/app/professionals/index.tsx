@@ -138,6 +138,6 @@ export default function ProfessionalsDirectoryScreen() {
           }
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 }
