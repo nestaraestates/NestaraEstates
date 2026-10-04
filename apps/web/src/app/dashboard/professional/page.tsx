@@ -8,6 +8,7 @@ import { toggleAvailability } from './actions'
 import { PortfolioUploader } from './PortfolioUploader'
 import { LogoUploader } from './LogoUploader'
 import { EditProfileModal } from './EditProfileModal'
+import { LinksManager } from './LinksManager'
 import { ProjectCard } from './ProjectCard'
 import { QuoteModal } from './QuoteModal'
 import { formatIndianNumber } from '@/utils/format'
@@ -38,7 +39,17 @@ export default async function ProfessionalDashboard() {
   }
 
   // Fetch portfolio items
-  const { data: portfolio } = await supabase
+  const { data: allPortfolio } = await supabase
+    .from('professional_portfolios')
+    .select('*')
+    .eq('professional_id', user.id)
+    .order('created_at', { ascending: false })
+    
+  const portfolio = allPortfolio?.filter(p => p.project_type !== 'WEBSITE_LINK') || [];
+  const links = allPortfolio?.filter(p => p.project_type === 'WEBSITE_LINK') || [];
+  
+  // Dummy to preserve compilation if later code used the old query result directly
+  const dummy = await supabase
     .from('professional_portfolios')
     .select('*')
     .eq('professional_id', user.id)

@@ -234,3 +234,40 @@ export async function updatePortfolioItem(formData: FormData) {
   revalidatePath('/dashboard/professional')
   return { success: true }
 }
+
+export async function saveWebsiteLink(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authorized' }
+
+  const title = formData.get('title') as string
+  const url = formData.get('url') as string
+
+  if (!title || !url) return { error: 'Title and URL are required' }
+
+  const { error } = await supabase.from('professional_portfolios').insert({
+    professional_id: user.id,
+    title,
+    description: url,
+    project_type: 'WEBSITE_LINK',
+    media_urls: [url]
+  })
+
+  if (error) {
+    console.error(error)
+    return { error: 'Failed to add link' }
+  }
+
+  revalidatePath('/dashboard/professional')
+  return { success: true }
+}
+
+export async function deleteWebsiteLink(id: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authorized' }
+
+  await supabase.from('professional_portfolios').delete().eq('id', id).eq('professional_id', user.id).eq('project_type', 'WEBSITE_LINK')
+  revalidatePath('/dashboard/professional')
+  return { success: true }
+}

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { RequestQuoteModal } from './RequestQuoteModal'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { MapPin, Briefcase, IndianRupee, Star, ShieldCheck, CheckCircle2 } from 'lucide-react'
+import { MapPin, Briefcase, IndianRupee, Star, ShieldCheck, CheckCircle2 , Link as LinkIcon, ExternalLink } from 'lucide-react'
 import { ReviewForm } from './ReviewForm'
 import { formatIndianNumber } from '@/utils/format'
 
@@ -21,7 +21,16 @@ export default async function ProfessionalProfilePage({ params }: { params: Prom
 
   if (!pro) return notFound()
 
-  const { data: portfolio } = await supabase
+  const { data: allPortfolio } = await supabase
+    .from('professional_portfolios')
+    .select('*')
+    .eq('professional_id', id)
+    .order('created_at', { ascending: false })
+    
+  const portfolio = allPortfolio?.filter(p => p.project_type !== 'WEBSITE_LINK') || [];
+  const links = allPortfolio?.filter(p => p.project_type === 'WEBSITE_LINK') || [];
+  
+  const dummy = await supabase
     .from('professional_portfolios')
     .select('*')
     .eq('professional_id', id)
@@ -104,7 +113,20 @@ export default async function ProfessionalProfilePage({ params }: { params: Prom
                 </div>
               </div>
             </div>
+
+            {links.length > 0 && (
+              <div className="flex flex-wrap gap-3 mt-8 pt-6 border-t border-surface-200">
+                {links.map((link: any) => (
+                  <a key={link.id} href={link.description} target="_blank" className="flex items-center gap-2 px-4 py-2 bg-white border border-surface-200 rounded-full shadow-sm hover:bg-surface-50 transition-colors">
+                    <LinkIcon className="w-4 h-4 text-brand-600" />
+                    <span className="text-sm font-bold text-surface-900">{link.title}</span>
+                    <ExternalLink className="w-3 h-3 text-surface-400 ml-1" />
+                  </a>
+                ))}
+              </div>
+            )}
           </CardContent>
+
           {user && user.id !== pro.id && (
             <div className="px-8 pb-8 pt-0">
               <RequestQuoteModal pro={pro} />

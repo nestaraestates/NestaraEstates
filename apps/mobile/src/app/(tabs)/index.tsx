@@ -361,6 +361,24 @@ export default function HomeScreen() {
               </ScrollView>
             </View>
 
+            {/* Professional Services Banner */}
+            <Pressable 
+              onPress={() => router.push('/professionals' as any)}
+              className="mx-4 mt-2 mb-2 p-5 bg-zinc-900 rounded-3xl flex-row items-center justify-between shadow-sm overflow-hidden"
+            >
+              <View className="flex-1 pr-4">
+                <View className="flex-row items-center mb-1">
+                  <Text className="text-amber-400 font-bold text-xs uppercase tracking-wider mb-1">Nestara Pros</Text>
+                  <View className="ml-2 px-1.5 py-0.5 bg-brand-500 rounded"><Text className="text-[10px] text-white font-bold">NEW</Text></View>
+                </View>
+                <Text className="text-white font-bold text-lg mb-1">Hire Verified Pros</Text>
+                <Text className="text-zinc-400 text-xs">Architects, Interior Designers, & Contractors</Text>
+              </View>
+              <View className="w-12 h-12 bg-white/10 rounded-full items-center justify-center">
+                <Briefcase size={22} color="#FFF" />
+              </View>
+            </Pressable>
+
             <View className="px-4 mt-4 mb-4 flex-row justify-between items-center">
               <Text className="text-lg font-bold text-surface-900">Featured Properties</Text>
               <Pressable onPress={() => router.push('/explore' as any)}>
