@@ -4,6 +4,7 @@ import { Stack, useRouter } from 'expo-router';
 import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '@/lib/supabase';
 import { HardHat, Ruler, Calendar, IndianRupee, MapPin, FileText, CheckCircle, Home } from 'lucide-react-native';
+import { Picker } from '@react-native-picker/picker';
 
 const SERVICE_CATEGORIES = [
   'Full Home Construction',
@@ -142,17 +143,18 @@ export default function BuildYourHomeScreen() {
                 <HardHat size={16} color="#0284c7" className="mr-2" />
                 <Text className="text-sm font-bold text-zinc-900">What do you need help with?</Text>
               </View>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row -mx-2 px-2 pb-2">
-                {SERVICE_CATEGORIES.map(cat => (
-                  <Pressable 
-                    key={cat}
-                    onPress={() => setServiceCategory(cat)}
-                    className={`px-4 py-2.5 rounded-full border mr-2 shadow-sm ${serviceCategory === cat ? 'bg-brand-50 border-brand-500' : 'bg-zinc-50 border-zinc-200'}`}
-                  >
-                    <Text className={`font-medium ${serviceCategory === cat ? 'text-brand-700' : 'text-zinc-600'}`}>{cat}</Text>
-                  </Pressable>
-                ))}
-              </ScrollView>
+              <View className="bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden mb-2">
+                <Picker
+                  selectedValue={serviceCategory}
+                  onValueChange={(itemValue) => setServiceCategory(itemValue)}
+                  style={{ height: 50, width: '100%' }}
+                >
+                  <Picker.Item label="Select a service type..." value="" color="#a1a1aa" />
+                  {SERVICE_CATEGORIES.map(cat => (
+                    <Picker.Item key={cat} label={cat} value={cat} />
+                  ))}
+                </Picker>
+              </View>
             </View>
 
             <View className="flex-row gap-4">
@@ -188,17 +190,18 @@ export default function BuildYourHomeScreen() {
                 <Home size={16} color="#0284c7" className="mr-2" />
                 <Text className="text-sm font-bold text-zinc-900">Number of Floors</Text>
               </View>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row -mx-2 px-2 pb-2">
-                {FLOOR_OPTIONS.map(f => (
-                  <Pressable 
-                    key={f.id}
-                    onPress={() => setFloors(f.id)}
-                    className={`px-4 py-2.5 rounded-full border mr-2 shadow-sm ${floors === f.id ? 'bg-brand-50 border-brand-500' : 'bg-zinc-50 border-zinc-200'}`}
-                  >
-                    <Text className={`font-medium ${floors === f.id ? 'text-brand-700' : 'text-zinc-600'}`}>{f.label}</Text>
-                  </Pressable>
-                ))}
-              </ScrollView>
+              <View className="bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden mb-2">
+                <Picker
+                  selectedValue={floors}
+                  onValueChange={(itemValue) => setFloors(itemValue)}
+                  style={{ height: 50, width: '100%' }}
+                >
+                  <Picker.Item label="Select floors..." value="" color="#a1a1aa" />
+                  {FLOOR_OPTIONS.map(f => (
+                    <Picker.Item key={f.id} label={f.label} value={f.id} />
+                  ))}
+                </Picker>
+              </View>
             </View>
 
             <View>
@@ -206,17 +209,18 @@ export default function BuildYourHomeScreen() {
                 <IndianRupee size={16} color="#0284c7" className="mr-2" />
                 <Text className="text-sm font-bold text-zinc-900">Approximate Budget</Text>
               </View>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row -mx-2 px-2 pb-2">
-                {BUDGET_OPTIONS.map(b => (
-                  <Pressable 
-                    key={b.id}
-                    onPress={() => setBudgetApprox(b.id)}
-                    className={`px-4 py-2.5 rounded-full border mr-2 shadow-sm ${budgetApprox === b.id ? 'bg-brand-50 border-brand-500' : 'bg-zinc-50 border-zinc-200'}`}
-                  >
-                    <Text className={`font-medium ${budgetApprox === b.id ? 'text-brand-700' : 'text-zinc-600'}`}>{b.label}</Text>
-                  </Pressable>
-                ))}
-              </ScrollView>
+              <View className="bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden mb-2">
+                <Picker
+                  selectedValue={budgetApprox}
+                  onValueChange={(itemValue) => setBudgetApprox(itemValue)}
+                  style={{ height: 50, width: '100%' }}
+                >
+                  <Picker.Item label="Select an approximate budget..." value="" color="#a1a1aa" />
+                  {BUDGET_OPTIONS.map(b => (
+                    <Picker.Item key={b.id} label={b.label} value={b.id} />
+                  ))}
+                </Picker>
+              </View>
             </View>
 
             <View>
@@ -224,17 +228,18 @@ export default function BuildYourHomeScreen() {
                 <Calendar size={16} color="#0284c7" className="mr-2" />
                 <Text className="text-sm font-bold text-zinc-900">Expected Start Date</Text>
               </View>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row -mx-2 px-2 pb-2">
-                {START_DATE_OPTIONS.map(date => (
-                  <Pressable 
-                    key={date}
-                    onPress={() => setStartDate(date)}
-                    className={`px-4 py-2.5 rounded-full border mr-2 shadow-sm ${startDate === date ? 'bg-brand-50 border-brand-500' : 'bg-zinc-50 border-zinc-200'}`}
-                  >
-                    <Text className={`font-medium ${startDate === date ? 'text-brand-700' : 'text-zinc-600'}`}>{date}</Text>
-                  </Pressable>
-                ))}
-              </ScrollView>
+              <View className="bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden mb-2">
+                <Picker
+                  selectedValue={startDate}
+                  onValueChange={(itemValue) => setStartDate(itemValue)}
+                  style={{ height: 50, width: '100%' }}
+                >
+                  <Picker.Item label="Select a timeline..." value="" color="#a1a1aa" />
+                  {START_DATE_OPTIONS.map(date => (
+                    <Picker.Item key={date} label={date} value={date} />
+                  ))}
+                </Picker>
+              </View>
             </View>
 
             <View>
