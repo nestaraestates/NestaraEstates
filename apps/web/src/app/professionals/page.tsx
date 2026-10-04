@@ -22,7 +22,7 @@ export default async function ProfessionalsPage({ searchParams }: { searchParams
     .from('professional_profiles')
     .select(`
       *,
-      profiles:id (first_name, last_name, avatar_url),
+      profiles:id (full_name, avatar_url),
       professional_portfolios (media_urls)
     `)
     .eq('is_available', true)
@@ -64,7 +64,7 @@ export default async function ProfessionalsPage({ searchParams }: { searchParams
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {professionals.map((pro: any) => {
-                const name = pro.company_name || `${pro.profiles?.first_name || ''} ${pro.profiles?.last_name || ''}`.trim() || 'Unknown'
+                const name = pro.company_name || pro.profiles?.full_name || 'Unknown'
                 const firstMedia = (pro.professional_portfolios && pro.professional_portfolios.length > 0 && pro.professional_portfolios[0].media_urls.length > 0) 
                   ? pro.professional_portfolios[0].media_urls[0] 
                   : null
