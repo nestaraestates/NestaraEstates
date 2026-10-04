@@ -74,6 +74,7 @@ export default function ProfileScreen() {
       items: [
         { icon: <User size={22} color="#4f46e5" /> as any, title: 'Personal Details', subtitle: 'Update your profile and address', route: '/profile/details' },
         { icon: <Home size={22} color="#059669" /> as any, title: 'My Properties', subtitle: 'Manage your active listings', route: '/profile/properties' },
+        { icon: <Briefcase size={22} color="#0ea5e9" /> as any, title: 'My Service Requests', subtitle: 'Manage your build & hire requests', route: '/profile/service-requests' },
         { icon: <Heart size={22} color="#ef4444" /> as any, title: 'Favorites', subtitle: 'Properties you have saved', route: '/profile/favorites' },
       ]
     },

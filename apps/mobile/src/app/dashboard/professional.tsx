@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, ActivityIndicator, Pressable, TextInput, Alert } from 'react-native';
-import { Stack } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Stack, useRouter } from 'expo-router';
+import { useSafeAreaInsets, SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '@/lib/supabase';
 import { Briefcase, MapPin, IndianRupee, Link as LinkIcon, Trash2, Plus, LogOut } from 'lucide-react-native';
 import * as Linking from 'expo-linking';
 
 export default function ProfessionalDashboardScreen() {
   const insets = useSafeAreaInsets();
+  const router = useRouter();
+
+  // fetchDashboard will redirect if not a professional
+
   
   const [pro, setPro] = useState<any>(null);
   const [links, setLinks] = useState<any[]>([]);
@@ -31,33 +35,52 @@ export default function ProfessionalDashboardScreen() {
         return;
       }
       
-      const { data: proData } = await supabase
+      const { data: proData, error: proError } = await supabase
         .from('professional_profiles')
         .select('*')
         .eq('id', user.id)
         .single();
-        
-      const { data: portData } = await supabase
+      if (proError) {
+        console.error('Error fetching professional profile:', proError);
+        setPro(null);
+        setLoading(false);
+        return;
+      }
+
+      const { data: portData, error: portError } = await supabase
         .from('professional_portfolios')
         .select('*')
         .eq('professional_id', user.id);
-        
-      const { data: allLeads } = await supabase
+      if (portError) {
+        console.error('Error fetching professional portfolios:', portError);
+        setLinks([]);
+      }
+
+      const { data: allLeads, error: leadsError } = await supabase
         .from('service_requests')
         .select('*')
         .eq('status', 'OPEN')
         .order('created_at', { ascending: false });
+      if (leadsError) {
+        console.error('Error fetching leads:', leadsError);
+        setLeads([]);
+      }
         
-      setPro(proData);
-      setLinks(portData?.filter((p: any) => p.project_type === 'WEBSITE_LINK') || []);
-      
-      const filteredLeads = allLeads?.filter((lead: any) => {
-        if (lead.details?.startsWith('DIRECT_REQUEST_FOR:')) {
-          return lead.details.startsWith(`DIRECT_REQUEST_FOR:${user.id}`);
-        }
-        return true;
-      }) || [];
-      setLeads(filteredLeads);
+      // Update UI state only if queries succeeded
+      if (!portError && !leadsError) {
+        setPro(proData);
+        setLinks(portData?.filter((p: any) => p.project_type === 'WEBSITE_LINK') || []);
+        const filteredLeads = allLeads?.filter((lead: any) => {
+          if (lead.details?.startsWith('DIRECT_REQUEST_FOR:')) {
+            return lead.details.startsWith(`DIRECT_REQUEST_FOR:${user.id}`);
+          }
+          return true;
+        }) || [];
+        console.log('Fetched professional profile:', proData);
+        console.log('Fetched portfolios:', portData);
+        console.log('Fetched leads count:', filteredLeads?.length);
+        setLeads(filteredLeads);
+      }
       
     } catch (e) {
       console.error(e);
@@ -112,16 +135,19 @@ export default function ProfessionalDashboardScreen() {
 
   if (!pro) {
     return (
-      <View className="flex-1 justify-center items-center p-6">
+      <SafeAreaView className="flex-1 justify-center items-center p-6" style={{ paddingTop: insets.top }}>
         <Stack.Screen options={{ title: 'Pro Dashboard' }} />
         <Text className="text-xl font-bold text-zinc-900 mb-2">Not a Professional</Text>
         <Text className="text-center text-zinc-500 mb-6">You need to register as a professional on the web platform to access this dashboard.</Text>
-      </View>
+        <Pressable onPress={() => router.push('/join-professional')} className="bg-brand-600 px-6 py-3 rounded-lg mt-4">
+          <Text className="text-white font-bold">Join Professional</Text>
+        </Pressable>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View className="flex-1 bg-zinc-50">
+    <SafeAreaView className="flex-1 bg-zinc-50" style={{ paddingTop: insets.top }}>
       <Stack.Screen options={{ title: 'Pro Dashboard' }} />
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: insets.bottom + 40 }}>
         
@@ -235,6 +261,6 @@ export default function ProfessionalDashboardScreen() {
         </View>
 
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

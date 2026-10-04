@@ -34,6 +34,11 @@ export function DashboardSidebar() {
           <MessageSquare className={`h-5 w-5 ${isActive('/dashboard/buyer', 'enquiries') ? 'text-amber-600' : 'text-zinc-400'}`} /> 
           My Enquiries
         </Link>
+        
+        <Link href="/dashboard/service-requests" className={`flex items-center gap-3 rounded-xl px-4 py-3 font-medium transition-all ${isActive('/dashboard/service-requests') ? 'bg-amber-50 text-amber-700 shadow-sm border border-amber-100' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'}`}>
+          <Inbox className={`h-5 w-5 ${isActive('/dashboard/service-requests') ? 'text-amber-600' : 'text-zinc-400'}`} /> 
+          Service Requests
+        </Link>
 
         <div className="text-xs font-bold text-zinc-400 uppercase tracking-wider px-4 mt-6 mb-1">Selling & Leasing</div>
         

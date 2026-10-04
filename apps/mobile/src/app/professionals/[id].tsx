@@ -70,7 +70,7 @@ export default function ProfessionalProfileScreen() {
       
       const { error } = await supabase.from('service_requests').insert({
         customer_id: user.id,
-        service_category: serviceCategory,
+        service_category: pro.category,
         budget_approx: parseFloat(budget),
         details: targetedDetails,
         status: 'OPEN'
@@ -232,8 +232,8 @@ export default function ProfessionalProfileScreen() {
             ) : (
               <View>
                 <Text className="text-sm font-semibold text-zinc-900 mb-2">Service Needed</Text>
-                <View className="border border-zinc-200 rounded-xl mb-4 px-4 py-3 bg-zinc-50">
-                  <Text className="text-zinc-900 font-medium">{serviceCategory}</Text>
+                <View className="border border-zinc-200 rounded-xl mb-4 px-4 py-3 bg-brand-50 border-brand-100">
+                  <Text className="text-brand-700 font-bold">{pro.category}</Text>
                 </View>
 
                 <Text className="text-sm font-semibold text-zinc-900 mb-2">Approximate Budget (₹)</Text>
