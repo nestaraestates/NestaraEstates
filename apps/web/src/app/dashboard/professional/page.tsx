@@ -18,7 +18,7 @@ export default async function ProfessionalDashboard() {
   // Fetch professional profile
   const { data: profile } = await supabase
     .from('professional_profiles')
-    .select('*, profiles:id(avatar_url)')
+    .select('*, profiles (avatar_url)')
     .eq('id', user.id)
     .single()
 
