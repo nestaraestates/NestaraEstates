@@ -142,7 +142,7 @@ export function Navbar() {
               </Link>
             )}
             
-            <MobileMenu isProfessional={isProfessional} />
+            <MobileMenu isProfessional={isProfessional} user={user} onSignOut={handleSignOut} />
           </div>
         </div>
       </header>

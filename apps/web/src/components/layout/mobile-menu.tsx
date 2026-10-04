@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-export function MobileMenu({ isProfessional }: { isProfessional?: boolean }) {
+export function MobileMenu({ isProfessional, user, onSignOut }: { isProfessional?: boolean, user: any, onSignOut: () => void }) {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
@@ -55,6 +55,23 @@ export function MobileMenu({ isProfessional }: { isProfessional?: boolean }) {
               </Link>
             )
           })}
+          <div className="h-px bg-zinc-200 dark:bg-zinc-800 my-2" />
+          {user ? (
+            <button 
+              onClick={() => { setIsOpen(false); onSignOut(); }}
+              className="text-left text-base font-medium px-2 py-2 rounded-md text-red-600 hover:bg-red-50 dark:text-red-500 dark:hover:bg-red-950/30"
+            >
+              Log Out
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setIsOpen(false)}
+              className="text-left text-base font-medium px-2 py-2 rounded-md text-brand-600 hover:bg-brand-50 dark:text-brand-500 dark:hover:bg-brand-950/30"
+            >
+              Log In
+            </Link>
+          )}
         </div>
       )}
     </div>
