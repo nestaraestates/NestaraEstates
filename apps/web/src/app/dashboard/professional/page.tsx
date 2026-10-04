@@ -88,7 +88,10 @@ export default async function ProfessionalDashboard() {
               <div className="inline-block px-3 py-1 rounded-full bg-brand-100 text-brand-700 text-xs font-bold mb-2 w-max">
                 {profile.sub_category}
               </div>
-              <CardTitle className="text-xl">{profile.company_name}</CardTitle>
+              <div className="flex flex-col items-start gap-4">
+                <LogoUploader currentLogo={profile.profiles?.avatar_url} companyName={profile.company_name} />
+                <CardTitle className="text-xl">{profile.company_name}</CardTitle>
+              </div>
             </CardHeader>
             <CardContent className="p-6 space-y-4">
               <div className="flex items-center gap-3 text-surface-600 text-sm">
