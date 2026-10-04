@@ -70,14 +70,14 @@ export default async function ProfessionalDashboard() {
         <form action={toggleAvailability.bind(null, profile.is_available)}>
           <button 
             type="submit"
-            className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm transition-colors ${
-              profile.is_available 
-                ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' 
-                : 'bg-surface-200 text-surface-600 hover:bg-surface-300'
-            }`}
+            className="flex items-center gap-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-4 py-2 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors shadow-sm"
           >
-            {profile.is_available ? <CheckCircle2 className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
-            {profile.is_available ? 'Available for Work' : 'Currently Unavailable'}
+            <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+              {profile.is_available ? 'Available for Work' : 'Currently Unavailable'}
+            </span>
+            <div className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${profile.is_available ? 'bg-emerald-500' : 'bg-zinc-300 dark:bg-zinc-700'}`}>
+              <div className={`bg-white w-4 h-4 rounded-full shadow-sm transform transition-transform duration-300 ${profile.is_available ? 'translate-x-5' : 'translate-x-0'}`} />
+            </div>
           </button>
         </form>
       </div>
