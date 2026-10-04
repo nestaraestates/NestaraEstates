@@ -37,7 +37,7 @@ export function MobileMenu({ isProfessional, user, onSignOut }: { isProfessional
       </Button>
 
       {isOpen && (
-        <div className="absolute left-0 top-16 w-full bg-white border-b border-zinc-200 p-4 flex flex-col gap-4 shadow-lg z-50 dark:bg-zinc-950 dark:border-zinc-800">
+        <div className="absolute left-0 top-16 w-full max-h-[calc(100dvh-4rem)] overflow-y-auto bg-white border-b border-zinc-200 p-4 flex flex-col gap-3 shadow-lg z-50 dark:bg-zinc-950 dark:border-zinc-800">
           {links.map((link) => {
             const isActive = pathname === link.href
             return (
